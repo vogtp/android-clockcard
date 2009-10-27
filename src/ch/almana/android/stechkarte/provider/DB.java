@@ -11,13 +11,13 @@ public interface DB {
 		static final String TABLE_NAME = "timestamps";
 
 		public static final String CONTENT_ITEM_NAME = "timestamps";
-		public static String CONTENT_URI_STRING = "content://" + StechkarteTimestampProvider.AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static String CONTENT_URI_STRING = "content://" + StechkarteProvider.AUTHORITY + "/" + CONTENT_ITEM_NAME;
 		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteTimestampProvider.AUTHORITY + "."
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "."
 				+ CONTENT_ITEM_NAME;
 
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteTimestampProvider.AUTHORITY
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY
 				+ "." + CONTENT_ITEM_NAME;
 
 		public static final String COL_NAME_TIMESTAMP_TYPE = "type";

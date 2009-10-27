@@ -22,7 +22,7 @@ import android.util.Log;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.IAccess;
-import ch.almana.android.stechkarte.provider.StechkarteTimestampProvider;
+import ch.almana.android.stechkarte.provider.StechkarteProvider;
 import ch.almana.android.stechkarte.provider.DB.Timestamps;
 
 public class TimestampAccess implements IAccess {
@@ -408,8 +408,8 @@ public class TimestampAccess implements IAccess {
 
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		sUriMatcher.addURI(StechkarteTimestampProvider.AUTHORITY, Timestamps.CONTENT_ITEM_NAME, TIMESTAMP);
-		sUriMatcher.addURI(StechkarteTimestampProvider.AUTHORITY, Timestamps.CONTENT_ITEM_NAME + "/#", TIMESTAMP_ID);
+		sUriMatcher.addURI(StechkarteProvider.AUTHORITY, Timestamps.CONTENT_ITEM_NAME, TIMESTAMP);
+		sUriMatcher.addURI(StechkarteProvider.AUTHORITY, Timestamps.CONTENT_ITEM_NAME + "/#", TIMESTAMP_ID);
 
 		sTimestampProjectionMap = new HashMap<String, String>();
 		for (String col : Timestamps.colNames) {

@@ -8,7 +8,7 @@ import android.net.Uri;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.DB.Timestamps;
 
-public class StechkarteTimestampProvider extends ContentProvider {
+public class StechkarteProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "ch.almana.android.stechkarte";
 
