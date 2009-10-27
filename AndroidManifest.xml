@@ -21,7 +21,7 @@
 <action android:name="android.intent.action.EDIT"></action>
 </intent-filter>
 </activity>
-<provider android:name=".provider.StechkarteTimestampProvider" android:authorities="ch.almana.android.stechkarte.timestamp"></provider>
+<provider android:name=".provider.StechkarteTimestampProvider" android:authorities="ch.almana.android.stechkarte"></provider>
 <activity android:name=".view.TimestampEditor"><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamps"></data>
 <action android:name="android.intent.action.INSERT"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
