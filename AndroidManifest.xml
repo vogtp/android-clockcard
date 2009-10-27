@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="ch.almana.android.stechkarte"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name=".CheckinActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    <activity android:name=".view.ListTimeStamps"><intent-filter>
+
+
+<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte"></data>
+<action android:name="android.intent.action.VIEW"></action>
+<action android:name="android.intent.action.PICK"></action>
+<action android:name="android.intent.action.EDIT"></action>
+</intent-filter>
+</activity>
+<provider android:name=".provider.StechkarteTimestampProvider" android:authorities="ch.almana.android.stechkarte.timestamp"></provider>
+<activity android:name=".view.TimestampEditor"><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamps"></data>
+<action android:name="android.intent.action.INSERT"></action>
+<category android:name="android.intent.category.DEFAULT"></category>
+</intent-filter>
+<intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamps"></data><category android:name="android.intent.category.DEFAULT"></category>
+</intent-filter>
+</activity>
+</application>
+    <uses-sdk android:minSdkVersion="3" />
+
+</manifest> 

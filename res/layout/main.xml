@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ButtonIn" android:ellipsize="none" android:ems="7" android:text="@+string/TimestampTypeIn" android:typeface="normal" android:textStyle="bold" android:textColor="#00C000"></Button><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ButtonOut" android:ems="7" android:text="@+string/TimestampTypeOut" android:typeface="normal" android:textStyle="bold" android:textColor="#FF0000"></Button></LinearLayout>
+
+
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/ButtonTSList" android:id="@+id/ButtonTSList"></Button>
+</LinearLayout>

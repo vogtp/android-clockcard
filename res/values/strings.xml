@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Stechkarte</string>
+<string name="TimestampTypeIn">IN</string>
+<string name="TimestampTypeOut">OUT</string>
+<string name="ButtonTSList">Timestamp List</string>
+<string name="menu_delete">Delete</string>
+<color name="red">#80ff0000</color>
+<string name="menu_insert">Insert</string>
+<string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
+</resources>
