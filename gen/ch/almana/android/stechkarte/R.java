@@ -41,6 +41,7 @@ public final class R {
         public static final int TimestampTypeOut=0x7f040002;
         public static final int app_name=0x7f040000;
         public static final int menu_delete=0x7f040004;
+        public static final int menu_edit=0x7f040007;
         public static final int menu_insert=0x7f040005;
     }
 }

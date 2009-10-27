@@ -9,4 +9,5 @@
 <color name="red">#80ff0000</color>
 <string name="menu_insert">Insert</string>
 <string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
+<string name="menu_edit">Edit</string>
 </resources>

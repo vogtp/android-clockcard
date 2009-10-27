@@ -30,6 +30,7 @@ public class ListTimeStamps extends ListActivity {
 	// Menu item ids
 	public static final int MENU_ITEM_DELETE = Menu.FIRST;
 	public static final int MENU_ITEM_INSERT = Menu.FIRST + 1;
+	public static final int MENU_ITEM_EDIT = Menu.FIRST + 2;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -99,8 +100,10 @@ public class ListTimeStamps extends ListActivity {
 		// Setup the menu header
 		// menu.setHeaderTitle(cursor.getString(COLUMN_INDEX_TITLE));
 
+		menu.add(0, MENU_ITEM_EDIT, 0, R.string.menu_edit);
+
 		// Add a menu item to delete the note
-		menu.add(0, MENU_ITEM_DELETE, 0, R.string.menu_delete);
+		menu.add(2, MENU_ITEM_DELETE, 0, R.string.menu_delete);
 	}
 
 	@Override
@@ -131,6 +134,10 @@ public class ListTimeStamps extends ListActivity {
 			// Launch activity to insert a new item
 			startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
 			return true;
+		case MENU_ITEM_EDIT:
+			// Launch activity to insert a new item
+			startActivity(new Intent(Intent.ACTION_EDIT, getIntent().getData()));
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -145,10 +152,14 @@ public class ListTimeStamps extends ListActivity {
 			return false;
 		}
 
+		Uri tsUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
 		case MENU_ITEM_DELETE: {
-			Uri tsUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, info.id);
 			getContentResolver().delete(tsUri, null, null);
+			return true;
+		}
+		case MENU_ITEM_EDIT: {
+			startActivity(new Intent(Intent.ACTION_EDIT, tsUri));
 			return true;
 		}
 		}
