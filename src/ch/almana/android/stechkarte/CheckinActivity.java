@@ -20,6 +20,15 @@ public class CheckinActivity extends Activity {
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
 		Button buttonTSList = (Button) findViewById(R.id.ButtonTSList);
+		int width = getWindowManager().getDefaultDisplay().getWidth();
+		width = Math.round(width / 2);
+		int size = Math.round(width / 5);
+		buttonIn.setWidth(width);
+		buttonIn.setHeight(width);
+		buttonIn.setTextSize(size);
+		buttonOut.setWidth(width);
+		buttonOut.setHeight(width);
+		buttonOut.setTextSize(size);
 
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override
