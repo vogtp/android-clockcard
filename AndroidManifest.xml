@@ -3,7 +3,7 @@
       package="ch.almana.android.stechkarte"
       android:versionCode="1"
       android:versionName="1.0">
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:label="@string/app_name" android:icon="@drawable/stechkarte" android:allowClearUserData="true" android:allowBackup="true">
         <activity android:name=".CheckinActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -29,6 +29,14 @@
 <intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamp"></data><category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter>
 </activity>
+<activity android:name=".view.ListDays"><intent-filter>
+
+
+<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte"></data>
+<action android:name="android.intent.action.VIEW"></action>
+<action android:name="android.intent.action.PICK"></action>
+<action android:name="android.intent.action.EDIT"></action>
+</intent-filter></activity>
 </application>
     <uses-sdk android:minSdkVersion="3" />
 

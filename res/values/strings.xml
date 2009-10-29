@@ -10,4 +10,6 @@
 <string name="menu_insert">Insert</string>
 <string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
 <string name="menu_edit">Edit</string>
+<string name="ButtonDayList">Days List</string>
+<string name="menu_rebuild">Rebuild days</string>
 </resources>

@@ -21,7 +21,7 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.provider.DB.Timestamps;
+import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class ListTimeStamps extends ListActivity {
 
@@ -51,7 +51,7 @@ public class ListTimeStamps extends ListActivity {
 
 		Cursor cursor = TimestampAccess.getInstance(getApplicationContext()).query(null, null);
 		// Used to map notes entries from the database to views
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.alarmlist_item, cursor, new String[] {
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] {
 				Timestamps.COL_NAME_TIMESTAMP, Timestamps.COL_NAME_TIMESTAMP_TYPE }, new int[] {
 				R.id.TextViewTimestamp, R.id.TextViewTimestampType });
 		adapter.setViewBinder(new ViewBinder() {
@@ -109,15 +109,9 @@ public class ListTimeStamps extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		// This is our one standard application action -- inserting a
-		// new note into the list.
 		menu.add(0, MENU_ITEM_INSERT, 0, R.string.menu_insert).setShortcut('3', 'a').setIcon(
 				android.R.drawable.ic_menu_add);
 
-		// Generate any additional actions that can be performed on the
-		// overall list. In a normal install, there are no additional
-		// actions found here, but this allows other applications to extend
-		// our menu with their own actions.
 		Intent intent = new Intent(null, getIntent().getData());
 		intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
 		menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, new ComponentName(this, ListTimeStamps.class), null,

@@ -14,18 +14,39 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
-import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.model.DB.Timestamps;
 import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.StechkarteProvider;
-import ch.almana.android.stechkarte.provider.DB.Timestamps;
 
 public class TimestampAccess implements IAccess {
+
+	private static final long MIN_TIMESTAMP_DIFF = 1000 * 60;
+
+	private Context context;
+
+	private static TimestampAccess instance;
+
+	public static TimestampAccess getInstance(Context context) {
+		// if (instance == null) {
+			instance = new TimestampAccess(context);
+		// }
+		return instance;
+	}
+
+	private static final String LOG_TAG = "TimestampAccess";
+
+	private static HashMap<String, String> sTimestampProjectionMap;
+
+	private static final int TIMESTAMP = 1;
+	private static final int TIMESTAMP_ID = 2;
+
+	private static final UriMatcher sUriMatcher;
+
+	private DB.OpenHelper mOpenHelper;
 
 	private class AlertDialogHandler implements OnClickListener {
 
@@ -86,56 +107,6 @@ public class TimestampAccess implements IAccess {
 
 	}
 
-	private static final long MIN_TIMESTAMP_DIFF = 1000 * 60;
-
-	private Context context;
-
-	private static TimestampAccess instance;
-
-	public static TimestampAccess getInstance(Context context) {
-		if (instance == null) {
-			instance = new TimestampAccess(context);
-		}
-		return instance;
-	}
-
-	private static final String LOG_TAG = "Timestamps";
-	private static final int DATABASE_VERSION = 1;
-
-	private static HashMap<String, String> sTimestampProjectionMap;
-
-	private static final int TIMESTAMP = 1;
-	private static final int TIMESTAMP_ID = 2;
-
-	private static final UriMatcher sUriMatcher;
-
-	private static final String DATABASE_CREATE = "create table " + DB.Timestamps.TABLE_NAME + " ("
-			+ Timestamps.COL_NAME_ID + " integer primary key, " + Timestamps.COL_NAME_TIMESTAMP_TYPE + " int,"
-			+ Timestamps.COL_NAME_TIMESTAMP + " long);";
-
-	private DBHelper mOpenHelper;
-
-	private class DBHelper extends SQLiteOpenHelper {
-
-		public DBHelper(Context context) {
-			super(context, DB.DATABASE_NAME, null, DATABASE_VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(DATABASE_CREATE);
-			Log.i(LOG_TAG, "Created table " + DB.Timestamps.TABLE_NAME);
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
-
-
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -147,7 +118,7 @@ public class TimestampAccess implements IAccess {
 
 		case TIMESTAMP_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.delete(DB.Timestamps.TABLE_NAME, Timestamps.COL_NAME_ID + "=" + noteId
+			count = db.delete(DB.Timestamps.TABLE_NAME, DB.COL_NAME_ID + "=" + noteId
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
@@ -158,6 +129,7 @@ public class TimestampAccess implements IAccess {
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
+
 
 	private Context getContext() {
 		return context;
@@ -220,45 +192,14 @@ public class TimestampAccess implements IAccess {
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		long rowId = db.insert(DB.Timestamps.TABLE_NAME, null, values);
 		if (rowId > 0) {
-			Uri noteUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, rowId);
-			getContext().getContentResolver().notifyChange(noteUri, null);
-			return noteUri;
+			Uri retUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, rowId);
+			getContext().getContentResolver().notifyChange(retUri, null);
+			return retUri;
 		}
 
 		throw new SQLException("Failed to insert row into " + uri);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.almana.android.stechkarte.provider.IDataAccessObject#onCreate()
-	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.almana.android.stechkarte.provider.IAccess#onCreate()
-	 */
-	@Override
-	public boolean onCreate() {
-		mOpenHelper = new DBHelper(getContext());
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.almana.android.stechkarte.provider.IDataAccessObject#query(android
-	 * .net.Uri, java.lang.String[], java.lang.String, java.lang.String[],
-	 * java.lang.String)
-	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.almana.android.stechkarte.provider.IAccess#query(android.net.Uri,
-	 * java.lang.String[], java.lang.String, java.lang.String[],
-	 * java.lang.String)
-	 */
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -270,7 +211,7 @@ public class TimestampAccess implements IAccess {
 			break;
 
 		case TIMESTAMP_ID:
-			qb.appendWhere(Timestamps.COL_NAME_ID + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(DB.COL_NAME_ID + "=" + uri.getPathSegments().get(1));
 			break;
 
 		default:
@@ -295,21 +236,6 @@ public class TimestampAccess implements IAccess {
 		return c;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.almana.android.stechkarte.provider.IDataAccessObject#update(android
-	 * .net.Uri, android.content.ContentValues, java.lang.String,
-	 * java.lang.String[])
-	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.almana.android.stechkarte.provider.IAccess#update(android.net.Uri,
-	 * android.content.ContentValues, java.lang.String, java.lang.String[])
-	 */
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -321,7 +247,7 @@ public class TimestampAccess implements IAccess {
 
 		case TIMESTAMP_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.update(DB.Timestamps.TABLE_NAME, values, Timestamps.COL_NAME_ID + "=" + noteId
+			count = db.update(DB.Timestamps.TABLE_NAME, values, DB.COL_NAME_ID + "=" + noteId
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
@@ -336,7 +262,7 @@ public class TimestampAccess implements IAccess {
 	public TimestampAccess(Context context) {
 		super();
 		this.context = context;
-		mOpenHelper = new DBHelper(context);
+		mOpenHelper = new DB.OpenHelper(context);
 	}
 
 	public void addOutNow() {
@@ -388,13 +314,12 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public void update(Timestamp timestamp) {
-		update(Timestamps.CONTENT_URI, timestamp.getValues(),
-				Timestamps.COL_NAME_ID + "=" + timestamp.getId(), null);
+		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.COL_NAME_ID + "=" + timestamp.getId(), null);
 	}
 
 	public Cursor query(String selection, String[] selectionArgs) {
-		return query(Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection,
-				selectionArgs, DB.Timestamps.DEFAUL_SORTORDER);
+		return query(Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, selectionArgs,
+				DB.Timestamps.DEFAUL_SORTORDER);
 	}
 
 	private Timestamp getLastTimestamp() {
@@ -416,4 +341,5 @@ public class TimestampAccess implements IAccess {
 			sTimestampProjectionMap.put(col, col);
 		}
 	}
+
 }

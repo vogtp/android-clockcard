@@ -17,7 +17,7 @@ import android.widget.TimePicker.OnTimeChangedListener;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.provider.DB.Timestamps;
+import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class TimestampEditor extends Activity implements OnTimeChangedListener {
 

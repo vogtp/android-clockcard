@@ -7,7 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.provider.DB.Timestamps;
+import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class Timestamp {
 
@@ -17,6 +17,7 @@ public class Timestamp {
 	private long timestamp;
 	private int timestampType;
 	private int id = -1;
+	private long dayRef;
 	private Calendar cal;
 
 	@Override
@@ -38,20 +39,25 @@ public class Timestamp {
 		super();
 		this.timestamp = values.getAsLong(Timestamps.COL_NAME_TIMESTAMP);
 		this.timestampType = values.getAsInteger(Timestamps.COL_NAME_TIMESTAMP_TYPE);
-		this.id = values.getAsInteger(Timestamps.COL_NAME_ID);
+		this.id = values.getAsInteger(DB.COL_NAME_ID);
+		this.dayRef = values.getAsLong(DB.Timestamps.COL_NAME_DAYREF);
 	}
 
 	public Timestamp(Cursor cursor) {
 		super();
+		this.id = cursor.getInt(DB.COL_INDEX_ID);
 		this.timestamp = cursor.getLong(Timestamps.COL_INDEX_TIMESTAMP);
 		this.timestampType = cursor.getInt(Timestamps.COL_INDEX_TIMESTAMP_TYPE);
-		this.id = cursor.getInt(Timestamps.COL_INDEX_ID);
+		if (!cursor.isNull(DB.Timestamps.COL_INDEX_DAYREF)) {
+			this.dayRef = cursor.getLong(DB.Timestamps.COL_INDEX_DAYREF);
+		}
 	}
 
 	public Timestamp(Timestamp timestamp) {
 		this.timestamp = timestamp.getTimestamp();
 		this.timestampType = timestamp.timestampType;
 		this.id = timestamp.id;
+		this.dayRef = timestamp.dayRef;
 	}
 
 	public long getTimestamp() {
@@ -76,10 +82,11 @@ public class Timestamp {
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
 		if (id > -1) {
-			values.put(Timestamps.COL_NAME_ID, id);
+			values.put(DB.COL_NAME_ID, id);
 		}
 		values.put(Timestamps.COL_NAME_TIMESTAMP, getTimestamp());
 		values.put(Timestamps.COL_NAME_TIMESTAMP_TYPE, getTimestampType());
+		values.put(Timestamps.COL_NAME_DAYREF, getDayRef());
 		return values;
 	}
 
@@ -194,5 +201,18 @@ public class Timestamp {
 
 	public int getId() {
 		return id;
+	}
+
+	private static SimpleDateFormat dayRefDateFormat = new SimpleDateFormat("yyyyMMdd");
+
+	public long getDayRef() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(timestamp);
+		String timeString = dayRefDateFormat.format(calendar.getTime());
+		return Long.parseLong(timeString);
+	}
+
+	public void setDayRef(long dayRef) {
+		this.dayRef = dayRef;
 	}
 }

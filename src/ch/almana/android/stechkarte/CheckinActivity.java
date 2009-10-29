@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import ch.almana.android.stechkarte.model.TimestampAccess;
+import ch.almana.android.stechkarte.view.ListDays;
 import ch.almana.android.stechkarte.view.ListTimeStamps;
 
 public class CheckinActivity extends Activity {
@@ -20,6 +21,7 @@ public class CheckinActivity extends Activity {
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
 		Button buttonTSList = (Button) findViewById(R.id.ButtonTSList);
+		Button buttonDayList = (Button) findViewById(R.id.ButtonDayList);
 		int width = getWindowManager().getDefaultDisplay().getWidth();
 		width = Math.round(width / 2);
 		int size = Math.round(width / 5);
@@ -48,6 +50,14 @@ public class CheckinActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(), ListTimeStamps.class);
+
+				startActivity(i);
+			}
+		});
+		buttonDayList.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), ListDays.class);
 
 				startActivity(i);
 			}
