@@ -317,18 +317,23 @@ public class TimestampAccess implements IAccess {
 		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.COL_NAME_ID + "=" + timestamp.getId(), null);
 	}
 
-	public Cursor query(String selection, String[] selectionArgs) {
-		return query(Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, selectionArgs,
-				DB.Timestamps.DEFAUL_SORTORDER);
+	public Cursor query(String selection) {
+		return query(selection, DB.Timestamps.DEFAUL_SORTORDER);
+	}
+
+	public Cursor query(String selection, String sortOrder) {
+		return query(Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, null, sortOrder);
 	}
 
 	private Timestamp getLastTimestamp() {
-		Cursor cursor = query(null, null);
+		Timestamp t = null;
+		Cursor cursor = query(null);
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			return new Timestamp(cursor);
+			t = new Timestamp(cursor);
+			cursor.close();
 		}
-		return null;
+		return t;
 	}
 
 	static {

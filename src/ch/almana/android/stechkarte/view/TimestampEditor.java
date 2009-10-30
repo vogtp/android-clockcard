@@ -43,6 +43,7 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 			if (c.moveToFirst()) {
 				timestamp = new Timestamp(c);
 			}
+			c.close();
 		}
 		origTimestamp = new Timestamp(timestamp);
 		dateField = (Button) findViewById(R.id.ButtonDate);

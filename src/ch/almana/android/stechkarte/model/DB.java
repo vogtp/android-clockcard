@@ -91,6 +91,8 @@ public interface DB {
 
 		public static final String DEFAUL_SORTORDER = COL_NAME_TIMESTAMP + " DESC";
 
+		static final String REVERSE_SORTORDER = COL_NAME_TIMESTAMP + " ASC";
+
 	}
 
 	public interface Days {

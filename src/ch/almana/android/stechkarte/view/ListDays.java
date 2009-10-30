@@ -33,11 +33,11 @@ public class ListDays extends ListActivity {
 		Cursor cursor = DayAccess.getInstance(getApplicationContext()).query(null);
 		if (cursor.getCount() < 1) {
 			// FIXME to be removed?
-			DayAccess.getInstance(getApplicationContext()).recalculateDay(null);
+			DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
 		}
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
- DB.Days.COL_NAME_DAYREF }, new int[] { R.id.TextViewDayRef });
-
+				DB.Days.COL_NAME_DAYREF, DB.Days.COL_NAME_HOURS_WORKED, DB.Days.COL_NAME_OVERTIME }, new int[] {
+				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime });
 		setListAdapter(adapter);
 	}
 
@@ -61,7 +61,7 @@ public class ListDays extends ListActivity {
 		case MENU_ITEM_REBUILD:
 			// startActivity(new Intent(Intent.ACTION_INSERT,
 			// getIntent().getData()));
-			DayAccess.getInstance(getApplicationContext()).recalculateDay(null);
+			DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
 			return true;
 
 		}

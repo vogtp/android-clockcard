@@ -49,7 +49,7 @@ public class ListTimeStamps extends ListActivity {
 		// Inform the list we provide context menus for items
 		getListView().setOnCreateContextMenuListener(this);
 
-		Cursor cursor = TimestampAccess.getInstance(getApplicationContext()).query(null, null);
+		Cursor cursor = TimestampAccess.getInstance(getApplicationContext()).query(null);
 		// Used to map notes entries from the database to views
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] {
 				Timestamps.COL_NAME_TIMESTAMP, Timestamps.COL_NAME_TIMESTAMP_TYPE }, new int[] {
@@ -96,6 +96,7 @@ public class ListTimeStamps extends ListActivity {
 			// For some reason the requested item isn't available, do nothing
 			return;
 		}
+		cursor.close();
 
 		// Setup the menu header
 		// menu.setHeaderTitle(cursor.getString(COLUMN_INDEX_TITLE));

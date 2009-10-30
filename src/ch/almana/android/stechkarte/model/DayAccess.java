@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import ch.almana.android.stechkarte.model.DB.Days;
+import ch.almana.android.stechkarte.model.DB.Timestamps;
 import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.StechkarteProvider;
 
@@ -34,7 +35,7 @@ public class DayAccess implements IAccess {
 
 	public static DayAccess getInstance(Context context) {
 		// if (instance == null) {
-			instance = new DayAccess(context);
+		instance = new DayAccess(context);
 		// }
 		return instance;
 	}
@@ -112,7 +113,6 @@ public class DayAccess implements IAccess {
 		throw new SQLException("Failed to insert row into " + uri);
 	}
 
-
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -173,14 +173,23 @@ public class DayAccess implements IAccess {
 	}
 
 	public void insert(Day day) {
-		// FIXME handle last day
+		day.recalculate(context, DayAccess.getInstance(getContext()).getDayBefore(day));
 		insert(DB.Days.CONTENT_URI, day.getValues());
 	}
 
 	public boolean hasDayRef(long dayref) {
-		Cursor c = query(Days.CONTENT_URI, DB.Days.PROJECTTION_DAYREF, DB.Days.COL_NAME_DAYREF + "=" + dayref, null,
-				DB.Days.DEFAULT_SORTORDER);
-		return c.moveToFirst();
+		Cursor c = null;
+		try {
+			c = query(Days.CONTENT_URI, DB.Days.PROJECTTION_DAYREF, DB.Days.COL_NAME_DAYREF + "=" + dayref, null,
+					DB.Days.DEFAULT_SORTORDER);
+			return c.moveToFirst();
+		} finally {
+			if (c != null) {
+				c.close();
+				c = null;
+			}
+
+		}
 	}
 
 	public Cursor query(String selection) {
@@ -191,15 +200,16 @@ public class DayAccess implements IAccess {
 		return query(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, selection, null, sortOrder);
 	}
 
-
-
 	public Day getOrCreateDay(long dayref) {
+		Day d;
 		Cursor c = query(Days.COL_NAME_DAYREF + "=" + dayref);
 		if (c.moveToFirst()) {
-			return new Day(c);
+			d = new Day(c);
 		} else {
-			return new Day(dayref);
+			d = new Day(dayref);
 		}
+		c.close();
+		return d;
 	}
 
 	public void insertOrUpdate(Day day) {
@@ -218,25 +228,30 @@ public class DayAccess implements IAccess {
 	 * @param timestamp
 	 *            Timestamp to recalculate or null to work on all days
 	 */
-	public void recalculateDay(Timestamp timestamp) {
+	public void recalculateDayFromTimestamp(Timestamp timestamp) {
 		String selection = null;
 		if (timestamp != null) {
 			selection = DB.COL_NAME_ID + "=" + timestamp.getId();
 		}
 		DayAccess dayAccess = DayAccess.getInstance(getContext());
-		Cursor c = query(selection);
+		// delete all days
+		dayAccess.delete(Days.CONTENT_URI, selection, null);
+		Cursor c = TimestampAccess.getInstance(getContext()).query(selection, Timestamps.REVERSE_SORTORDER);
 		while (c.moveToNext()) {
 			Timestamp ts = new Timestamp(c);
 			long dayref = ts.getDayRef();
 			Day curDay = dayAccess.getOrCreateDay(dayref);
-			Day prevDay = dayAccess.getDayBefore(curDay);
-			if (prevDay != null) {
-				curDay.recalculate(prevDay);
-			}
+			// Day prevDay = dayAccess.getDayBefore(curDay);
+			// if (prevDay != null) {
+			// curDay.recalculate(context, prevDay);
+			// }
+			ts.setDayRef(curDay.getDayRef());
 			// insert anyway since it might be the first day
 			dayAccess.insertOrUpdate(curDay);
+			TimestampAccess.getInstance(getContext()).update(ts);
 			Log.i(LOG_TAG, "Recalculated day " + dayref);
 		}
+		c.close();
 	}
 
 	/**
@@ -245,11 +260,13 @@ public class DayAccess implements IAccess {
 	 * @return the day before or null if none exists
 	 */
 	private Day getDayBefore(Day currentDay) {
+		Day d = null;
 		Cursor c = query(Days.COL_NAME_DAYREF + "<" + currentDay.getDayRef(), Days.REVERSE_SORTORDER);
 		if (c.moveToFirst()) {
-			return new Day(c);
+			d = new Day(c);
 		}
-		return null;
+		c.close();
+		return d;
 	}
 
 	static {

@@ -3,5 +3,9 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content">
-<TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewWorkedShort" android:id="@+id/TextViewWorkedShort" android:padding="5px"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked" android:text="@+id/TextViewHoursWorked"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="5px" android:id="@+string/TextViewOvertimeShort" android:text="@+string/TextViewOvertimeShort"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="5px" android:text="@+string/TextViewOvertimeShort" android:id="@+id/TextViewOvertime"></TextView>
+
 </LinearLayout>
