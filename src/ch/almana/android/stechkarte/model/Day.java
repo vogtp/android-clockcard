@@ -8,18 +8,16 @@ import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class Day {
 
-	private float hoursTargetDefault = 8.24f;
 
 	private int id = -1;
 	private long dayRef = 0;
 	private float hoursWorked = 0;
-	private float hoursTarget = hoursTargetDefault;
+	private float hoursTarget = DayAccess.getHoursTargetDefault();
 	private float holyday = 0;
 	private float holydayLeft = 0;
 	private float overtime = 0;
 	private float overtimeCompensation = 0;
 
-	private static final float HOURS_IN_MILLIES = 1000 * 60 * 60;
 
 
 	public Day(long dayRef) {
@@ -53,37 +51,8 @@ public class Day {
 		return values;
 	}
 
-	public void recalculate(Context context, Day previousDay) {
-		if (previousDay == null) {
-			previousDay = new Day(0);
-		}
-		float hoursWorked = 0;
-		// calculate for timestamps
-		Cursor c = getTimestamps(context);
-		while (c.moveToNext()) {
-			// what a timestamp is in an other day?
-			Timestamp t1 = new Timestamp(c);
-			if (t1.getTimestampType() == Timestamp.TYPE_IN) {
-				if (c.moveToNext()) {
-					Timestamp t2 = new Timestamp(c);
-					float diff = (t2.getTimestamp() - t1.getTimestamp()) / HOURS_IN_MILLIES;
-					hoursWorked = hoursWorked + diff;
-				} else {
-					setError();
-				}
-			} else {
-				setError();
-			}
-		}
-		c.close();
 
-		this.hoursTarget = hoursTargetDefault - overtimeCompensation - holyday * hoursTargetDefault;
-		this.overtime = previousDay.getOvertime() + hoursWorked - hoursTarget;
-		this.hoursWorked = hoursWorked;
-		this.holydayLeft = previousDay.getHolydayLeft() - holyday;
-	}
-
-	private void setError() {
+	public void setError() {
 		// FIXME Auto-generated method stub
 
 	}

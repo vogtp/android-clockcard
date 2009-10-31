@@ -307,6 +307,7 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public void insert(Timestamp timestamp) {
+		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 		Toast.makeText(context,
 				Timestamp.getTimestampTypeAsString(context, timestamp) + ": " + Timestamp.formatTime(timestamp),
 				Toast.LENGTH_LONG).show();
@@ -314,6 +315,7 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public void update(Timestamp timestamp) {
+		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.COL_NAME_ID + "=" + timestamp.getId(), null);
 	}
 

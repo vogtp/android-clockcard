@@ -32,6 +32,8 @@ public class DayAccess implements IAccess {
 	private Context context;
 
 	private static DayAccess instance;
+	private static final float HOURS_IN_MILLIES = 1000 * 60 * 60;
+	private static float hoursTargetDefault = 8.24f;
 
 	public static DayAccess getInstance(Context context) {
 		// if (instance == null) {
@@ -173,7 +175,6 @@ public class DayAccess implements IAccess {
 	}
 
 	public void insert(Day day) {
-		day.recalculate(context, DayAccess.getInstance(getContext()).getDayBefore(day));
 		insert(DB.Days.CONTENT_URI, day.getValues());
 	}
 
@@ -241,13 +242,7 @@ public class DayAccess implements IAccess {
 			Timestamp ts = new Timestamp(c);
 			long dayref = ts.getDayRef();
 			Day curDay = dayAccess.getOrCreateDay(dayref);
-			// Day prevDay = dayAccess.getDayBefore(curDay);
-			// if (prevDay != null) {
-			// curDay.recalculate(context, prevDay);
-			// }
 			ts.setDayRef(curDay.getDayRef());
-			// insert anyway since it might be the first day
-			dayAccess.insertOrUpdate(curDay);
 			TimestampAccess.getInstance(getContext()).update(ts);
 			Log.i(LOG_TAG, "Recalculated day " + dayref);
 		}
@@ -268,6 +263,52 @@ public class DayAccess implements IAccess {
 		c.close();
 		return d;
 	}
+
+	public void recalculate(Context context, long dayRef) {
+		if (dayRef < 1) {
+			return;
+		}
+		Day day = getOrCreateDay(dayRef);
+		Day previousDay = getDayBefore(day);
+		if (previousDay == null) {
+			previousDay = new Day(0);
+		}
+		float hoursWorked = 0;
+		// calculate for timestamps
+		Cursor c = day.getTimestamps(context);
+		while (c.moveToNext()) {
+			// what a timestamp is in an other day?
+			Timestamp t1 = new Timestamp(c);
+			if (t1.getTimestampType() == Timestamp.TYPE_IN) {
+				if (c.moveToNext()) {
+					Timestamp t2 = new Timestamp(c);
+					float diff = (t2.getTimestamp() - t1.getTimestamp()) / HOURS_IN_MILLIES;
+					hoursWorked = hoursWorked + diff;
+				} else {
+					day.setError();
+				}
+			} else {
+				day.setError();
+			}
+		}
+		c.close();
+
+		day.setHoursWorked(hoursWorked);
+		day.setHoursTarget(getHoursTargetDefault() - day.getOvertimeCompensation() - day.getHolyday()
+				* getHoursTargetDefault());
+		day.setOvertime(previousDay.getOvertime() + hoursWorked - day.getHoursTarget());
+		day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
+		insertOrUpdate(day);
+	}
+
+	public static void setHoursTargetDefault(float hoursTargetDefault) {
+		DayAccess.hoursTargetDefault = hoursTargetDefault;
+	}
+
+	public static float getHoursTargetDefault() {
+		return hoursTargetDefault;
+	}
+
 
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
