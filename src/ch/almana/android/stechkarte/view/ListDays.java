@@ -2,13 +2,16 @@ package ch.almana.android.stechkarte.view;
 
 import android.app.ListActivity;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
@@ -39,10 +42,10 @@ public class ListDays extends ListActivity {
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
 				DB.Days.COL_NAME_DAYREF, DB.Days.COL_NAME_HOURS_WORKED, DB.Days.COL_NAME_OVERTIME,
-				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_OVERTIME_COMPENSATION,
-				DB.Days.COL_NAME_ERROR },
-				new int[] { R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime,
-						R.id.TextViewHoursTarget, R.id.TextViewHoliday, R.id.TextViewCompensation });
+				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_ERROR },
+ new int[] {
+				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
+				R.id.TextViewHoliday });
 		
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
@@ -98,5 +101,21 @@ public class ListDays extends ListActivity {
 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
+
+		String action = getIntent().getAction();
+		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
+			// The caller is waiting for us to return a note selected by
+			// the user. The have clicked on one, so return it now.
+			setResult(RESULT_OK, new Intent().setData(uri));
+		} else {
+			// Launch activity to view/edit the currently selected item
+			startActivity(new Intent(Intent.ACTION_EDIT, uri));
+		}
 	}
 }

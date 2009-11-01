@@ -85,7 +85,11 @@ public class TimestampsCsvIO {
 			readHeaderLine();
 			ContentValues values = new ContentValues();
 			while (readDataLine(values)) {
-				timestampAccess.insert(DB.Timestamps.CONTENT_URI, values);
+				Cursor c = timestampAccess.query(DB.Timestamps.COL_NAME_TIMESTAMP + "="
+						+ values.getAsLong(DB.Timestamps.COL_NAME_TIMESTAMP));
+				if (!c.moveToFirst()) {
+					timestampAccess.insert(DB.Timestamps.CONTENT_URI, values);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(LOG_TAG, "Unable to process file " + buildFilename() + " for reading", e);

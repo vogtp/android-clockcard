@@ -16,13 +16,23 @@ public class Day {
 	private float holyday = 0;
 	private float holydayLeft = 0;
 	private float overtime = 0;
-	private float overtimeCompensation = 0;
 	private boolean error = false;
 
 
 	public Day(long dayRef) {
 		super();
 		this.dayRef = dayRef;
+	}
+
+	public Day(Day day) {
+		id = day.id;
+		dayRef = day.dayRef;
+		hoursWorked = day.hoursWorked;
+		hoursTarget = day.hoursTarget;
+		holyday = day.holyday;
+		holydayLeft = day.holydayLeft;
+		overtime = day.overtime;
+		error = day.error;
 	}
 
 	public Day(Cursor c) {
@@ -33,9 +43,9 @@ public class Day {
 		holyday = c.getFloat(Days.COL_INDEX_HOLIDAY);
 		holydayLeft = c.getFloat(Days.COL_INDEX_HOLIDAY_LEFT);
 		overtime = c.getFloat(Days.COL_INDEX_OVERTIME);
-		overtimeCompensation = c.getFloat(Days.COL_INDEX_OVERTIME_COMPENSATION);
 		setError(c.getInt(Days.COL_INDEX_ERROR));
 	}
+
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
@@ -48,7 +58,6 @@ public class Day {
 		values.put(Days.COL_NAME_HOLIDAY, getHolyday());
 		values.put(Days.COL_NAME_HOLIDAY_LEFT, getHolydayLeft());
 		values.put(Days.COL_NAME_OVERTIME, getOvertime());
-		values.put(Days.COL_NAME_OVERTIME_COMPENSATION, getOvertimeCompensation());
 		values.put(Days.COL_NAME_ERROR, getError());
 		return values;
 	}
@@ -106,14 +115,6 @@ public class Day {
 		this.overtime = overtime;
 	}
 
-	public float getOvertimeCompensation() {
-		return overtimeCompensation;
-	}
-
-	public void setOvertimeCompensation(float overtimeCompensation) {
-		this.overtimeCompensation = overtimeCompensation;
-	}
-
 
 	public void setId(int id) {
 		this.id = id;
@@ -137,6 +138,10 @@ public class Day {
 
 	public boolean isError() {
 		return error;
+	}
+
+	public String getDayString() {
+		return getDayRef() + "";
 	}
 
 }

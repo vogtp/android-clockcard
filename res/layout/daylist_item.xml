@@ -15,7 +15,7 @@
 
 
 
-</LinearLayout><LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolyday" android:paddingRight="5px" android:id="@+id/LabelHoliday" android:paddingLeft="25px"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoliday" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelCompensation" android:paddingRight="5px" android:id="@+id/LabelCompensation"></TextView><TextView android:text="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewCompensation" android:paddingRight="5px"></TextView></LinearLayout>
+</LinearLayout><LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolyday" android:paddingRight="5px" android:id="@+id/LabelHoliday" android:paddingLeft="25px"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoliday" android:paddingRight="5px"></TextView></LinearLayout>
 
 
 

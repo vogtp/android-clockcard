@@ -229,7 +229,7 @@ public class DayAccess implements IAccess {
 		}
 	}
 
-	private void update(Day day) {
+	public void update(Day day) {
 		update(Days.CONTENT_URI, day.getValues(), DB.COL_NAME_ID + "=" + day.getId(), null);
 	}
 
@@ -312,7 +312,7 @@ public class DayAccess implements IAccess {
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);
-		day.setHoursTarget(getHoursTargetDefault() - day.getOvertimeCompensation() - day.getHolyday()
+		day.setHoursTarget(getHoursTargetDefault() - day.getHolyday()
 				* getHoursTargetDefault());
 		day.setOvertime(previousDay.getOvertime() + overtime);
 		day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
