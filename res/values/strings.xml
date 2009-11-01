@@ -18,4 +18,5 @@
 <string name="LabelHoursTarget">Target </string>
 <string name="LabelHolyday">Holyday</string>
 <string name="LabelCompensation">Compensation</string>
+<string name="LabelOvertimeTotal">total</string>
 </resources>

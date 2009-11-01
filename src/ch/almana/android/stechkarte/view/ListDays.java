@@ -45,7 +45,6 @@ public class ListDays extends ListActivity {
 						R.id.TextViewHoursTarget, R.id.TextViewHoliday, R.id.TextViewCompensation });
 		
 		adapter.setViewBinder(new ViewBinder() {
-			
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 				if (cursor == null) {
@@ -59,6 +58,13 @@ public class ListDays extends ListActivity {
 					}
 					TextView errorView = (TextView) view.findViewById(R.id.TextViewDayRef);
 					errorView.setTextColor(color);
+				} else if (columnIndex == DB.Days.COL_INDEX_OVERTIME) {
+					Day d = new Day(cursor);
+					((TextView) view.findViewById(R.id.TextViewOvertime)).setText(String
+							.format("%.2f", d.getOvertime()));
+					TextView tv = (TextView) ((View) view.getParent()).findViewById(R.id.TextViewOvertimeCur);
+					float overtime = d.getHoursWorked() - d.getHoursTarget();
+					tv.setText(String.format("%.2f", overtime));
 				}
 				return false;
 			}
