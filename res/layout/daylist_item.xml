@@ -2,10 +2,20 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewWorkedShort" android:id="@+id/TextViewWorkedShort" android:padding="5px"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked" android:text="@+id/TextViewHoursWorked"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="5px" android:id="@+string/TextViewOvertimeShort" android:text="@+string/TextViewOvertimeShort"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="5px" android:text="@+string/TextViewOvertimeShort" android:id="@+id/TextViewOvertime"></TextView>
+  android:layout_height="wrap_content" android:orientation="vertical">
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewWorkedShort" android:paddingRight="5px" android:id="@+id/LabelWorkedShort"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked" android:text="@+id/TextViewHoursWorked"></TextView></LinearLayout>
+
+<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/LabelHoursTarget" android:text="@+string/LabelHoursTarget" android:paddingRight="5px" android:paddingLeft="25px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+id/TextViewHoursTarget" android:id="@+id/TextViewHoursTarget" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content"  android:text="@+string/TextViewOvertimeShort" android:paddingRight="5px" android:id="@+id/LabelOvertimeShort"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content"  android:text="@+string/TextViewOvertimeShort" android:id="@+id/TextViewOvertime"></TextView>
+
+
+
+
+
+</LinearLayout><LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolyday" android:paddingLeft="15px" android:paddingRight="5px" android:id="@+id/LabelHoliday"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoliday" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelCompensation" android:paddingRight="5px" android:id="@+id/LabelCompensation"></TextView><TextView android:text="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewCompensation" android:paddingRight="5px"></TextView></LinearLayout>
+
+
+
+
+
 
 </LinearLayout>

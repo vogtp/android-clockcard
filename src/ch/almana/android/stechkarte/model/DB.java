@@ -26,8 +26,9 @@ public interface DB {
 		private static final String CREATE_DAYS_TABLE = "create table if not exists " + Days.TABLE_NAME + " ("
 				+ DB.COL_NAME_ID
 				+ " integer primary key, " + Days.COL_NAME_DAYREF + " long," + Days.COL_NAME_HOURS_WORKED + " real,"
-				+ Days.COL_NAME_HOURS_TARGET + " real," + Days.COL_NAME_HOLIDAY + " real," + Days.COL_NAME_HOLIDAY_LEFT
-				+ " real," + Days.COL_NAME_OVERTIME + " real," + Days.COL_NAME_OVERTIME_COMPENSATION + " real);";
+ + Days.COL_NAME_HOURS_TARGET + " real," + " real,"
+				+ Days.COL_NAME_HOLIDAY + Days.COL_NAME_HOLIDAY_LEFT + " real," + Days.COL_NAME_OVERTIME
+				+ " real," + Days.COL_NAME_OVERTIME_COMPENSATION + " real);";
 
 		private static final String LOG_TAG = "OpenHelper";
 
@@ -122,10 +123,11 @@ public interface DB {
 		public static final int COL_INDEX_HOLIDAY = 4;
 		public static final int COL_INDEX_HOLIDAY_LEFT = 5;
 		public static final int COL_INDEX_OVERTIME = 6;
-		public static final int COL_INDEX_OVERTIME_COMPENSATION = 6;
+		public static final int COL_INDEX_OVERTIME_COMPENSATION = 7;
 
 		public static final String[] colNames = new String[] { COL_NAME_ID, COL_NAME_DAYREF, COL_NAME_HOURS_WORKED,
-				COL_NAME_HOURS_TARGET, COL_NAME_HOLIDAY_LEFT, COL_NAME_OVERTIME, COL_NAME_OVERTIME_COMPENSATION };
+				COL_NAME_HOURS_TARGET, COL_NAME_HOLIDAY, COL_NAME_HOLIDAY_LEFT, COL_NAME_OVERTIME,
+				COL_NAME_OVERTIME_COMPENSATION };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = COL_NAME_DAYREF + " DESC";

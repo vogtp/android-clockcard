@@ -113,8 +113,8 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 
 	private void updateDisplayFields() {
 		inOutField.setText(Timestamp.getTimestampTypeAsString(this, timestamp.getTimestampType()));
-		timeDisplay.setText(Timestamp.formatTime(timestamp));
-		dateField.setText(Timestamp.formatTimeDateOnly(timestamp));
+		timeDisplay.setText(timestamp.formatTime());
+		dateField.setText(timestamp.formatTimeDateOnly());
 	}
 
 	@Override

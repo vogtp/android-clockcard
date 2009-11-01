@@ -1,6 +1,9 @@
 package ch.almana.android.stechkarte.model;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -36,9 +39,9 @@ public class DayAccess implements IAccess {
 	private static float hoursTargetDefault = 8.24f;
 
 	public static DayAccess getInstance(Context context) {
-		// if (instance == null) {
-		instance = new DayAccess(context);
-		// }
+		if (instance == null) {
+			instance = new DayAccess(context);
+		}
 		return instance;
 	}
 
@@ -169,7 +172,6 @@ public class DayAccess implements IAccess {
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
@@ -208,6 +210,7 @@ public class DayAccess implements IAccess {
 			d = new Day(c);
 		} else {
 			d = new Day(dayref);
+			insert(DB.Days.CONTENT_URI, d.getValues());
 		}
 		c.close();
 		return d;
@@ -237,16 +240,23 @@ public class DayAccess implements IAccess {
 		DayAccess dayAccess = DayAccess.getInstance(getContext());
 		// delete all days
 		dayAccess.delete(Days.CONTENT_URI, selection, null);
-		Cursor c = TimestampAccess.getInstance(getContext()).query(selection, Timestamps.REVERSE_SORTORDER);
+		TimestampAccess timestampAccess = TimestampAccess.getInstance(getContext());
+		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
+		SortedSet<Long> dayRefs = new TreeSet<Long>();
 		while (c.moveToNext()) {
 			Timestamp ts = new Timestamp(c);
 			long dayref = ts.getDayRef();
 			Day curDay = dayAccess.getOrCreateDay(dayref);
+			dayRefs.add(curDay.getDayRef());
 			ts.setDayRef(curDay.getDayRef());
-			TimestampAccess.getInstance(getContext()).update(ts);
+			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.COL_NAME_ID + "=" + ts.getId(), null);
 			Log.i(LOG_TAG, "Recalculated day " + dayref);
 		}
 		c.close();
+		Iterator<Long> iterator = dayRefs.iterator();
+		while (iterator.hasNext()) {
+			recalculate(context, iterator.next());
+		}
 	}
 
 	/**
@@ -256,7 +266,7 @@ public class DayAccess implements IAccess {
 	 */
 	private Day getDayBefore(Day currentDay) {
 		Day d = null;
-		Cursor c = query(Days.COL_NAME_DAYREF + "<" + currentDay.getDayRef(), Days.REVERSE_SORTORDER);
+		Cursor c = query(Days.COL_NAME_DAYREF + "<" + currentDay.getDayRef(), Days.DEFAULT_SORTORDER);
 		if (c.moveToFirst()) {
 			d = new Day(c);
 		}
@@ -273,6 +283,7 @@ public class DayAccess implements IAccess {
 		if (previousDay == null) {
 			previousDay = new Day(0);
 		}
+		Log.i(LOG_TAG, "Recalculating " + dayRef + " with prev day " + previousDay.getDayRef());
 		float hoursWorked = 0;
 		// calculate for timestamps
 		Cursor c = day.getTimestamps(context);
@@ -284,6 +295,7 @@ public class DayAccess implements IAccess {
 					Timestamp t2 = new Timestamp(c);
 					float diff = (t2.getTimestamp() - t1.getTimestamp()) / HOURS_IN_MILLIES;
 					hoursWorked = hoursWorked + diff;
+					Log.i(LOG_TAG, "Worked " + diff + " form " + t1.formatTime() + " to " + t2.formatTime());
 				} else {
 					day.setError();
 				}
@@ -292,14 +304,16 @@ public class DayAccess implements IAccess {
 			}
 		}
 		c.close();
-
+		float overtime = hoursWorked - day.getHoursTarget();
+		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);
 		day.setHoursTarget(getHoursTargetDefault() - day.getOvertimeCompensation() - day.getHolyday()
 				* getHoursTargetDefault());
-		day.setOvertime(previousDay.getOvertime() + hoursWorked - day.getHoursTarget());
+		day.setOvertime(previousDay.getOvertime() + overtime);
 		day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
 		insertOrUpdate(day);
 	}
+
 
 	public static void setHoursTargetDefault(float hoursTargetDefault) {
 		DayAccess.hoursTargetDefault = hoursTargetDefault;

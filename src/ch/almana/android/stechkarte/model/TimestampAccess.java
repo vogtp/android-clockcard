@@ -31,9 +31,9 @@ public class TimestampAccess implements IAccess {
 	private static TimestampAccess instance;
 
 	public static TimestampAccess getInstance(Context context) {
-		// if (instance == null) {
+		if (instance == null) {
 			instance = new TimestampAccess(context);
-		// }
+		}
 		return instance;
 	}
 
@@ -66,7 +66,7 @@ public class TimestampAccess implements IAccess {
 			actions = new String[ACTION_MAX];
 			String invTsTAsString = Timestamp.getTimestampTypeAsString(context, Timestamp
 					.invertTimestampType(timestamp));
-			String tstAsString = Timestamp.getTimestampTypeAsString(context, timestamp);
+			String tstAsString = timestamp.getTimestampTypeAsString(context);
 			actions[ACTION_ADD_INVERTED] = "Add " + invTsTAsString;
 			actions[ACTION_ADD] = "Add " + tstAsString;
 			actions[ACTION_ADDLAST_ADD] = "Add last " + invTsTAsString + " and add " + tstAsString;
@@ -285,8 +285,8 @@ public class TimestampAccess implements IAccess {
 		Timestamp lastTs = getLastTimestamp();
 		if (lastTs != null) {
 			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < MIN_TIMESTAMP_DIFF) {
-				String tsTime = Timestamp.formatTime(timestamp);
-				String ltsTime = Timestamp.formatTime(lastTs);
+				String tsTime = timestamp.formatTime();
+				String ltsTime = lastTs.formatTime();
 				Toast.makeText(
 						context,
 						"Difference betwenn current and last timestamp is too small!\n" + tsTime + "\n" + ltsTime
@@ -296,7 +296,7 @@ public class TimestampAccess implements IAccess {
 			if (timestamp.getTimestampType() == lastTs.getTimestampType()) {
 
 				Builder alert = new AlertDialog.Builder(context);
-				alert.setTitle("Same timestamp types: " + Timestamp.getTimestampTypeAsString(context, timestamp));
+				alert.setTitle("Same timestamp types: " + timestamp.getTimestampTypeAsString(context));
 				AlertDialogHandler alertDiaHandler = new TimestampAccess.AlertDialogHandler(context, timestamp);
 				alert.setItems(alertDiaHandler.getActions(), alertDiaHandler);
 				alert.create().show();
@@ -308,8 +308,7 @@ public class TimestampAccess implements IAccess {
 
 	public void insert(Timestamp timestamp) {
 		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
-		Toast.makeText(context,
-				Timestamp.getTimestampTypeAsString(context, timestamp) + ": " + Timestamp.formatTime(timestamp),
+		Toast.makeText(context, timestamp.getTimestampTypeAsString(context) + ": " + timestamp.formatTime(),
 				Toast.LENGTH_LONG).show();
 		insert(Timestamps.CONTENT_URI, timestamp.getValues());
 	}

@@ -12,6 +12,10 @@
 <string name="menu_edit">Edit</string>
 <string name="ButtonDayList">Days List</string>
 <string name="menu_rebuild">Rebuild days</string>
-<string name="TextViewWorkedShort">W</string>
-<string name="TextViewOvertimeShort">O</string>
+<string name="TextViewWorkedShort">Worked </string>
+<string name="TextViewOvertimeShort">Overtime </string>
+<string name="ButtonReadTimestamps">Read Timestamps</string>
+<string name="LabelHoursTarget">Target </string>
+<string name="LabelHolyday">Holyday</string>
+<string name="LabelCompensation">Compensation</string>
 </resources>

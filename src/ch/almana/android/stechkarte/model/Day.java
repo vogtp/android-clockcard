@@ -33,7 +33,7 @@ public class Day {
 		holyday = c.getFloat(Days.COL_INDEX_HOLIDAY);
 		holydayLeft = c.getFloat(Days.COL_INDEX_HOLIDAY_LEFT);
 		overtime = c.getFloat(Days.COL_INDEX_OVERTIME);
-		overtimeCompensation = c.getFloat(Days.COL_INDEX_OVERTIME);
+		overtimeCompensation = c.getFloat(Days.COL_INDEX_OVERTIME_COMPENSATION);
 	}
 
 	public ContentValues getValues() {
@@ -126,6 +126,5 @@ public class Day {
 	public int getId() {
 		return id;
 	}
-
 
 }

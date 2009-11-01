@@ -99,8 +99,8 @@ public class Timestamp {
 		return timeString;
 	}
 
-	public static String formatTime(Timestamp timestamp) {
-		return formatTime(timestamp.getTimestamp());
+	public String formatTime() {
+		return formatTime(getTimestamp());
 	}
 
 	public static int invertTimestampType(Timestamp timestamp) {
@@ -137,8 +137,8 @@ public class Timestamp {
 		return getCalendar().get(Calendar.MINUTE);
 	}
 
-	public static String getTimestampTypeAsString(Context context, Timestamp ts) {
-		return getTimestampTypeAsString(context, ts.getTimestampType());
+	public String getTimestampTypeAsString(Context context) {
+		return getTimestampTypeAsString(context, getTimestampType());
 	}
 
 	public static String getTimestampTypeAsString(Context context, int timestampType) {
@@ -150,8 +150,8 @@ public class Timestamp {
 		return context.getString(android.R.string.untitled);
 	}
 
-	public static String formatTimeDateOnly(Timestamp timestamp) {
-		return formatTimeDateOnly(timestamp.getTimestamp());
+	public String formatTimeDateOnly() {
+		return formatTimeDateOnly(getTimestamp());
 	}
 
 	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
