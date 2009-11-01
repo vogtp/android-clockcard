@@ -42,6 +42,7 @@ public class DayAccess implements IAccess {
 		if (instance == null) {
 			instance = new DayAccess(context);
 		}
+		instance.setContext(context);
 		return instance;
 	}
 
@@ -51,6 +52,10 @@ public class DayAccess implements IAccess {
 		mOpenHelper = new DB.OpenHelper(context);
 		// upgrade DB
 		mOpenHelper.getWritableDatabase();
+	}
+
+	private void setContext(Context context) {
+		this.context = context;
 	}
 
 	public Context getContext() {
@@ -297,10 +302,10 @@ public class DayAccess implements IAccess {
 					hoursWorked = hoursWorked + diff;
 					Log.i(LOG_TAG, "Worked " + diff + " form " + t1.formatTime() + " to " + t2.formatTime());
 				} else {
-					day.setError();
+					day.setError(true);
 				}
 			} else {
-				day.setError();
+				day.setError(true);
 			}
 		}
 		c.close();

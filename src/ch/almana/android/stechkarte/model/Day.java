@@ -17,7 +17,7 @@ public class Day {
 	private float holydayLeft = 0;
 	private float overtime = 0;
 	private float overtimeCompensation = 0;
-
+	private boolean error = false;
 
 
 	public Day(long dayRef) {
@@ -34,6 +34,7 @@ public class Day {
 		holydayLeft = c.getFloat(Days.COL_INDEX_HOLIDAY_LEFT);
 		overtime = c.getFloat(Days.COL_INDEX_OVERTIME);
 		overtimeCompensation = c.getFloat(Days.COL_INDEX_OVERTIME_COMPENSATION);
+		setError(c.getInt(Days.COL_INDEX_ERROR));
 	}
 
 	public ContentValues getValues() {
@@ -48,13 +49,8 @@ public class Day {
 		values.put(Days.COL_NAME_HOLIDAY_LEFT, getHolydayLeft());
 		values.put(Days.COL_NAME_OVERTIME, getOvertime());
 		values.put(Days.COL_NAME_OVERTIME_COMPENSATION, getOvertimeCompensation());
+		values.put(Days.COL_NAME_ERROR, getError());
 		return values;
-	}
-
-
-	public void setError() {
-		// FIXME Auto-generated method stub
-
 	}
 
 	public Cursor getTimestamps(Context context) {
@@ -125,6 +121,22 @@ public class Day {
 
 	public int getId() {
 		return id;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public void setError(int error) {
+		this.error = error > 0 ? true : false;
+	}
+
+	public int getError() {
+		return isError() ? 1 : 0;
+	}
+
+	public boolean isError() {
+		return error;
 	}
 
 }

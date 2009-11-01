@@ -4,12 +4,17 @@ import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.DB;
+import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.DB.Days;
 
@@ -34,9 +39,31 @@ public class ListDays extends ListActivity {
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
 				DB.Days.COL_NAME_DAYREF, DB.Days.COL_NAME_HOURS_WORKED, DB.Days.COL_NAME_OVERTIME,
-				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_OVERTIME_COMPENSATION },
+				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_OVERTIME_COMPENSATION,
+				DB.Days.COL_NAME_ERROR },
 				new int[] { R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime,
 						R.id.TextViewHoursTarget, R.id.TextViewHoliday, R.id.TextViewCompensation });
+		
+		adapter.setViewBinder(new ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+				if (cursor == null) {
+					return false;
+				}
+				if (columnIndex == DB.Days.COL_INDEX_DAYREF) {
+					Day d = new Day(cursor);
+					int color = Color.GREEN;
+					if (d.isError()) {
+						color = Color.RED;
+					}
+					TextView errorView = (TextView) view.findViewById(R.id.TextViewDayRef);
+					errorView.setTextColor(color);
+				}
+				return false;
+			}
+		});
+		
 		setListAdapter(adapter);
 	}
 

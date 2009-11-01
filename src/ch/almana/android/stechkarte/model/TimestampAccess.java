@@ -34,6 +34,7 @@ public class TimestampAccess implements IAccess {
 		if (instance == null) {
 			instance = new TimestampAccess(context);
 		}
+		instance.setContext(context);
 		return instance;
 	}
 
@@ -58,11 +59,9 @@ public class TimestampAccess implements IAccess {
 
 		private Timestamp timestamp;
 		private CharSequence[] actions;
-		private Context context;
 
 		public AlertDialogHandler(Context context, Timestamp timestamp) {
 			this.timestamp = timestamp;
-			this.context = context;
 			actions = new String[ACTION_MAX];
 			String invTsTAsString = Timestamp.getTimestampTypeAsString(context, Timestamp
 					.invertTimestampType(timestamp));
@@ -130,6 +129,10 @@ public class TimestampAccess implements IAccess {
 		return count;
 	}
 
+
+	private void setContext(Context context) {
+		this.context = context;
+	}
 
 	private Context getContext() {
 		return context;
@@ -307,15 +310,15 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public void insert(Timestamp timestamp) {
-		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 		Toast.makeText(context, timestamp.getTimestampTypeAsString(context) + ": " + timestamp.formatTime(),
 				Toast.LENGTH_LONG).show();
 		insert(Timestamps.CONTENT_URI, timestamp.getValues());
+		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 	}
 
 	public void update(Timestamp timestamp) {
-		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.COL_NAME_ID + "=" + timestamp.getId(), null);
+		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 	}
 
 	public Cursor query(String selection) {
