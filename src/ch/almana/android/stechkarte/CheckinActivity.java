@@ -27,7 +27,7 @@ public class CheckinActivity extends Activity {
 	private TextView overtime;
 	private TextView hoursWorked;
 
-	// private TextView holidaysLeft;
+	private TextView holidaysLeft;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -68,7 +68,7 @@ public class CheckinActivity extends Activity {
 		status = (TextView) findViewById(R.id.TextViewStatus);
 		overtime = (TextView) findViewById(R.id.TextViewOvertime);
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
-		// holidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
+		holidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
 
 	}
 
@@ -102,7 +102,7 @@ public class CheckinActivity extends Activity {
 		}
 		
 		status.setText("You are " + inOut);
-		// holidaysLeft.setText("" + day.getHolydayLeft());
+		holidaysLeft.setText("" + day.getHolydayLeft());
 
 		overtime.setText("" + (day.getOvertime() + delta));
 		hoursWorked.setText("" + (day.getHoursWorked() + delta));

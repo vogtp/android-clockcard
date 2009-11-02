@@ -18,9 +18,9 @@ public final class R {
         public static final int stechkarte=0x7f020001;
     }
     public static final class id {
-        public static final int ButtonDate=0x7f06001d;
+        public static final int ButtonDate=0x7f06001c;
         public static final int ButtonIn=0x7f060016;
-        public static final int ButtonInOut=0x7f06001e;
+        public static final int ButtonInOut=0x7f06001d;
         public static final int ButtonOut=0x7f060017;
         public static final int CheckBoxFixed=0x7f06000a;
         public static final int EditTextHoliday=0x7f060003;
@@ -38,7 +38,6 @@ public final class R {
         public static final int TextView01=0x7f060010;
         public static final int TextView02=0x7f060005;
         public static final int TextView03=0x7f060008;
-        public static final int TextView04=0x7f06001a;
         public static final int TextViewDayRef=0x7f060000;
         public static final int TextViewHoliday=0x7f060013;
         public static final int TextViewHolidaysLeft=0x7f060015;
@@ -47,10 +46,10 @@ public final class R {
         public static final int TextViewOvertime=0x7f060012;
         public static final int TextViewOvertimeCur=0x7f060011;
         public static final int TextViewStatus=0x7f060018;
-        public static final int TextViewTime=0x7f06001b;
-        public static final int TextViewTimestamp=0x7f06001f;
-        public static final int TextViewTimestampType=0x7f060020;
-        public static final int TimePicker01=0x7f06001c;
+        public static final int TextViewTime=0x7f06001a;
+        public static final int TextViewTimestamp=0x7f06001e;
+        public static final int TextViewTimestampType=0x7f06001f;
+        public static final int TimePicker01=0x7f06001b;
     }
     public static final class layout {
         public static final int day_editor=0x7f030000;

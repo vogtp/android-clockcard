@@ -18,7 +18,7 @@
 
 
 
-<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolidayLeft" android:paddingRight="5px"></TextView><TextView android:id="@+id/TextView04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+id/TextViewHolidaysLeft"></TextView>
+<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolidayLeft" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+id/TextViewHolidaysLeft" android:id="@+id/TextViewHolidaysLeft"></TextView>
 </LinearLayout>
 
 </LinearLayout>
