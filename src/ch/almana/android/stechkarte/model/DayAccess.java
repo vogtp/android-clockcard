@@ -35,7 +35,7 @@ public class DayAccess implements IAccess {
 	private Context context;
 
 	private static DayAccess instance;
-	private static final float HOURS_IN_MILLIES = 1000 * 60 * 60;
+	public static final float HOURS_IN_MILLIES = 1000 * 60 * 60;
 	private static float hoursTargetDefault = 8.24f;
 
 	public static DayAccess getInstance(Context context) {
