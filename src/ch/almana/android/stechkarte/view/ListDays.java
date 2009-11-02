@@ -31,6 +31,11 @@ public class ListDays extends ListActivity {
 	    super.onCreate(savedInstanceState);
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 
+		// ProgressDialog dia = new ProgressDialog(this);
+		// dia.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		// dia.setTitle("Loading days");
+		// dia.show();
+
 		// If no data was given in the intent (because we were started
 		// as a MAIN activity), then use our default content provider.
 		Intent intent = getIntent();
@@ -38,14 +43,16 @@ public class ListDays extends ListActivity {
 			intent.setData(Days.CONTENT_URI);
 		}
 
-		Cursor cursor = DayAccess.getInstance(getApplicationContext()).query(null);
+		rebuildDays();
+
+		Cursor cursor = DayAccess.getInstance(this).query(null);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
 				DB.Days.COL_NAME_DAYREF, DB.Days.COL_NAME_HOURS_WORKED, DB.Days.COL_NAME_OVERTIME,
-				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY },
+				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_HOLIDAY_LEFT },
  new int[] {
 				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
-				R.id.TextViewHoliday });
+				R.id.TextViewHoliday, R.id.TextViewHolidaysLeft });
 		
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
@@ -74,6 +81,7 @@ public class ListDays extends ListActivity {
 		});
 		
 		setListAdapter(adapter);
+		// dia.dismiss();
 	}
 
 	@Override
@@ -96,11 +104,15 @@ public class ListDays extends ListActivity {
 		case MENU_ITEM_REBUILD:
 			// startActivity(new Intent(Intent.ACTION_INSERT,
 			// getIntent().getData()));
-			DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
+			rebuildDays();
 			return true;
 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void rebuildDays() {
+		DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
 	}
 	
 

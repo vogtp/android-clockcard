@@ -26,4 +26,5 @@
 <string name="HintOvertime">Overtime hours </string>
 <string name="LabelOvertime">Overtime</string>
 <string name="CheckBoxFixed">Not automatically updated</string>
+<string name="TextViewHolidaysLeft">left</string>
 </resources>
