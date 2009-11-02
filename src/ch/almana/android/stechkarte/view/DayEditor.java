@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ public class DayEditor extends Activity {
 	private EditText holiday;
 	private EditText holidayLeft;
 	private EditText overtime;
+	private CheckBox fixed;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -44,7 +46,7 @@ public class DayEditor extends Activity {
 		holiday = (EditText) findViewById(R.id.EditTextHoliday);
 		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
 		overtime = (EditText) findViewById(R.id.EditTextOvertime);
-
+		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class DayEditor extends Activity {
 		holiday.setText(day.getHolyday() + "");
 		holidayLeft.setText(day.getHolydayLeft() + "");
 		overtime.setText(day.getOvertime() + "");
+		fixed.setChecked(day.isFixed());
 	}
 
 	private void updateModel() {
@@ -76,6 +79,7 @@ public class DayEditor extends Activity {
 		} catch (NumberFormatException e) {
 			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
+		day.setFixed(fixed.isChecked());
 	}
 
 	@Override

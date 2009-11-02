@@ -16,7 +16,7 @@ public interface DB {
 
 	class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 2;
+		private static final int DATABASE_VERSION = 3;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME
 				+ " (" + DB.COL_NAME_ID + " integer primary key, " + Timestamps.COL_NAME_TIMESTAMP_TYPE + " int,"
@@ -26,7 +26,7 @@ public interface DB {
 				+ DB.COL_NAME_ID + " integer primary key, " + Days.COL_NAME_DAYREF + " long, "
 				+ Days.COL_NAME_HOURS_WORKED + " real, " + Days.COL_NAME_HOURS_TARGET + " real,"
 				+ Days.COL_NAME_HOLIDAY + " real, " + Days.COL_NAME_HOLIDAY_LEFT + " real, " + Days.COL_NAME_OVERTIME
-				+ " real, " + Days.COL_NAME_ERROR + " int);";
+				+ " real, " + Days.COL_NAME_ERROR + " int, " + Days.COL_NAME_FIXED + " int);";
 
 		private static final String LOG_TAG = "OpenHelper";
 
@@ -50,6 +50,11 @@ public interface DB {
 				db.execSQL("alter table " + Timestamps.TABLE_NAME + " add column " + Timestamps.COL_NAME_DAYREF
 						+ " long;");
 				// nobreak
+			case 2:
+				Log.w(LOG_TAG, "Upgrading to DB Version 3...");
+				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.COL_NAME_FIXED + " int;");
+				// nobreak
+
 
 
 			default:
@@ -111,6 +116,7 @@ public interface DB {
 		public static final String COL_NAME_HOLIDAY_LEFT = "holidayLeft";
 		public static final String COL_NAME_OVERTIME = "overtime";
 		public static final String COL_NAME_ERROR = "error";
+		public static final String COL_NAME_FIXED = "fixed";
 
 		public static final int COL_INDEX_DAYREF = 1;
 		public static final int COL_INDEX_HOURS_WORKED = 2;
@@ -119,9 +125,11 @@ public interface DB {
 		public static final int COL_INDEX_HOLIDAY_LEFT = 5;
 		public static final int COL_INDEX_OVERTIME = 6;
 		public static final int COL_INDEX_ERROR = 7;
+		public static final int COL_INDEX_FIXED = 8;
 
 		public static final String[] colNames = new String[] { COL_NAME_ID, COL_NAME_DAYREF, COL_NAME_HOURS_WORKED,
-				COL_NAME_HOURS_TARGET, COL_NAME_HOLIDAY, COL_NAME_HOLIDAY_LEFT, COL_NAME_OVERTIME, COL_NAME_ERROR };
+				COL_NAME_HOURS_TARGET, COL_NAME_HOLIDAY, COL_NAME_HOLIDAY_LEFT, COL_NAME_OVERTIME, COL_NAME_ERROR,
+				COL_NAME_FIXED };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = COL_NAME_DAYREF + " DESC";

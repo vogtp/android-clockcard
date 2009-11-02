@@ -17,6 +17,7 @@ public class Day {
 	private float holydayLeft = 0;
 	private float overtime = 0;
 	private boolean error = false;
+	private boolean fixed = false;
 
 
 	public Day(long dayRef) {
@@ -33,6 +34,7 @@ public class Day {
 		holydayLeft = day.holydayLeft;
 		overtime = day.overtime;
 		error = day.error;
+		fixed = day.fixed;
 	}
 
 	public Day(Cursor c) {
@@ -44,6 +46,8 @@ public class Day {
 		holydayLeft = c.getFloat(Days.COL_INDEX_HOLIDAY_LEFT);
 		overtime = c.getFloat(Days.COL_INDEX_OVERTIME);
 		setError(c.getInt(Days.COL_INDEX_ERROR));
+		setFixed(c.getInt(Days.COL_INDEX_FIXED));
+
 	}
 
 
@@ -59,6 +63,7 @@ public class Day {
 		values.put(Days.COL_NAME_HOLIDAY_LEFT, getHolydayLeft());
 		values.put(Days.COL_NAME_OVERTIME, getOvertime());
 		values.put(Days.COL_NAME_ERROR, getError());
+		values.put(Days.COL_NAME_FIXED, getFixed());
 		return values;
 	}
 
@@ -138,6 +143,22 @@ public class Day {
 
 	public boolean isError() {
 		return error;
+	}
+
+	public void setFixed(boolean fixed) {
+		this.fixed = fixed;
+	}
+
+	public boolean isFixed() {
+		return fixed;
+	}
+
+	public void setFixed(int fixed) {
+		this.fixed = fixed > 0 ? true : false;
+	}
+
+	public int getFixed() {
+		return fixed ? 1 : 0;
 	}
 
 	public String getDayString() {

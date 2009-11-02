@@ -239,12 +239,14 @@ public class DayAccess implements IAccess {
 	 */
 	public void recalculateDayFromTimestamp(Timestamp timestamp) {
 		String selection = null;
+		String dayDeleteSelection = DB.Days.COL_NAME_FIXED + "=0";
 		if (timestamp != null) {
 			selection = DB.COL_NAME_ID + "=" + timestamp.getId();
+			dayDeleteSelection = dayDeleteSelection + " and " + selection;
 		}
 		DayAccess dayAccess = DayAccess.getInstance(getContext());
 		// delete all days
-		dayAccess.delete(Days.CONTENT_URI, selection, null);
+		// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
 		TimestampAccess timestampAccess = TimestampAccess.getInstance(getContext());
 		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 		SortedSet<Long> dayRefs = new TreeSet<Long>();
@@ -252,6 +254,9 @@ public class DayAccess implements IAccess {
 			Timestamp ts = new Timestamp(c);
 			long dayref = ts.getDayRef();
 			Day curDay = dayAccess.getOrCreateDay(dayref);
+			if (curDay.isFixed()) {
+				continue;
+			}
 			dayRefs.add(curDay.getDayRef());
 			ts.setDayRef(curDay.getDayRef());
 			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.COL_NAME_ID + "=" + ts.getId(), null);
@@ -292,6 +297,7 @@ public class DayAccess implements IAccess {
 		float hoursWorked = 0;
 		// calculate for timestamps
 		Cursor c = day.getTimestamps(context);
+		boolean error = false;
 		while (c.moveToNext()) {
 			// what a timestamp is in an other day?
 			Timestamp t1 = new Timestamp(c);
@@ -302,20 +308,23 @@ public class DayAccess implements IAccess {
 					hoursWorked = hoursWorked + diff;
 					Log.i(LOG_TAG, "Worked " + diff + " form " + t1.formatTime() + " to " + t2.formatTime());
 				} else {
-					day.setError(true);
+					error = true;
 				}
 			} else {
-				day.setError(true);
+				error = true;
 			}
 		}
 		c.close();
+		day.setError(error);
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);
 		day.setHoursTarget(getHoursTargetDefault() - day.getHolyday()
 				* getHoursTargetDefault());
-		day.setOvertime(previousDay.getOvertime() + overtime);
-		day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
+		if (!day.isFixed()) {
+			day.setOvertime(previousDay.getOvertime() + overtime);
+			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
+		}
 		insertOrUpdate(day);
 	}
 

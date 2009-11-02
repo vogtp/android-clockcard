@@ -25,4 +25,5 @@
 <string name="HintHolidaysLeft">Total holiday days left</string>
 <string name="HintOvertime">Overtime hours </string>
 <string name="LabelOvertime">Overtime</string>
+<string name="CheckBoxFixed">Not automatically updated</string>
 </resources>

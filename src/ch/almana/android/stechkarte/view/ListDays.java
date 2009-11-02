@@ -42,7 +42,7 @@ public class ListDays extends ListActivity {
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
 				DB.Days.COL_NAME_DAYREF, DB.Days.COL_NAME_HOURS_WORKED, DB.Days.COL_NAME_OVERTIME,
-				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_ERROR },
+				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY },
  new int[] {
 				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
 				R.id.TextViewHoliday });

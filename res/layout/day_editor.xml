@@ -5,7 +5,7 @@
   android:layout_height="wrap_content" android:orientation="vertical">
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef"></TextView>
 <LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHoliday" android:id="@+id/LabelHoliday"></TextView><EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/EditTextHoliday" android:hint="@+string/HintHoliday"></EditText>
-</LinearLayout>
+</LinearLayout> 
 
 <LinearLayout android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolidayLeft"></TextView><EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/EditTextHolidaysLeft" android:hint="@+string/HintHolidaysLeft"></EditText>
 </LinearLayout>
@@ -13,4 +13,5 @@
 <LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelOvertime"></TextView><EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/EditTextOvertime" android:hint="@+string/HintOvertime"></EditText>
 </LinearLayout>
 
+<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/CheckBoxFixed" android:text="@+string/CheckBoxFixed"></CheckBox>
 </LinearLayout>
