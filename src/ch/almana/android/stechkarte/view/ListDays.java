@@ -19,6 +19,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.Formater;
 import ch.almana.android.stechkarte.model.DB.Days;
 
 public class ListDays extends ListActivity {
@@ -68,13 +69,15 @@ public class ListDays extends ListActivity {
 					}
 					TextView errorView = (TextView) view.findViewById(R.id.TextViewDayRef);
 					errorView.setTextColor(color);
+					// since we do not set the dayref no: return true;
 				} else if (columnIndex == DB.Days.COL_INDEX_OVERTIME) {
 					Day d = new Day(cursor);
-					((TextView) view.findViewById(R.id.TextViewOvertime)).setText(String
-							.format("%.2f", d.getOvertime()));
+					((TextView) view.findViewById(R.id.TextViewOvertime)).setText(Formater.formatHourMinFromHours(d
+							.getOvertime()));
 					TextView tv = (TextView) ((View) view.getParent()).findViewById(R.id.TextViewOvertimeCur);
 					float overtime = d.getHoursWorked() - d.getHoursTarget();
-					tv.setText(String.format("%.2f", overtime));
+					tv.setText(Formater.formatHourMinFromHours(overtime));
+					return true;
 				}
 				return false;
 			}
@@ -127,6 +130,13 @@ public class ListDays extends ListActivity {
 			setResult(RESULT_OK, new Intent().setData(uri));
 		} else {
 			// Launch activity to view/edit the currently selected item
+			// Intent i = new Intent(this, ListTimeStamps.class);
+			// long dayRef =
+			// TimestampAccess.getInstance(this).getTimestampById(id).getDayRef();
+			// i.putExtra(ListTimeStamps.FILTER_DAYREF, dayRef);
+			//			
+			// startActivity(i);
+			
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
