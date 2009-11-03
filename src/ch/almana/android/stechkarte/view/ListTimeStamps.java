@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
@@ -32,6 +33,8 @@ public class ListTimeStamps extends ListActivity {
 	public static final int MENU_ITEM_DELETE = Menu.FIRST;
 	public static final int MENU_ITEM_INSERT = Menu.FIRST + 1;
 	public static final int MENU_ITEM_EDIT = Menu.FIRST + 2;
+
+	public static final String FILTER_DAYREF = "filterDayref";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -50,7 +53,14 @@ public class ListTimeStamps extends ListActivity {
 		// Inform the list we provide context menus for items
 		getListView().setOnCreateContextMenuListener(this);
 
-		Cursor cursor = TimestampAccess.getInstance(getApplicationContext()).query(null);
+		String selection = null;
+
+		if (intent.getExtras().containsKey(FILTER_DAYREF)) {
+			long dayRef = intent.getExtras().getLong(FILTER_DAYREF);
+			selection = DB.Days.COL_NAME_DAYREF + "=" + dayRef;
+		}
+		
+		Cursor cursor = TimestampAccess.getInstance(getApplicationContext()).query(selection);
 		// Used to map notes entries from the database to views
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] {
 				Timestamps.COL_NAME_TIMESTAMP, Timestamps.COL_NAME_TIMESTAMP_TYPE }, new int[] {
