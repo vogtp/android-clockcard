@@ -350,4 +350,15 @@ public class TimestampAccess implements IAccess {
 		}
 	}
 
+	public Timestamp getTimestampById(long id) {
+		Cursor c = query(DB.COL_NAME_ID + "=" + id);
+		if (c.moveToFirst()) {
+			Timestamp ts = new Timestamp(c);
+			c.close();
+			return ts;
+		} else {
+			throw new SQLException("No such id " + id);
+		}
+	}
+
 }
