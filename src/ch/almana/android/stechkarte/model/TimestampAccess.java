@@ -38,7 +38,6 @@ public class TimestampAccess implements IAccess {
 		return instance;
 	}
 
-	private static final String LOG_TAG = "TimestampAccess";
 
 	private static HashMap<String, String> sTimestampProjectionMap;
 

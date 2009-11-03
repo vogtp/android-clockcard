@@ -161,6 +161,15 @@ public class Day {
 		return fixed ? 1 : 0;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Day) {
+			Day day = (Day) o;
+			return dayRef == day.getDayRef();
+		}
+		return super.equals(o);
+	}
+
 	public String getDayString() {
 		return getDayRef() + "";
 	}

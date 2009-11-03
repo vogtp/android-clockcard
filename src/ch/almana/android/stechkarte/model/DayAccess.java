@@ -16,13 +16,14 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB.Days;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.StechkarteProvider;
 
 public class DayAccess implements IAccess {
-	private static final String LOG_TAG = "DayAccess";
+	private static final String LOG_TAG = Logger.LOG_TAG;
 
 	private static HashMap<String, String> sProjectionMap;
 
@@ -80,7 +81,6 @@ public class DayAccess implements IAccess {
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
@@ -246,7 +246,7 @@ public class DayAccess implements IAccess {
 		}
 		DayAccess dayAccess = DayAccess.getInstance(getContext());
 		// delete all days
-		// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
+		dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
 		TimestampAccess timestampAccess = TimestampAccess.getInstance(getContext());
 		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 		SortedSet<Long> dayRefs = new TreeSet<Long>();
@@ -257,10 +257,11 @@ public class DayAccess implements IAccess {
 			if (curDay.isFixed()) {
 				continue;
 			}
-			dayRefs.add(curDay.getDayRef());
-			ts.setDayRef(curDay.getDayRef());
+			if (dayRefs.add(dayref)) {
+				Log.i(LOG_TAG, "Added day " + dayref+" for recalculation");
+			}
+			ts.setDayRef(dayref);
 			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.COL_NAME_ID + "=" + ts.getId(), null);
-			Log.i(LOG_TAG, "Recalculated day " + dayref);
 		}
 		c.close();
 		Iterator<Long> iterator = dayRefs.iterator();
@@ -325,6 +326,7 @@ public class DayAccess implements IAccess {
 			day.setOvertime(previousDay.getOvertime() + overtime);
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
 		}
+		Log.w(Logger.LOG_TAG, "Recalculated " + dayRef);
 		insertOrUpdate(day);
 	}
 

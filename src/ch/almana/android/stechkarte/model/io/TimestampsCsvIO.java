@@ -14,6 +14,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 
@@ -21,7 +22,7 @@ public class TimestampsCsvIO {
 
 	public static final String PATH = "/sdcard/stechkarte/";
 
-	private static final String LOG_TAG = "TimestampsCsvIO";
+	private static final String LOG_TAG = Logger.LOG_TAG;
 
 	private static final String SEPARATOR = "\t";
 
@@ -196,7 +197,7 @@ public class TimestampsCsvIO {
 			sb.append(columnName);
 			sb.append(SEPARATOR);
 		}
-		Log.i(LOG_TAG, "CSV Header Line: " + sb);
+		Log.d(LOG_TAG, "CSV Header Line: " + sb);
 		return sb.toString();
 	}
 
@@ -211,7 +212,7 @@ public class TimestampsCsvIO {
 			sb.append(c.getString(i));
 			sb.append(SEPARATOR);
 		}
-		Log.i(LOG_TAG, "CSV Line: " + sb);
+		Log.d(LOG_TAG, "CSV Data Line:  " + sb);
 		return sb.toString();
 	}
 

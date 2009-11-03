@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.provider.StechkarteProvider;
 
 public interface DB {
@@ -28,7 +29,7 @@ public interface DB {
 				+ Days.COL_NAME_HOLIDAY + " real, " + Days.COL_NAME_HOLIDAY_LEFT + " real, " + Days.COL_NAME_OVERTIME
 				+ " real, " + Days.COL_NAME_ERROR + " int, " + Days.COL_NAME_FIXED + " int);";
 
-		private static final String LOG_TAG = "OpenHelper";
+		private static final String LOG_TAG = Logger.LOG_TAG;
 
 		public OpenHelper(Context context) {
 			super(context, DB.DATABASE_NAME, null, DATABASE_VERSION);

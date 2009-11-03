@@ -19,13 +19,14 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class ListTimeStamps extends ListActivity {
 
-	private static final String LOG_TAG = ListTimeStamps.class.toString();
+	private static final String LOG_TAG = Logger.LOG_TAG;
 
 	// Menu item ids
 	public static final int MENU_ITEM_DELETE = Menu.FIRST;

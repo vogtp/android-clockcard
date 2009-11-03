@@ -14,8 +14,6 @@ public class StechkarteProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "ch.almana.android.stechkarte";
 
-	private static final String LOG_TAG = "StechkarteProvider";
-
 	private static final int TIMESTAMP = 1;
 	private static final int DAY = 2;
 
