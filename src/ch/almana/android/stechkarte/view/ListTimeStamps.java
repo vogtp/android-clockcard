@@ -4,28 +4,19 @@ import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
-import ch.almana.android.stechkarte.model.DB;
-import ch.almana.android.stechkarte.model.Timestamp;
-import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class ListTimeStamps extends ListActivity {
+
+	public static final String FILTER_DAYREF = "filterDayref";
 
 	private static final String LOG_TAG = Logger.LOG_TAG;
 
@@ -34,7 +25,8 @@ public class ListTimeStamps extends ListActivity {
 	public static final int MENU_ITEM_INSERT = Menu.FIRST + 1;
 	public static final int MENU_ITEM_EDIT = Menu.FIRST + 2;
 
-	public static final String FILTER_DAYREF = "filterDayref";
+	private TimestampsAdaptorFactory timestampsAdaptorFactory;
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -50,73 +42,14 @@ public class ListTimeStamps extends ListActivity {
 			intent.setData(Timestamps.CONTENT_URI);
 		}
 
-		// Inform the list we provide context menus for items
-		getListView().setOnCreateContextMenuListener(this);
-
-		String selection = null;
-
-		if (intent.getExtras().containsKey(FILTER_DAYREF)) {
-			long dayRef = intent.getExtras().getLong(FILTER_DAYREF);
-			selection = DB.Days.COL_NAME_DAYREF + "=" + dayRef;
+		long dayRef = -1;
+		if (intent.hasExtra(FILTER_DAYREF)) {
+			dayRef = intent.getExtras().getLong(FILTER_DAYREF);
 		}
-		
-		Cursor cursor = TimestampAccess.getInstance(getApplicationContext()).query(selection);
-		// Used to map notes entries from the database to views
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] {
-				Timestamps.COL_NAME_TIMESTAMP, Timestamps.COL_NAME_TIMESTAMP_TYPE }, new int[] {
-				R.id.TextViewTimestamp, R.id.TextViewTimestampType });
-		adapter.setViewBinder(new ViewBinder() {
 
-			@Override
-			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-				if (cursor == null) {
-					return false;
-				}
-				if (columnIndex == Timestamps.COL_INDEX_TIMESTAMP) {
-					TextView ts = (TextView) view.findViewById(R.id.TextViewTimestamp);
-					long time = cursor.getLong(Timestamps.COL_INDEX_TIMESTAMP);
-					ts.setText(Timestamp.formatTime(time));
-				} else if (columnIndex == Timestamps.COL_INDEX_TIMESTAMP_TYPE) {
-					String txt = "unknown";
-					int type = cursor.getInt(Timestamps.COL_INDEX_TIMESTAMP_TYPE);
-					if (type == Timestamp.TYPE_IN) {
-						txt = " IN";
-					} else if (type == Timestamp.TYPE_OUT) {
-						txt = " OUT";
-					}
-					((TextView) view.findViewById(R.id.TextViewTimestampType)).setText(txt);
-				}
-				return true;
-			}
-		});
-		setListAdapter(adapter);
+		timestampsAdaptorFactory = new TimestampsAdaptorFactory(getListView(), dayRef);
 	}
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		AdapterView.AdapterContextMenuInfo info;
-		try {
-			info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		} catch (ClassCastException e) {
-			Log.e(LOG_TAG, "bad menuInfo", e);
-			return;
-		}
-
-        Cursor cursor = (Cursor) getListAdapter().getItem(info.position);
-		if (cursor == null) {
-			// For some reason the requested item isn't available, do nothing
-			return;
-		}
-		cursor.close();
-
-		// Setup the menu header
-		// menu.setHeaderTitle(cursor.getString(COLUMN_INDEX_TITLE));
-
-		menu.add(0, MENU_ITEM_EDIT, 0, R.string.menu_edit);
-
-		// Add a menu item to delete the note
-		menu.add(2, MENU_ITEM_DELETE, 0, R.string.menu_delete);
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,26 +83,7 @@ public class ListTimeStamps extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterView.AdapterContextMenuInfo info;
-		try {
-			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		} catch (ClassCastException e) {
-			Log.e(LOG_TAG, "bad menuInfo", e);
-			return false;
-		}
-
-		Uri tsUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, info.id);
-		switch (item.getItemId()) {
-		case MENU_ITEM_DELETE: {
-			getContentResolver().delete(tsUri, null, null);
-			return true;
-		}
-		case MENU_ITEM_EDIT: {
-			startActivity(new Intent(Intent.ACTION_EDIT, tsUri));
-			return true;
-		}
-		}
-		return false;
+		return timestampsAdaptorFactory.onContextItemSelected(item);
 	}
 
 	@Override

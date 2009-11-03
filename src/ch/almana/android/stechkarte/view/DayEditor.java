@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
@@ -22,6 +24,7 @@ public class DayEditor extends Activity {
 	private EditText holidayLeft;
 	private EditText overtime;
 	private CheckBox fixed;
+	private TimestampsAdaptorFactory tsAdaptorFactory;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -47,6 +50,10 @@ public class DayEditor extends Activity {
 		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
 		overtime = (EditText) findViewById(R.id.EditTextOvertime);
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
+
+		// TODO ADD TIMESTAMPS
+		ListView timestamps = (ListView) findViewById(R.id.ListViewTimestamps);
+		tsAdaptorFactory = new TimestampsAdaptorFactory(timestamps, day.getDayRef());
 	}
 
 	@Override
@@ -97,5 +104,10 @@ public class DayEditor extends Activity {
 			DayAccess access = DayAccess.getInstance(getApplicationContext());
 			access.update(day);
 		}
+	}
+
+	public void OnClick(View view) {
+		// TODO Auto-generated method stub
+
 	}
 }
