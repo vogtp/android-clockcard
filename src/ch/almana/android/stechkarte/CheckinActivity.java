@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.Formater;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
@@ -87,25 +88,25 @@ public class CheckinActivity extends Activity {
 			day = new Day(0);
 		}
 		c.close();
-		
+
 		c = day.getTimestamps(this);
 		Timestamp ts = null;
+
+		float delta = 0;
 		String inOut = Timestamp.getTimestampTypeAsString(getApplicationContext(), Timestamp.TYPE_OUT);
 		if (c.moveToLast()) {
 			ts = new Timestamp(c);
 			inOut = ts.getTimestampTypeAsString(this);
+			if (ts.getTimestampType() == Timestamp.TYPE_IN) {
+				delta = (System.currentTimeMillis() - ts.getTimestamp()) / DayAccess.HOURS_IN_MILLIES;
+			}
 		}
 
-		float delta = 0;
-		if (ts.getTimestampType() == Timestamp.TYPE_IN) {
-			delta = (System.currentTimeMillis() - ts.getTimestamp()) / DayAccess.HOURS_IN_MILLIES;
-		}
-		
 		status.setText("You are " + inOut);
 		holidaysLeft.setText("" + day.getHolydayLeft());
 
-		overtime.setText("" + (day.getOvertime() + delta));
-		hoursWorked.setText("" + (day.getHoursWorked() + delta));
+		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime() + delta));
+		hoursWorked.setText(Formater.formatHourMinFromHours((day.getHoursWorked() + delta)));
 
 	}
 
