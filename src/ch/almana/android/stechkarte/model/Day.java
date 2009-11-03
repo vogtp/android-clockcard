@@ -165,7 +165,10 @@ public class Day {
 	public boolean equals(Object o) {
 		if (o instanceof Day) {
 			Day day = (Day) o;
-			return dayRef == day.getDayRef();
+
+			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday
+					&& holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
+					&& hoursWorked == day.hoursWorked && overtime == day.overtime;
 		}
 		return super.equals(o);
 	}
