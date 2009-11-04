@@ -290,6 +290,15 @@ public class DayAccess implements IAccess {
 			return;
 		}
 		Day day = getOrCreateDay(dayRef);
+		recalculate(context, day);
+	}
+
+	public void recalculate(Context context, Day day) {
+		// if (dayRef < 1) {
+		// return;
+		// }
+		// Day day = getOrCreateDay(dayRef);
+		long dayRef = day.getDayRef();
 		Day previousDay = getDayBefore(day);
 		if (previousDay == null) {
 			previousDay = new Day(0);

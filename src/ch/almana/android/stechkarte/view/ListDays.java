@@ -44,7 +44,7 @@ public class ListDays extends ListActivity {
 			intent.setData(Days.CONTENT_URI);
 		}
 
-		rebuildDays();
+		// rebuildDays();
 
 		Cursor cursor = DayAccess.getInstance(this).query(null);
 

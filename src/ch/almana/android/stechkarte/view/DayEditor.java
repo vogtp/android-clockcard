@@ -32,6 +32,7 @@ public class DayEditor extends Activity {
 	    super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.day_editor);
+
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (Intent.ACTION_INSERT.equals(action)) {
@@ -104,6 +105,7 @@ public class DayEditor extends Activity {
 			DayAccess access = DayAccess.getInstance(getApplicationContext());
 			access.update(day);
 		}
+		DayAccess.getInstance(this).recalculate(this, day);
 	}
 
 	public void OnClick(View view) {
