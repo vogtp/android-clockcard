@@ -9,7 +9,7 @@ import ch.almana.android.stechkarte.model.DB.Timestamps;
 public class Day {
 
 
-	private int id = -1;
+	private long id = -1;
 	private long dayRef = 0;
 	private float hoursWorked = 0;
 	private float hoursTarget = DayAccess.getHoursTargetDefault();
@@ -38,7 +38,7 @@ public class Day {
 	}
 
 	public Day(Cursor c) {
-		id = c.getInt(DB.COL_INDEX_ID);
+		id = c.getLong(DB.COL_INDEX_ID);
 		dayRef = c.getLong(Days.COL_INDEX_DAYREF);
 		hoursWorked = c.getFloat(Days.COL_INDEX_HOURS_WORKED);
 		hoursTarget = c.getFloat(Days.COL_INDEX_HOURS_TARGET);
@@ -121,11 +121,11 @@ public class Day {
 	}
 
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

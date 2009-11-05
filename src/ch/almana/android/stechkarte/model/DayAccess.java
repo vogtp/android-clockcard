@@ -36,8 +36,8 @@ public class DayAccess implements IAccess {
 	private Context context;
 
 	private static DayAccess instance;
-	public static final float HOURS_IN_MILLIES = 1000 * 60 * 60;
-	private static float hoursTargetDefault = 8.24f;
+	public static final float HOURS_IN_MILLIES = 1000f * 60f * 60f;
+	private static float hoursTargetDefault = 8.4f;
 
 	public static DayAccess getInstance(Context context) {
 		if (instance == null) {
@@ -182,7 +182,11 @@ public class DayAccess implements IAccess {
 	}
 
 	public void insert(Day day) {
-		insert(DB.Days.CONTENT_URI, day.getValues());
+		Uri uri = insert(DB.Days.CONTENT_URI, day.getValues());
+		long id = ContentUris.parseId(uri);
+		if (id > 0) {
+			day.setId(id);
+		}
 	}
 
 	public boolean hasDayRef(long dayref) {
@@ -215,7 +219,6 @@ public class DayAccess implements IAccess {
 			d = new Day(c);
 		} else {
 			d = new Day(dayref);
-			insert(DB.Days.CONTENT_URI, d.getValues());
 		}
 		c.close();
 		return d;
@@ -246,7 +249,7 @@ public class DayAccess implements IAccess {
 		}
 		DayAccess dayAccess = DayAccess.getInstance(getContext());
 		// delete all days
-		dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
+		// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
 		TimestampAccess timestampAccess = TimestampAccess.getInstance(getContext());
 		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 		SortedSet<Long> dayRefs = new TreeSet<Long>();
@@ -304,7 +307,7 @@ public class DayAccess implements IAccess {
 			previousDay = new Day(0);
 		}
 		Log.i(LOG_TAG, "Recalculating " + dayRef + " with prev day " + previousDay.getDayRef());
-		float hoursWorked = 0;
+		long worked = 0;
 		// calculate for timestamps
 		Cursor c = day.getTimestamps(context);
 		boolean error = false;
@@ -314,9 +317,10 @@ public class DayAccess implements IAccess {
 			if (t1.getTimestampType() == Timestamp.TYPE_IN) {
 				if (c.moveToNext()) {
 					Timestamp t2 = new Timestamp(c);
-					float diff = (t2.getTimestamp() - t1.getTimestamp()) / HOURS_IN_MILLIES;
-					hoursWorked = hoursWorked + diff;
-					Log.i(LOG_TAG, "Worked " + diff + " form " + t1.formatTime() + " to " + t2.formatTime());
+					long diff = (t2.getTimestamp() - t1.getTimestamp());
+					worked = worked + diff;
+					Log.i(LOG_TAG, "Worked " + diff / HOURS_IN_MILLIES + " form " + t1.formatTime() + " to "
+							+ t2.formatTime());
 				} else {
 					error = true;
 				}
@@ -326,6 +330,7 @@ public class DayAccess implements IAccess {
 		}
 		c.close();
 		day.setError(error);
+		float hoursWorked = worked / HOURS_IN_MILLIES;
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);

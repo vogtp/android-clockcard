@@ -17,7 +17,7 @@ public interface DB {
 
 	class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 3;
+		private static final int DATABASE_VERSION = 4;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME
 				+ " (" + DB.COL_NAME_ID + " integer primary key, " + Timestamps.COL_NAME_TIMESTAMP_TYPE + " int,"
@@ -39,6 +39,7 @@ public interface DB {
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(CREATE_TIMESTAMPS_TABLE);
 			db.execSQL(CREATE_DAYS_TABLE);
+			db.execSQL("create unique index dayref_idx on " + Days.TABLE_NAME + " (" + Days.COL_NAME_DAYREF + "); ");
 			Log.i(LOG_TAG, "Created table " + DB.Timestamps.TABLE_NAME);
 		}
 
@@ -55,7 +56,11 @@ public interface DB {
 				Log.w(LOG_TAG, "Upgrading to DB Version 3...");
 				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.COL_NAME_FIXED + " int;");
 				// nobreak
-
+			case 3:
+				Log.w(LOG_TAG, "Upgrading to DB Version 3...");
+				db
+						.execSQL("create unique index dayref_idx on " + Days.TABLE_NAME + " (" + Days.COL_NAME_DAYREF
+								+ "); ");
 
 
 			default:

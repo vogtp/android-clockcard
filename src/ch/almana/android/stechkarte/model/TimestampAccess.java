@@ -311,7 +311,11 @@ public class TimestampAccess implements IAccess {
 	public void insert(Timestamp timestamp) {
 		Toast.makeText(context, timestamp.getTimestampTypeAsString(context) + ": " + timestamp.formatTime(),
 				Toast.LENGTH_LONG).show();
-		insert(Timestamps.CONTENT_URI, timestamp.getValues());
+		Uri uri = insert(Timestamps.CONTENT_URI, timestamp.getValues());
+		long id = ContentUris.parseId(uri);
+		if (id > 0) {
+			timestamp.setId(id);
+		}
 		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 	}
 

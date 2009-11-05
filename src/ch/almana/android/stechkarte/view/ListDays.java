@@ -78,6 +78,16 @@ public class ListDays extends ListActivity {
 					float overtime = d.getHoursWorked() - d.getHoursTarget();
 					tv.setText(Formater.formatHourMinFromHours(overtime));
 					return true;
+				} else if (columnIndex == DB.Days.COL_INDEX_HOURS_WORKED) {
+					Day d = new Day(cursor);
+					((TextView) view.findViewById(R.id.TextViewHoursWorked)).setText(Formater.formatHourMinFromHours(d
+							.getHoursWorked()));
+					return true;
+				} else if (columnIndex == DB.Days.COL_INDEX_HOURS_TARGET) {
+					Day d = new Day(cursor);
+					((TextView) view.findViewById(R.id.TextViewHoursTarget)).setText(Formater.formatHourMinFromHours(d
+							.getHoursTarget()));
+					return true;
 				}
 				return false;
 			}

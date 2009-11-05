@@ -16,7 +16,7 @@ public class Timestamp {
 
 	private long timestamp;
 	private int timestampType;
-	private int id = -1;
+	private long id = -1;
 	private long dayRef;
 	private Calendar cal;
 
@@ -39,13 +39,13 @@ public class Timestamp {
 		super();
 		this.timestamp = values.getAsLong(Timestamps.COL_NAME_TIMESTAMP);
 		this.timestampType = values.getAsInteger(Timestamps.COL_NAME_TIMESTAMP_TYPE);
-		this.id = values.getAsInteger(DB.COL_NAME_ID);
+		this.id = values.getAsLong(DB.COL_NAME_ID);
 		this.dayRef = values.getAsLong(DB.Timestamps.COL_NAME_DAYREF);
 	}
 
 	public Timestamp(Cursor cursor) {
 		super();
-		this.id = cursor.getInt(DB.COL_INDEX_ID);
+		this.id = cursor.getLong(DB.COL_INDEX_ID);
 		this.timestamp = cursor.getLong(Timestamps.COL_INDEX_TIMESTAMP);
 		this.timestampType = cursor.getInt(Timestamps.COL_INDEX_TIMESTAMP_TYPE);
 		if (!cursor.isNull(DB.Timestamps.COL_INDEX_DAYREF)) {
@@ -90,6 +90,11 @@ public class Timestamp {
 		return values;
 	}
 
+	@Override
+	public String toString() {
+		return formatTime();
+	}
+
 	private static SimpleDateFormat simpleDatetimeFormat = new SimpleDateFormat("HH:mm (dd.MM.yyyy)");
 	public static String formatTime(long time) {
 		Calendar calendar = Calendar.getInstance();
@@ -119,6 +124,8 @@ public class Timestamp {
 	public void setHour(int hourOfDay) {
 		Calendar c = getCalendar();
 		c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		timestamp = c.getTimeInMillis();
 	}
 
@@ -126,6 +133,8 @@ public class Timestamp {
 	public void setMinute(int minute) {
 		Calendar c = getCalendar();
 		c.set(Calendar.MINUTE, minute);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		timestamp = c.getTimeInMillis();
 	}
 
@@ -181,6 +190,8 @@ public class Timestamp {
 	public void setYear(int year) {
 		Calendar c = getCalendar();
 		c.set(Calendar.YEAR, year);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		timestamp = c.getTimeInMillis();
 
 	}
@@ -189,6 +200,8 @@ public class Timestamp {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(timestamp);
 		c.set(Calendar.MONTH, monthOfYear);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		timestamp = c.getTimeInMillis();
 	}
 
@@ -196,10 +209,12 @@ public class Timestamp {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(timestamp);
 		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		timestamp = c.getTimeInMillis();
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -214,5 +229,9 @@ public class Timestamp {
 
 	public void setDayRef(long dayRef) {
 		this.dayRef = dayRef;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }
