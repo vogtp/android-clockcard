@@ -88,7 +88,7 @@ public class TimestampAccess implements IAccess {
 			case ACTION_ADDLAST_ADD:
 				insert(timestamp);
 				Intent i = new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI);
-				i.putExtra(Timestamps.COL_NAME_TIMESTAMP_TYPE, Timestamp.invertTimestampType(timestamp));
+				i.putExtra(Timestamps.NAME_TIMESTAMP_TYPE, Timestamp.invertTimestampType(timestamp));
 				context.startActivity(i);
 				break;
 
@@ -116,7 +116,7 @@ public class TimestampAccess implements IAccess {
 
 		case TIMESTAMP_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.delete(DB.Timestamps.TABLE_NAME, DB.COL_NAME_ID + "=" + noteId
+			count = db.delete(DB.Timestamps.TABLE_NAME, DB.NAME_ID + "=" + noteId
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
@@ -213,7 +213,7 @@ public class TimestampAccess implements IAccess {
 			break;
 
 		case TIMESTAMP_ID:
-			qb.appendWhere(DB.COL_NAME_ID + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(DB.NAME_ID + "=" + uri.getPathSegments().get(1));
 			break;
 
 		default:
@@ -249,7 +249,7 @@ public class TimestampAccess implements IAccess {
 
 		case TIMESTAMP_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.update(DB.Timestamps.TABLE_NAME, values, DB.COL_NAME_ID + "=" + noteId
+			count = db.update(DB.Timestamps.TABLE_NAME, values, DB.NAME_ID + "=" + noteId
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
@@ -320,7 +320,7 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public void update(Timestamp timestamp) {
-		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.COL_NAME_ID + "=" + timestamp.getId(), null);
+		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.NAME_ID + "=" + timestamp.getId(), null);
 		DayAccess.getInstance(getContext()).recalculate(getContext(), timestamp.getDayRef());
 	}
 
@@ -355,7 +355,7 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public Timestamp getTimestampById(long id) {
-		Cursor c = query(DB.COL_NAME_ID + "=" + id);
+		Cursor c = query(DB.NAME_ID + "=" + id);
 		if (c.moveToFirst()) {
 			Timestamp ts = new Timestamp(c);
 			c.close();

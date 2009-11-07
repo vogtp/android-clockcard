@@ -41,15 +41,15 @@ public class Day {
 
 	public Day(Cursor c) {
 		super();
-		id = c.getLong(DB.COL_INDEX_ID);
-		dayRef = c.getLong(Days.COL_INDEX_DAYREF);
-		hoursWorked = c.getFloat(Days.COL_INDEX_HOURS_WORKED);
-		hoursTarget = c.getFloat(Days.COL_INDEX_HOURS_TARGET);
-		holyday = c.getFloat(Days.COL_INDEX_HOLIDAY);
-		holydayLeft = c.getFloat(Days.COL_INDEX_HOLIDAY_LEFT);
-		overtime = c.getFloat(Days.COL_INDEX_OVERTIME);
-		setError(c.getInt(Days.COL_INDEX_ERROR));
-		setFixed(c.getInt(Days.COL_INDEX_FIXED));
+		id = c.getLong(DB.INDEX_ID);
+		dayRef = c.getLong(Days.INDEX_DAYREF);
+		hoursWorked = c.getFloat(Days.INDEX_HOURS_WORKED);
+		hoursTarget = c.getFloat(Days.INDEX_HOURS_TARGET);
+		holyday = c.getFloat(Days.INDEX_HOLIDAY);
+		holydayLeft = c.getFloat(Days.INDEX_HOLIDAY_LEFT);
+		overtime = c.getFloat(Days.INDEX_OVERTIME);
+		setError(c.getInt(Days.INDEX_ERROR));
+		setFixed(c.getInt(Days.INDEX_FIXED));
 
 	}
 
@@ -62,45 +62,45 @@ public class Day {
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
 		if (id > -1) {
-			values.put(DB.COL_NAME_ID, id);
+			values.put(DB.NAME_ID, id);
 		}
-		values.put(Days.COL_NAME_DAYREF, getDayRef());
-		values.put(Days.COL_NAME_HOURS_WORKED, getHoursWorked());
-		values.put(Days.COL_NAME_HOURS_TARGET, getHoursTarget());
-		values.put(Days.COL_NAME_HOLIDAY, getHolyday());
-		values.put(Days.COL_NAME_HOLIDAY_LEFT, getHolydayLeft());
-		values.put(Days.COL_NAME_OVERTIME, getOvertime());
-		values.put(Days.COL_NAME_ERROR, getError());
-		values.put(Days.COL_NAME_FIXED, getFixed());
+		values.put(Days.NAME_DAYREF, getDayRef());
+		values.put(Days.NAME_HOURS_WORKED, getHoursWorked());
+		values.put(Days.NAME_HOURS_TARGET, getHoursTarget());
+		values.put(Days.NAME_HOLIDAY, getHolyday());
+		values.put(Days.NAME_HOLIDAY_LEFT, getHolydayLeft());
+		values.put(Days.NAME_OVERTIME, getOvertime());
+		values.put(Days.NAME_ERROR, getError());
+		values.put(Days.NAME_FIXED, getFixed());
 		return values;
 	}
 
 	public void saveToBundle(Bundle bundle) {
 		if (id > -1) {
-			bundle.putLong(DB.COL_NAME_ID, id);
+			bundle.putLong(DB.NAME_ID, id);
 		} else {
-			bundle.putLong(DB.COL_NAME_ID, -1);
+			bundle.putLong(DB.NAME_ID, -1);
 		}
-		bundle.putLong(Days.COL_NAME_DAYREF, getDayRef());
-		bundle.putFloat(Days.COL_NAME_HOURS_WORKED, getHoursWorked());
-		bundle.putFloat(Days.COL_NAME_HOURS_TARGET, getHoursTarget());
-		bundle.putFloat(Days.COL_NAME_HOLIDAY, getHolyday());
-		bundle.putFloat(Days.COL_NAME_HOLIDAY_LEFT, getHolydayLeft());
-		bundle.putFloat(Days.COL_NAME_OVERTIME, getOvertime());
-		bundle.putInt(Days.COL_NAME_ERROR, getError());
-		bundle.putInt(Days.COL_NAME_FIXED, getFixed());
+		bundle.putLong(Days.NAME_DAYREF, getDayRef());
+		bundle.putFloat(Days.NAME_HOURS_WORKED, getHoursWorked());
+		bundle.putFloat(Days.NAME_HOURS_TARGET, getHoursTarget());
+		bundle.putFloat(Days.NAME_HOLIDAY, getHolyday());
+		bundle.putFloat(Days.NAME_HOLIDAY_LEFT, getHolydayLeft());
+		bundle.putFloat(Days.NAME_OVERTIME, getOvertime());
+		bundle.putInt(Days.NAME_ERROR, getError());
+		bundle.putInt(Days.NAME_FIXED, getFixed());
 	}
 
 	public void readFromBundle(Bundle bundle) {
-		id = bundle.getLong(DB.COL_NAME_ID);
-		dayRef = bundle.getLong(Days.COL_NAME_DAYREF);
-		hoursWorked = bundle.getFloat(Days.COL_NAME_HOURS_WORKED);
-		hoursTarget = bundle.getFloat(Days.COL_NAME_HOURS_TARGET);
-		holyday = bundle.getFloat(Days.COL_NAME_HOLIDAY);
-		holydayLeft = bundle.getFloat(Days.COL_NAME_HOLIDAY_LEFT);
-		overtime = bundle.getFloat(Days.COL_NAME_OVERTIME);
-		setError(bundle.getInt(Days.COL_NAME_ERROR));
-		setFixed(bundle.getInt(Days.COL_NAME_FIXED));
+		id = bundle.getLong(DB.NAME_ID);
+		dayRef = bundle.getLong(Days.NAME_DAYREF);
+		hoursWorked = bundle.getFloat(Days.NAME_HOURS_WORKED);
+		hoursTarget = bundle.getFloat(Days.NAME_HOURS_TARGET);
+		holyday = bundle.getFloat(Days.NAME_HOLIDAY);
+		holydayLeft = bundle.getFloat(Days.NAME_HOLIDAY_LEFT);
+		overtime = bundle.getFloat(Days.NAME_OVERTIME);
+		setError(bundle.getInt(Days.NAME_ERROR));
+		setFixed(bundle.getInt(Days.NAME_FIXED));
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class Day {
 	}
 
 	public Cursor getTimestamps(Context context) {
-		return TimestampAccess.getInstance(context).query(Timestamps.COL_NAME_DAYREF + "=" + dayRef,
+		return TimestampAccess.getInstance(context).query(Timestamps.NAME_DAYREF + "=" + dayRef,
 				Timestamps.REVERSE_SORTORDER);
 	}
 

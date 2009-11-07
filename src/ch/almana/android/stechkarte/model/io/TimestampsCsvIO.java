@@ -86,8 +86,8 @@ public class TimestampsCsvIO {
 			readHeaderLine();
 			ContentValues values = new ContentValues();
 			while (readDataLine(values)) {
-				Cursor c = timestampAccess.query(DB.Timestamps.COL_NAME_TIMESTAMP + "="
-						+ values.getAsLong(DB.Timestamps.COL_NAME_TIMESTAMP));
+				Cursor c = timestampAccess.query(DB.Timestamps.NAME_TIMESTAMP + "="
+						+ values.getAsLong(DB.Timestamps.NAME_TIMESTAMP));
 				if (!c.moveToFirst()) {
 					timestampAccess.insert(DB.Timestamps.CONTENT_URI, values);
 				}
@@ -178,7 +178,7 @@ public class TimestampsCsvIO {
 		}
 		for (int i = 1; i < values.length; i++) {
 			String columnName = columnNames[i];
-			if (DB.COL_NAME_ID.equals(columnName)) {
+			if (DB.NAME_ID.equals(columnName)) {
 				continue;
 			}
 			contentValues.put(columnName, values[i]);
@@ -191,7 +191,7 @@ public class TimestampsCsvIO {
 		sb.append(HEADER_LINEINDICATOR).append(SEPARATOR);
 		for (int i = 0; i < c.getColumnCount(); i++) {
 			String columnName = c.getColumnName(i);
-			if (DB.COL_NAME_ID.equals(columnName)) {
+			if (DB.NAME_ID.equals(columnName)) {
 				continue;
 			}
 			sb.append(columnName);
@@ -206,7 +206,7 @@ public class TimestampsCsvIO {
 		sb.append(DATA_LINEINDICATOR).append(SEPARATOR);
 		for (int i = 0; i < c.getColumnCount(); i++) {
 			String columnName = c.getColumnName(i);
-			if (DB.COL_NAME_ID.equals(columnName)) {
+			if (DB.NAME_ID.equals(columnName)) {
 				continue;
 			}
 			sb.append(c.getString(i));

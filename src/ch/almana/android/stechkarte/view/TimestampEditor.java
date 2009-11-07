@@ -36,7 +36,7 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (Intent.ACTION_INSERT.equals(action)) {
-			int type = getIntent().getIntExtra(Timestamps.COL_NAME_TIMESTAMP_TYPE, 0);
+			int type = getIntent().getIntExtra(Timestamps.NAME_TIMESTAMP_TYPE, 0);
 			timestamp = new Timestamp(System.currentTimeMillis(), type);
 		} else if (Intent.ACTION_EDIT.equals(action)) {
 			Cursor c = managedQuery(intent.getData(), Timestamps.DEFAULT_PROJECTION, null, null, null);

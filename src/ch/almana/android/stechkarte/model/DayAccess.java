@@ -74,7 +74,7 @@ public class DayAccess implements IAccess {
 
 		case DAY_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.delete(Days.TABLE_NAME, DB.COL_NAME_ID + "=" + noteId
+			count = db.delete(Days.TABLE_NAME, DB.NAME_ID + "=" + noteId
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
@@ -113,7 +113,7 @@ public class DayAccess implements IAccess {
 			values = new ContentValues();
 		}
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		long rowId = db.insert(Days.TABLE_NAME, Days.COL_NAME_DAYREF, values);
+		long rowId = db.insert(Days.TABLE_NAME, Days.NAME_DAYREF, values);
 		if (rowId > 0) {
 			Uri retUri = ContentUris.withAppendedId(Days.CONTENT_URI, rowId);
 			getContext().getContentResolver().notifyChange(retUri, null);
@@ -134,7 +134,7 @@ public class DayAccess implements IAccess {
 			break;
 
 		case DAY_ID:
-			qb.appendWhere(DB.COL_NAME_ID + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(DB.NAME_ID + "=" + uri.getPathSegments().get(1));
 			break;
 
 		default:
@@ -170,7 +170,7 @@ public class DayAccess implements IAccess {
 
 		case DAY_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.update(Days.TABLE_NAME, values, DB.COL_NAME_ID + "=" + noteId
+			count = db.update(Days.TABLE_NAME, values, DB.NAME_ID + "=" + noteId
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
@@ -192,7 +192,7 @@ public class DayAccess implements IAccess {
 	public boolean hasDayRef(long dayref) {
 		Cursor c = null;
 		try {
-			c = query(Days.CONTENT_URI, DB.Days.PROJECTTION_DAYREF, DB.Days.COL_NAME_DAYREF + "=" + dayref, null,
+			c = query(Days.CONTENT_URI, DB.Days.PROJECTTION_DAYREF, DB.Days.NAME_DAYREF + "=" + dayref, null,
 					DB.Days.DEFAULT_SORTORDER);
 			return c.moveToFirst();
 		} finally {
@@ -214,7 +214,7 @@ public class DayAccess implements IAccess {
 
 	public Day getOrCreateDay(long dayref) {
 		Day d;
-		Cursor c = query(Days.COL_NAME_DAYREF + "=" + dayref);
+		Cursor c = query(Days.NAME_DAYREF + "=" + dayref);
 		if (c.moveToFirst()) {
 			d = new Day(c);
 		} else {
@@ -233,7 +233,7 @@ public class DayAccess implements IAccess {
 	}
 
 	public void update(Day day) {
-		update(Days.CONTENT_URI, day.getValues(), DB.COL_NAME_ID + "=" + day.getId(), null);
+		update(Days.CONTENT_URI, day.getValues(), DB.NAME_ID + "=" + day.getId(), null);
 	}
 
 	/**
@@ -242,9 +242,9 @@ public class DayAccess implements IAccess {
 	 */
 	public void recalculateDayFromTimestamp(Timestamp timestamp) {
 		String selection = null;
-		String dayDeleteSelection = DB.Days.COL_NAME_FIXED + "=0";
+		String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
 		if (timestamp != null) {
-			selection = DB.COL_NAME_ID + "=" + timestamp.getId();
+			selection = DB.NAME_ID + "=" + timestamp.getId();
 			dayDeleteSelection = dayDeleteSelection + " and " + selection;
 		}
 		DayAccess dayAccess = DayAccess.getInstance(getContext());
@@ -264,7 +264,7 @@ public class DayAccess implements IAccess {
 				Log.i(LOG_TAG, "Added day " + dayref+" for recalculation");
 			}
 			ts.setDayRef(dayref);
-			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.COL_NAME_ID + "=" + ts.getId(), null);
+			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
 		}
 		c.close();
 		Iterator<Long> iterator = dayRefs.iterator();
@@ -280,7 +280,7 @@ public class DayAccess implements IAccess {
 	 */
 	private Day getDayBefore(Day currentDay) {
 		Day d = null;
-		Cursor c = query(Days.COL_NAME_DAYREF + "<" + currentDay.getDayRef(), Days.DEFAULT_SORTORDER);
+		Cursor c = query(Days.NAME_DAYREF + "<" + currentDay.getDayRef(), Days.DEFAULT_SORTORDER);
 		if (c.moveToFirst()) {
 			d = new Day(c);
 		}

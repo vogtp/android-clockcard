@@ -37,19 +37,19 @@ public class Timestamp {
 
 	public Timestamp(ContentValues values) {
 		super();
-		this.timestamp = values.getAsLong(Timestamps.COL_NAME_TIMESTAMP);
-		this.timestampType = values.getAsInteger(Timestamps.COL_NAME_TIMESTAMP_TYPE);
-		this.id = values.getAsLong(DB.COL_NAME_ID);
-		this.dayRef = values.getAsLong(DB.Timestamps.COL_NAME_DAYREF);
+		this.timestamp = values.getAsLong(Timestamps.NAME_TIMESTAMP);
+		this.timestampType = values.getAsInteger(Timestamps.NAME_TIMESTAMP_TYPE);
+		this.id = values.getAsLong(DB.NAME_ID);
+		this.dayRef = values.getAsLong(DB.Timestamps.NAME_DAYREF);
 	}
 
 	public Timestamp(Cursor cursor) {
 		super();
-		this.id = cursor.getLong(DB.COL_INDEX_ID);
-		this.timestamp = cursor.getLong(Timestamps.COL_INDEX_TIMESTAMP);
-		this.timestampType = cursor.getInt(Timestamps.COL_INDEX_TIMESTAMP_TYPE);
-		if (!cursor.isNull(DB.Timestamps.COL_INDEX_DAYREF)) {
-			this.dayRef = cursor.getLong(DB.Timestamps.COL_INDEX_DAYREF);
+		this.id = cursor.getLong(DB.INDEX_ID);
+		this.timestamp = cursor.getLong(Timestamps.INDEX_TIMESTAMP);
+		this.timestampType = cursor.getInt(Timestamps.INDEX_TIMESTAMP_TYPE);
+		if (!cursor.isNull(DB.Timestamps.INDEX_DAYREF)) {
+			this.dayRef = cursor.getLong(DB.Timestamps.INDEX_DAYREF);
 		}
 	}
 
@@ -82,11 +82,11 @@ public class Timestamp {
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
 		if (id > -1) {
-			values.put(DB.COL_NAME_ID, id);
+			values.put(DB.NAME_ID, id);
 		}
-		values.put(Timestamps.COL_NAME_TIMESTAMP, getTimestamp());
-		values.put(Timestamps.COL_NAME_TIMESTAMP_TYPE, getTimestampType());
-		values.put(Timestamps.COL_NAME_DAYREF, getDayRef());
+		values.put(Timestamps.NAME_TIMESTAMP, getTimestamp());
+		values.put(Timestamps.NAME_TIMESTAMP_TYPE, getTimestampType());
+		values.put(Timestamps.NAME_DAYREF, getDayRef());
 		return values;
 	}
 

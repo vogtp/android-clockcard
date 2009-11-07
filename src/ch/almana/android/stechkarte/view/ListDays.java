@@ -49,8 +49,8 @@ public class ListDays extends ListActivity {
 		Cursor cursor = DayAccess.getInstance(this).query(null);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
-				DB.Days.COL_NAME_DAYREF, DB.Days.COL_NAME_HOURS_WORKED, DB.Days.COL_NAME_OVERTIME,
-				DB.Days.COL_NAME_HOURS_TARGET, DB.Days.COL_NAME_HOLIDAY, DB.Days.COL_NAME_HOLIDAY_LEFT },
+				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME,
+				DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT },
  new int[] {
 				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
 				R.id.TextViewHoliday, R.id.TextViewHolidaysLeft });
@@ -61,7 +61,7 @@ public class ListDays extends ListActivity {
 				if (cursor == null) {
 					return false;
 				}
-				if (columnIndex == DB.Days.COL_INDEX_DAYREF) {
+				if (columnIndex == DB.Days.INDEX_DAYREF) {
 					Day d = new Day(cursor);
 					int color = Color.GREEN;
 					if (d.isError()) {
@@ -70,7 +70,7 @@ public class ListDays extends ListActivity {
 					TextView errorView = (TextView) view.findViewById(R.id.TextViewDayRef);
 					errorView.setTextColor(color);
 					// since we do not set the dayref no: return true;
-				} else if (columnIndex == DB.Days.COL_INDEX_OVERTIME) {
+				} else if (columnIndex == DB.Days.INDEX_OVERTIME) {
 					Day d = new Day(cursor);
 					((TextView) view.findViewById(R.id.TextViewOvertime)).setText(Formater.formatHourMinFromHours(d
 							.getOvertime()));
@@ -78,12 +78,12 @@ public class ListDays extends ListActivity {
 					float overtime = d.getHoursWorked() - d.getHoursTarget();
 					tv.setText(Formater.formatHourMinFromHours(overtime));
 					return true;
-				} else if (columnIndex == DB.Days.COL_INDEX_HOURS_WORKED) {
+				} else if (columnIndex == DB.Days.INDEX_HOURS_WORKED) {
 					Day d = new Day(cursor);
 					((TextView) view.findViewById(R.id.TextViewHoursWorked)).setText(Formater.formatHourMinFromHours(d
 							.getHoursWorked()));
 					return true;
-				} else if (columnIndex == DB.Days.COL_INDEX_HOURS_TARGET) {
+				} else if (columnIndex == DB.Days.INDEX_HOURS_TARGET) {
 					Day d = new Day(cursor);
 					((TextView) view.findViewById(R.id.TextViewHoursTarget)).setText(Formater.formatHourMinFromHours(d
 							.getHoursTarget()));

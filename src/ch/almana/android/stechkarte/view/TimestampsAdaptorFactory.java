@@ -41,14 +41,14 @@ public class TimestampsAdaptorFactory implements OnCreateContextMenuListener, On
 		this.listview = timestamps;
 		String selection = null;
 		if (dayRef > 0) {
-			selection = DB.Days.COL_NAME_DAYREF + "=" + dayRef;
+			selection = DB.Days.NAME_DAYREF + "=" + dayRef;
 		}
 
 		context = timestamps.getContext();
 		Cursor cursor = TimestampAccess.getInstance(context).query(selection);
 		// Used to map notes entries from the database to views
 		adapter = new SimpleCursorAdapter(context, R.layout.timestamplist_item, cursor, new String[] {
-				Timestamps.COL_NAME_TIMESTAMP, Timestamps.COL_NAME_TIMESTAMP_TYPE }, new int[] {
+				Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
 				R.id.TextViewTimestamp, R.id.TextViewTimestampType });
 		adapter.setViewBinder(new ViewBinder() {
 
@@ -57,13 +57,13 @@ public class TimestampsAdaptorFactory implements OnCreateContextMenuListener, On
 				if (cursor == null) {
 					return false;
 				}
-				if (columnIndex == Timestamps.COL_INDEX_TIMESTAMP) {
+				if (columnIndex == Timestamps.INDEX_TIMESTAMP) {
 					TextView ts = (TextView) view.findViewById(R.id.TextViewTimestamp);
-					long time = cursor.getLong(Timestamps.COL_INDEX_TIMESTAMP);
+					long time = cursor.getLong(Timestamps.INDEX_TIMESTAMP);
 					ts.setText(Timestamp.formatTime(time));
-				} else if (columnIndex == Timestamps.COL_INDEX_TIMESTAMP_TYPE) {
+				} else if (columnIndex == Timestamps.INDEX_TIMESTAMP_TYPE) {
 					String txt = "unknown";
-					int type = cursor.getInt(Timestamps.COL_INDEX_TIMESTAMP_TYPE);
+					int type = cursor.getInt(Timestamps.INDEX_TIMESTAMP_TYPE);
 					if (type == Timestamp.TYPE_IN) {
 						txt = " IN";
 					} else if (type == Timestamp.TYPE_OUT) {
