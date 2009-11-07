@@ -3,6 +3,7 @@ package ch.almana.android.stechkarte.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import ch.almana.android.stechkarte.model.DB.Days;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 
@@ -26,6 +27,7 @@ public class Day {
 	}
 
 	public Day(Day day) {
+		super();
 		id = day.id;
 		dayRef = day.dayRef;
 		hoursWorked = day.hoursWorked;
@@ -38,6 +40,7 @@ public class Day {
 	}
 
 	public Day(Cursor c) {
+		super();
 		id = c.getLong(DB.COL_INDEX_ID);
 		dayRef = c.getLong(Days.COL_INDEX_DAYREF);
 		hoursWorked = c.getFloat(Days.COL_INDEX_HOURS_WORKED);
@@ -50,6 +53,11 @@ public class Day {
 
 	}
 
+
+	public Day(Bundle instanceState) {
+		super();
+		readFromBundle(instanceState);
+	}
 
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
@@ -65,6 +73,46 @@ public class Day {
 		values.put(Days.COL_NAME_ERROR, getError());
 		values.put(Days.COL_NAME_FIXED, getFixed());
 		return values;
+	}
+
+	public void saveToBundle(Bundle bundle) {
+		if (id > -1) {
+			bundle.putLong(DB.COL_NAME_ID, id);
+		} else {
+			bundle.putLong(DB.COL_NAME_ID, -1);
+		}
+		bundle.putLong(Days.COL_NAME_DAYREF, getDayRef());
+		bundle.putFloat(Days.COL_NAME_HOURS_WORKED, getHoursWorked());
+		bundle.putFloat(Days.COL_NAME_HOURS_TARGET, getHoursTarget());
+		bundle.putFloat(Days.COL_NAME_HOLIDAY, getHolyday());
+		bundle.putFloat(Days.COL_NAME_HOLIDAY_LEFT, getHolydayLeft());
+		bundle.putFloat(Days.COL_NAME_OVERTIME, getOvertime());
+		bundle.putInt(Days.COL_NAME_ERROR, getError());
+		bundle.putInt(Days.COL_NAME_FIXED, getFixed());
+	}
+
+	public void readFromBundle(Bundle bundle) {
+		id = bundle.getLong(DB.COL_NAME_ID);
+		dayRef = bundle.getLong(Days.COL_NAME_DAYREF);
+		hoursWorked = bundle.getFloat(Days.COL_NAME_HOURS_WORKED);
+		hoursTarget = bundle.getFloat(Days.COL_NAME_HOURS_TARGET);
+		holyday = bundle.getFloat(Days.COL_NAME_HOLIDAY);
+		holydayLeft = bundle.getFloat(Days.COL_NAME_HOLIDAY_LEFT);
+		overtime = bundle.getFloat(Days.COL_NAME_OVERTIME);
+		setError(bundle.getInt(Days.COL_NAME_ERROR));
+		setFixed(bundle.getInt(Days.COL_NAME_FIXED));
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Day) {
+			Day day = (Day) o;
+
+			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday
+					&& holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
+					&& hoursWorked == day.hoursWorked && overtime == day.overtime;
+		}
+		return super.equals(o);
 	}
 
 	public Cursor getTimestamps(Context context) {
@@ -159,18 +207,6 @@ public class Day {
 
 	public int getFixed() {
 		return fixed ? 1 : 0;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Day) {
-			Day day = (Day) o;
-
-			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday
-					&& holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
-					&& hoursWorked == day.hoursWorked && overtime == day.overtime;
-		}
-		return super.equals(o);
 	}
 
 	public String getDayString() {

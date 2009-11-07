@@ -364,4 +364,5 @@ public class DayAccess implements IAccess {
 			sProjectionMap.put(col, col);
 		}
 	}
+
 }

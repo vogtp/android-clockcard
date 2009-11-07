@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
@@ -36,8 +37,15 @@ public class DayEditor extends Activity {
 
 		Intent intent = getIntent();
 		String action = intent.getAction();
-		if (Intent.ACTION_INSERT.equals(action)) {
-			day = new Day(20091101);
+		if (savedInstanceState != null) {
+			Log.w(Logger.LOG_TAG, "Reading day information from savedInstanceState");
+			if (day != null) {
+				day.readFromBundle(savedInstanceState);
+			} else {
+				day = new Day(savedInstanceState);
+			}
+		} else if (Intent.ACTION_INSERT.equals(action)) {
+			day = new Day(20091101); // FIXME get today
 		} else if (Intent.ACTION_EDIT.equals(action)) {
 			Cursor c = managedQuery(intent.getData(), DB.Days.DEFAULT_PROJECTION, null, null, null);
 			if (c.moveToFirst()) {
@@ -109,8 +117,19 @@ public class DayEditor extends Activity {
 		DayAccess.getInstance(this).recalculate(this, day);
 	}
 
-	public void OnClick(View view) {
-		// TODO Auto-generated method stub
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		day.saveToBundle(outState);
+		super.onSaveInstanceState(outState);
+	}
 
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		if (day != null) {
+			day.readFromBundle(savedInstanceState);
+		} else {
+			day = new Day(savedInstanceState);
+		}
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 }
