@@ -7,6 +7,7 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
@@ -35,7 +37,14 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		setContentView(R.layout.timestamp_editor);
 		Intent intent = getIntent();
 		String action = intent.getAction();
-		if (Intent.ACTION_INSERT.equals(action)) {
+		if (savedInstanceState != null) {
+			Log.w(Logger.LOG_TAG, "Reading timestamp information from savedInstanceState");
+			if (timestamp != null) {
+				timestamp.readFromBundle(savedInstanceState);
+			} else {
+				timestamp = new Timestamp(savedInstanceState);
+			}
+		} else if (Intent.ACTION_INSERT.equals(action)) {
 			int type = getIntent().getIntExtra(Timestamps.NAME_TIMESTAMP_TYPE, 0);
 			timestamp = new Timestamp(System.currentTimeMillis(), type);
 		} else if (Intent.ACTION_EDIT.equals(action)) {
@@ -131,6 +140,22 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 			TimestampAccess access = TimestampAccess.getInstance(getApplicationContext());
 			access.update(timestamp);
 		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		timestamp.saveToBundle(outState);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		if (timestamp != null) {
+			timestamp.readFromBundle(savedInstanceState);
+		} else {
+			timestamp = new Timestamp(savedInstanceState);
+		}
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 }

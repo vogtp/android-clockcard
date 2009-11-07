@@ -6,6 +6,7 @@ import java.util.Calendar;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 
@@ -54,10 +55,44 @@ public class Timestamp {
 	}
 
 	public Timestamp(Timestamp timestamp) {
+		super();
 		this.timestamp = timestamp.getTimestamp();
 		this.timestampType = timestamp.timestampType;
 		this.id = timestamp.id;
 		this.dayRef = timestamp.dayRef;
+	}
+
+	public Timestamp(Bundle savedInstanceState) {
+		super();
+		readFromBundle(savedInstanceState);
+	}
+
+	public ContentValues getValues() {
+		ContentValues values = new ContentValues();
+		if (id > -1) {
+			values.put(DB.NAME_ID, id);
+		}
+		values.put(Timestamps.NAME_TIMESTAMP, getTimestamp());
+		values.put(Timestamps.NAME_TIMESTAMP_TYPE, getTimestampType());
+		values.put(Timestamps.NAME_DAYREF, getDayRef());
+		return values;
+	}
+
+	public void saveToBundle(Bundle bundle) {
+		if (id > -1) {
+			bundle.putLong(DB.NAME_ID, id);
+		} else {
+			bundle.putLong(DB.NAME_ID, -1);
+		}
+		bundle.putLong(Timestamps.NAME_TIMESTAMP, getTimestamp());
+		bundle.putInt(Timestamps.NAME_TIMESTAMP_TYPE, getTimestampType());
+		bundle.putLong(Timestamps.NAME_DAYREF, getDayRef());
+	}
+
+	public void readFromBundle(Bundle bundle) {
+		timestamp = bundle.getLong(Timestamps.NAME_TIMESTAMP);
+		timestampType = bundle.getInt(Timestamps.NAME_TIMESTAMP_TYPE);
+		dayRef = bundle.getLong(Timestamps.NAME_DAYREF);
 	}
 
 	public long getTimestamp() {
@@ -79,16 +114,6 @@ public class Timestamp {
 		this.timestampType = timestampType;
 	}
 
-	public ContentValues getValues() {
-		ContentValues values = new ContentValues();
-		if (id > -1) {
-			values.put(DB.NAME_ID, id);
-		}
-		values.put(Timestamps.NAME_TIMESTAMP, getTimestamp());
-		values.put(Timestamps.NAME_TIMESTAMP_TYPE, getTimestampType());
-		values.put(Timestamps.NAME_DAYREF, getDayRef());
-		return values;
-	}
 
 	@Override
 	public String toString() {
@@ -234,4 +259,5 @@ public class Timestamp {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 }
