@@ -34,9 +34,11 @@ public class TimestampsAdaptorFactory implements OnCreateContextMenuListener, On
 
 	private Context context;
 
+	private ListView listview;
+
 	public TimestampsAdaptorFactory(ListView timestamps, long dayRef) {
 		super();
-
+		this.listview = timestamps;
 		String selection = null;
 		if (dayRef > 0) {
 			selection = DB.Days.COL_NAME_DAYREF + "=" + dayRef;
@@ -136,6 +138,10 @@ public class TimestampsAdaptorFactory implements OnCreateContextMenuListener, On
 		// TODO Auto-generated method stub
 		Uri uri = ContentUris.withAppendedId(DB.Timestamps.CONTENT_URI, id);
 		context.startActivity(new Intent(Intent.ACTION_EDIT, uri));
+	}
+
+	public void onResume() {
+		listview.setAdapter(getAdapter());
 	}
 
 }

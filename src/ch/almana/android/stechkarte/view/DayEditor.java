@@ -25,6 +25,7 @@ public class DayEditor extends Activity {
 	private EditText overtime;
 	private CheckBox fixed;
 	private TimestampsAdaptorFactory tsAdaptorFactory;
+	private ListView timestamps;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -52,8 +53,7 @@ public class DayEditor extends Activity {
 		overtime = (EditText) findViewById(R.id.EditTextOvertime);
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
 
-		// TODO ADD TIMESTAMPS
-		ListView timestamps = (ListView) findViewById(R.id.ListViewTimestamps);
+		timestamps = (ListView) findViewById(R.id.ListViewTimestamps);
 		tsAdaptorFactory = new TimestampsAdaptorFactory(timestamps, day.getDayRef());
 	}
 
@@ -61,6 +61,7 @@ public class DayEditor extends Activity {
 	protected void onResume() {
 		super.onResume();
 		updateFields();
+		tsAdaptorFactory.onResume();
 	}
 
 	private void updateFields() {
