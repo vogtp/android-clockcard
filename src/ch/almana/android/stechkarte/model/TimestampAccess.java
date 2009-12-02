@@ -287,8 +287,8 @@ public class TimestampAccess implements IAccess {
 		Timestamp lastTs = getLastTimestamp();
 		if (lastTs != null) {
 			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < MIN_TIMESTAMP_DIFF) {
-				String tsTime = timestamp.formatTime();
-				String ltsTime = lastTs.formatTime();
+				String tsTime = timestamp.toString();
+				String ltsTime = lastTs.toString();
 				Toast.makeText(
 						context,
 						"Difference betwenn current and last timestamp is too small!\n" + tsTime + "\n" + ltsTime
@@ -309,7 +309,7 @@ public class TimestampAccess implements IAccess {
 	}
 
 	public void insert(Timestamp timestamp) {
-		Toast.makeText(context, timestamp.getTimestampTypeAsString(context) + ": " + timestamp.formatTime(),
+		Toast.makeText(context, timestamp.getTimestampTypeAsString(context) + ": " + timestamp.toString(),
 				Toast.LENGTH_LONG).show();
 		Uri uri = insert(Timestamps.CONTENT_URI, timestamp.getValues());
 		long id = ContentUris.parseId(uri);

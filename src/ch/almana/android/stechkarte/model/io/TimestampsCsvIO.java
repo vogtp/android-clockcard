@@ -30,14 +30,13 @@ public class TimestampsCsvIO {
 	private static final String HEADER_LINEINDICATOR = "H";
 	private static final String DATA_LINEINDICATOR = "D";
 
-	private File path;
 	private BufferedWriter writer;
 	private BufferedReader reader;
 
 	private String[] columnNames;
 
 	public TimestampsCsvIO() {
-		this.path = new File(getPath());
+		File path = new File(getPath());
 		if (!path.isDirectory()) {
 			if (!path.mkdir()) {
 				Log.e(LOG_TAG, "Cannot create " + path.getAbsolutePath());
@@ -55,15 +54,16 @@ public class TimestampsCsvIO {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		String timeString = simpleDatetimeFormat.format(calendar.getTime());
-		return path.getAbsolutePath() + "timestamps" + timeString + ".csv";
+		return getPath() + "timestamps" + timeString + ".csv";
 	}
 
 	public void writeTimestamps(Cursor c) {
+		String filename = buildFilename();
 		try {
 			if (!c.moveToFirst()) {
 				return;
 			}
-			writer = new BufferedWriter(new FileWriter(buildFilename()));
+			writer = new BufferedWriter(new FileWriter(filename));
 			writeHeaderLine(c);
 			writeDataLine(c);
 			while (c.moveToNext()) {
@@ -71,13 +71,13 @@ public class TimestampsCsvIO {
 			}
 			writer.flush();
 		} catch (IOException e) {
-			Log.e(LOG_TAG, "Unable to process file " + buildFilename() + " for writing", e);
+			Log.e(LOG_TAG, "Unable to process file " + filename + " for writing", e);
 		} finally {
 			if (writer != null) {
 				try {
 					writer.close();
 				} catch (Exception e) {
-					Log.e(LOG_TAG, "Error to closing file " + buildFilename(), e);
+					Log.e(LOG_TAG, "Error to closing file " + filename, e);
 				}
 				writer = null;
 			}

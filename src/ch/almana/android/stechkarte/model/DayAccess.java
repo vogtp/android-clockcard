@@ -319,8 +319,8 @@ public class DayAccess implements IAccess {
 					Timestamp t2 = new Timestamp(c);
 					long diff = (t2.getTimestamp() - t1.getTimestamp());
 					worked = worked + diff;
-					Log.i(LOG_TAG, "Worked " + diff / HOURS_IN_MILLIES + " form " + t1.formatTime() + " to "
-							+ t2.formatTime());
+					Log.i(LOG_TAG, "Worked " + diff / HOURS_IN_MILLIES + " form " + t1.toString() + " to "
+							+ t2.toString());
 				} else {
 					error = true;
 				}

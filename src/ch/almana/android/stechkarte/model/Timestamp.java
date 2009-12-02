@@ -115,22 +115,28 @@ public class Timestamp {
 	}
 
 
-	@Override
-	public String toString() {
-		return formatTime();
+	private static SimpleDateFormat toStingDatetimeFormat = new SimpleDateFormat("HH:mm (dd.MM.yyyy)");
+
+	public static String timestampToString(long time) {
+		return formatTime(time, toStingDatetimeFormat);
 	}
 
-	private static SimpleDateFormat simpleDatetimeFormat = new SimpleDateFormat("HH:mm (dd.MM.yyyy)");
-	public static String formatTime(long time) {
+	private static String formatTime(long time, SimpleDateFormat datetimeFormat) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(time);
 
-		String timeString = simpleDatetimeFormat.format(calendar.getTime());
+		String timeString = datetimeFormat.format(calendar.getTime());
 		return timeString;
 	}
 
-	public String formatTime() {
-		return formatTime(getTimestamp());
+	@Override
+	public String toString() {
+		return timestampToString(getTimestamp());
+	}
+
+	private static SimpleDateFormat hmsDatetimeFormat = new SimpleDateFormat("HH:mm:ss");
+	public String getHMS() {
+		return formatTime(getTimestamp(), hmsDatetimeFormat);
 	}
 
 	public static int invertTimestampType(Timestamp timestamp) {
