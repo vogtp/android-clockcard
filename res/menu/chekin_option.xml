@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:title="@string/ButtonDayList" android:titleCondensed="@string/ButtonDayList" android:id="@+id/itemDaysList"></item>
+<item android:id="@+id/itemExportTimestamps" android:title="@string/ExportTImestamps" android:titleCondensed="@string/ExportTImestamps"></item>
+<item android:title="@+string/optionMore" android:titleCondensed="@+string/optionMore" android:id="@+id/optionMore"><menu><item android:titleCondensed="@string/ButtonTSList" android:title="@string/ButtonTSList" android:id="@+id/itemTimestampList"></item>
+<item android:id="@+id/itemReadInTimestmaps" android:titleCondensed="@string/ButtonReadTimestamps" android:title="@string/ButtonReadTimestamps"></item>
+</menu>
+</item>
+
+</menu>

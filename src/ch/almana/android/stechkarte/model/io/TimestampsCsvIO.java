@@ -12,6 +12,7 @@ import java.util.Calendar;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
@@ -20,7 +21,7 @@ import ch.almana.android.stechkarte.model.TimestampAccess;
 
 public class TimestampsCsvIO {
 
-	public static final String PATH = "/sdcard/stechkarte/";
+	public static final String DIRECTORY = "/stechkarte/";
 
 	private static final String LOG_TAG = Logger.LOG_TAG;
 
@@ -36,13 +37,16 @@ public class TimestampsCsvIO {
 	private String[] columnNames;
 
 	public TimestampsCsvIO() {
-		this.path = new File(PATH);
+		this.path = new File(getPath());
 		if (!path.isDirectory()) {
 			if (!path.mkdir()) {
-				// FIXME
-				Log.e(LOG_TAG, "Cannot create " + PATH);
+				Log.e(LOG_TAG, "Cannot create " + path.getAbsolutePath());
 			}
 		}
+	}
+
+	static public String getPath() {
+		return Environment.getExternalStorageDirectory().getAbsolutePath() + DIRECTORY;
 	}
 
 	private static SimpleDateFormat simpleDatetimeFormat = new SimpleDateFormat("yyyyMMdd");
@@ -51,7 +55,7 @@ public class TimestampsCsvIO {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		String timeString = simpleDatetimeFormat.format(calendar.getTime());
-		return PATH + "timestamps" + timeString + ".csv";
+		return path.getAbsolutePath() + "timestamps" + timeString + ".csv";
 	}
 
 	public void writeTimestamps(Cursor c) {

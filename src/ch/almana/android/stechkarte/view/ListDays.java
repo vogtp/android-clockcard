@@ -8,14 +8,19 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
@@ -43,6 +48,7 @@ public class ListDays extends ListActivity {
 		if (intent.getData() == null) {
 			intent.setData(Days.CONTENT_URI);
 		}
+
 
 		// rebuildDays();
 
@@ -94,6 +100,8 @@ public class ListDays extends ListActivity {
 		});
 		
 		setListAdapter(adapter);
+
+		getListView().setOnCreateContextMenuListener(this);
 		// dia.dismiss();
 	}
 
@@ -150,4 +158,43 @@ public class ListDays extends ListActivity {
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.daylist_context, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		super.onContextItemSelected(item);
+
+		AdapterView.AdapterContextMenuInfo info;
+		try {
+			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		} catch (ClassCastException e) {
+			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
+			return false;
+		}
+
+		Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
+		switch (item.getItemId()) {
+		case R.id.itemDeleteDay: {
+			// Cursor c = DayAccess.getInstance(this).query(uri,
+			// DB.Days.DEFAULT_PROJECTION, null, null,
+			// DB.Days.DEFAULT_SORTORDER);
+			// Day d = new Day(c);
+			// Cursor ct = d.getTimestamps(this);
+			// if (ct.getCount() > 0) {
+			// // delete timestamps?
+			//
+			// }
+			int delRows = DayAccess.getInstance(this).delete(uri,null,null);
+			return delRows > 0;
+		}
+		}
+		return false;
+
+	}
+
 }

@@ -21,45 +21,51 @@ public final class R {
         public static final int stechkarte=0x7f020001;
     }
     public static final class id {
-        public static final int ButtonDate=0x7f070023;
-        public static final int ButtonIn=0x7f07001d;
-        public static final int ButtonInOut=0x7f070024;
-        public static final int ButtonOut=0x7f07001e;
-        public static final int CheckBoxFixed=0x7f07000d;
-        public static final int EditTextHoliday=0x7f070004;
-        public static final int EditTextHolidaysLeft=0x7f070007;
-        public static final int EditTextOvertime=0x7f07000a;
-        public static final int LabelHoliday=0x7f070003;
-        public static final int LabelHolidaysLeft=0x7f07001b;
-        public static final int LabelHoursTarget=0x7f070013;
-        public static final int LabelOvertimeShort=0x7f070016;
-        public static final int LabelWorkedShort=0x7f070011;
-        public static final int LinearLayout01=0x7f070010;
-        public static final int LinearLayout02=0x7f070015;
-        public static final int LinearLayout03=0x7f070019;
-        public static final int LinearLayout04=0x7f070020;
-        public static final int ListViewTimestamps=0x7f07000f;
-        public static final int Spacer=0x7f07000c;
-        public static final int TableLayout01=0x7f070001;
-        public static final int TableRow01=0x7f070002;
-        public static final int TableRow02=0x7f070005;
-        public static final int TableRow03=0x7f070008;
-        public static final int TableRow04=0x7f07000b;
-        public static final int TextView01=0x7f07000e;
-        public static final int TextView02=0x7f070006;
-        public static final int TextView03=0x7f070009;
-        public static final int TextViewDayRef=0x7f070000;
-        public static final int TextViewHoliday=0x7f07001a;
-        public static final int TextViewHolidaysLeft=0x7f07001c;
-        public static final int TextViewHoursTarget=0x7f070014;
-        public static final int TextViewHoursWorked=0x7f070012;
-        public static final int TextViewOvertime=0x7f070018;
-        public static final int TextViewOvertimeCur=0x7f070017;
-        public static final int TextViewStatus=0x7f07001f;
-        public static final int TextViewTime=0x7f070021;
-        public static final int TextViewTimestamp=0x7f070025;
-        public static final int TextViewTimestampType=0x7f070026;
-        public static final int TimePicker01=0x7f070022;
+        public static final int ButtonDate=0x7f080023;
+        public static final int ButtonIn=0x7f08001d;
+        public static final int ButtonInOut=0x7f080024;
+        public static final int ButtonOut=0x7f08001e;
+        public static final int CheckBoxFixed=0x7f08000d;
+        public static final int EditTextHoliday=0x7f080004;
+        public static final int EditTextHolidaysLeft=0x7f080007;
+        public static final int EditTextOvertime=0x7f08000a;
+        public static final int LabelHoliday=0x7f080003;
+        public static final int LabelHolidaysLeft=0x7f08001b;
+        public static final int LabelHoursTarget=0x7f080013;
+        public static final int LabelOvertimeShort=0x7f080016;
+        public static final int LabelWorkedShort=0x7f080011;
+        public static final int LinearLayout01=0x7f080010;
+        public static final int LinearLayout02=0x7f080015;
+        public static final int LinearLayout03=0x7f080019;
+        public static final int LinearLayout04=0x7f080020;
+        public static final int ListViewTimestamps=0x7f08000f;
+        public static final int Spacer=0x7f08000c;
+        public static final int TableLayout01=0x7f080001;
+        public static final int TableRow01=0x7f080002;
+        public static final int TableRow02=0x7f080005;
+        public static final int TableRow03=0x7f080008;
+        public static final int TableRow04=0x7f08000b;
+        public static final int TextView01=0x7f08000e;
+        public static final int TextView02=0x7f080006;
+        public static final int TextView03=0x7f080009;
+        public static final int TextViewDayRef=0x7f080000;
+        public static final int TextViewHoliday=0x7f08001a;
+        public static final int TextViewHolidaysLeft=0x7f08001c;
+        public static final int TextViewHoursTarget=0x7f080014;
+        public static final int TextViewHoursWorked=0x7f080012;
+        public static final int TextViewOvertime=0x7f080018;
+        public static final int TextViewOvertimeCur=0x7f080017;
+        public static final int TextViewStatus=0x7f08001f;
+        public static final int TextViewTime=0x7f080021;
+        public static final int TextViewTimestamp=0x7f080025;
+        public static final int TextViewTimestampType=0x7f080026;
+        public static final int TimePicker01=0x7f080022;
+        public static final int itemDaysList=0x7f080027;
+        public static final int itemDeleteDay=0x7f08002c;
+        public static final int itemExportTimestamps=0x7f080028;
+        public static final int itemReadInTimestmaps=0x7f08002b;
+        public static final int itemTimestampList=0x7f08002a;
+        public static final int optionMore=0x7f080029;
     }
     public static final class layout {
         public static final int day_editor=0x7f030000;
@@ -68,12 +74,17 @@ public final class R {
         public static final int timestamp_editor=0x7f030003;
         public static final int timestamplist_item=0x7f030004;
     }
+    public static final class menu {
+        public static final int chekin_option=0x7f070000;
+        public static final int daylist_context=0x7f070001;
+    }
     public static final class string {
         public static final int AUTHORITY_TIMESTAMP=0x7f050006;
         public static final int ButtonDayList=0x7f050008;
         public static final int ButtonReadTimestamps=0x7f05000c;
         public static final int ButtonTSList=0x7f050003;
         public static final int CheckBoxFixed=0x7f050016;
+        public static final int ExportTImestamps=0x7f05001a;
         public static final int HintHoliday=0x7f050011;
         public static final int HintHolidaysLeft=0x7f050013;
         public static final int HintOvertime=0x7f050014;
@@ -90,9 +101,12 @@ public final class R {
         public static final int TimestampTypeIn=0x7f050001;
         public static final int TimestampTypeOut=0x7f050002;
         public static final int app_name=0x7f050000;
+        public static final int delete=0x7f05001b;
+        public static final int delteSubTimestamps=0x7f05001c;
         public static final int menu_delete=0x7f050004;
         public static final int menu_edit=0x7f050007;
         public static final int menu_insert=0x7f050005;
         public static final int menu_rebuild=0x7f050009;
+        public static final int optionMore=0x7f050019;
     }
 }

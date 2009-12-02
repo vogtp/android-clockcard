@@ -16,14 +16,15 @@ import ch.almana.android.stechkarte.model.Formater;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.view.ExportTimestamps;
 import ch.almana.android.stechkarte.view.ListDays;
 import ch.almana.android.stechkarte.view.ListTimeStamps;
 
 public class CheckinActivity extends Activity {
 
-	private static final int MENU_ITEM_DAY_LIST = Menu.FIRST;
-	private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
-	private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
+	// private static final int MENU_ITEM_DAY_LIST = Menu.FIRST;
+	// private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
+	// private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
 	private TextView status;
 	private TextView overtime;
 	private TextView hoursWorked;
@@ -119,28 +120,38 @@ public class CheckinActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_ITEM_DAY_LIST, 0, R.string.ButtonDayList).setShortcut('3', 'a');
-		menu.add(0, MENU_ITEM_TIMESTAMP_LIST, 1, R.string.ButtonTSList).setShortcut('3', 'a');
-		menu.add(0, MENU_ITEM_READ_IN_TIMESTAMPS, 2, R.string.ButtonReadTimestamps).setShortcut('3', 'a');
-		return super.onCreateOptionsMenu(menu);
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.chekin_option, menu);
+		// menu.add(0, MENU_ITEM_DAY_LIST, 0,
+		// R.string.ButtonDayList).setShortcut('3', 'a');
+		// menu.add(Menu.CATEGORY_ALTERNATIVE, MENU_ITEM_TIMESTAMP_LIST, 1,
+		// R.string.ButtonTSList).setShortcut('3', 'a');
+//		menu.add(Menu.CATEGORY_ALTERNATIVE, MENU_ITEM_READ_IN_TIMESTAMPS, 2, R.string.ButtonReadTimestamps)
+		// .setShortcut('3', 'a');
+		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
 		switch (item.getItemId()) {
-		case MENU_ITEM_DAY_LIST:
+		case R.id.itemDaysList:
 			i = new Intent(this, ListDays.class);
 			startActivity(i);
 			break;
-		case MENU_ITEM_TIMESTAMP_LIST:
+		case R.id.itemExportTimestamps:
+			i = new Intent(this, ExportTimestamps.class);
+			startActivity(i);
+			break;
+
+		case R.id.itemTimestampList:
 			i = new Intent(this, ListTimeStamps.class);
 			startActivity(i);
 			break;
 
-		case MENU_ITEM_READ_IN_TIMESTAMPS:
+		case R.id.itemReadInTimestmaps:
 			TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
-			timestampsCsvIO.readTimestamps(TimestampsCsvIO.PATH + "timestamps.csv", TimestampAccess
+			timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
 					.getInstance(getApplicationContext()));
 			break;
 		}

@@ -28,4 +28,8 @@
 <string name="CheckBoxFixed">Not automatically updated</string>
 <string name="TextViewHolidaysLeft">left</string>
 <string name="LabelTimestamps">TImestamps</string>
+<string name="optionMore">more</string>
+<string name="ExportTImestamps">Export Timestamps</string>
+<string name="delete">delete</string>
+<string name="delteSubTimestamps">Delete timestamps as well?</string>
 </resources>
