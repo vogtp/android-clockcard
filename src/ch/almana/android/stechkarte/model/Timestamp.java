@@ -124,9 +124,7 @@ public class Timestamp {
 	private static String formatTime(long time, SimpleDateFormat datetimeFormat) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(time);
-
-		String timeString = datetimeFormat.format(calendar.getTime());
-		return timeString;
+		return datetimeFormat.format(calendar.getTime());
 	}
 
 	@Override
