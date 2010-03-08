@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory android:title="@string/workdayPerferences"><EditTextPreference android:title="@string/hoursPerDay" android:defaultValue="8.24" android:key="@+id/hoursPerDay"></EditTextPreference></PreferenceCategory><PreferenceScreen android:title="@string/workdays"><CheckBoxPreference android:key="@string/dayMo" android:title="@string/dayMo"></CheckBoxPreference><CheckBoxPreference android:title="@string/dayTue" android:key="@string/dayTue"></CheckBoxPreference></PreferenceScreen>
+
+
+
+
+</PreferenceScreen>

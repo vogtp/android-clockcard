@@ -19,6 +19,7 @@ import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 import ch.almana.android.stechkarte.view.ExportTimestamps;
 import ch.almana.android.stechkarte.view.ListDays;
 import ch.almana.android.stechkarte.view.ListTimeStamps;
+import ch.almana.android.stechkarte.view.StechkartePreferenceActivity;
 
 public class CheckinActivity extends Activity {
 
@@ -72,6 +73,8 @@ public class CheckinActivity extends Activity {
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
 		holidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
 
+		
+
 	}
 
 	@Override
@@ -122,12 +125,7 @@ public class CheckinActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
-		// menu.add(0, MENU_ITEM_DAY_LIST, 0,
-		// R.string.ButtonDayList).setShortcut('3', 'a');
-		// menu.add(Menu.CATEGORY_ALTERNATIVE, MENU_ITEM_TIMESTAMP_LIST, 1,
-		// R.string.ButtonTSList).setShortcut('3', 'a');
-//		menu.add(Menu.CATEGORY_ALTERNATIVE, MENU_ITEM_READ_IN_TIMESTAMPS, 2, R.string.ButtonReadTimestamps)
-		// .setShortcut('3', 'a');
+
 		return true;
 	}
 
@@ -154,6 +152,12 @@ public class CheckinActivity extends Activity {
 			timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
 					.getInstance(getApplicationContext()));
 			break;
+
+		case R.id.itemPreferences:
+			i = new Intent(getApplicationContext(), StechkartePreferenceActivity.class);
+			startActivity(i);
+			break;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

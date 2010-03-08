@@ -13,7 +13,7 @@ public class Day {
 	private long id = -1;
 	private long dayRef = 0;
 	private float hoursWorked = 0;
-	private float hoursTarget = DayAccess.getHoursTargetDefault();
+	private float hoursTarget = -1;
 	private float holyday = 0;
 	private float holydayLeft = 0;
 	private float overtime = 0;

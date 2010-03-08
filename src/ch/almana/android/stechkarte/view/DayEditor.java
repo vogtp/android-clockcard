@@ -24,6 +24,8 @@ public class DayEditor extends Activity {
 	private EditText holiday;
 	private EditText holidayLeft;
 	private EditText overtime;
+	private EditText hoursTarget;
+	private TextView hoursWorked;
 	private CheckBox fixed;
 	private TimestampsAdaptorFactory tsAdaptorFactory;
 	private ListView timestamps;
@@ -59,6 +61,8 @@ public class DayEditor extends Activity {
 		holiday = (EditText) findViewById(R.id.EditTextHoliday);
 		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
 		overtime = (EditText) findViewById(R.id.EditTextOvertime);
+		hoursTarget = (EditText) findViewById(R.id.EditTextHoursTarget);
+		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorkedDayEditor);
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
 
 		timestamps = (ListView) findViewById(R.id.ListViewTimestamps);
@@ -78,6 +82,8 @@ public class DayEditor extends Activity {
 		holidayLeft.setText(day.getHolydayLeft() + "");
 		overtime.setText(day.getOvertime() + "");
 		fixed.setChecked(day.isFixed());
+		hoursTarget.setText(day.getHoursTarget() + "");
+		hoursWorked.setText(day.getHoursWorked() + "");
 	}
 
 	private void updateModel() {
@@ -93,6 +99,11 @@ public class DayEditor extends Activity {
 		}
 		try {
 			day.setOvertime(Float.parseFloat(overtime.getText().toString()));
+		} catch (NumberFormatException e) {
+			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+		try {
+			day.setHoursTarget(Float.parseFloat(hoursTarget.getText().toString()));
 		} catch (NumberFormatException e) {
 			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}

@@ -8,14 +8,17 @@ import java.util.TreeSet;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB.Days;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
@@ -37,6 +40,7 @@ public class DayAccess implements IAccess {
 
 	private static DayAccess instance;
 	public static final float HOURS_IN_MILLIES = 1000f * 60f * 60f;
+
 	private static float hoursTargetDefault = 8.4f;
 
 	public static DayAccess getInstance(Context context) {
@@ -111,6 +115,9 @@ public class DayAccess implements IAccess {
 			values = new ContentValues(initialValues);
 		} else {
 			values = new ContentValues();
+		}
+		if (values.getAsFloat(Days.NAME_HOURS_TARGET) < 0) {
+			values.put(Days.NAME_HOURS_TARGET, getHoursTargetDefault());
 		}
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		long rowId = db.insert(Days.TABLE_NAME, Days.NAME_DAYREF, values);
@@ -330,12 +337,14 @@ public class DayAccess implements IAccess {
 		}
 		c.close();
 		day.setError(error);
+		// if (day.getHoursTarget() == 0f) {
+		// day.setHoursTarget(getHoursTargetDefault());
+		// }
 		float hoursWorked = worked / HOURS_IN_MILLIES;
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);
-		day.setHoursTarget(getHoursTargetDefault() - day.getHolyday()
-				* getHoursTargetDefault());
+		day.setHoursTarget(day.getHoursTarget() - day.getHolyday() * day.getHoursTarget());
 		if (!day.isFixed()) {
 			day.setOvertime(previousDay.getOvertime() + overtime);
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
@@ -345,12 +354,17 @@ public class DayAccess implements IAccess {
 	}
 
 
-	public static void setHoursTargetDefault(float hoursTargetDefault) {
-		DayAccess.hoursTargetDefault = hoursTargetDefault;
-	}
 
-	public static float getHoursTargetDefault() {
-		return hoursTargetDefault;
+	public float getHoursTargetDefault() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+		String hoursString = preferences.getString(context.getString(R.string.hoursPerDay), "8.24");
+		float hours = 0;
+		try {
+			hours = Float.parseFloat(hoursString); 
+		} catch (NumberFormatException e) {
+			hours = hoursTargetDefault;
+		} 
+		return hours;
 	}
 
 

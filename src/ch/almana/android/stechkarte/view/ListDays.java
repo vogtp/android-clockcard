@@ -1,13 +1,16 @@
 package ch.almana.android.stechkarte.view;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -30,6 +33,7 @@ import ch.almana.android.stechkarte.model.DB.Days;
 public class ListDays extends ListActivity {
 
 	private static final int MENU_ITEM_REBUILD = Menu.FIRST;
+	private ProgressDialog progressDialog = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -133,7 +137,34 @@ public class ListDays extends ListActivity {
 	}
 
 	private void rebuildDays() {
-		DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
+		Handler syncHandler = new Handler();
+
+		final Context context = this;
+		syncHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				// progressDialog = new ProgressDialog(context);
+				// progressDialog.setIcon(android.R.drawable.ic_dialog_alert);
+				// progressDialog.setTitle("Rebuilding days");
+				// progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+				// // progressDialog.setMax(100);
+				// // progressDialog.setMessage("Checking Authorization...");
+				// // progressDialog.setProgress(0);
+				// progressDialog.setCancelable(false);
+				// progressDialog.show();
+				//
+				// progressDialog.setMessage("Starting...");
+
+				progressDialog = ProgressDialog.show(context, "Rebuilding days", "Starting up...", true, false);
+
+				DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
+				if (progressDialog != null) {
+					progressDialog.dismiss();
+					progressDialog = null;
+				}
+			}
+		});
 	}
 	
 

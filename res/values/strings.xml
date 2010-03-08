@@ -32,4 +32,13 @@
 <string name="ExportTImestamps">Export Timestamps</string>
 <string name="delete">delete</string>
 <string name="delteSubTimestamps">Delete timestamps as well?</string>
+<string name="dayMo">Monday</string>
+<string name="dayTue">Tuesday</string>
+<string name="workdays">Workdays</string>
+<string name="perferences">Perferences</string>
+<string name="hoursPerDay">Woringhours per day</string>
+<string name="workdayPerferences">Workday</string>
+<string name="defaultHoursPerDay">8.24</string>
+
+<string name="LabelHoursWorked">Hours worked</string>
 </resources>
