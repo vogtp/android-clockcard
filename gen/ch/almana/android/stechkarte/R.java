@@ -24,9 +24,9 @@ public final class R {
         public static final int stechkarte=0x7f020001;
     }
     public static final class id {
-        public static final int ButtonDate=0x7f09002b;
+        public static final int ButtonDate=0x7f09002d;
         public static final int ButtonIn=0x7f090025;
-        public static final int ButtonInOut=0x7f09002c;
+        public static final int ButtonInOut=0x7f09002e;
         public static final int ButtonOut=0x7f090026;
         public static final int CheckBoxFixed=0x7f090015;
         public static final int EditText01=0x7f090008;
@@ -42,7 +42,8 @@ public final class R {
         public static final int LinearLayout01=0x7f090018;
         public static final int LinearLayout02=0x7f09001d;
         public static final int LinearLayout03=0x7f090021;
-        public static final int LinearLayout04=0x7f090028;
+        public static final int LinearLayout04=0x7f09002a;
+        public static final int LinearLayout05=0x7f090028;
         public static final int ListViewTimestamps=0x7f090017;
         public static final int Spacer=0x7f090014;
         public static final int TableLayout01=0x7f090001;
@@ -64,21 +65,22 @@ public final class R {
         public static final int TextViewHoursTarget=0x7f09001c;
         public static final int TextViewHoursWorked=0x7f09001a;
         public static final int TextViewHoursWorkedDayEditor=0x7f090005;
+        public static final int TextViewLeave=0x7f090029;
         public static final int TextViewOvertime=0x7f090020;
         public static final int TextViewOvertimeCur=0x7f09001f;
         public static final int TextViewStatus=0x7f090027;
-        public static final int TextViewTime=0x7f090029;
-        public static final int TextViewTimestamp=0x7f09002d;
-        public static final int TextViewTimestampType=0x7f09002e;
-        public static final int TimePicker01=0x7f09002a;
-        public static final int hoursPerDay=0x7f09002f;
-        public static final int itemDaysList=0x7f090030;
-        public static final int itemDeleteDay=0x7f090036;
-        public static final int itemExportTimestamps=0x7f090031;
-        public static final int itemPreferences=0x7f090032;
-        public static final int itemReadInTimestmaps=0x7f090035;
-        public static final int itemTimestampList=0x7f090034;
-        public static final int optionMore=0x7f090033;
+        public static final int TextViewTime=0x7f09002b;
+        public static final int TextViewTimestamp=0x7f09002f;
+        public static final int TextViewTimestampType=0x7f090030;
+        public static final int TimePicker01=0x7f09002c;
+        public static final int hoursPerDay=0x7f090031;
+        public static final int itemDaysList=0x7f090032;
+        public static final int itemDeleteDay=0x7f090038;
+        public static final int itemExportTimestamps=0x7f090033;
+        public static final int itemPreferences=0x7f090034;
+        public static final int itemReadInTimestmaps=0x7f090037;
+        public static final int itemTimestampList=0x7f090036;
+        public static final int optionMore=0x7f090035;
     }
     public static final class layout {
         public static final int day_editor=0x7f030000;
@@ -110,6 +112,7 @@ public final class R {
         public static final int LabelOvertimeTotal=0x7f06000f;
         public static final int LabelTimestamps=0x7f060018;
         public static final int TextViewHolidaysLeft=0x7f060017;
+        public static final int TextViewLeave=0x7f060025;
         public static final int TextViewOvertimeShort=0x7f06000b;
         public static final int TextViewWorkedShort=0x7f06000a;
         public static final int TimestampTypeIn=0x7f060001;

@@ -41,4 +41,5 @@
 <string name="defaultHoursPerDay">8.24</string>
 
 <string name="LabelHoursWorked">Hours worked</string>
+<string name="TextViewLeave">Leave at </string>
 </resources>

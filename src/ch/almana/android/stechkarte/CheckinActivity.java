@@ -1,5 +1,8 @@
 package ch.almana.android.stechkarte;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,9 +29,11 @@ public class CheckinActivity extends Activity {
 	// private static final int MENU_ITEM_DAY_LIST = Menu.FIRST;
 	// private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
 	// private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
+	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("hh:mm");
 	private TextView status;
 	private TextView overtime;
 	private TextView hoursWorked;
+	private TextView leaveAt;
 
 	private TextView holidaysLeft;
 
@@ -72,9 +77,7 @@ public class CheckinActivity extends Activity {
 		overtime = (TextView) findViewById(R.id.TextViewOvertime);
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
 		holidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
-
-		
-
+		leaveAt = (TextView) findViewById(R.id.TextViewLeave);
 	}
 
 	@Override
@@ -107,11 +110,13 @@ public class CheckinActivity extends Activity {
 		}
 
 		status.setText("You are " + inOut);
-		holidaysLeft.setText("" + day.getHolydayLeft());
+		holidaysLeft.setText(day.getHolydayLeft() + "");
 
 		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime() + delta));
 		hoursWorked.setText(Formater.formatHourMinFromHours((day.getHoursWorked() + delta)));
 
+		Calendar cal = Calendar.getInstance();
+		leaveAt.setText(hhmmSimpleDateFormat.format(cal.getTime()));
 	}
 
 	private void writeTimestampsToCsv() {
