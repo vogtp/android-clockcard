@@ -8,22 +8,20 @@ import java.util.TreeSet;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB.Days;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.StechkarteProvider;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
@@ -41,7 +39,6 @@ public class DayAccess implements IAccess {
 	private static DayAccess instance;
 	public static final float HOURS_IN_MILLIES = 1000f * 60f * 60f;
 
-	private static float hoursTargetDefault = 8.4f;
 
 	public static DayAccess getInstance(Context context) {
 		if (instance == null) {
@@ -117,7 +114,7 @@ public class DayAccess implements IAccess {
 			values = new ContentValues();
 		}
 		if (values.getAsFloat(Days.NAME_HOURS_TARGET) < 0) {
-			values.put(Days.NAME_HOURS_TARGET, getHoursTargetDefault());
+			values.put(Days.NAME_HOURS_TARGET, Settings.getInstance().getHoursTarget());
 		}
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		long rowId = db.insert(Days.TABLE_NAME, Days.NAME_DAYREF, values);
@@ -353,19 +350,6 @@ public class DayAccess implements IAccess {
 		insertOrUpdate(day);
 	}
 
-
-
-	public float getHoursTargetDefault() {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-		String hoursString = preferences.getString(context.getString(R.string.hoursPerDay), "8.24");
-		float hours = 0;
-		try {
-			hours = Float.parseFloat(hoursString); 
-		} catch (NumberFormatException e) {
-			hours = hoursTargetDefault;
-		} 
-		return hours;
-	}
 
 
 	static {

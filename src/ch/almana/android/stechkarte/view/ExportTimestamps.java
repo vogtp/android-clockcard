@@ -34,6 +34,8 @@ public class ExportTimestamps extends Activity {
 		} catch (IOException e) {
 			Log.e(Logger.LOG_TAG, "Export days", e);
 			Toast.makeText(this, "Cannot open " + fileName, Toast.LENGTH_LONG).show();
+		} finally {
+			finish();
 		}
 	}
 	

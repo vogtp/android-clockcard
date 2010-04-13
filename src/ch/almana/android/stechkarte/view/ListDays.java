@@ -56,7 +56,8 @@ public class ListDays extends ListActivity {
 
 		// rebuildDays();
 
-		Cursor cursor = DayAccess.getInstance(this).query(null);
+		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null,
+				Days.DEFAULT_SORTORDER);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
 				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME,

@@ -11,14 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DB.Timestamps;
 
 public class ListTimeStamps extends ListActivity {
 
 	public static final String FILTER_DAYREF = "filterDayref";
-
-	private static final String LOG_TAG = Logger.LOG_TAG;
 
 	// Menu item ids
 	public static final int MENU_ITEM_DELETE = Menu.FIRST;
@@ -83,7 +80,8 @@ public class ListTimeStamps extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		return timestampsAdaptorFactory.onContextItemSelected(item);
+		// return timestampsAdaptorFactory.onContextItemSelected(item);
+		return false; // FIXME
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package ch.almana.android.stechkarte;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import ch.almana.android.stechkarte.model.Formater;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.utils.Settings;
+import ch.almana.android.stechkarte.view.BuyFullVersion;
 import ch.almana.android.stechkarte.view.ExportTimestamps;
 import ch.almana.android.stechkarte.view.ListDays;
 import ch.almana.android.stechkarte.view.ListTimeStamps;
@@ -43,7 +46,9 @@ public class CheckinActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		writeTimestampsToCsv();
+		if (!Settings.getInstance().isFreeVersion()) {
+			writeTimestampsToCsv();
+		}
 
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
@@ -109,14 +114,22 @@ public class CheckinActivity extends Activity {
 			}
 		}
 
+		Calendar cal = Calendar.getInstance();
+		float leave = day.getHoursTarget() - day.getHoursWorked();
+		if (leave > 0f) {
+			cal.add(Calendar.HOUR, Math.round(leave));
+			leaveAt.setText(hhmmSimpleDateFormat.format(cal.getTime()) + " "
+					+ cal.getTimeZone().getDisplayName(true, TimeZone.SHORT));
+		} else {
+			leaveAt.setText("now");
+		}
+
 		status.setText("You are " + inOut);
 		holidaysLeft.setText(day.getHolydayLeft() + "");
 
 		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime() + delta));
 		hoursWorked.setText(Formater.formatHourMinFromHours((day.getHoursWorked() + delta)));
 
-		Calendar cal = Calendar.getInstance();
-		leaveAt.setText(hhmmSimpleDateFormat.format(cal.getTime()));
 	}
 
 	private void writeTimestampsToCsv() {
@@ -143,8 +156,12 @@ public class CheckinActivity extends Activity {
 			startActivity(i);
 			break;
 		case R.id.itemExportTimestamps:
+			if (Settings.getInstance().isFreeVersion()) {
+				showFreeVersionDialog();
+			}else {
 			i = new Intent(this, ExportTimestamps.class);
 			startActivity(i);
+			}
 			break;
 
 		case R.id.itemTimestampList:
@@ -153,9 +170,13 @@ public class CheckinActivity extends Activity {
 			break;
 
 		case R.id.itemReadInTimestmaps:
+			if (Settings.getInstance().isFreeVersion()) {
+				showFreeVersionDialog();
+			}else {
 			TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
-			timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
-					.getInstance(getApplicationContext()));
+				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
+						.getInstance(getApplicationContext()));
+			}
 			break;
 
 		case R.id.itemPreferences:
@@ -165,6 +186,11 @@ public class CheckinActivity extends Activity {
 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showFreeVersionDialog() {
+		Intent i = new Intent(this, BuyFullVersion.class);
+		startActivity(i);
 	}
 
 }

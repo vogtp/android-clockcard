@@ -95,6 +95,9 @@ public class TimestampsCsvIO {
 				if (!c.moveToFirst()) {
 					timestampAccess.insert(DB.Timestamps.CONTENT_URI, values);
 				}
+				if (c != null && !c.isClosed()) {
+					c.close();
+				}
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(LOG_TAG, "Unable to process file " + buildFilename() + " for reading", e);

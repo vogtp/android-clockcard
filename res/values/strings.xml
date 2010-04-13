@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_name">Stechkarte</string>
+<string name="app_name">work schedule manager</string>
 <string name="TimestampTypeIn">IN</string>
 <string name="TimestampTypeOut">OUT</string>
 <string name="ButtonTSList">Timestamp List</string>
@@ -10,13 +9,13 @@
 <string name="menu_insert">Insert</string>
 <string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
 <string name="menu_edit">Edit</string>
-<string name="ButtonDayList">Days List</string>
+<string name="ButtonDayList">Days</string>
 <string name="menu_rebuild">Rebuild days</string>
 <string name="TextViewWorkedShort">Worked </string>
 <string name="TextViewOvertimeShort">Overtime </string>
 <string name="ButtonReadTimestamps">Read Timestamps</string>
 <string name="LabelHoursTarget">Target </string>
-<string name="LabelHolyday">Holyday</string>
+<string name="LabelHolyday">Holiday</string>
 
 <string name="LabelOvertimeTotal">total</string>
 <string name="LabelHoliday">Holiday</string>
@@ -29,17 +28,20 @@
 <string name="TextViewHolidaysLeft">left</string>
 <string name="LabelTimestamps">TImestamps</string>
 <string name="optionMore">more</string>
-<string name="ExportTImestamps">Export Timestamps</string>
+<string name="ExportTImestamps">Export </string>
 <string name="delete">delete</string>
 <string name="delteSubTimestamps">Delete timestamps as well?</string>
 <string name="dayMo">Monday</string>
 <string name="dayTue">Tuesday</string>
 <string name="workdays">Workdays</string>
-<string name="perferences">Perferences</string>
-<string name="hoursPerDay">Woringhours per day</string>
-<string name="workdayPerferences">Workday</string>
+<string name="perferences">Preferences</string>
+<string name="prefHoursPerDay">Workinghours per day</string>
+<string name="prefHoursPerDayLong">Number of hours to work per day</string>
+<string name="prefWorkday">Workday</string>
+<string name="prefWorkdayLong">Settings about a day of work</string>
 <string name="defaultHoursPerDay">8.24</string>
-
 <string name="LabelHoursWorked">Hours worked</string>
 <string name="TextViewLeave">Leave at </string>
+<string name="TextViewLeaveNotIn">...start working!</string>
+<string name="LabelBuyFullVersion">This feature is not available in the free version, buy the full version.</string>
 </resources>

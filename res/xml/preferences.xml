@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-<PreferenceCategory android:title="@string/workdayPerferences"><EditTextPreference android:title="@string/hoursPerDay" android:defaultValue="8.24" android:key="@+id/hoursPerDay"></EditTextPreference></PreferenceCategory><PreferenceScreen android:title="@string/workdays"><CheckBoxPreference android:key="@string/dayMo" android:title="@string/dayMo"></CheckBoxPreference><CheckBoxPreference android:title="@string/dayTue" android:key="@string/dayTue"></CheckBoxPreference></PreferenceScreen>
+<PreferenceCategory android:summary="@string/prefWorkdayLong" android:title="@string/prefWorkday"><EditTextPreference android:key="@string/prefKeyHoursPerDay" android:summary="@string/prefHoursPerDayLong" android:title="@string/prefHoursPerDay" android:defaultValue="@string/prefHoursPerDayDefault"></EditTextPreference></PreferenceCategory>
 
 
 
