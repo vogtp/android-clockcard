@@ -19,7 +19,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class TimestampEditor extends Activity implements OnTimeChangedListener {
 
@@ -134,10 +134,10 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		}
 		String action = getIntent().getAction();
 		if (Intent.ACTION_INSERT.equals(action)) {
-			TimestampAccess access = TimestampAccess.getInstance(getApplicationContext());
+			TimestampAccess access = TimestampAccess.getInstance();
 			access.insert(timestamp);
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			TimestampAccess access = TimestampAccess.getInstance(getApplicationContext());
+			TimestampAccess access = TimestampAccess.getInstance();
 			access.update(timestamp);
 		}
 	}

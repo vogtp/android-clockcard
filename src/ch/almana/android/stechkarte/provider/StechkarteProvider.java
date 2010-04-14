@@ -6,9 +6,11 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import ch.almana.android.stechkarte.model.DayAccess;
-import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.DB.Days;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DBBackendDay;
+import ch.almana.android.stechkarte.provider.db.DBBackendTimestamp;
+import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.provider.db.DB.OpenHelper;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class StechkarteProvider extends ContentProvider {
 
@@ -19,35 +21,40 @@ public class StechkarteProvider extends ContentProvider {
 
 	private static final UriMatcher sUriMatcher;
 
-	private TimestampAccess timestampAccess;
-	private DayAccess dayAccess;
+	private OpenHelper openHelper;
 
-	private TimestampAccess getTimastampAccess() {
-		if (timestampAccess == null) {
-			timestampAccess = TimestampAccess.getInstance(getContext());
-		}
-		return timestampAccess;
+	private static DayAccess dayAccess;
+
+	@Override
+	public boolean onCreate() {
+		openHelper = new OpenHelper(getContext());
+		return true;
 	}
+
 
 	private DayAccess getDayAccess() {
 		if (dayAccess == null) {
-			dayAccess = DayAccess.getInstance(getContext());
+			dayAccess = new DayAccess(getContext());
 		}
 		return dayAccess;
 	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		int count = 0;
 		switch (sUriMatcher.match(uri)) {
 		case TIMESTAMP:
-			return getTimastampAccess().delete(uri, selection, selectionArgs);
-
+			count = DBBackendTimestamp.delete(openHelper, uri, selection, selectionArgs);
+			break;
 		case DAY:
-			return getDayAccess().delete(uri, selection, selectionArgs);
+			count = DBBackendDay.delete(openHelper, uri, selection, selectionArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 
@@ -55,62 +62,70 @@ public class StechkarteProvider extends ContentProvider {
 	public String getType(Uri uri) {
 		switch (sUriMatcher.match(uri)) {
 		case TIMESTAMP:
-			return getTimastampAccess().getType(uri);
+			return DBBackendTimestamp.getType(uri);
 
 		case DAY:
-			return getDayAccess().getType(uri);
+			return DBBackendDay.getType(uri);
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 	}
+
 
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
+		Uri ret;
 		switch (sUriMatcher.match(uri)) {
 		case TIMESTAMP:
-			return getTimastampAccess().insert(uri, initialValues);
-
+			ret = DBBackendTimestamp.insert(openHelper, uri, initialValues);
+			break;
 		case DAY:
-			return getDayAccess().insert(uri, initialValues);
-
+			ret = DBBackendDay.insert(openHelper, uri, initialValues);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
-	}
-
-	@Override
-	public boolean onCreate() {
-		return true;
+		getContext().getContentResolver().notifyChange(uri, null);
+		return ret;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+		Cursor c;
 		switch (sUriMatcher.match(uri)) {
 		case TIMESTAMP:
-			return getTimastampAccess()
-					.query(uri, projection, selection, selectionArgs, sortOrder);
+			c = DBBackendTimestamp.query(openHelper, uri, projection, selection, selectionArgs, sortOrder);
+			break;
 		case DAY:
-			return getDayAccess().query(uri, projection, selection, selectionArgs, sortOrder);
+			c = DBBackendDay.query(openHelper, uri, projection, selection, selectionArgs, sortOrder);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		// Tell the cursor what uri to watch, so it knows when its source data
+		// changes
+		c.setNotificationUri(getContext().getContentResolver(), uri);
+		return c;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-
+		int count = 0;
 		switch (sUriMatcher.match(uri)) {
 		case TIMESTAMP:
-			return getTimastampAccess().update(uri, values, selection, selectionArgs);
-
+			count = DBBackendTimestamp.update(openHelper, uri, values, selection, selectionArgs);
+			break;
 		case DAY:
-			return getDayAccess().update(uri, values, selection, selectionArgs);
+			count = DBBackendDay.update(openHelper, uri, values, selection, selectionArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 	static {

@@ -8,10 +8,10 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class TimestampsAdaptorFactory {
 
@@ -31,7 +31,7 @@ public class TimestampsAdaptorFactory {
 		}
 
 		context = timestamps.getContext();
-		Cursor cursor = TimestampAccess.getInstance(context).query(selection);
+		Cursor cursor = TimestampAccess.getInstance().query(selection);
 		// Used to map notes entries from the database to views
 		adapter = new SimpleCursorAdapter(context, R.layout.timestamplist_item, cursor, new String[] {
 				Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {

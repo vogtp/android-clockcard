@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.model;
+package ch.almana.android.stechkarte.provider.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +15,7 @@ public interface DB {
 	public static final String NAME_ID = "_id";
 	public static final int INDEX_ID = 0;
 
-	class OpenHelper extends SQLiteOpenHelper {
+	public class OpenHelper extends SQLiteOpenHelper {
 
 		private static final int DATABASE_VERSION = 4;
 

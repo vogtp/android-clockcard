@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte;
+package ch.almana.android.stechkarte.view;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,18 +14,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
-import ch.almana.android.stechkarte.model.Formater;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
-import ch.almana.android.stechkarte.view.BuyFullVersion;
-import ch.almana.android.stechkarte.view.ExportTimestamps;
-import ch.almana.android.stechkarte.view.ListDays;
-import ch.almana.android.stechkarte.view.ListTimeStamps;
-import ch.almana.android.stechkarte.view.StechkartePreferenceActivity;
 
 public class CheckinActivity extends Activity {
 
@@ -65,7 +61,7 @@ public class CheckinActivity extends Activity {
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TimestampAccess.getInstance(v.getContext()).addInNow();
+				TimestampAccess.getInstance().addInNow();
 				updateFields();
 			}
 		});
@@ -73,7 +69,7 @@ public class CheckinActivity extends Activity {
 		buttonOut.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TimestampAccess.getInstance(v.getContext()).addOutNow();
+				TimestampAccess.getInstance().addOutNow();
 				updateFields();
 			}
 		});
@@ -92,7 +88,7 @@ public class CheckinActivity extends Activity {
 	}
 
 	private void updateFields() {
-		Cursor c = DayAccess.getInstance(this).query(null);
+		Cursor c = DayAccess.getInstance().query(null);
 		Day day;
 		if (c.moveToFirst()) {
 			day = new Day(c);
@@ -134,7 +130,7 @@ public class CheckinActivity extends Activity {
 
 	private void writeTimestampsToCsv() {
 		TimestampsCsvIO csv = new TimestampsCsvIO();
-		Cursor c = TimestampAccess.getInstance(getApplicationContext()).query(null, null);
+		Cursor c = TimestampAccess.getInstance().query(null, null);
 		csv.writeTimestamps(c);
 		c.close();
 	}
@@ -175,7 +171,7 @@ public class CheckinActivity extends Activity {
 			}else {
 			TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
 				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
-						.getInstance(getApplicationContext()));
+						.getInstance());
 			}
 			break;
 

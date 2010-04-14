@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.model;
+package ch.almana.android.stechkarte.utils;
 
 public class Formater {
 

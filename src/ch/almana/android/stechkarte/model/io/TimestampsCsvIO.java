@@ -16,8 +16,8 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
-import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.TimestampAccess;
+import ch.almana.android.stechkarte.provider.db.DB;
 
 public class TimestampsCsvIO {
 

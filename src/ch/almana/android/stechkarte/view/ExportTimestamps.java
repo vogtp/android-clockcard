@@ -47,7 +47,7 @@ public class ExportTimestamps extends Activity {
 	}
 	
 	private void writeCSV(BufferedWriter writer) throws IOException {
-		DayAccess dayAccess = DayAccess.getInstance(this);
+		DayAccess dayAccess = DayAccess.getInstance();
 		Cursor cursor = dayAccess.query(null);
 		writer.write("day,holiday,IN,OUT,IN,OUT,IN,OUT\n");
 		while (cursor.moveToNext()) {
@@ -60,7 +60,7 @@ public class ExportTimestamps extends Activity {
 			while (timestamps.moveToNext()) {
 				writer.write(SEPARATOR);
 				Timestamp ts = new Timestamp(timestamps);
-				writer.write("\"" + dayString + " " + ts.getHMS() + "\"");
+				writer.write("\"" + ts.getHMS() + "\"");
 			}
 			writer.write("\n");
 		}

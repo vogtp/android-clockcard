@@ -8,8 +8,6 @@ public interface IAccess {
 
 	public abstract int delete(Uri uri, String selection, String[] selectionArgs);
 
-	public abstract String getType(Uri uri);
-
 	public abstract Uri insert(Uri uri, ContentValues initialValues);
 
 	public abstract Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,

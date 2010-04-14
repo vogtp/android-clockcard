@@ -24,11 +24,11 @@ import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
-import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
-import ch.almana.android.stechkarte.model.Formater;
-import ch.almana.android.stechkarte.model.DB.Days;
+import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.utils.Formater;
 
 public class ListDays extends ListActivity {
 
@@ -159,7 +159,7 @@ public class ListDays extends ListActivity {
 
 				progressDialog = ProgressDialog.show(context, "Rebuilding days", "Starting up...", true, false);
 
-				DayAccess.getInstance(getApplicationContext()).recalculateDayFromTimestamp(null);
+				DayAccess.getInstance().recalculateDayFromTimestamp(null);
 				if (progressDialog != null) {
 					progressDialog.dismiss();
 					progressDialog = null;
@@ -221,7 +221,7 @@ public class ListDays extends ListActivity {
 			// // delete timestamps?
 			//
 			// }
-			int delRows = DayAccess.getInstance(this).delete(uri,null,null);
+			int delRows = DayAccess.getInstance().delete(uri, null, null);
 			return delRows > 0;
 		}
 		}

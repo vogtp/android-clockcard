@@ -21,12 +21,12 @@ import android.widget.Toast;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
-import ch.almana.android.stechkarte.model.DB;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class DayEditor extends ListActivity {
 
@@ -89,7 +89,7 @@ public class DayEditor extends ListActivity {
 			selection = DB.Days.NAME_DAYREF + "=" + dayRef;
 		}
 
-		Cursor cursor = TimestampAccess.getInstance(this).query(selection);
+		Cursor cursor = TimestampAccess.getInstance().query(selection);
 		// Used to map notes entries from the database to views
 		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] {
 				Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] { R.id.TextViewTimestamp,
@@ -172,13 +172,13 @@ public class DayEditor extends ListActivity {
 		}
 		String action = getIntent().getAction();
 		if (Intent.ACTION_INSERT.equals(action)) {
-			DayAccess access = DayAccess.getInstance(getApplicationContext());
+			DayAccess access = DayAccess.getInstance();
 			access.insert(day);
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			DayAccess access = DayAccess.getInstance(getApplicationContext());
+			DayAccess access = DayAccess.getInstance();
 			access.update(day);
 		}
-		DayAccess.getInstance(this).recalculate(this, day);
+		DayAccess.getInstance().recalculate(this, day);
 	}
 
 	@Override

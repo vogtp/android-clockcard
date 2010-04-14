@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import ch.almana.android.stechkarte.model.DB.Days;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class Day {
 
@@ -116,7 +117,7 @@ public class Day {
 	}
 
 	public Cursor getTimestamps(Context context) {
-		return TimestampAccess.getInstance(context).query(Timestamps.NAME_DAYREF + "=" + dayRef,
+		return TimestampAccess.getInstance().query(Timestamps.NAME_DAYREF + "=" + dayRef,
 				Timestamps.REVERSE_SORTORDER);
 	}
 

@@ -8,7 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class Timestamp {
 

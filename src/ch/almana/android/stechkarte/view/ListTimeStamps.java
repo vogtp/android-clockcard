@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.model.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class ListTimeStamps extends ListActivity {
 
