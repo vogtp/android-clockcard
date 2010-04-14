@@ -42,7 +42,6 @@ public class DayEditor extends ListActivity {
 	private EditText hoursTarget;
 	private TextView hoursWorked;
 	private CheckBox fixed;
-	private TimestampsAdaptorFactory tsAdaptorFactory;
 	private ListView timestamps;
 	private SimpleCursorAdapter adapter;
 
@@ -82,7 +81,6 @@ public class DayEditor extends ListActivity {
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
 
 		timestamps = getListView();
-		tsAdaptorFactory = new TimestampsAdaptorFactory(timestamps, day.getDayRef());
 
 		timestamps.setOnCreateContextMenuListener(this);
 		long dayRef = day.getDayRef();
