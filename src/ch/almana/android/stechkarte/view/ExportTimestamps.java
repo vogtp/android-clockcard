@@ -3,6 +3,9 @@ package ch.almana.android.stechkarte.view;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +21,10 @@ import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 
 public class ExportTimestamps extends Activity {
+
+	private static final String SEPARATOR = ",";
+	private static final SimpleDateFormat yyyymmddFromat = new SimpleDateFormat("yyyyMMdd");
+	private static final SimpleDateFormat mmddyyyFromat = new SimpleDateFormat("MM/dd/yyyy");
 
 	/** Called when the activity is first created. */
 	@Override
@@ -42,22 +49,33 @@ public class ExportTimestamps extends Activity {
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance(this);
 		Cursor cursor = dayAccess.query(null);
-		writer.write("day, holiday, IN, OUT, IN, OUT, IN, OUT\n");
+		writer.write("day,holiday,IN,OUT,IN,OUT,IN,OUT\n");
 		while (cursor.moveToNext()) {
 			Day day = new Day(cursor);
-			writer.write(day.getDayString());
-			writer.write(", ");
-			writer.write("" + day.getHolyday());
+			String dayString = formatDate(day.getDayString());
+			writer.write("\"" + dayString + "\"");
+			writer.write(SEPARATOR);
+			writer.write("\"" + day.getHolyday() + "\"");
 			Cursor timestamps = day.getTimestamps(this);
 			while (timestamps.moveToNext()) {
-				writer.write(", ");
+				writer.write(SEPARATOR);
 				Timestamp ts = new Timestamp(timestamps);
-				writer.write(ts.getHMS());
+				writer.write("\"" + dayString + " " + ts.getHMS() + "\"");
 			}
 			writer.write("\n");
 		}
 	}
 
+
+	private String formatDate(String dayString) {
+		try {
+			Date date = yyyymmddFromat.parse(dayString);
+			return mmddyyyFromat.format(date);
+		} catch (ParseException e) {
+			Log.e(Logger.LOG_TAG, "Cannot parse " + dayString, e);
+			return dayString;
+		}
+	}
 
 	private void sendMail(String filename) {
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
