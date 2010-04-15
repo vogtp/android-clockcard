@@ -215,7 +215,7 @@ public class DayAccess implements IAccess {
 				error = true;
 			}
 		}
-		c.close();
+		// c.close();
 		day.setError(error);
 		// if (day.getHoursTarget() == 0f) {
 		// day.setHoursTarget(getHoursTargetDefault());

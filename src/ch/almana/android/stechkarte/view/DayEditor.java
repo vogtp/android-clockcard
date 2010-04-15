@@ -8,9 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,6 +30,7 @@ import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.Formater;
 
 public class DayEditor extends ListActivity {
 
@@ -44,11 +48,12 @@ public class DayEditor extends ListActivity {
 	private CheckBox fixed;
 	private ListView timestamps;
 	private SimpleCursorAdapter adapter;
+	private boolean overtimeAction;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.day_editor);
 
@@ -82,6 +87,21 @@ public class DayEditor extends ListActivity {
 
 		timestamps = getListView();
 
+		overtimeAction = true;
+		overtime.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (overtimeAction) {
+					overtimeAction = false;
+					fixed.setChecked(true);
+					Toast.makeText(DayEditor.this,
+							"Overtime changed setting day to " + getText(R.string.CheckBoxFixed), Toast.LENGTH_SHORT)
+							.show();
+				}
+				return false;
+			}
+		});
+
 		timestamps.setOnCreateContextMenuListener(this);
 		long dayRef = day.getDayRef();
 		String selection = null;
@@ -95,7 +115,7 @@ public class DayEditor extends ListActivity {
 				Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] { R.id.TextViewTimestamp,
 				R.id.TextViewTimestampType });
 		adapter.setViewBinder(new ViewBinder() {
-			
+
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 				if (cursor == null) {
@@ -118,7 +138,6 @@ public class DayEditor extends ListActivity {
 				return true;
 			}
 		});
-
 		timestamps.setAdapter(adapter);
 	}
 
@@ -133,10 +152,10 @@ public class DayEditor extends ListActivity {
 		dayRefTextView.setText(day.getDayString());
 		holiday.setText(day.getHolyday() + "");
 		holidayLeft.setText(day.getHolydayLeft() + "");
-		overtime.setText(day.getOvertime() + "");
+		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime()));
 		fixed.setChecked(day.isFixed());
-		hoursTarget.setText(day.getHoursTarget() + "");
-		hoursWorked.setText(day.getHoursWorked() + "");
+		hoursTarget.setText(Formater.formatHourMinFromHours(day.getHoursTarget()));
+		hoursWorked.setText(Formater.formatHourMinFromHours(day.getHoursWorked()));
 	}
 
 	private void updateModel() {
@@ -151,12 +170,12 @@ public class DayEditor extends ListActivity {
 			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		try {
-			day.setOvertime(Float.parseFloat(overtime.getText().toString()));
+			day.setOvertime(Formater.getHoursFromHoursMin(overtime.getText().toString()));
 		} catch (NumberFormatException e) {
 			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		try {
-			day.setHoursTarget(Float.parseFloat(hoursTarget.getText().toString()));
+			day.setHoursTarget(Formater.getHoursFromHoursMin(hoursTarget.getText().toString()));
 		} catch (NumberFormatException e) {
 			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
@@ -199,12 +218,15 @@ public class DayEditor extends ListActivity {
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
+		getMenuInflater().inflate(R.menu.dayeditor_context, menu);
+	}
 
-		// FIXME move to XML
-		menu.add(0, MENU_ITEM_EDIT, 0, R.string.menu_edit);
-
-		// Add a menu item to delete the note
-		menu.add(2, MENU_ITEM_DELETE, 0, R.string.menu_delete);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.dayeditor_option, menu);
+		return true;
 	}
 
 	@Override
@@ -219,16 +241,32 @@ public class DayEditor extends ListActivity {
 
 		Uri tsUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
-		case MENU_ITEM_DELETE: {
+		case R.id.itemDayDeleteTimestamp:
 			getContentResolver().delete(tsUri, null, null);
 			return true;
-		}
-		case MENU_ITEM_EDIT: {
+		case R.id.itemDayEditTimestamp:
 			startActivity(new Intent(Intent.ACTION_EDIT, tsUri));
 			return true;
-		}
+		case R.id.itemDayInsertTimestamp:
+			insertNewTimestamp();
+			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case R.id.itemDayInsertTimestamp:
+			insertNewTimestamp();
+			return true;
+		}
+		return true;
+	}
+
+	private void insertNewTimestamp() {
+		startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
 	}
 
 	@Override
