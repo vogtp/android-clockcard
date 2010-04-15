@@ -86,7 +86,6 @@ public class DayEditor extends ListActivity {
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
 
 		timestamps = getListView();
-
 		overtimeAction = true;
 		overtime.setOnKeyListener(new OnKeyListener() {
 			@Override

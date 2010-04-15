@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class ListDays extends ListActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 
 		// ProgressDialog dia = new ProgressDialog(this);
@@ -53,19 +54,17 @@ public class ListDays extends ListActivity {
 			intent.setData(Days.CONTENT_URI);
 		}
 
-
 		// rebuildDays();
 
 		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null,
 				Days.DEFAULT_SORTORDER);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
-				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME,
-				DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT },
- new int[] {
-				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
-				R.id.TextViewHoliday, R.id.TextViewHolidaysLeft });
-		
+				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET,
+				DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED }, new int[] { R.id.TextViewDayRef,
+				R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, R.id.TextViewHoliday,
+				R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
+
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -88,22 +87,41 @@ public class ListDays extends ListActivity {
 					TextView tv = (TextView) ((View) view.getParent()).findViewById(R.id.TextViewOvertimeCur);
 					float overtime = d.getHoursWorked() - d.getHoursTarget();
 					tv.setText(Formater.formatHourMinFromHours(overtime));
+					if (overtime > 5) {
+						tv.setTextColor(Color.RED);
+					} else if (overtime > 3) {
+						tv.setTextColor(Color.YELLOW);
+					}
 					return true;
 				} else if (columnIndex == DB.Days.INDEX_HOURS_WORKED) {
-					Day d = new Day(cursor);
-					((TextView) view.findViewById(R.id.TextViewHoursWorked)).setText(Formater.formatHourMinFromHours(d
-							.getHoursWorked()));
+					float hoursWorked = cursor.getFloat(Days.INDEX_HOURS_WORKED);
+					TextView tv = (TextView) view.findViewById(R.id.TextViewHoursWorked);
+					tv.setText(Formater.formatHourMinFromHours(hoursWorked));
+					if (hoursWorked > 15) {
+						tv.setTextColor(Color.RED);
+					} else if (hoursWorked > 12) {
+						tv.setTextColor(Color.YELLOW);
+					}
 					return true;
 				} else if (columnIndex == DB.Days.INDEX_HOURS_TARGET) {
 					Day d = new Day(cursor);
 					((TextView) view.findViewById(R.id.TextViewHoursTarget)).setText(Formater.formatHourMinFromHours(d
 							.getHoursTarget()));
 					return true;
+				} else if (columnIndex == DB.Days.INDEX_FIXED) {
+					ImageView iv = (ImageView) view.findViewById(R.id.ImageViewLock);
+					if (cursor.getInt(Days.INDEX_FIXED) > 0) {
+						iv.setImageDrawable(getResources()
+								.getDrawable(android.R.drawable.ic_lock_lock));
+					} else {
+						iv.setImageBitmap(null);
+					}
+					return true;
 				}
 				return false;
 			}
 		});
-		
+
 		setListAdapter(adapter);
 
 		getListView().setOnCreateContextMenuListener(this);
@@ -167,7 +185,6 @@ public class ListDays extends ListActivity {
 			}
 		});
 	}
-	
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -186,7 +203,7 @@ public class ListDays extends ListActivity {
 			// i.putExtra(ListTimeStamps.FILTER_DAYREF, dayRef);
 			//			
 			// startActivity(i);
-			
+
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
