@@ -91,7 +91,7 @@ public class Settings {
 	}
 
 	public boolean isFreeVersion() {
-		return false;
+		return true;
 	}
 
 }
