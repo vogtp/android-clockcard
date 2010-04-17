@@ -50,7 +50,8 @@ public class Timestamp {
 		this.id = cursor.getLong(DB.INDEX_ID);
 		this.timestamp = cursor.getLong(Timestamps.INDEX_TIMESTAMP);
 		this.timestampType = cursor.getInt(Timestamps.INDEX_TIMESTAMP_TYPE);
-		if (!cursor.isNull(DB.Timestamps.INDEX_DAYREF)) {
+
+		if (cursor.getColumnCount() > DB.Timestamps.INDEX_DAYREF && !cursor.isNull(DB.Timestamps.INDEX_DAYREF)) {
 			this.dayRef = cursor.getLong(DB.Timestamps.INDEX_DAYREF);
 		}
 	}

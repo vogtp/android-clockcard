@@ -60,8 +60,9 @@ public class ListDays extends ListActivity {
 				Days.DEFAULT_SORTORDER);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
-				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET,
-				DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED }, new int[] { R.id.TextViewDayRef,
+				DB.NAME_ID, DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME,
+				DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED },
+				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef,
 				R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, R.id.TextViewHoliday,
 				R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
 
@@ -82,8 +83,8 @@ public class ListDays extends ListActivity {
 					// since we do not set the dayref no: return true;
 				} else if (columnIndex == DB.Days.INDEX_OVERTIME) {
 					Day d = new Day(cursor);
-					((TextView) view.findViewById(R.id.TextViewOvertime)).setText(Formater.formatHourMinFromHours(d
-							.getOvertime()));
+					CharSequence formatHourMinFromHours = Formater.formatHourMinFromHours(d.getOvertime());
+					((TextView) view.findViewById(R.id.TextViewOvertime)).setText(formatHourMinFromHours);
 					TextView tv = (TextView) ((View) view.getParent()).findViewById(R.id.TextViewOvertimeCur);
 					float overtime = d.getHoursWorked() - d.getHoursTarget();
 					tv.setText(Formater.formatHourMinFromHours(overtime));

@@ -215,16 +215,18 @@ public class DayAccess implements IAccess {
 				error = true;
 			}
 		}
-		// c.close();
+		if (!c.isClosed()) {
+			c.close();
+		}
 		day.setError(error);
 		// if (day.getHoursTarget() == 0f) {
 		// day.setHoursTarget(getHoursTargetDefault());
 		// }
+		day.setHoursTarget(day.getHoursTarget() - day.getHolyday() * day.getHoursTarget());
 		float hoursWorked = worked / HOURS_IN_MILLIES;
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);
-		day.setHoursTarget(day.getHoursTarget() - day.getHolyday() * day.getHoursTarget());
 		if (!day.isFixed()) {
 			day.setOvertime(previousDay.getOvertime() + overtime);
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
