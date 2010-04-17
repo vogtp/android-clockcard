@@ -3,7 +3,7 @@
       package="ch.almana.android.stechkarte"
       android:versionCode="3" android:versionName="0.9">
     <application android:icon="@drawable/stechkarte" android:allowClearUserData="true" android:allowBackup="true" android:name=".application.StechkarteApplication" android:label="@string/app_name">
-        <activity android:label="@string/app_name" android:name=".view.CheckinActivity">
+        <activity android:label="@string/app_name" android:name=".view.CheckinActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,7 +20,7 @@
 </intent-filter>
 </activity>
 <provider android:authorities="ch.almana.android.stechkarte" android:name=".provider.StechkarteProvider"></provider>
-<activity android:name=".view.TimestampEditor"><activity android:name=".view.TimestampEditor"><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamp"></data>
+<activity android:name=".view.TimestampEditor" android:screenOrientation="portrait"><activity android:name=".view.TimestampEditor"><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamp"></data>
 <action android:name="android.intent.action.INSERT"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter>
@@ -33,7 +33,7 @@
 <intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamp"></data><category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter>
 </activity>
-<activity android:name=".view.ListDays"><intent-filter>
+<activity android:name=".view.ListDays" android:screenOrientation="portrait"><intent-filter>
 
 
 <data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte"></data>
@@ -41,7 +41,7 @@
 <action android:name="android.intent.action.PICK"></action>
 <action android:name="android.intent.action.EDIT"></action>
 </intent-filter></activity>
-<activity android:name=".view.DayEditor"><intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.day"></data><category android:name="android.intent.category.DEFAULT"></category>
+<activity android:name=".view.DayEditor" android:screenOrientation="portrait"><intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.day"></data><category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.day"></data>
 <action android:name="android.intent.action.INSERT"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
@@ -52,5 +52,8 @@
 <activity android:name=".view.BuyFullVersion" android:theme="@android:style/Theme.Dialog"></activity>
 </application>
     <uses-sdk android:minSdkVersion="3" />
+
+
+
 
 </manifest> 
