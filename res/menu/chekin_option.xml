@@ -8,7 +8,7 @@
 <item android:id="@+id/itemPreferences" android:title="@string/perferences"></item>
 	<item android:title="@+string/optionMore"
 		android:titleCondensed="@+string/optionMore"
-		android:id="@+id/optionMore">
+		android:id="@+id/optionMore" android:visible="true">
 		<menu>
 			<item android:id="@+id/itemExportTimestamps"
 				android:title="@string/ExportTImestamps"
