@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">work schedule manager</string>
+	<string name="app_name">clock card</string>
 	<string name="TimestampTypeIn">IN</string>
 	<string name="TimestampTypeOut">OUT</string>
-	<string name="ButtonTSList">Timestamp List
-	</string>
+	<string name="ButtonTSList">Timestamp List</string>
 	<string name="menu_delete">Delete</string>
 	<color name="red">#80ff0000</color>
 	<string name="menu_insert">Insert</string>
@@ -47,10 +46,10 @@
 	<string name="workdays">Workdays</string>
 	<string name="perferences">Preferences
 	</string>
-	<string name="prefHoursPerDay">Workinghours per
-		day</string>
-	<string name="prefHoursPerDayLong">Number of hours to
-		work per day</string>
+	<string name="prefHoursPerDay">Workinghours per	day</string>
+	<string name="prefHoursPerDayLong">Number of hours to work per day</string>
+	<string name="prefLicence">Licence</string>
+	<string name="prefLicenceLong">Licence key for extra features</string>
 	<string name="prefWorkday">Workday</string>
 	<string name="prefWorkdayLong">Settings about a
 		day of work</string>

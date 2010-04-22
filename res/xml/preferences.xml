@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-<PreferenceCategory android:summary="@string/prefWorkdayLong" android:title="@string/prefWorkday"><EditTextPreference android:key="@string/prefKeyHoursPerDay" android:summary="@string/prefHoursPerDayLong" android:title="@string/prefHoursPerDay" android:defaultValue="@string/prefHoursPerDayDefault"></EditTextPreference></PreferenceCategory>
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+		android:summary="@string/prefWorkdayLong"
+		android:title="@string/prefWorkday">
+		<EditTextPreference
+			android:key="@string/prefKeyHoursPerDay"
+			android:summary="@string/prefHoursPerDayLong"
+			android:title="@string/prefHoursPerDay"
+			android:defaultValue="@string/prefHoursPerDayDefault"></EditTextPreference>
+		<EditTextPreference
+			android:key="@string/prefKeyLicence"
+			android:title="@string/prefLicence" android:defaultValue="@string/prefLicenceDefault" android:summary="@string/prefLicenceLong"></EditTextPreference>
+	</PreferenceCategory>
 
 
 

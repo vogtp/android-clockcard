@@ -91,7 +91,8 @@ public class Settings {
 	}
 
 	public boolean isFreeVersion() {
-		return false;
+		String lic = getPrefAsString(R.string.prefKeyLicence, R.string.prefLicenceDefault);
+		return !"sonnenscheinInBasel".equals(lic);
 	}
 
 }

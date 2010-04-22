@@ -139,7 +139,7 @@ public class CheckinActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
-
+		menu.getItem(2).setVisible(!Settings.getInstance().isFreeVersion());
 		return true;
 	}
 
