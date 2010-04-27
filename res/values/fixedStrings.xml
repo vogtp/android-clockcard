@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="prefKeyLicence">prefKeyLicence</string>
-<string name="prefLicenceDefault"></string>
+<string name="prefLicenceDefault">e-mail me</string>
 <string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
 <string name="prefHoursPerDayDefault">8.4</string>
 </resources>

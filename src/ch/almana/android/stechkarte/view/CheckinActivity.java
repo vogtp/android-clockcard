@@ -24,7 +24,7 @@ import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
-
+	
 	// private static final int MENU_ITEM_DAY_LIST = Menu.FIRST;
 	// private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
 	// private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
@@ -33,19 +33,19 @@ public class CheckinActivity extends Activity {
 	private TextView overtime;
 	private TextView hoursWorked;
 	private TextView leaveAt;
-
+	
 	private TextView holidaysLeft;
-
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		
 		if (!Settings.getInstance().isFreeVersion()) {
 			writeTimestampsToCsv();
 		}
-
+		
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
 		int width = getWindowManager().getDefaultDisplay().getWidth();
@@ -57,36 +57,36 @@ public class CheckinActivity extends Activity {
 		buttonOut.setWidth(width);
 		buttonOut.setHeight(width);
 		buttonOut.setTextSize(size);
-
+		
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TimestampAccess.getInstance().addInNow();
+				TimestampAccess.getInstance().addInNow(CheckinActivity.this);
 				updateFields();
 			}
 		});
-
+		
 		buttonOut.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TimestampAccess.getInstance().addOutNow();
+				TimestampAccess.getInstance().addOutNow(CheckinActivity.this);
 				updateFields();
 			}
 		});
-
+		
 		status = (TextView) findViewById(R.id.TextViewStatus);
 		overtime = (TextView) findViewById(R.id.TextViewOvertime);
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
 		holidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
 		leaveAt = (TextView) findViewById(R.id.TextViewLeave);
 	}
-
+	
 	@Override
 	protected void onResume() {
 		updateFields();
 		super.onResume();
 	}
-
+	
 	private void updateFields() {
 		Cursor c = DayAccess.getInstance().query(null);
 		Day day;
@@ -96,10 +96,10 @@ public class CheckinActivity extends Activity {
 			day = new Day(0);
 		}
 		c.close();
-
+		
 		c = day.getTimestamps(this);
 		Timestamp ts = null;
-
+		
 		float delta = 0;
 		String inOut = Timestamp.getTimestampTypeAsString(getApplicationContext(), Timestamp.TYPE_OUT);
 		if (c.moveToLast()) {
@@ -109,7 +109,7 @@ public class CheckinActivity extends Activity {
 				delta = (System.currentTimeMillis() - ts.getTimestamp()) / DayAccess.HOURS_IN_MILLIES;
 			}
 		}
-
+		
 		Calendar cal = Calendar.getInstance();
 		float leave = day.getHoursTarget() - day.getHoursWorked();
 		if (leave > 0f) {
@@ -119,22 +119,22 @@ public class CheckinActivity extends Activity {
 		} else {
 			leaveAt.setText("now");
 		}
-
+		
 		status.setText("You are " + inOut);
 		holidaysLeft.setText(day.getHolydayLeft() + "");
-
+		
 		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime() + delta));
 		hoursWorked.setText(Formater.formatHourMinFromHours((day.getHoursWorked() + delta)));
-
+		
 	}
-
+	
 	private void writeTimestampsToCsv() {
 		TimestampsCsvIO csv = new TimestampsCsvIO();
 		Cursor c = TimestampAccess.getInstance().query(null, null);
 		csv.writeTimestamps(c);
 		c.close();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -142,7 +142,7 @@ public class CheckinActivity extends Activity {
 		menu.getItem(2).setVisible(!Settings.getInstance().isFreeVersion());
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
@@ -154,39 +154,39 @@ public class CheckinActivity extends Activity {
 		case R.id.itemExportTimestamps:
 			if (Settings.getInstance().isFreeVersion()) {
 				showFreeVersionDialog();
-			}else {
-			i = new Intent(this, ExportTimestamps.class);
-			startActivity(i);
+			} else {
+				i = new Intent(this, ExportTimestamps.class);
+				startActivity(i);
 			}
 			break;
-
+		
 		case R.id.itemTimestampList:
 			i = new Intent(this, ListTimeStamps.class);
 			startActivity(i);
 			break;
-
+		
 		case R.id.itemReadInTimestmaps:
 			if (Settings.getInstance().isFreeVersion()) {
 				showFreeVersionDialog();
-			}else {
-			TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
+			} else {
+				TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
 				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
 						.getInstance());
 			}
 			break;
-
+		
 		case R.id.itemPreferences:
 			i = new Intent(getApplicationContext(), StechkartePreferenceActivity.class);
 			startActivity(i);
 			break;
-
+		
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	private void showFreeVersionDialog() {
 		Intent i = new Intent(this, BuyFullVersion.class);
 		startActivity(i);
 	}
-
+	
 }

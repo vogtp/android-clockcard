@@ -17,37 +17,37 @@ import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class TimestampAccess implements IAccess {
-
+	
 	private static final long MIN_TIMESTAMP_DIFF = 1000 * 60;
-
-	private Context context;
-
+	
+	private final Context context;
+	
 	private static TimestampAccess instance;
-
+	
 	public static void initInstance(Context context) {
 		instance = new TimestampAccess(context);
 	}
-
+	
 	public static TimestampAccess getInstance() {
 		return instance;
 	}
-
+	
 	public TimestampAccess(Context context) {
 		super();
 		this.context = context;
 	}
-
+	
 	private class AlertDialogHandler implements OnClickListener {
-
+		
 		private static final int ACTION_ADD_INVERTED = 0;
 		private static final int ACTION_ADD = 1;
 		private static final int ACTION_ADDLAST_ADD = 2;
 		private static final int ACTION_CANCAL = 3;
 		private static final int ACTION_MAX = 4;
-
-		private Timestamp timestamp;
-		private CharSequence[] actions;
-
+		
+		private final Timestamp timestamp;
+		private final CharSequence[] actions;
+		
 		public AlertDialogHandler(Context context, Timestamp timestamp) {
 			this.timestamp = timestamp;
 			actions = new String[ACTION_MAX];
@@ -59,7 +59,7 @@ public class TimestampAccess implements IAccess {
 			actions[ACTION_ADDLAST_ADD] = "Add last " + invTsTAsString + " and add " + tstAsString;
 			actions[ACTION_CANCAL] = "Cancel";
 		}
-
+		
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			switch (which) {
@@ -73,68 +73,68 @@ public class TimestampAccess implements IAccess {
 			case ACTION_CANCAL:
 				Toast.makeText(context, "Canceled action", Toast.LENGTH_SHORT).show();
 				break;
-
+			
 			case ACTION_ADDLAST_ADD:
 				insert(timestamp);
 				Intent i = new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI);
 				i.putExtra(Timestamps.NAME_TIMESTAMP_TYPE, Timestamp.invertTimestampType(timestamp));
 				context.startActivity(i);
 				break;
-
+			
 			default:
 				Toast.makeText(context, "Action not implemented.", Toast.LENGTH_SHORT).show();
 				break;
 			}
-
+			
 		}
-
+		
 		public CharSequence[] getActions() {
 			return actions;
 		}
-
+		
 	}
-
+	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		return getContext().getContentResolver().delete(uri, selection, selectionArgs);
 	}
-
+	
 	private Context getContext() {
 		return context;
 	}
-
+	
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		return getContext().getContentResolver().insert(uri, values);
 	}
-
+	
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return getContext().getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
 	}
-
+	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		return getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 	}
-
-	public void addOutNow() {
-		addOut(System.currentTimeMillis());
+	
+	public void addOutNow(Context ctx) {
+		addOut(ctx, System.currentTimeMillis());
 	}
-
-	public void addOut(long time) {
-		processInOutAdd(new Timestamp(time, Timestamp.TYPE_OUT));
+	
+	public void addOut(Context ctx, long time) {
+		processInOutAdd(ctx, new Timestamp(time, Timestamp.TYPE_OUT));
 	}
-
-	public void addInNow() {
-		addIn(System.currentTimeMillis());
+	
+	public void addInNow(Context ctx) {
+		addIn(ctx, System.currentTimeMillis());
 	}
-
-	public void addIn(long time) {
-		processInOutAdd(new Timestamp(time, Timestamp.TYPE_IN));
+	
+	public void addIn(Context ctx, long time) {
+		processInOutAdd(ctx, new Timestamp(time, Timestamp.TYPE_IN));
 	}
-
-	private void processInOutAdd(Timestamp timestamp) {
+	
+	private void processInOutAdd(Context context, Timestamp timestamp) {
 		Timestamp lastTs = getLastTimestamp();
 		if (lastTs != null) {
 			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < MIN_TIMESTAMP_DIFF) {
@@ -147,18 +147,19 @@ public class TimestampAccess implements IAccess {
 				return;
 			}
 			if (timestamp.getTimestampType() == lastTs.getTimestampType()) {
-
+				
 				Builder alert = new AlertDialog.Builder(context);
 				alert.setTitle("Same timestamp types: " + timestamp.getTimestampTypeAsString(context));
 				AlertDialogHandler alertDiaHandler = new TimestampAccess.AlertDialogHandler(context, timestamp);
 				alert.setItems(alertDiaHandler.getActions(), alertDiaHandler);
-				alert.create().show();
+				alert.create();
+				alert.show();
 				return;
 			}
 		}
 		insert(timestamp);
 	}
-
+	
 	public void insert(Timestamp timestamp) {
 		Toast.makeText(context, timestamp.getTimestampTypeAsString(context) + ": " + timestamp.toString(),
 				Toast.LENGTH_LONG).show();
@@ -169,20 +170,20 @@ public class TimestampAccess implements IAccess {
 		}
 		DayAccess.getInstance().recalculate(getContext(), timestamp.getDayRef());
 	}
-
+	
 	public void update(Timestamp timestamp) {
 		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.NAME_ID + "=" + timestamp.getId(), null);
 		DayAccess.getInstance().recalculate(getContext(), timestamp.getDayRef());
 	}
-
+	
 	public Cursor query(String selection) {
 		return query(selection, DB.Timestamps.DEFAUL_SORTORDER);
 	}
-
+	
 	public Cursor query(String selection, String sortOrder) {
 		return query(Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, null, sortOrder);
 	}
-
+	
 	private Timestamp getLastTimestamp() {
 		Timestamp t = null;
 		Cursor cursor = query(null);
@@ -193,8 +194,7 @@ public class TimestampAccess implements IAccess {
 		}
 		return t;
 	}
-
-
+	
 	public Timestamp getTimestampById(long id) {
 		Cursor c = query(DB.NAME_ID + "=" + id);
 		if (c.moveToFirst()) {
@@ -205,5 +205,5 @@ public class TimestampAccess implements IAccess {
 			throw new SQLException("No such id " + id);
 		}
 	}
-
+	
 }

@@ -80,7 +80,7 @@ public class ExportTimestamps extends Activity {
 	private void sendMail(String filename) {
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
-		sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "patrick.vogt@unibas.ch" });
+		// sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "patrick.vogt@unibas.ch" });
 		sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Stechkarte timestamps");
 		sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + filename));
 		sendIntent.setType("text/plain");
