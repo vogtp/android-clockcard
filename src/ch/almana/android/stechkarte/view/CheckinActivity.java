@@ -1,8 +1,6 @@
 package ch.almana.android.stechkarte.view;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +26,7 @@ public class CheckinActivity extends Activity {
 	// private static final int MENU_ITEM_DAY_LIST = Menu.FIRST;
 	// private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
 	// private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
-	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("hh:mm");
+	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("HH:mm");
 	private TextView status;
 	private TextView overtime;
 	private TextView hoursWorked;
@@ -110,12 +108,12 @@ public class CheckinActivity extends Activity {
 			}
 		}
 		
-		Calendar cal = Calendar.getInstance();
-		float leave = day.getHoursTarget() - day.getHoursWorked();
+		float curHoursWorked = day.getHoursWorked() + delta;
+		float leave = day.getHoursTarget() - curHoursWorked;
 		if (leave > 0f) {
-			cal.add(Calendar.HOUR, Math.round(leave));
-			leaveAt.setText(hhmmSimpleDateFormat.format(cal.getTime()) + " "
-					+ cal.getTimeZone().getDisplayName(true, TimeZone.SHORT));
+			long at = System.currentTimeMillis() + Math.round(leave * 60d * 60d * 1000d);
+			leaveAt.setText(hhmmSimpleDateFormat.format(at));
+			// + cal.getTimeZone().getDisplayName(true, TimeZone.SHORT));
 		} else {
 			leaveAt.setText("now");
 		}
@@ -124,7 +122,7 @@ public class CheckinActivity extends Activity {
 		holidaysLeft.setText(day.getHolydayLeft() + "");
 		
 		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime() + delta));
-		hoursWorked.setText(Formater.formatHourMinFromHours((day.getHoursWorked() + delta)));
+		hoursWorked.setText(Formater.formatHourMinFromHours(curHoursWorked));
 		
 	}
 	
