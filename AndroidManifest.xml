@@ -51,7 +51,7 @@
 <activity android:name=".view.StechkartePreferenceActivity"></activity>
 <activity android:name=".view.BuyFullVersion" android:theme="@android:style/Theme.Dialog"></activity>
 
-<activity android:name=".service.LocationCheckAction"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"></action>
+<activity android:name=".service.LocationCheckAction"><intent-filter>
 </intent-filter>
 </activity>
 </application>
@@ -60,5 +60,5 @@
 
 
 
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+
 </manifest> 
