@@ -27,6 +27,9 @@ public class CheckinActivity extends Activity {
 	// private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
 	// private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
 	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("HH:mm");
+	private static final String ACTION_TIMESTAMP_TOGGLE = "ch.almana.android.stechkarte.actions.timestampToggle";
+	private static final String ACTION_TIMESTAMP_IN = "ch.almana.android.stechkarte.actions.timestampIn";
+	private static final String ACTION_TIMESTAMP_OUT = "ch.almana.android.stechkarte.actions.timestampOut";
 	private TextView status;
 	private TextView overtime;
 	private TextView hoursWorked;
@@ -39,7 +42,6 @@ public class CheckinActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
 		if (!Settings.getInstance().isFreeVersion()) {
 			writeTimestampsToCsv();
 		}
@@ -55,6 +57,16 @@ public class CheckinActivity extends Activity {
 		buttonOut.setWidth(width);
 		buttonOut.setHeight(width);
 		buttonOut.setTextSize(size);
+		
+		String action = getIntent().getAction();
+		
+		if (ACTION_TIMESTAMP_IN.equals(action)) {
+			TimestampAccess.getInstance().addInNow(this);
+		} else if (ACTION_TIMESTAMP_OUT.equals(action)) {
+			TimestampAccess.getInstance().addOutNow(this);
+		} else if (ACTION_TIMESTAMP_TOGGLE.equals(action)) {
+			TimestampAccess.getInstance().addToggleTimestampNow(this);
+		}
 		
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override

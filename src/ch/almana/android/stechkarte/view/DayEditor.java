@@ -1,6 +1,9 @@
 package ch.almana.android.stechkarte.view;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,9 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -33,10 +38,8 @@ import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Formater;
 
 public class DayEditor extends ListActivity {
-
-	public static final int MENU_ITEM_DELETE = 100;
-	public static final int MENU_ITEM_EDIT = MENU_ITEM_DELETE + 1;
-
+	
+	private static final int DIA_DATE_SELECT = 0;
 	private Day day;
 	private Day origDay;
 	private TextView dayRefTextView;
@@ -49,14 +52,22 @@ public class DayEditor extends ListActivity {
 	private ListView timestamps;
 	private SimpleCursorAdapter adapter;
 	private boolean overtimeAction;
-
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.day_editor);
-
+		
+		dayRefTextView = (TextView) findViewById(R.id.TextViewDayRef);
+		holiday = (EditText) findViewById(R.id.EditTextHoliday);
+		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
+		overtime = (EditText) findViewById(R.id.EditTextOvertime);
+		hoursTarget = (EditText) findViewById(R.id.EditTextHoursTarget);
+		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorkedDayEditor);
+		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
+		
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
@@ -67,7 +78,13 @@ public class DayEditor extends ListActivity {
 				day = new Day(savedInstanceState);
 			}
 		} else if (Intent.ACTION_INSERT.equals(action)) {
-			day = new Day(20091101); // FIXME get today
+			day = DayAccess.getInstance().getOrCreateDay(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
+			dayRefTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showDialog(DIA_DATE_SELECT);
+				}
+			});
 		} else if (Intent.ACTION_EDIT.equals(action)) {
 			Cursor c = managedQuery(intent.getData(), DB.Days.DEFAULT_PROJECTION, null, null, null);
 			if (c.moveToFirst()) {
@@ -75,16 +92,13 @@ public class DayEditor extends ListActivity {
 			}
 			c.close();
 		}
-
+		
+		if (day == null) {
+			day = new Day();
+		}
+		
 		origDay = new Day(day);
-		dayRefTextView = (TextView) findViewById(R.id.TextViewDayRef);
-		holiday = (EditText) findViewById(R.id.EditTextHoliday);
-		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
-		overtime = (EditText) findViewById(R.id.EditTextOvertime);
-		hoursTarget = (EditText) findViewById(R.id.EditTextHoursTarget);
-		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorkedDayEditor);
-		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
-
+		
 		timestamps = getListView();
 		overtimeAction = true;
 		overtime.setOnKeyListener(new OnKeyListener() {
@@ -100,21 +114,21 @@ public class DayEditor extends ListActivity {
 				return false;
 			}
 		});
-
+		
 		timestamps.setOnCreateContextMenuListener(this);
 		long dayRef = day.getDayRef();
 		String selection = null;
 		if (dayRef > 0) {
 			selection = DB.Days.NAME_DAYREF + "=" + dayRef;
 		}
-
+		
 		Cursor cursor = TimestampAccess.getInstance().query(selection);
 		// Used to map notes entries from the database to views
 		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] {
 				Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] { R.id.TextViewTimestamp,
 				R.id.TextViewTimestampType });
 		adapter.setViewBinder(new ViewBinder() {
-
+			
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 				if (cursor == null) {
@@ -139,14 +153,35 @@ public class DayEditor extends ListActivity {
 		});
 		timestamps.setAdapter(adapter);
 	}
-
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIA_DATE_SELECT:
+			OnDateSetListener callBack = new OnDateSetListener() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+					day.setYear(year);
+					day.setMonth(monthOfYear);
+					day.setDay(dayOfMonth);
+					updateFields();
+				}
+			};
+			return new DatePickerDialog(this, callBack, day.getYear(), day.getMonth(), day.getDay());
+			
+		default:
+			return super.onCreateDialog(id);
+		}
+		
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		updateFields();
 		// timestamps.setAdapter(adapter);
 	}
-
+	
 	private void updateFields() {
 		dayRefTextView.setText(day.getDayString());
 		holiday.setText(day.getHolyday() + "");
@@ -156,7 +191,7 @@ public class DayEditor extends ListActivity {
 		hoursTarget.setText(Formater.formatHourMinFromHours(day.getHoursTarget()));
 		hoursWorked.setText(Formater.formatHourMinFromHours(day.getHoursWorked()));
 	}
-
+	
 	private void updateModel() {
 		try {
 			day.setHolyday(Float.parseFloat(holiday.getText().toString()));
@@ -180,7 +215,7 @@ public class DayEditor extends ListActivity {
 		}
 		day.setFixed(fixed.isChecked());
 	}
-
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -198,13 +233,13 @@ public class DayEditor extends ListActivity {
 		}
 		DayAccess.getInstance().recalculate(this, day);
 	}
-
+	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		day.saveToBundle(outState);
 		super.onSaveInstanceState(outState);
 	}
-
+	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if (day != null) {
@@ -214,20 +249,20 @@ public class DayEditor extends ListActivity {
 		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 		getMenuInflater().inflate(R.menu.dayeditor_context, menu);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.dayeditor_option, menu);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info;
@@ -237,7 +272,7 @@ public class DayEditor extends ListActivity {
 			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
 			return false;
 		}
-
+		
 		Uri tsUri = ContentUris.withAppendedId(Timestamps.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
 		case R.id.itemDayDeleteTimestamp:
@@ -252,7 +287,7 @@ public class DayEditor extends ListActivity {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
@@ -263,15 +298,15 @@ public class DayEditor extends ListActivity {
 		}
 		return true;
 	}
-
+	
 	private void insertNewTimestamp() {
 		startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
 	}
-
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Uri uri = ContentUris.withAppendedId(DB.Timestamps.CONTENT_URI, id);
 		startActivity(new Intent(Intent.ACTION_EDIT, uri));
 	}
-
+	
 }

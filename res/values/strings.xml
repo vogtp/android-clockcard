@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="menu_insert_day">insert day</string>
 	<string name="app_name">clock card</string>
 	<string name="TimestampTypeIn">IN</string>
 	<string name="TimestampTypeOut">OUT</string>
@@ -21,7 +22,7 @@
 	<string name="LabelHoursTarget">Target </string>
 	<string name="LabelHolyday">Holiday</string>
 
-	<string name="LabelOvertimeTotal">total</string>
+	<string name="LabelOvertimeTotal">total</string><string name="LabelOvertimeTotalLong">Overtime total</string>
 	<string name="LabelHoliday">Holiday</string>
 	<string name="HintHoliday">Holidays taken on
 		this day</string>
@@ -62,4 +63,5 @@
 	<string name="LabelBuyFullVersion">This feature is not
 		available in the free version, buy the
 		full version.</string>
+
 </resources>

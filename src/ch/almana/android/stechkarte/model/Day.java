@@ -7,10 +7,10 @@ import android.os.Bundle;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class Day {
-
-
+	
 	private long id = -1;
 	private long dayRef = 0;
 	private float hoursWorked = 0;
@@ -20,13 +20,17 @@ public class Day {
 	private float overtime = 0;
 	private boolean error = false;
 	private boolean fixed = false;
-
-
+	
+	public Day() {
+		this(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
+	}
+	
 	public Day(long dayRef) {
 		super();
 		this.dayRef = dayRef;
+		this.hoursTarget = Settings.getInstance().getHoursTarget();
 	}
-
+	
 	public Day(Day day) {
 		super();
 		id = day.id;
@@ -39,7 +43,7 @@ public class Day {
 		error = day.error;
 		fixed = day.fixed;
 	}
-
+	
 	public Day(Cursor c) {
 		super();
 		id = c.getLong(DB.INDEX_ID);
@@ -51,15 +55,14 @@ public class Day {
 		overtime = c.getFloat(Days.INDEX_OVERTIME);
 		setError(c.getInt(Days.INDEX_ERROR));
 		setFixed(c.getInt(Days.INDEX_FIXED));
-
+		
 	}
-
-
+	
 	public Day(Bundle instanceState) {
 		super();
 		readFromBundle(instanceState);
 	}
-
+	
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
 		if (id > -1) {
@@ -75,7 +78,7 @@ public class Day {
 		values.put(Days.NAME_FIXED, getFixed());
 		return values;
 	}
-
+	
 	public void saveToBundle(Bundle bundle) {
 		if (id > -1) {
 			bundle.putLong(DB.NAME_ID, id);
@@ -91,7 +94,7 @@ public class Day {
 		bundle.putInt(Days.NAME_ERROR, getError());
 		bundle.putInt(Days.NAME_FIXED, getFixed());
 	}
-
+	
 	public void readFromBundle(Bundle bundle) {
 		id = bundle.getLong(DB.NAME_ID);
 		dayRef = bundle.getLong(Days.NAME_DAYREF);
@@ -103,115 +106,143 @@ public class Day {
 		setError(bundle.getInt(Days.NAME_ERROR));
 		setFixed(bundle.getInt(Days.NAME_FIXED));
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Day) {
 			Day day = (Day) o;
-
+			
 			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday
 					&& holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
 					&& hoursWorked == day.hoursWorked && overtime == day.overtime;
 		}
 		return super.equals(o);
 	}
-
+	
 	public Cursor getTimestamps(Context context) {
-		return TimestampAccess.getInstance().query(Timestamps.NAME_DAYREF + "=" + dayRef,
-				Timestamps.REVERSE_SORTORDER);
+		return TimestampAccess.getInstance().query(Timestamps.NAME_DAYREF + "=" + dayRef, Timestamps.REVERSE_SORTORDER);
 	}
-
+	
 	public long getDayRef() {
 		return dayRef;
 	}
-
+	
 	public void setDayRef(long dayRef) {
 		this.dayRef = dayRef;
 	}
-
+	
 	public float getHoursWorked() {
 		return hoursWorked;
 	}
-
+	
 	public void setHoursWorked(float hoursWorked) {
 		this.hoursWorked = hoursWorked;
 	}
-
+	
 	public float getHoursTarget() {
 		return hoursTarget;
 	}
-
+	
 	public void setHoursTarget(float hoursTarget) {
 		this.hoursTarget = hoursTarget;
 	}
-
+	
 	public float getHolyday() {
 		return holyday;
 	}
-
+	
 	public void setHolyday(float holyday) {
 		this.holyday = holyday;
 	}
-
+	
 	public float getHolydayLeft() {
 		return holydayLeft;
 	}
-
+	
 	public void setHolydayLeft(float holydayLeft) {
 		this.holydayLeft = holydayLeft;
 	}
-
+	
 	public float getOvertime() {
 		return overtime;
 	}
-
+	
 	public void setOvertime(float overtime) {
 		this.overtime = overtime;
 	}
-
-
+	
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	
 	public long getId() {
 		return id;
 	}
-
+	
 	public void setError(boolean error) {
 		this.error = error;
 	}
-
+	
 	public void setError(int error) {
 		this.error = error > 0 ? true : false;
 	}
-
+	
 	public int getError() {
 		return isError() ? 1 : 0;
 	}
-
+	
 	public boolean isError() {
 		return error;
 	}
-
+	
 	public void setFixed(boolean fixed) {
 		this.fixed = fixed;
 	}
-
+	
 	public boolean isFixed() {
 		return fixed;
 	}
-
+	
 	public void setFixed(int fixed) {
 		this.fixed = fixed > 0 ? true : false;
 	}
-
+	
 	public int getFixed() {
 		return fixed ? 1 : 0;
 	}
-
+	
 	public String getDayString() {
 		return getDayRef() + "";
 	}
-
+	
+	public void setYear(int year) {
+		dayRef = year * 10000 + getMonth() * 100 + getDay();
+	}
+	
+	public void setDay(int dayOfMonth) {
+		dayRef = getYear() * 10000 + getMonth() * 100 + dayOfMonth;
+	}
+	
+	public void setMonth(int monthOfYear) {
+		dayRef = getYear() * 10000 + (monthOfYear) * 100 + getDay();
+	}
+	
+	public int getYear() {
+		String s = dayRef + "";
+		int i = Integer.parseInt(s.substring(0, 4));
+		return i;
+	}
+	
+	public int getMonth() {
+		String s = dayRef + "";
+		int i = Integer.parseInt(s.substring(5, 6));
+		return i;
+	}
+	
+	public int getDay() {
+		String s = dayRef + "";
+		int i = Integer.parseInt(s.substring(7, 8));
+		return i;
+	}
+	
 }

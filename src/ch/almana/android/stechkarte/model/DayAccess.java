@@ -1,5 +1,7 @@
 package ch.almana.android.stechkarte.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -18,57 +20,57 @@ import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
-
-	private DB.OpenHelper mOpenHelper;
-	private Context context;
-
+	
+	private static SimpleDateFormat dayRefDateFormat = new SimpleDateFormat("yyyyMMdd");
+	
+	private final Context context;
+	
 	private static DayAccess instance;
 	public static final float HOURS_IN_MILLIES = 1000f * 60f * 60f;
-
+	
 	public static void initInstance(Context context) {
 		instance = new DayAccess(context);
 	}
-
+	
 	public static DayAccess getInstance() {
 		return instance;
 	}
-
+	
 	public DayAccess(Context context) {
 		super();
 		this.context = context;
 	}
-
+	
 	public Context getContext() {
 		return context;
 	}
-
+	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		int count = getContext().getContentResolver().delete(uri, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
-
-
+	
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		Uri ret = getContext().getContentResolver().insert(uri, initialValues);
 		getContext().getContentResolver().notifyChange(ret, null);
 		return ret;
 	}
-
+	
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return getContext().getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
 	}
-
+	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		int count = getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
-
+	
 	public void insert(Day day) {
 		Uri uri = insert(DB.Days.CONTENT_URI, day.getValues());
 		long id = ContentUris.parseId(uri);
@@ -76,7 +78,7 @@ public class DayAccess implements IAccess {
 			day.setId(id);
 		}
 	}
-
+	
 	public boolean hasDayRef(long dayref) {
 		Cursor c = null;
 		try {
@@ -88,18 +90,18 @@ public class DayAccess implements IAccess {
 				c.close();
 				c = null;
 			}
-
+			
 		}
 	}
-
+	
 	public Cursor query(String selection) {
 		return query(selection, Days.DEFAULT_SORTORDER);
 	}
-
+	
 	public Cursor query(String selection, String sortOrder) {
 		return query(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, selection, null, sortOrder);
 	}
-
+	
 	public Day getOrCreateDay(long dayref) {
 		Day d;
 		Cursor c = query(Days.NAME_DAYREF + "=" + dayref);
@@ -111,7 +113,7 @@ public class DayAccess implements IAccess {
 		c.close();
 		return d;
 	}
-
+	
 	public void insertOrUpdate(Day day) {
 		if (day.getId() > -1) {
 			update(day);
@@ -119,11 +121,11 @@ public class DayAccess implements IAccess {
 			insert(day);
 		}
 	}
-
+	
 	public void update(Day day) {
 		update(Days.CONTENT_URI, day.getValues(), DB.NAME_ID + "=" + day.getId(), null);
 	}
-
+	
 	/**
 	 * @param timestamp
 	 *            Timestamp to recalculate or null to work on all days
@@ -148,7 +150,7 @@ public class DayAccess implements IAccess {
 				continue;
 			}
 			if (dayRefs.add(dayref)) {
-				Log.i(LOG_TAG, "Added day " + dayref+" for recalculation");
+				Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
 			}
 			ts.setDayRef(dayref);
 			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
@@ -159,7 +161,7 @@ public class DayAccess implements IAccess {
 			recalculate(context, iterator.next());
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param currentDay
@@ -174,7 +176,7 @@ public class DayAccess implements IAccess {
 		c.close();
 		return d;
 	}
-
+	
 	public void recalculate(Context context, long dayRef) {
 		if (dayRef < 1) {
 			return;
@@ -182,7 +184,7 @@ public class DayAccess implements IAccess {
 		Day day = getOrCreateDay(dayRef);
 		recalculate(context, day);
 	}
-
+	
 	public void recalculate(Context context, Day day) {
 		// if (dayRef < 1) {
 		// return;
@@ -234,8 +236,10 @@ public class DayAccess implements IAccess {
 		Log.w(Logger.LOG_TAG, "Recalculated " + dayRef);
 		insertOrUpdate(day);
 	}
-
-
-
-
+	
+	public static long dayRefFromTimestamp(long timestamp) {
+		String timeString = dayRefDateFormat.format(new Date(timestamp));
+		return Long.parseLong(timeString);
+	}
+	
 }

@@ -4,12 +4,7 @@
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:orientation="vertical">
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/TextViewDayRef"
-		android:text="@+id/TextViewDayRef"
-		android:textSize="25sp"></TextView>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef" android:textSize="25sp" android:layout_gravity="center"></TextView></LinearLayout>
 	<TableLayout android:id="@+id/TableLayout01"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content">
@@ -24,7 +19,7 @@
 			<TextView android:text="@+id/TextView06"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:id="@+id/TextViewHoursWorkedDayEditor"></TextView>
+				android:id="@+id/TextViewHoursWorkedDayEditor" android:textSize="24dp"></TextView>
 		</TableRow>
 		<TableRow android:id="@+id/TableRow05"
 			android:layout_width="wrap_content"
@@ -45,8 +40,7 @@
 			android:layout_height="wrap_content">
 			<TextView android:id="@+id/TextView03"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@+string/LabelOvertime"></TextView>
+				android:layout_height="wrap_content" android:text="@+string/LabelOvertimeTotalLong"></TextView>
 			<EditText
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -116,6 +110,8 @@
 		android:layout_height="wrap_content"
 		android:id="@id/android:list"
 		android:scrollbars="vertical"></ListView>
+
+
 
 
 

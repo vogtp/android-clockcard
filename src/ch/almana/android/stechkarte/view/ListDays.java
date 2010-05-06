@@ -2,7 +2,6 @@ package ch.almana.android.stechkarte.view;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -29,43 +28,43 @@ import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Formater;
 
 public class ListDays extends ListActivity {
-
+	
 	private static final int MENU_ITEM_REBUILD = Menu.FIRST;
 	private ProgressDialog progressDialog = null;
-
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
-
+		
 		// ProgressDialog dia = new ProgressDialog(this);
 		// dia.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		// dia.setTitle("Loading days");
 		// dia.show();
-
+		
 		// If no data was given in the intent (because we were started
 		// as a MAIN activity), then use our default content provider.
 		Intent intent = getIntent();
 		if (intent.getData() == null) {
 			intent.setData(Days.CONTENT_URI);
 		}
-
+		
 		// rebuildDays();
-
+		
 		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null,
 				Days.DEFAULT_SORTORDER);
-
+		
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
 				DB.NAME_ID, DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME,
 				DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED },
-				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef,
-				R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, R.id.TextViewHoliday,
-				R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
-
+				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime,
+						R.id.TextViewHoursTarget, R.id.TextViewHoliday, R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
+		
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -112,8 +111,7 @@ public class ListDays extends ListActivity {
 				} else if (columnIndex == DB.Days.INDEX_FIXED) {
 					ImageView iv = (ImageView) view.findViewById(R.id.ImageViewLock);
 					if (cursor.getInt(Days.INDEX_FIXED) > 0) {
-						iv.setImageDrawable(getResources()
-								.getDrawable(android.R.drawable.ic_lock_lock));
+						iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_lock_lock));
 					} else {
 						iv.setImageBitmap(null);
 					}
@@ -122,46 +120,51 @@ public class ListDays extends ListActivity {
 				return false;
 			}
 		});
-
+		
 		setListAdapter(adapter);
-
+		
 		getListView().setOnCreateContextMenuListener(this);
 		// dia.dismiss();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_ITEM_REBUILD, 0, R.string.menu_rebuild).setShortcut('3', 'a').setIcon(
-				android.R.drawable.ic_menu_revert);
-
-		Intent intent = new Intent(null, getIntent().getData());
-		intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
-		menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, new ComponentName(this, ListTimeStamps.class), null,
-				intent, 0, null);
-
+		getMenuInflater().inflate(R.menu.daylist_option, menu);
+		// menu.add(0, MENU_ITEM_REBUILD, 0, R.string.menu_rebuild).setShortcut('3', 'a').setIcon(
+		// android.R.drawable.ic_menu_revert);
+		//
+		// Intent intent = new Intent(null, getIntent().getData());
+		// intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
+		// menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, new ComponentName(this, ListTimeStamps.class), null,
+		// intent, 0, null);
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_ITEM_REBUILD:
-			// startActivity(new Intent(Intent.ACTION_INSERT,
-			// getIntent().getData()));
+		case R.id.itemDaylistRebuild:
+			// case MENU_ITEM_REBUILD:
 			rebuildDays();
 			return true;
-
+		case R.id.itemDaylistInsertDay:
+			startActivity(new Intent(Intent.ACTION_INSERT, Days.CONTENT_URI));
+			return true;
+		case R.id.itemDaylistInsertTImestamp:
+			startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	private void rebuildDays() {
 		Handler syncHandler = new Handler();
-
+		
 		final Context context = this;
 		syncHandler.post(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				// progressDialog = new ProgressDialog(context);
@@ -175,9 +178,9 @@ public class ListDays extends ListActivity {
 				// progressDialog.show();
 				//
 				// progressDialog.setMessage("Starting...");
-
+				
 				progressDialog = ProgressDialog.show(context, "Rebuilding days", "Starting up...", true, false);
-
+				
 				DayAccess.getInstance().recalculateDayFromTimestamp(null);
 				if (progressDialog != null) {
 					progressDialog.dismiss();
@@ -186,11 +189,11 @@ public class ListDays extends ListActivity {
 			}
 		});
 	}
-
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
-
+		
 		String action = getIntent().getAction();
 		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
 			// The caller is waiting for us to return a note selected by
@@ -204,21 +207,21 @@ public class ListDays extends ListActivity {
 			// i.putExtra(ListTimeStamps.FILTER_DAYREF, dayRef);
 			//			
 			// startActivity(i);
-
+			
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
-
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		getMenuInflater().inflate(R.menu.daylist_context, menu);
 	}
-
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
-
+		
 		AdapterView.AdapterContextMenuInfo info;
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -226,7 +229,7 @@ public class ListDays extends ListActivity {
 			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
 			return false;
 		}
-
+		
 		Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
 		case R.id.itemDeleteDay: {
@@ -244,7 +247,7 @@ public class ListDays extends ListActivity {
 		}
 		}
 		return false;
-
+		
 	}
-
+	
 }

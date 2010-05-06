@@ -123,19 +123,29 @@ public class TimestampAccess implements IAccess {
 	}
 	
 	public void addOut(Context ctx, long time) {
-		processInOutAdd(ctx, new Timestamp(time, Timestamp.TYPE_OUT));
+		processInOutAdd(ctx, time, Timestamp.TYPE_OUT);
 	}
 	
 	public void addInNow(Context ctx) {
 		addIn(ctx, System.currentTimeMillis());
 	}
 	
-	public void addIn(Context ctx, long time) {
-		processInOutAdd(ctx, new Timestamp(time, Timestamp.TYPE_IN));
+	public void addToggleTimestampNow(Context ctx) {
+		processInOutAdd(ctx, System.currentTimeMillis(), Timestamp.TYPE_UNDEF);
 	}
 	
-	private void processInOutAdd(Context context, Timestamp timestamp) {
+	public void addIn(Context ctx, long time) {
+		processInOutAdd(ctx, time, Timestamp.TYPE_IN);
+	}
+	
+	private void processInOutAdd(Context context, long time, int timestampType) {
 		Timestamp lastTs = getLastTimestamp();
+		
+		if (timestampType == Timestamp.TYPE_UNDEF) {
+			timestampType = Timestamp.invertTimestampType(lastTs);
+		}
+		
+		Timestamp timestamp = new Timestamp(time, timestampType);
 		if (lastTs != null) {
 			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < MIN_TIMESTAMP_DIFF) {
 				String tsTime = timestamp.toString();
