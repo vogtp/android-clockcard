@@ -23,9 +23,6 @@ import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
 	
-	// private static final int MENU_ITEM_DAY_LIST = Menu.FIRST;
-	// private static final int MENU_ITEM_TIMESTAMP_LIST = Menu.FIRST + 1;
-	// private static final int MENU_ITEM_READ_IN_TIMESTAMPS = Menu.FIRST + 2;
 	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("HH:mm");
 	private static final String ACTION_TIMESTAMP_TOGGLE = "ch.almana.android.stechkarte.actions.timestampToggle";
 	private static final String ACTION_TIMESTAMP_IN = "ch.almana.android.stechkarte.actions.timestampIn";
@@ -61,11 +58,17 @@ public class CheckinActivity extends Activity {
 		String action = getIntent().getAction();
 		
 		if (ACTION_TIMESTAMP_IN.equals(action)) {
-			TimestampAccess.getInstance().addInNow(this);
+			if (TimestampAccess.getInstance().addInNow(this)) {
+				finish();
+			}
 		} else if (ACTION_TIMESTAMP_OUT.equals(action)) {
-			TimestampAccess.getInstance().addOutNow(this);
+			if (TimestampAccess.getInstance().addOutNow(this)) {
+				finish();
+			}
 		} else if (ACTION_TIMESTAMP_TOGGLE.equals(action)) {
-			TimestampAccess.getInstance().addToggleTimestampNow(this);
+			if (TimestampAccess.getInstance().addToggleTimestampNow(this)) {
+				finish();
+			}
 		}
 		
 		buttonIn.setOnClickListener(new OnClickListener() {

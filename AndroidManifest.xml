@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="ch.almana.android.stechkarte"
-      android:versionName="0.9.7" android:versionCode="10">
+      android:versionCode="11" android:versionName="0.9.8">
     <application android:icon="@drawable/stechkarte" android:allowClearUserData="true" android:allowBackup="true" android:name=".application.StechkarteApplication" android:label="@string/app_name">
         <activity android:label="@string/app_name" android:name=".view.CheckinActivity" android:screenOrientation="portrait">
             <intent-filter><action android:name="ch.almana.android.stechkarte.actions.timestampIn"></action>
-</intent-filter><intent-filter><action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
+<category android:name="android.intent.category.DEFAULT"></category>
+</intent-filter><intent-filter><category android:name="android.intent.category.DEFAULT"></category><action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
 </intent-filter><intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        <intent-filter><action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
+        <intent-filter><category android:name="android.intent.category.DEFAULT"></category><action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
 </intent-filter>
 </activity>
 

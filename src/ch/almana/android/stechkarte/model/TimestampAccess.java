@@ -118,27 +118,27 @@ public class TimestampAccess implements IAccess {
 		return getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 	}
 	
-	public void addOutNow(Context ctx) {
-		addOut(ctx, System.currentTimeMillis());
+	public boolean addOutNow(Context ctx) {
+		return addOut(ctx, System.currentTimeMillis());
 	}
 	
-	public void addOut(Context ctx, long time) {
-		processInOutAdd(ctx, time, Timestamp.TYPE_OUT);
+	public boolean addOut(Context ctx, long time) {
+		return processInOutAdd(ctx, time, Timestamp.TYPE_OUT);
 	}
 	
-	public void addInNow(Context ctx) {
-		addIn(ctx, System.currentTimeMillis());
+	public boolean addInNow(Context ctx) {
+		return addIn(ctx, System.currentTimeMillis());
 	}
 	
-	public void addToggleTimestampNow(Context ctx) {
-		processInOutAdd(ctx, System.currentTimeMillis(), Timestamp.TYPE_UNDEF);
+	public boolean addToggleTimestampNow(Context ctx) {
+		return processInOutAdd(ctx, System.currentTimeMillis(), Timestamp.TYPE_UNDEF);
 	}
 	
-	public void addIn(Context ctx, long time) {
-		processInOutAdd(ctx, time, Timestamp.TYPE_IN);
+	public boolean addIn(Context ctx, long time) {
+		return processInOutAdd(ctx, time, Timestamp.TYPE_IN);
 	}
 	
-	private void processInOutAdd(Context context, long time, int timestampType) {
+	private boolean processInOutAdd(Context context, long time, int timestampType) {
 		Timestamp lastTs = getLastTimestamp();
 		
 		if (timestampType == Timestamp.TYPE_UNDEF) {
@@ -154,7 +154,7 @@ public class TimestampAccess implements IAccess {
 						context,
 						"Difference betwenn current and last timestamp is too small!\n" + tsTime + "\n" + ltsTime
 								+ "\nIgnoring timestamp.", Toast.LENGTH_LONG).show();
-				return;
+				return false;
 			}
 			if (timestamp.getTimestampType() == lastTs.getTimestampType()) {
 				
@@ -164,10 +164,11 @@ public class TimestampAccess implements IAccess {
 				alert.setItems(alertDiaHandler.getActions(), alertDiaHandler);
 				alert.create();
 				alert.show();
-				return;
+				return false;
 			}
 		}
 		insert(timestamp);
+		return true;
 	}
 	
 	public void insert(Timestamp timestamp) {
