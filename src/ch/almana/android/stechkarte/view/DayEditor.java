@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -35,9 +36,11 @@ import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.DeleteDayDialog;
+import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
 
-public class DayEditor extends ListActivity {
+public class DayEditor extends ListActivity implements DialogCallback {
 	
 	private static final int DIA_DATE_SELECT = 0;
 	private Day day;
@@ -178,8 +181,8 @@ public class DayEditor extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		updateFields();
-		// timestamps.setAdapter(adapter);
 	}
 	
 	private void updateFields() {
@@ -295,6 +298,11 @@ public class DayEditor extends ListActivity {
 		case R.id.itemDayInsertTimestamp:
 			insertNewTimestamp();
 			return true;
+		case R.id.itemDeleteDay:
+			DeleteDayDialog deleteDayDialog = new DeleteDayDialog(this, day.getId());
+			deleteDayDialog.setTitle("Delete Day...");
+			deleteDayDialog.show();
+			return true;
 		}
 		return true;
 	}
@@ -307,6 +315,18 @@ public class DayEditor extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Uri uri = ContentUris.withAppendedId(DB.Timestamps.CONTENT_URI, id);
 		startActivity(new Intent(Intent.ACTION_EDIT, uri));
+	}
+	
+	@Override
+	public void finished(boolean success) {
+		if (success) {
+			finish();
+		}
+	}
+	
+	@Override
+	public Context getContext() {
+		return this;
 	}
 	
 }

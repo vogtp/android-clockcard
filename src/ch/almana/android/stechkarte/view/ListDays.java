@@ -1,12 +1,9 @@
 package ch.almana.android.stechkarte.view;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.app.AlertDialog.Builder;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -29,15 +26,15 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
-import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.DeleteDayDialog;
+import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
 
-public class ListDays extends ListActivity {
+public class ListDays extends ListActivity implements DialogCallback {
 	
-	private static final int MENU_ITEM_REBUILD = Menu.FIRST;
 	private ProgressDialog progressDialog = null;
 	
 	/** Called when the activity is first created. */
@@ -200,18 +197,8 @@ public class ListDays extends ListActivity {
 		
 		String action = getIntent().getAction();
 		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-			// The caller is waiting for us to return a note selected by
-			// the user. The have clicked on one, so return it now.
 			setResult(RESULT_OK, new Intent().setData(uri));
 		} else {
-			// Launch activity to view/edit the currently selected item
-			// Intent i = new Intent(this, ListTimeStamps.class);
-			// long dayRef =
-			// TimestampAccess.getInstance(this).getTimestampById(id).getDayRef();
-			// i.putExtra(ListTimeStamps.FILTER_DAYREF, dayRef);
-			//			
-			// startActivity(i);
-			
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
@@ -234,26 +221,12 @@ public class ListDays extends ListActivity {
 			return false;
 		}
 		
-		Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
+		// Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
 		case R.id.itemDeleteDay: {
-			// Cursor c = DayAccess.getInstance(this).query(uri,
-			// DB.Days.DEFAULT_PROJECTION, null, null,
-			// DB.Days.DEFAULT_SORTORDER);
-			// Day d = new Day(c);
-			// Cursor ct = d.getTimestamps(this);
-			// if (ct.getCount() > 0) {
-			// // delete timestamps?
-			//
-			// }
-			// int delRows = DayAccess.getInstance().delete(uri, null, null);
-			// return delRows > 0;
 			
-			Builder alert = new AlertDialog.Builder(this);
+			DeleteDayDialog alert = new DeleteDayDialog(this, info.id);
 			alert.setTitle("Delete Day...");
-			DeleteDayHandler diaHandler = new DeleteDayHandler(uri);
-			alert.setItems(diaHandler.getActions(), diaHandler);
-			alert.create();
 			alert.show();
 			return true;
 		}
@@ -262,82 +235,15 @@ public class ListDays extends ListActivity {
 		
 	}
 	
-	private class DeleteDayHandler implements DialogInterface.OnClickListener {
+	@Override
+	public void finished(boolean success) {
+		// TODO Auto-generated method stub
 		
-		private static final int ACTION_DEL_DAY = 0;
-		private static final int ACTION_DEL_DAY_TIMESTAMPS = 1;
-		private static final int ACTION_CACEL = 2;
-		private static final int ACTION_MAX = 3;
-		private final Uri uri;
-		private Day day;
-		private final CharSequence[] actions;
-		
-		public DeleteDayHandler(Uri uri) {
-			this.uri = uri;
-			actions = new String[ACTION_MAX];
-			actions[ACTION_DEL_DAY] = "Delete day only";
-			Cursor c = null;
-			Cursor ct = null;
-			try {
-				c = DayAccess.getInstance().query(uri, DB.Days.DEFAULT_PROJECTION, null, null,
-						DB.Days.DEFAULT_SORTORDER);
-				c.moveToFirst();
-				day = new Day(c);
-				if (day != null) {
-					ct = day.getTimestamps();
-					if (ct.getCount() > 0) {
-						actions[ACTION_DEL_DAY_TIMESTAMPS] = "Delete day and its timestamps";
-					}
-				}
-			} finally {
-				if (c != null) {
-					c.close();
-				}
-				if (ct != null) {
-					ct.close();
-				}
-			}
-			actions[ACTION_CACEL] = getString(android.R.string.cancel);
-		}
-		
-		public CharSequence[] getActions() {
-			return actions;
-		}
-		
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			switch (which) {
-			case ACTION_DEL_DAY:
-				deleteDay();
-				break;
-			case ACTION_DEL_DAY_TIMESTAMPS:
-				deleteTimestamps();
-				deleteDay();
-				break;
-			}
-		}
-		
-		private boolean deleteDay() {
-			int delRows = DayAccess.getInstance().delete(uri, null, null);
-			return delRows > 0;
-		}
-		
-		private boolean deleteTimestamps() {
-			Cursor c = null;
-			try {
-				c = day.getTimestamps();
-				while (c.moveToNext()) {
-					// delete timestamp
-					TimestampAccess.getInstance().delete(c);
-				}
-			} finally {
-				if (c != null) {
-					c.close();
-				}
-			}
-			return true;
-		}
-		
+	}
+	
+	@Override
+	public Context getContext() {
+		return this;
 	}
 	
 }

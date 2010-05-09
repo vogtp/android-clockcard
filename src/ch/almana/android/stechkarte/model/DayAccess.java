@@ -52,6 +52,23 @@ public class DayAccess implements IAccess {
 		return count;
 	}
 	
+	public int deleteTimestamps(Day day) {
+		Cursor c = null;
+		int delRows = 0;
+		try {
+			c = day.getTimestamps();
+			while (c.moveToNext()) {
+				// delete timestamp
+				delRows += TimestampAccess.getInstance().delete(c);
+			}
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+		return delRows;
+	}
+	
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		Uri ret = getContext().getContentResolver().insert(uri, initialValues);
