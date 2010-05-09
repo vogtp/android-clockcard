@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -44,19 +43,10 @@ public class ListDays extends ListActivity implements DialogCallback {
 		super.onCreate(savedInstanceState);
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 		
-		// ProgressDialog dia = new ProgressDialog(this);
-		// dia.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		// dia.setTitle("Loading days");
-		// dia.show();
-		
-		// If no data was given in the intent (because we were started
-		// as a MAIN activity), then use our default content provider.
 		Intent intent = getIntent();
 		if (intent.getData() == null) {
 			intent.setData(Days.CONTENT_URI);
 		}
-		
-		// rebuildDays();
 		
 		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null,
 				Days.DEFAULT_SORTORDER);
@@ -162,33 +152,10 @@ public class ListDays extends ListActivity implements DialogCallback {
 	}
 	
 	private void rebuildDays() {
-		Handler syncHandler = new Handler();
 		progressDialog = new ProgressDialog(this);
-		// progressDialog.setIcon(android.R.drawable.ic_dialog_alert);
-		// progressDialog.setTitle("Rebuilding days");
-		// progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		// progressDialog.setMax(100);
-		// progressDialog.setMessage("Checking Authorization...");
-		// progressDialog.setProgress(0);
-		// progressDialog.setCancelable(false);
-		progressDialog.setMessage("Rebuilding days...");
-		progressDialog.show();
-		
 		RebuildDaysTask rebuildDaysTask = new RebuildDaysTask(progressDialog);
 		rebuildDaysTask.execute((Timestamp[]) null);
 		
-		// syncHandler.post(new Runnable() {
-		//			
-		// @Override
-		// public void run() {
-		//				
-		// DayAccess.getInstance().recalculateDayFromTimestamp(null);
-		// if (progressDialog != null) {
-		// progressDialog.dismiss();
-		// progressDialog = null;
-		// }
-		// }
-		// });
 	}
 	
 	@Override

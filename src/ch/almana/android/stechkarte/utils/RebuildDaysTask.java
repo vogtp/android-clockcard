@@ -19,7 +19,11 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	
 	@Override
 	protected void onPreExecute() {
+		progressDialog.setTitle("Rebuilding days");
 		progressDialog.setMessage("Rebuilding days...");
+		// progressDialog.setMax(100);
+		// progressDialog.setProgress(0);
+		// progressDialog.setMessage("Starting");
 		progressDialog.show();
 		super.onPreExecute();
 	}
