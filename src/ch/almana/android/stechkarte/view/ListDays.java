@@ -25,13 +25,14 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
-import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.DeleteDayDialog;
 import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
+import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 
 public class ListDays extends ListActivity implements DialogCallback {
 	
@@ -162,33 +163,32 @@ public class ListDays extends ListActivity implements DialogCallback {
 	
 	private void rebuildDays() {
 		Handler syncHandler = new Handler();
+		progressDialog = new ProgressDialog(this);
+		// progressDialog.setIcon(android.R.drawable.ic_dialog_alert);
+		// progressDialog.setTitle("Rebuilding days");
+		// progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		// progressDialog.setMax(100);
+		// progressDialog.setMessage("Checking Authorization...");
+		// progressDialog.setProgress(0);
+		// progressDialog.setCancelable(false);
+		progressDialog.setMessage("Rebuilding days...");
+		progressDialog.show();
 		
-		final Context context = this;
-		syncHandler.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				// progressDialog = new ProgressDialog(context);
-				// progressDialog.setIcon(android.R.drawable.ic_dialog_alert);
-				// progressDialog.setTitle("Rebuilding days");
-				// progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				// // progressDialog.setMax(100);
-				// // progressDialog.setMessage("Checking Authorization...");
-				// // progressDialog.setProgress(0);
-				// progressDialog.setCancelable(false);
-				// progressDialog.show();
-				//
-				// progressDialog.setMessage("Starting...");
-				
-				progressDialog = ProgressDialog.show(context, "Rebuilding days", "Starting up...", true, false);
-				
-				DayAccess.getInstance().recalculateDayFromTimestamp(null);
-				if (progressDialog != null) {
-					progressDialog.dismiss();
-					progressDialog = null;
-				}
-			}
-		});
+		RebuildDaysTask rebuildDaysTask = new RebuildDaysTask(progressDialog);
+		rebuildDaysTask.execute((Timestamp[]) null);
+		
+		// syncHandler.post(new Runnable() {
+		//			
+		// @Override
+		// public void run() {
+		//				
+		// DayAccess.getInstance().recalculateDayFromTimestamp(null);
+		// if (progressDialog != null) {
+		// progressDialog.dismiss();
+		// progressDialog = null;
+		// }
+		// }
+		// });
 	}
 	
 	@Override
