@@ -198,7 +198,7 @@ public class DayAccess implements IAccess {
 		Log.i(LOG_TAG, "Recalculating " + dayRef + " with prev day " + previousDay.getDayRef());
 		long worked = 0;
 		// calculate for timestamps
-		Cursor c = day.getTimestamps(context);
+		Cursor c = day.getTimestamps();
 		boolean error = false;
 		while (c.moveToNext()) {
 			// what a timestamp is in an other day?

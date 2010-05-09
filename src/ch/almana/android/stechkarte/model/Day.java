@@ -1,7 +1,6 @@
 package ch.almana.android.stechkarte.model;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import ch.almana.android.stechkarte.provider.db.DB;
@@ -119,7 +118,7 @@ public class Day {
 		return super.equals(o);
 	}
 	
-	public Cursor getTimestamps(Context context) {
+	public Cursor getTimestamps() {
 		return TimestampAccess.getInstance().query(Timestamps.NAME_DAYREF + "=" + dayRef, Timestamps.REVERSE_SORTORDER);
 	}
 	

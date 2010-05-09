@@ -110,7 +110,7 @@ public class CheckinActivity extends Activity {
 		}
 		c.close();
 		
-		c = day.getTimestamps(this);
+		c = day.getTimestamps();
 		Timestamp ts = null;
 		
 		float delta = 0;
@@ -122,6 +122,7 @@ public class CheckinActivity extends Activity {
 				delta = (System.currentTimeMillis() - ts.getTimestamp()) / DayAccess.HOURS_IN_MILLIES;
 			}
 		}
+		c.close();
 		
 		float curHoursWorked = day.getHoursWorked() + delta;
 		float leave = day.getHoursTarget() - curHoursWorked;

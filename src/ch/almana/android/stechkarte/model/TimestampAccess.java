@@ -94,6 +94,10 @@ public class TimestampAccess implements IAccess {
 		
 	}
 	
+	public void delete(Cursor c) {
+		delete(Timestamps.CONTENT_URI, DB.NAME_ID + "=" + c.getInt(DB.INDEX_ID), null);
+	}
+	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		return getContext().getContentResolver().delete(uri, selection, selectionArgs);

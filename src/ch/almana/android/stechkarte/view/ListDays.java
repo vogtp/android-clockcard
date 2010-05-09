@@ -1,9 +1,12 @@
 package ch.almana.android.stechkarte.view;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -26,6 +29,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
@@ -242,11 +246,97 @@ public class ListDays extends ListActivity {
 			// // delete timestamps?
 			//
 			// }
-			int delRows = DayAccess.getInstance().delete(uri, null, null);
-			return delRows > 0;
+			// int delRows = DayAccess.getInstance().delete(uri, null, null);
+			// return delRows > 0;
+			
+			Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("Delete Day...");
+			DeleteDayHandler diaHandler = new DeleteDayHandler(uri);
+			alert.setItems(diaHandler.getActions(), diaHandler);
+			alert.create();
+			alert.show();
+			return true;
 		}
 		}
 		return false;
+		
+	}
+	
+	private class DeleteDayHandler implements DialogInterface.OnClickListener {
+		
+		private static final int ACTION_DEL_DAY = 0;
+		private static final int ACTION_DEL_DAY_TIMESTAMPS = 1;
+		private static final int ACTION_CACEL = 2;
+		private static final int ACTION_MAX = 3;
+		private final Uri uri;
+		private Day day;
+		private final CharSequence[] actions;
+		
+		public DeleteDayHandler(Uri uri) {
+			this.uri = uri;
+			actions = new String[ACTION_MAX];
+			actions[ACTION_DEL_DAY] = "Delete day only";
+			Cursor c = null;
+			Cursor ct = null;
+			try {
+				c = DayAccess.getInstance().query(uri, DB.Days.DEFAULT_PROJECTION, null, null,
+						DB.Days.DEFAULT_SORTORDER);
+				c.moveToFirst();
+				day = new Day(c);
+				if (day != null) {
+					ct = day.getTimestamps();
+					if (ct.getCount() > 0) {
+						actions[ACTION_DEL_DAY_TIMESTAMPS] = "Delete day and its timestamps";
+					}
+				}
+			} finally {
+				if (c != null) {
+					c.close();
+				}
+				if (ct != null) {
+					ct.close();
+				}
+			}
+			actions[ACTION_CACEL] = getString(android.R.string.cancel);
+		}
+		
+		public CharSequence[] getActions() {
+			return actions;
+		}
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			switch (which) {
+			case ACTION_DEL_DAY:
+				deleteDay();
+				break;
+			case ACTION_DEL_DAY_TIMESTAMPS:
+				deleteTimestamps();
+				deleteDay();
+				break;
+			}
+		}
+		
+		private boolean deleteDay() {
+			int delRows = DayAccess.getInstance().delete(uri, null, null);
+			return delRows > 0;
+		}
+		
+		private boolean deleteTimestamps() {
+			Cursor c = null;
+			try {
+				c = day.getTimestamps();
+				while (c.moveToNext()) {
+					// delete timestamp
+					TimestampAccess.getInstance().delete(c);
+				}
+			} finally {
+				if (c != null) {
+					c.close();
+				}
+			}
+			return true;
+		}
 		
 	}
 	
