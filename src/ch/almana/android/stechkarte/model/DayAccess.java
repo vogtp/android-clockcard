@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -146,8 +147,9 @@ public class DayAccess implements IAccess {
 	/**
 	 * @param timestamp
 	 *            Timestamp to recalculate or null to work on all days
+	 * @param progressDialog
 	 */
-	public void recalculateDayFromTimestamp(Timestamp timestamp) {
+	public void recalculateDayFromTimestamp(Timestamp timestamp, ProgressDialog progressDialog) {
 		String selection = null;
 		String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
 		if (timestamp != null) {
@@ -159,7 +161,10 @@ public class DayAccess implements IAccess {
 		TimestampAccess timestampAccess = TimestampAccess.getInstance();
 		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 		SortedSet<Long> dayRefs = new TreeSet<Long>();
+		int i = 0;
+		progressDialog.setMax(c.getCount() * 2);
 		while (c.moveToNext()) {
+			progressDialog.setProgress(i++);
 			Timestamp ts = new Timestamp(c);
 			long dayref = ts.getDayRef();
 			Day curDay = getOrCreateDay(dayref);
@@ -174,8 +179,12 @@ public class DayAccess implements IAccess {
 		}
 		c.close();
 		Iterator<Long> iterator = dayRefs.iterator();
+		// i = 0;
+		// progressDialog.setProgress(0);
 		while (iterator.hasNext()) {
-			recalculate(context, iterator.next());
+			progressDialog.setProgress(i++);
+			Long dayRef = iterator.next();
+			recalculate(context, dayRef);
 		}
 	}
 	

@@ -20,7 +20,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	@Override
 	protected void onPreExecute() {
 		progressDialog.setTitle("Rebuilding days");
-		progressDialog.setMessage("Rebuilding days...");
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		// progressDialog.setMax(100);
 		// progressDialog.setProgress(0);
 		// progressDialog.setMessage("Starting");
@@ -36,7 +36,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
-		DayAccess.getInstance().recalculateDayFromTimestamp(null);
+		DayAccess.getInstance().recalculateDayFromTimestamp(null, progressDialog);
 		return null;
 	}
 	
