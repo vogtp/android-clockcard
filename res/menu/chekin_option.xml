@@ -19,7 +19,7 @@
 				android:visible="false"></item>
 			<item android:id="@+id/itemReadInTimestmaps"
 				android:titleCondensed="@string/ButtonReadTimestamps"
-				android:title="@string/ButtonReadTimestamps"></item>
+				android:title="@string/ButtonReadTimestamps" android:visible="true"></item>
 		</menu>
 	</item>
 </menu>

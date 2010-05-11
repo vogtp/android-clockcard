@@ -28,7 +28,7 @@
 	<string name="TextViewHolidaysLeft">left</string>
 	<string name="LabelTimestamps">TImestamps</string>
 	<string name="optionMore">more</string>
-	<string name="ExportTImestamps">Export </string>
+	<string name="ExportTImestamps">E-mail export as CSV</string>
 	<string name="deleteDay">Delete day</string>
 	<string name="delteSubTimestamps">Delete timestamps as well?</string>
 	<string name="dayMo">Monday</string>
@@ -41,6 +41,10 @@
 	<string name="prefLicenceLong">License key for extra features</string>
 	<string name="prefWorkday">Workday</string>
 	<string name="prefWorkdayLong">Settings about a day of work</string>
+	<string name="prefMinTimestampDiff">Minimal timestamp difference</string>
+	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in minutes</string>
+	<string name="prefEmailAddress">e-mail address</string>
+	<string name="prefEmailAddressLong">e-mail address to send exports to</string>
 	<string name="defaultHoursPerDay">8.24</string>
 	<string name="LabelHoursWorked">Hours worked</string>
 	<string name="TextViewLeave">Leave at </string>
