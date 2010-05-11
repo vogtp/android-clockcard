@@ -19,6 +19,7 @@ import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
 	
@@ -60,7 +61,7 @@ public class ExportTimestamps extends Activity {
 			while (timestamps.moveToNext()) {
 				writer.write(SEPARATOR);
 				Timestamp ts = new Timestamp(timestamps);
-				writer.write("\"" + ts.getHMS() + "\"");
+				writer.write("\"" + ts.getHM() + "\"");
 			}
 			writer.write("\n");
 			timestamps.close();
@@ -80,7 +81,8 @@ public class ExportTimestamps extends Activity {
 	private void sendMail(String filename) {
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
 		
-		// sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "patrick.vogt@unibas.ch" });
+		sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+				new String[] { Settings.getInstance().getEmailAddress() });
 		sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Stechkarte timestamps");
 		sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + filename));
 		sendIntent.setType("text/plain");

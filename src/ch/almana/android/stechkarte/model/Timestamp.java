@@ -117,7 +117,7 @@ public class Timestamp {
 		this.timestampType = timestampType;
 	}
 	
-	private static SimpleDateFormat toStingDatetimeFormat = new SimpleDateFormat("HH:mm (dd.MM.yyyy)");
+	private static SimpleDateFormat toStingDatetimeFormat = new SimpleDateFormat("HH:mm:ss (dd.MM.yyyy)");
 	
 	public static String timestampToString(long time) {
 		return formatTime(time, toStingDatetimeFormat);
@@ -138,6 +138,18 @@ public class Timestamp {
 	
 	public String getHMS() {
 		return formatTime(getTimestamp(), hmsDatetimeFormat);
+	}
+	
+	private static SimpleDateFormat hmDatetimeFormat = new SimpleDateFormat("HH:mm");
+	
+	public String getHM() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(getTimestamp());
+		int sec = calendar.get(Calendar.SECOND);
+		if (sec > 30) {
+			calendar.add(Calendar.MINUTE, 1);
+		}
+		return formatTime(calendar.getTimeInMillis(), hmDatetimeFormat);
 	}
 	
 	public static int invertTimestampType(Timestamp timestamp) {
