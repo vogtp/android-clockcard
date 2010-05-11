@@ -122,13 +122,19 @@ public class DayAccess implements IAccess {
 	
 	public Day getOrCreateDay(long dayref) {
 		Day d;
-		Cursor c = query(Days.NAME_DAYREF + "=" + dayref);
-		if (c.moveToFirst()) {
-			d = new Day(c);
-		} else {
-			d = new Day(dayref);
+		Cursor c = null;
+		try {
+			c = query(Days.NAME_DAYREF + "=" + dayref);
+			if (c.moveToFirst()) {
+				d = new Day(c);
+			} else {
+				d = new Day(dayref);
+			}
+		} finally {
+			if (c != null) {
+				c.close();
+			}
 		}
-		c.close();
 		return d;
 	}
 	
@@ -266,6 +272,26 @@ public class DayAccess implements IAccess {
 	public static long dayRefFromTimestamp(long timestamp) {
 		String timeString = dayRefDateFormat.format(new Date(timestamp));
 		return Long.parseLong(timeString);
+	}
+	
+	public static long getNextFreeDayref(long timestamp) {
+		long dayref = dayRefFromTimestamp(timestamp);
+		while (exists(dayref)) {
+			dayref++;
+		}
+		return dayref;
+	}
+	
+	private static boolean exists(long dayref) {
+		Cursor c = null;
+		try {
+			c = getInstance().query(Days.NAME_DAYREF + "=" + dayref);
+			return c.moveToFirst();
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
 	}
 	
 }
