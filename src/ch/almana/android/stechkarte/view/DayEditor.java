@@ -81,7 +81,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 				day = new Day(savedInstanceState);
 			}
 		} else if (Intent.ACTION_INSERT.equals(action)) {
-			day = DayAccess.getInstance().getOrCreateDay(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
+			day = new Day(DayAccess.getNextFreeDayref(System.currentTimeMillis()));
 			dayRefTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -226,15 +226,13 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		if (origDay.equals(day)) {
 			return;
 		}
-		String action = getIntent().getAction();
-		if (Intent.ACTION_INSERT.equals(action)) {
-			DayAccess access = DayAccess.getInstance();
-			access.insert(day);
-		} else if (Intent.ACTION_EDIT.equals(action)) {
-			DayAccess access = DayAccess.getInstance();
-			access.update(day);
+		try {
+			DayAccess.getInstance().insertOrUpdate(day);
+			DayAccess.getInstance().recalculate(this, day);
+		} catch (Exception e) {
+			Log.e(Logger.LOG_TAG, "Cannot save day", e);
+			Toast.makeText(this, "Error saving day.", Toast.LENGTH_LONG).show();
 		}
-		DayAccess.getInstance().recalculate(this, day);
 	}
 	
 	@Override
