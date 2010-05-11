@@ -8,6 +8,7 @@ import ch.almana.android.stechkarte.log.Logger;
 public class Settings extends SettingsBase {
 	
 	private static float hoursTargetDefault = 8.4f;
+	private static final long MINUTES_IN_MILLIES = 1000 * 60;
 	
 	public static void initInstance(Context ctx) {
 		if (instance == null) {
@@ -34,4 +35,21 @@ public class Settings extends SettingsBase {
 		return !"sonnenscheinInBasel".equals(lic);
 	}
 	
+	public long getMinTimestampDiff() {
+		try {
+			long diff = getPrefAsLong(R.string.prefKeyMinTimestampDiff, R.string.prefMinTimestampDiffDefault);
+			return diff * MINUTES_IN_MILLIES;
+		} catch (Exception e) {
+			return MINUTES_IN_MILLIES;
+		}
+	}
+	
+	public String getEmailAddress() {
+		try {
+			return getPrefAsString(R.string.prefKeyEmailAddress, R.string.prefEmailAddressDefault);
+		} catch (Exception e) {
+			return "";
+		}
+		
+	}
 }

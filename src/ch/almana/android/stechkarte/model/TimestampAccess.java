@@ -15,10 +15,9 @@ import android.widget.Toast;
 import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class TimestampAccess implements IAccess {
-	
-	private static final long MIN_TIMESTAMP_DIFF = 1000 * 60;
 	
 	private final Context context;
 	
@@ -151,7 +150,8 @@ public class TimestampAccess implements IAccess {
 		
 		Timestamp timestamp = new Timestamp(time, timestampType);
 		if (lastTs != null) {
-			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < MIN_TIMESTAMP_DIFF) {
+			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < Settings.getInstance()
+					.getMinTimestampDiff()) {
 				String tsTime = timestamp.toString();
 				String ltsTime = lastTs.toString();
 				Toast.makeText(
