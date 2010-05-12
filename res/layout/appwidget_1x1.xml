@@ -2,11 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content" style="@style/WidgetBackground"
 	android:id="@+id/LinearLayoutAppwidget1x1" android:layout_width="fill_parent"
-	android:layout_gravity="center_horizontal" android:orientation="vertical" android:paddingLeft="10dp" android:paddingBottom="2dp" android:paddingRight="2dp" android:paddingTop="2dp">
-	<TextView android:layout_height="wrap_content" android:textSize="24dp" android:textStyle="bold" android:layout_gravity="center_horizontal" android:text="LOAD" android:layout_width="fill_parent" android:layout_weight="1" android:paddingTop="2dp" android:paddingBottom="5dp" android:id="@+id/TextViewAppWidgetInOut"></TextView>
-<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Last timestamp:" android:textSize="@dimen/appWidgetFontsize"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewAppWidgetLastTSTime" android:text="Last TS time" android:textSize="@dimen/appWidgetFontsize"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewAppWidgetLastTSDate" android:text="last TS date" android:textSize="@dimen/appWidgetFontsize" android:paddingBottom="2dp"></TextView>
+	android:layout_gravity="center_horizontal" android:orientation="vertical"
+	android:paddingLeft="10dp" android:paddingBottom="4dp"
+	android:paddingRight="2dp" android:paddingTop="2dp">
+	<TextView android:layout_height="wrap_content"
+		android:textSize="24dp" android:textStyle="bold"
+		android:layout_gravity="center_horizontal" android:text="LOAD"
+		android:layout_width="fill_parent" android:paddingTop="2dp"
+		android:paddingBottom="5dp" android:id="@+id/TextViewAppWidgetInOut"
+		android:layout_weight="10" android:singleLine="true"></TextView>
+	<TextView android:id="@+id/LabelLastTS" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:textSize="@dimen/appWidgetFontsize"
+		android:text="Last TS:"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:id="@+id/TextViewAppWidgetLastTSTime" android:text="Last TS time"
+		android:textSize="@dimen/appWidgetFontsize" android:lines="1"
+		android:layout_height="wrap_content" android:fadingEdge="horizontal"></TextView>
 
-
-
+	<TextView android:text="Label add info" android:id="@+id/LabelAddInfo"
+		android:textSize="@dimen/appWidgetFontsize" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></TextView>
+	<TextView android:text="Text add info" android:id="@+id/TextViewAppWidgetAddInfo"
+		android:textSize="@dimen/appWidgetFontsize" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></TextView>
 </LinearLayout>

@@ -1,7 +1,5 @@
 package ch.almana.android.stechkarte.view;
 
-import java.text.SimpleDateFormat;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,17 +11,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.model.Day;
-import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
-import ch.almana.android.stechkarte.utils.Formater;
+import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
 	
-	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("HH:mm");
 	public static final String ACTION_TIMESTAMP_TOGGLE = "ch.almana.android.stechkarte.actions.timestampToggle";
 	public static final String ACTION_TIMESTAMP_IN = "ch.almana.android.stechkarte.actions.timestampIn";
 	public static final String ACTION_TIMESTAMP_OUT = "ch.almana.android.stechkarte.actions.timestampOut";
@@ -33,6 +28,7 @@ public class CheckinActivity extends Activity {
 	private TextView leaveAt;
 	
 	private TextView holidaysLeft;
+	private TextView labelLeaveAt;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -92,6 +88,7 @@ public class CheckinActivity extends Activity {
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
 		holidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
 		leaveAt = (TextView) findViewById(R.id.TextViewLeave);
+		labelLeaveAt = (TextView) findViewById(R.id.LabelLeavetAt);
 	}
 	
 	@Override
@@ -101,44 +98,31 @@ public class CheckinActivity extends Activity {
 	}
 	
 	private void updateFields() {
-		Cursor c = DayAccess.getInstance().query(null);
-		Day day;
-		if (c.moveToFirst()) {
-			day = new Day(c);
-		} else {
-			day = new Day(0);
-		}
-		c.close();
+		CurInfo curInfo = new CurInfo(this);
 		
-		c = day.getTimestamps();
-		Timestamp ts = null;
-		
-		float delta = 0;
-		String inOut = Timestamp.getTimestampTypeAsString(getApplicationContext(), Timestamp.TYPE_OUT);
-		if (c.moveToLast()) {
-			ts = new Timestamp(c);
-			inOut = ts.getTimestampTypeAsString(this);
-			if (ts.getTimestampType() == Timestamp.TYPE_IN) {
-				delta = (System.currentTimeMillis() - ts.getTimestamp()) / DayAccess.HOURS_IN_MILLIES;
+		if (curInfo.getTimestampType() == Timestamp.TYPE_IN) {
+			if (curInfo.getLeaveInMillies() > 0l) {
+				leaveAt.setText(curInfo.getLeaveAtString());
+			} else {
+				leaveAt.setText("now");
 			}
-		}
-		c.close();
-		
-		float curHoursWorked = day.getHoursWorked() + delta;
-		float leave = day.getHoursTarget() - curHoursWorked;
-		if (leave > 0f) {
-			long at = System.currentTimeMillis() + Math.round(leave * 60d * 60d * 1000d);
-			leaveAt.setText(hhmmSimpleDateFormat.format(at));
-			// + cal.getTimeZone().getDisplayName(true, TimeZone.SHORT));
+			leaveAt.setVisibility(TextView.VISIBLE);
+			labelLeaveAt.setVisibility(TextView.VISIBLE);
+			leaveAt.setHeight(overtime.getHeight());
+			labelLeaveAt.setHeight(overtime.getHeight());
 		} else {
-			leaveAt.setText("now");
+			leaveAt.setText("");
+			leaveAt.setVisibility(TextView.INVISIBLE);
+			leaveAt.setHeight(0);
+			labelLeaveAt.setVisibility(TextView.INVISIBLE);
+			labelLeaveAt.setHeight(0);
 		}
 		
-		status.setText("You are " + inOut);
-		holidaysLeft.setText(day.getHolydayLeft() + "");
+		status.setText("You are " + curInfo.getInOutString());
+		holidaysLeft.setText(curInfo.getHolydayLeft());
 		
-		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime() + delta));
-		hoursWorked.setText(Formater.formatHourMinFromHours(curHoursWorked));
+		overtime.setText(curInfo.getOvertimeString());
+		hoursWorked.setText(curInfo.getHoursWorked());
 		
 	}
 	
