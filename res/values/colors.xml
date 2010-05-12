@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="red">#80ff0000</color>
+	<color name="timestampTypeIn">#00C000</color>
+	<color name="timestampTypeOut">#FF0000</color>
 </resources>

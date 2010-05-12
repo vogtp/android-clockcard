@@ -2,4 +2,5 @@
 <resources>
 
 <dimen name="title_fontsize">24dp</dimen>
+<dimen name="appWidgetFontsize">11dp</dimen>
 </resources>

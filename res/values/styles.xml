@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="WidgetBackground">
+<item name="android:background">@drawable/widget_frame_black</item>
+
+</style>
+</resources>
