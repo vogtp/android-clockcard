@@ -49,29 +49,6 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 		public static RemoteViews createAppWidgetView(Context context) {
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget_1x1);
 			
-			// String inOut = Timestamp.getTimestampTypeAsString(context, Timestamp.TYPE_OUT);
-			// Cursor cd = DayAccess.getInstance().query(null);
-			// Cursor ct = null;
-			// Timestamp ts = null;
-			// try {
-			// if (cd.moveToFirst()) {
-			// Day day = new Day(cd);
-			// ct = day.getTimestamps();
-			// if (ct.moveToLast()) {
-			// ts = new Timestamp(ct);
-			// inOut = ts.getTimestampTypeAsString(context);
-			// }
-			// }
-			// } finally {
-			// if (cd != null && !cd.isClosed()) {
-			// cd.close();
-			// }
-			// if (ct != null && !ct.isClosed()) {
-			// ct.close();
-			// }
-			// }
-			//			
-			
 			CurInfo curInfo = new CurInfo(context);
 			
 			int color = R.color.timestampTypeOut;
@@ -94,7 +71,12 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			views.setTextColor(R.id.TextViewAppWidgetInOut, context.getResources().getColor(color));
 			
 			views.setTextViewText(R.id.TextViewAppWidgetInOut, curInfo.getInOutString());
-			views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, tsDateFormat.format(curInfo.getUnixTimestamp()));
+			long unixTimestamp = curInfo.getUnixTimestamp();
+			if (unixTimestamp > 0) {
+				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, tsDateFormat.format(unixTimestamp));
+			} else {
+				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, "none");
+			}
 			views.setTextViewText(R.id.LabelAddInfo, labelAddInfo);
 			views.setTextViewText(R.id.TextViewAppWidgetAddInfo, addInfo);
 			

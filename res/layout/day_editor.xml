@@ -1,93 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
 	android:orientation="vertical">
-	<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef" android:textSize="25sp" android:layout_gravity="center"></TextView></LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/TextViewDayRef"
+			android:text="@+id/TextViewDayRef" android:textSize="25sp"
+			android:layout_gravity="center"></TextView>
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/TextViewDayEditorDateInfo"
+			android:textSize="20sp" android:paddingLeft="2dp"
+			android:layout_gravity="center_vertical"></TextView>
+	</LinearLayout>
 	<TableLayout android:id="@+id/TableLayout01"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
-		<TableRow android:id="@+id/TableRow06"
-			android:layout_width="wrap_content"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<TableRow android:id="@+id/TableRow06" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<TextView android:id="@+id/TextView05"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:includeFontPadding="false"
+			<TextView android:id="@+id/TextView05" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:includeFontPadding="false"
 				android:text="@+string/LabelHoursWorked"></TextView>
 			<TextView android:text="@+id/TextView06"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:id="@+id/TextViewHoursWorkedDayEditor" android:textSize="24dp"></TextView>
 		</TableRow>
-		<TableRow android:id="@+id/TableRow05"
-			android:layout_width="wrap_content"
+		<TableRow android:id="@+id/TableRow05" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 			<TextView android:text="@+string/LabelHoursTarget"
-				android:id="@+id/TextView04"
-				android:layout_width="wrap_content"
+				android:id="@+id/TextView04" android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></TextView>
-			<EditText android:text="@+id/EditText01"
-				android:id="@+id/EditTextHoursTarget"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></EditText>
+			<EditText android:text="@+id/EditText01" android:id="@+id/EditTextHoursTarget"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
 
 
 		</TableRow>
-		<TableRow android:id="@+id/TableRow03"
-			android:layout_width="wrap_content"
+		<TableRow android:id="@+id/TableRow03" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<TextView android:id="@+id/TextView03"
-				android:layout_width="wrap_content"
+			<TextView android:id="@+id/TextView03" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="@+string/LabelOvertimeTotalLong"></TextView>
-			<EditText
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/EditTextOvertime"
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextOvertime"
 				android:hint="@+string/HintOvertime"></EditText>
 
 		</TableRow>
-		<TableRow android:id="@+id/TableRow01"
-			android:layout_width="wrap_content"
+		<TableRow android:id="@+id/TableRow01" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@+string/LabelHoliday"
-				android:id="@+id/LabelHoliday"
-				android:paddingRight="5px"></TextView>
-			<EditText
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/EditTextHoliday"
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@+string/LabelHoliday"
+				android:id="@+id/LabelHoliday" android:paddingRight="5px"></TextView>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextHoliday"
 				android:hint="@+string/HintHoliday"></EditText>
 		</TableRow>
-		<TableRow android:id="@+id/TableRow02"
-			android:layout_width="wrap_content"
+		<TableRow android:id="@+id/TableRow02" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<TextView android:id="@+id/TextView02"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@+string/LabelHolidayLeft"
+			<TextView android:id="@+id/TextView02" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@+string/LabelHolidayLeft"
 				android:paddingRight="5px"></TextView>
-			<EditText
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/EditTextHolidaysLeft"
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextHolidaysLeft"
 				android:hint="@+string/HintHolidaysLeft"></EditText>
 		</TableRow>
-		<TableRow android:id="@+id/TableRow04"
-			android:layout_width="wrap_content"
+		<TableRow android:id="@+id/TableRow04" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/Spacer"></TextView>
-			<CheckBox
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/CheckBoxFixed"
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/Spacer"></TextView>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxFixed"
 				android:text="@+string/CheckBoxFixed"></CheckBox>
 
 		</TableRow>
@@ -101,14 +80,10 @@
 
 
 
-	<TextView android:id="@+id/TextView01"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@+string/LabelTimestamps"></TextView>
-	<ListView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@id/android:list"
+	<TextView android:id="@+id/TextView01" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@+string/LabelTimestamps"></TextView>
+	<ListView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@id/android:list"
 		android:scrollbars="vertical"></ListView>
 
 

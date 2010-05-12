@@ -82,7 +82,15 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			}
 		} else if (Intent.ACTION_INSERT.equals(action)) {
 			day = new Day(DayAccess.getNextFreeDayref(System.currentTimeMillis()));
+			TextView dayInfo = (TextView) findViewById(R.id.TextViewDayEditorDateInfo);
+			dayInfo.setText("Tap to change date");
 			dayRefTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showDialog(DIA_DATE_SELECT);
+				}
+			});
+			dayInfo.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					showDialog(DIA_DATE_SELECT);
