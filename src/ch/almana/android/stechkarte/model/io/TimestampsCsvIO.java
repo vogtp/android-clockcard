@@ -21,7 +21,8 @@ import ch.almana.android.stechkarte.provider.db.DB;
 
 public class TimestampsCsvIO {
 
-	public static final String DIRECTORY = "/stechkarte/";
+	public static final String DIRECTORY = "/clockcard/";
+	// public static final String DIRECTORY = "/stechkarte/";
 
 	private static final String LOG_TAG = Logger.LOG_TAG;
 
@@ -36,16 +37,19 @@ public class TimestampsCsvIO {
 	private String[] columnNames;
 
 	public TimestampsCsvIO() {
-		File path = new File(getPath());
-		if (!path.isDirectory()) {
-			if (!path.mkdir()) {
-				Log.e(LOG_TAG, "Cannot create " + path.getAbsolutePath());
-			}
-		}
 	}
 
 	static public String getPath() {
-		return Environment.getExternalStorageDirectory().getAbsolutePath() + DIRECTORY;
+		String pathName = Environment.getExternalStorageDirectory()
+				.getAbsolutePath()
+				+ DIRECTORY;
+		File path = new File(pathName);
+		if (!path.isDirectory()) {
+			if (!path.mkdirs()) {
+				Log.e(LOG_TAG, "Cannot create " + path.getAbsolutePath());
+			}
+		}
+		return pathName;
 	}
 
 	private static SimpleDateFormat simpleDatetimeFormat = new SimpleDateFormat("yyyyMMdd");
