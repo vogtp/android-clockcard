@@ -21,6 +21,7 @@ public class Timestamp {
 	private int timestampType;
 	private long id = -1;
 	private long dayRef;
+	// TODO check what cal is for
 	private Calendar cal;
 	
 	@Override
@@ -37,7 +38,7 @@ public class Timestamp {
 		this.timestamp = timestamp;
 		this.timestampType = timestampType;
 	}
-	
+
 	public Timestamp(ContentValues values) {
 		super();
 		this.timestamp = values.getAsLong(Timestamps.NAME_TIMESTAMP);

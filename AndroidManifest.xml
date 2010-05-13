@@ -48,9 +48,7 @@
 <activity android:name=".view.StechkartePreferenceActivity"></activity>
 <activity android:name=".view.BuyFullVersion" android:theme="@android:style/Theme.Dialog"></activity>
 
-<activity android:name=".service.LocationCheckAction"><intent-filter>
-</intent-filter>
-</activity>
+
 <receiver android:name=".view.appwidget.StechkarteAppwidget"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter><meta-data

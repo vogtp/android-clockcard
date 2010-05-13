@@ -42,7 +42,7 @@
 	<string name="prefWorkday">Workday</string>
 	<string name="prefWorkdayLong">Settings about a day of work</string>
 	<string name="prefMinTimestampDiff">Minimal timestamp difference</string>
-	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in minutes</string>
+	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in seconds</string>
 	<string name="prefEmailAddress">e-mail address</string>
 	<string name="prefEmailAddressLong">e-mail address to send exports to</string>
 	<string name="defaultHoursPerDay">8.24</string>

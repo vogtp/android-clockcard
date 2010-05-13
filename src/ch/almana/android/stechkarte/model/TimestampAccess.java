@@ -206,7 +206,8 @@ public class TimestampAccess implements IAccess {
 	
 	private Timestamp getLastTimestamp() {
 		Timestamp t = null;
-		Cursor cursor = query(null);
+		Cursor cursor = query(Timestamps.NAME_TIMESTAMP + "<"
+				+ System.currentTimeMillis());
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			t = new Timestamp(cursor);

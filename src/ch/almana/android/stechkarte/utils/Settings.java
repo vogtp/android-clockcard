@@ -1,6 +1,8 @@
 package ch.almana.android.stechkarte.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
@@ -8,7 +10,7 @@ import ch.almana.android.stechkarte.log.Logger;
 public class Settings extends SettingsBase {
 	
 	private static float hoursTargetDefault = 8.4f;
-	private static final long MINUTES_IN_MILLIES = 1000 * 60;
+	private static final long SECONDS_IN_MILLIES = 1000;
 	
 	public static void initInstance(Context ctx) {
 		if (instance == null) {
@@ -18,6 +20,20 @@ public class Settings extends SettingsBase {
 	
 	private Settings(Context ctx) {
 		super(ctx);
+		// FIXME remove since its only for update 1.0 -> 1.0.1
+		String key = context.getResources().getString(
+				R.string.prefKeyMinTimestampDiff);
+		SharedPreferences preferences = getPreferences();
+		if (preferences.contains(key)) {
+			String keyNew = context.getResources().getString(
+					R.string.prefKeyMinTimestampDiffInSecs);
+			Editor editor = preferences.edit();
+			int minutes = Integer.parseInt(preferences.getString(key, "1")) * 60;
+			editor.putString(keyNew, minutes + "");
+			editor.remove(key);
+			editor.commit();
+		}
+		// END remove since its only for update 1.0 -> 1.0.1
 	}
 	
 	public float getHoursTarget() {
@@ -37,10 +53,11 @@ public class Settings extends SettingsBase {
 	
 	public long getMinTimestampDiff() {
 		try {
-			long diff = getPrefAsLong(R.string.prefKeyMinTimestampDiff, R.string.prefMinTimestampDiffDefault);
-			return diff * MINUTES_IN_MILLIES;
+			long diff = getPrefAsLong(R.string.prefKeyMinTimestampDiffInSecs,
+					R.string.prefMinTimestampDiffDefault);
+			return diff * SECONDS_IN_MILLIES;
 		} catch (Exception e) {
-			return MINUTES_IN_MILLIES;
+			return SECONDS_IN_MILLIES;
 		}
 	}
 	

@@ -38,17 +38,26 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
-			Log.w(Logger.LOG_TAG, "Reading timestamp information from savedInstanceState");
+			Log.w(Logger.LOG_TAG,
+					"Reading timestamp information from savedInstanceState");
 			if (timestamp != null) {
 				timestamp.readFromBundle(savedInstanceState);
 			} else {
 				timestamp = new Timestamp(savedInstanceState);
 			}
 		} else if (Intent.ACTION_INSERT.equals(action)) {
-			int type = getIntent().getIntExtra(Timestamps.NAME_TIMESTAMP_TYPE, 0);
-			timestamp = new Timestamp(System.currentTimeMillis(), type);
+			long millies = System.currentTimeMillis();
+			if (intent.hasExtra(Timestamps.NAME_TIMESTAMP)
+					&& intent.getExtras().getLong(Timestamps.NAME_TIMESTAMP) > 0l) {
+				millies = intent.getExtras().getLong(Timestamps.NAME_TIMESTAMP);
+			}
+			int type = getIntent().getIntExtra(Timestamps.NAME_TIMESTAMP_TYPE,
+					0);
+			timestamp = new Timestamp(millies, type);
+
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			Cursor c = managedQuery(intent.getData(), Timestamps.DEFAULT_PROJECTION, null, null, null);
+			Cursor c = managedQuery(intent.getData(),
+					Timestamps.DEFAULT_PROJECTION, null, null, null);
 			if (c.moveToFirst()) {
 				timestamp = new Timestamp(c);
 			}
@@ -62,7 +71,8 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		inOutField.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				timestamp.setTimestampType(Timestamp.invertTimestampType(getTimestamp()));
+				timestamp.setTimestampType(Timestamp
+						.invertTimestampType(getTimestamp()));
 				updateDisplayFields();
 			}
 		});
@@ -81,15 +91,17 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		case DIA_DATE_SELECT:
 			OnDateSetListener callBack = new OnDateSetListener() {
 				@Override
-				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				public void onDateSet(DatePicker view, int year,
+						int monthOfYear, int dayOfMonth) {
 					timestamp.setYear(year);
 					timestamp.setMonth(monthOfYear);
 					timestamp.setDay(dayOfMonth);
 					updateDisplayFields();
 				}
 			};
-			return new DatePickerDialog(this, callBack, getTimestamp().getYear(), getTimestamp().getMonth(),
-					getTimestamp().getDay());
+			return new DatePickerDialog(this, callBack, getTimestamp()
+					.getYear(), getTimestamp().getMonth(), getTimestamp()
+					.getDay());
 
 		default:
 			return super.onCreateDialog(id);
@@ -121,7 +133,8 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 	}
 
 	private void updateDisplayFields() {
-		inOutField.setText(Timestamp.getTimestampTypeAsString(this, timestamp.getTimestampType()));
+		inOutField.setText(Timestamp.getTimestampTypeAsString(this, timestamp
+				.getTimestampType()));
 		timeDisplay.setText(timestamp.toString());
 		dateField.setText(timestamp.formatTimeDateOnly());
 	}
@@ -129,14 +142,14 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (origTimestamp.equals(timestamp)) {
-			return;
-		}
 		String action = getIntent().getAction();
 		if (Intent.ACTION_INSERT.equals(action)) {
 			TimestampAccess access = TimestampAccess.getInstance();
 			access.insert(timestamp);
 		} else if (Intent.ACTION_EDIT.equals(action)) {
+			if (origTimestamp.equals(timestamp)) {
+				return;
+			}
 			TimestampAccess access = TimestampAccess.getInstance();
 			access.update(timestamp);
 		}

@@ -1,5 +1,7 @@
 package ch.almana.android.stechkarte.view;
 
+import java.util.Calendar;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -314,7 +316,13 @@ public class DayEditor extends ListActivity implements DialogCallback {
 	}
 	
 	private void insertNewTimestamp() {
-		startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
+		Intent intent = new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, day.getYear());
+		cal.set(Calendar.MONTH, day.getMonth());
+		cal.set(Calendar.DAY_OF_MONTH, day.getDay());
+		intent.putExtra(Timestamps.NAME_TIMESTAMP, cal.getTimeInMillis());
+		startActivity(intent);
 	}
 	
 	@Override

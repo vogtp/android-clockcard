@@ -7,6 +7,7 @@ import android.database.Cursor;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
+import ch.almana.android.stechkarte.provider.db.DB.Days;
 
 public class CurInfo {
 	private static final SimpleDateFormat hhmmSimpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -19,7 +20,11 @@ public class CurInfo {
 	
 	public CurInfo(Context context) {
 		inOutString = Timestamp.getTimestampTypeAsString(context, Timestamp.TYPE_OUT);
-		Cursor c = DayAccess.getInstance().query(null);
+		long dayRefTomorow = DayAccess.dayRefFromTimestamp(System
+				.currentTimeMillis());
+		dayRefTomorow++;
+		Cursor c = DayAccess.getInstance().query(
+				Days.NAME_DAYREF + "<" + dayRefTomorow);
 		if (c.moveToFirst()) {
 			day = new Day(c);
 		}

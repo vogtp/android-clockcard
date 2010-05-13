@@ -5,7 +5,8 @@
 <string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
 <string name="prefHoursPerDayDefault">8.4</string>
 <string name="prefKeyMinTimestampDiff">prefKeyMinTimestampDiff</string>
-<string name="prefMinTimestampDiffDefault">1</string>
+<string name="prefKeyMinTimestampDiffInSecs">prefKeyMinTimestampDiffInSecs</string>
+<string name="prefMinTimestampDiffDefault">60</string>
 <string name="prefKeyEmailAddress">prefKeyEmailAddress</string>
 <string name="prefEmailAddressDefault"></string>
 </resources>

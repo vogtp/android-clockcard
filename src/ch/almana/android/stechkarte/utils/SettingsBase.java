@@ -22,7 +22,7 @@ public abstract class SettingsBase {
 		this.context = ctx;
 	}
 	
-	private SharedPreferences getPreferences() {
+	protected SharedPreferences getPreferences() {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 	
