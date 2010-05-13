@@ -1,13 +1,11 @@
 package ch.almana.android.stechkarte.utils;
 
-import java.text.DecimalFormat;
-
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
 
 public class Formater {
 
-	private static final DecimalFormat df = new DecimalFormat("#.##");
+	// private static final DecimalFormat df = new DecimalFormat("#.##");
 
 	public static CharSequence formatHourMinFromHours(float hours) {
 		// return df.format(hours);
