@@ -158,11 +158,6 @@ public class CheckinActivity extends Activity {
 			}
 			break;
 		
-		case R.id.itemTimestampList:
-			i = new Intent(this, ListTimeStamps.class);
-			startActivity(i);
-			break;
-		
 		case R.id.itemReadInTimestmaps:
 			if (Settings.getInstance().isFreeVersion()) {
 				showFreeVersionDialog();
