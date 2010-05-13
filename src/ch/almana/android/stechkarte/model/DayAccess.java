@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -19,7 +18,7 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
-import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget.UpdateAppWidgetService;
+import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
@@ -68,7 +67,7 @@ public class DayAccess implements IAccess {
 			if (c != null) {
 				c.close();
 			}
-			context.startService(new Intent(context, UpdateAppWidgetService.class));
+			StechkarteAppwidget.updateView(getContext());
 		}
 		return delRows;
 	}

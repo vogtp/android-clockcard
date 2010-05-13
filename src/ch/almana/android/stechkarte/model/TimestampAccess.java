@@ -175,6 +175,7 @@ public class TimestampAccess implements IAccess {
 			}
 			insert(timestamp);
 		} finally {
+			//StechkarteAppwidget.updateView(getContext());
 			context.startService(new Intent(context, UpdateAppWidgetService.class));
 		}
 		return true;

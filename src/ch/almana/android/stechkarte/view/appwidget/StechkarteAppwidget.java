@@ -9,12 +9,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
+import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.view.CheckinActivity;
 
@@ -24,17 +27,36 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		Log.i(Logger.LOG_TAG, "onUpdate started");
+		StechkarteAppwidget.updateView(context);
+	}
+	
+	public static void updateView(Context context) {
 		context.startService(new Intent(context, UpdateAppWidgetService.class));
 	}
 	
 	public static class UpdateAppWidgetService extends Service {
 		
 		private static final SimpleDateFormat tsDateFormat = new SimpleDateFormat("HH:mm dd.MM.yy");
+//		private final ContentObserver observer = new TimestampsContentObserver(new Handler());
+//		
+//		private class TimestampsContentObserver extends ContentObserver {
+//			
+//			public TimestampsContentObserver(Handler handler) {
+//				super(handler);
+//			}
+//			
+//			@Override
+//			public void onChange(boolean selfChange) {
+//				StechkarteAppwidget.updateView(UpdateAppWidgetService.this);
+//				super.onChange(selfChange);
+//			}
+//			
+//		}
 		
 		@Override
 		public void onStart(Intent intent, int startId) {
 			Log.i(Logger.LOG_TAG, "UpdateService started");
-			
+//			getContentResolver().notifyChange(Timestamps.CONTENT_URI, observer);
 			RemoteViews rViews = createAppWidgetView(this);
 			ComponentName compName = new ComponentName(this, StechkarteAppwidget.class);
 			AppWidgetManager manager = AppWidgetManager.getInstance(this);

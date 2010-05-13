@@ -1,6 +1,7 @@
 package ch.almana.android.stechkarte.application;
 
 import android.app.Application;
+import android.content.Context;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.utils.Settings;
@@ -14,4 +15,6 @@ public class StechkarteApplication extends Application {
 		TimestampAccess.initInstance(this);
 		DayAccess.initInstance(this);
 	}
+	
+	
 }
