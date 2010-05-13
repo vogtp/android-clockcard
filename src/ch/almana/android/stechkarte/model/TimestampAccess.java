@@ -16,7 +16,6 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Settings;
-import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget.UpdateAppWidgetService;
 
 public class TimestampAccess implements IAccess {
 	
@@ -143,41 +142,41 @@ public class TimestampAccess implements IAccess {
 	}
 	
 	private boolean processInOutAdd(Context context, long time, int timestampType) {
-		try {
-			Timestamp lastTs = getLastTimestamp();
+		Timestamp lastTs = getLastTimestamp();
 			
-			if (timestampType == Timestamp.TYPE_UNDEF) {
-				timestampType = Timestamp.invertTimestampType(lastTs);
-			}
-			
-			Timestamp timestamp = new Timestamp(time, timestampType);
-			if (lastTs != null) {
-				if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < Settings.getInstance()
-						.getMinTimestampDiff()) {
-					String tsTime = timestamp.toString();
-					String ltsTime = lastTs.toString();
-					Toast.makeText(
-							context,
-							"Difference betwenn current and last timestamp is too small!\n" + tsTime + "\n" + ltsTime
-									+ "\nIgnoring timestamp.", Toast.LENGTH_LONG).show();
-					return false;
-				}
-				if (timestamp.getTimestampType() == lastTs.getTimestampType()) {
-					
-					Builder alert = new AlertDialog.Builder(context);
-					alert.setTitle("Same timestamp types: " + timestamp.getTimestampTypeAsString(context));
-					AlertDialogHandler alertDiaHandler = new TimestampAccess.AlertDialogHandler(context, timestamp);
-					alert.setItems(alertDiaHandler.getActions(), alertDiaHandler);
-					alert.create();
-					alert.show();
-					return false;
-				}
-			}
-			insert(timestamp);
-		} finally {
-			//StechkarteAppwidget.updateView(getContext());
-			context.startService(new Intent(context, UpdateAppWidgetService.class));
+		if (timestampType == Timestamp.TYPE_UNDEF) {
+			timestampType = Timestamp.invertTimestampType(lastTs);
 		}
+
+		Timestamp timestamp = new Timestamp(time, timestampType);
+		if (lastTs != null) {
+			if (Math.abs(timestamp.getTimestamp() - lastTs.getTimestamp()) < Settings
+					.getInstance().getMinTimestampDiff()) {
+				String tsTime = timestamp.toString();
+				String ltsTime = lastTs.toString();
+				Toast.makeText(
+						context,
+						"Difference betwenn current and last timestamp is too small!\n"
+								+ tsTime + "\n" + ltsTime
+								+ "\nIgnoring timestamp.", Toast.LENGTH_LONG)
+						.show();
+				return false;
+			}
+			if (timestamp.getTimestampType() == lastTs.getTimestampType()) {
+
+				Builder alert = new AlertDialog.Builder(context);
+				alert.setTitle("Same timestamp types: "
+						+ timestamp.getTimestampTypeAsString(context));
+				AlertDialogHandler alertDiaHandler = new TimestampAccess.AlertDialogHandler(
+						context, timestamp);
+				alert.setItems(alertDiaHandler.getActions(), alertDiaHandler);
+				alert.create();
+				alert.show();
+				return false;
+			}
+		}
+		insert(timestamp);
+		
 		return true;
 	}
 	

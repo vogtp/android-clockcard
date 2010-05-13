@@ -18,7 +18,6 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
-import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
@@ -67,7 +66,6 @@ public class DayAccess implements IAccess {
 			if (c != null) {
 				c.close();
 			}
-			StechkarteAppwidget.updateView(getContext());
 		}
 		return delRows;
 	}

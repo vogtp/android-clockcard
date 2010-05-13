@@ -121,8 +121,8 @@ public class StechkarteProvider extends ContentProvider {
 	
 	private void notifyChange(Uri uri) {
 		getContext().getContentResolver().notifyChange(uri, null);
-		getContext().startService(new Intent(getContext(), UpdateAppWidgetService.class));
-		// StechkarteAppwidget.updateView(StechkarteApplication.getAppContext());
+//		getContext().startService(new Intent(getContext(), UpdateAppWidgetService.class));
+		StechkarteAppwidget.updateView(getContext());
 	}
 	
 	static {
