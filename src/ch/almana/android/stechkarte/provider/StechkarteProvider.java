@@ -2,18 +2,15 @@ package ch.almana.android.stechkarte.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
-import ch.almana.android.stechkarte.application.StechkarteApplication;
 import ch.almana.android.stechkarte.provider.db.DBBackendDay;
 import ch.almana.android.stechkarte.provider.db.DBBackendTimestamp;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.OpenHelper;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
-import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget.UpdateAppWidgetService;
 
 public class StechkarteProvider extends ContentProvider {
 	
@@ -121,7 +118,6 @@ public class StechkarteProvider extends ContentProvider {
 	
 	private void notifyChange(Uri uri) {
 		getContext().getContentResolver().notifyChange(uri, null);
-//		getContext().startService(new Intent(getContext(), UpdateAppWidgetService.class));
 		StechkarteAppwidget.updateView(getContext());
 	}
 	
