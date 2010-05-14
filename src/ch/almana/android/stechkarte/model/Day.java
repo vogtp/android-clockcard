@@ -162,6 +162,10 @@ public class Day {
 		this.holydayLeft = holydayLeft;
 	}
 	
+	public float getDayOvertime() {
+		return hoursWorked - hoursTarget;
+	}
+
 	public float getOvertime() {
 		return overtime;
 	}

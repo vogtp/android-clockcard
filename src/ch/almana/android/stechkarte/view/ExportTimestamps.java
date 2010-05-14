@@ -23,7 +23,7 @@ import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
 	
-	private static final String SEPARATOR = ",";
+	private static final String SEPARATOR = "\t";
 	private static final SimpleDateFormat yyyymmddFromat = new SimpleDateFormat("yyyyMMdd");
 	private static final SimpleDateFormat mmddyyyFromat = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -47,16 +47,32 @@ public class ExportTimestamps extends Activity {
 		}
 	}
 	
+	private String[] header = { "day", "Hours worked", "Overtime of day",
+			"Overtime", "holiday", "holiday left", "IN", "OUT", "IN", "OUT",
+			"IN", "OUT" };
+	
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance();
 		Cursor cursor = dayAccess.query(null);
-		writer.write("day,holiday,IN,OUT,IN,OUT,IN,OUT\n");
+		for (int i = 0; i < header.length; i++) {
+			writer.write(header[i]);
+			writer.write(SEPARATOR);
+		}
+		writer.write("\n");
 		while (cursor.moveToNext()) {
 			Day day = new Day(cursor);
 			String dayString = formatDate(day.getDayString());
 			writer.write("\"" + dayString + "\"");
 			writer.write(SEPARATOR);
+			writer.write("\"" + day.getHoursWorked() + "\"");
+			writer.write(SEPARATOR);
+			writer.write("\"" + day.getDayOvertime() + "\"");
+			writer.write(SEPARATOR);
+			writer.write("\"" + day.getOvertime() + "\"");
+			writer.write(SEPARATOR);
 			writer.write("\"" + day.getHolyday() + "\"");
+			writer.write(SEPARATOR);
+			writer.write("\"" + day.getHolydayLeft() + "\"");
 			Cursor timestamps = day.getTimestamps();
 			while (timestamps.moveToNext()) {
 				writer.write(SEPARATOR);
