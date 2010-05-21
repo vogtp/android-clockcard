@@ -308,7 +308,11 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			insertNewTimestamp();
 			return true;
 		case R.id.itemDeleteDay:
-			DeleteDayDialog deleteDayDialog = new DeleteDayDialog(this, day.getId());
+			long id = day.getId();
+			if (id == -1) {
+				return true;
+			}
+			DeleteDayDialog deleteDayDialog = new DeleteDayDialog(this, id);
 			deleteDayDialog.setTitle("Delete Day...");
 			deleteDayDialog.show();
 			return true;
