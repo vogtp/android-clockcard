@@ -233,7 +233,8 @@ public class DayEditor extends ListActivity implements DialogCallback {
 	protected void onPause() {
 		super.onPause();
 		updateModel();
-		if (origDay.equals(day)) {
+		String action = getIntent().getAction();
+		if (origDay.equals(day) && !Intent.ACTION_INSERT.equals(action)) {
 			return;
 		}
 		try {
