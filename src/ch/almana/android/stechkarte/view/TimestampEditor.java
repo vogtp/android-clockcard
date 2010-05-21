@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.TimePicker.OnTimeChangedListener;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
@@ -142,6 +143,7 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		try {
 		String action = getIntent().getAction();
 		if (Intent.ACTION_INSERT.equals(action)) {
 			TimestampAccess access = TimestampAccess.getInstance();
@@ -152,6 +154,11 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 			}
 			TimestampAccess access = TimestampAccess.getInstance();
 			access.update(timestamp);
+		}
+		} catch (Exception e) {
+			Log.w(Logger.LOG_TAG, "Cannot insert or update", e);
+			Toast.makeText(this, getString(R.string.cannotSaveTS),
+					Toast.LENGTH_LONG);
 		}
 	}
 
