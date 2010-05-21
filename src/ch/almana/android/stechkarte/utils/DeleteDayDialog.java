@@ -3,9 +3,11 @@ package ch.almana.android.stechkarte.utils;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
+import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
@@ -17,10 +19,13 @@ public class DeleteDayDialog {
 	private final DeleteDayHandler diaHandler;
 	private final DialogCallback callback;
 	
+	private Uri uri;
+
 	public DeleteDayDialog(DialogCallback callback, long dbId) {
 		this.callback = callback;
 		alert = new AlertDialog.Builder(callback.getContext());
-		diaHandler = new DeleteDayHandler(dbId);
+		this.uri = ContentUris.withAppendedId(Days.CONTENT_URI, dbId);
+		diaHandler = new DeleteDayHandler(uri);
 		alert.setItems(diaHandler.getActions(), diaHandler);
 		alert.create();
 	}
@@ -29,18 +34,17 @@ public class DeleteDayDialog {
 		
 		private static final int ACTION_DEL_DAY = 0;
 		private static final int ACTION_DEL_DAY_TIMESTAMPS = 1;
-		private static final int ACTION_CACEL = 2;
-		private static final int ACTION_MAX = 3;
+		private static final int ACTION_CANCEL = 2;
+		private static final int ACTIONS_MAX = 3;
 		private final Uri uri;
 		private Day day;
 		private final CharSequence[] actions;
 		private boolean isDeleted = false;
 		private int timestampCount = 0;
 		
-		public DeleteDayHandler(long dbId) {
-			this.uri = ContentUris.withAppendedId(Days.CONTENT_URI, dbId);
-			actions = new String[ACTION_MAX];
-			actions[ACTION_DEL_DAY] = "Delete day only";
+		public DeleteDayHandler(Uri uri) {
+			this.uri = uri;
+			boolean hasTimestamps = false;
 			Cursor c = null;
 			Cursor ct = null;
 			try {
@@ -52,7 +56,7 @@ public class DeleteDayDialog {
 					ct = day.getTimestamps();
 					timestampCount = ct.getCount();
 					if (timestampCount > 0) {
-						actions[ACTION_DEL_DAY_TIMESTAMPS] = "Delete day and its timestamps";
+						hasTimestamps = true;
 					}
 				}
 			} finally {
@@ -63,7 +67,19 @@ public class DeleteDayDialog {
 					ct.close();
 				}
 			}
-			actions[ACTION_CACEL] = callback.getContext().getString(android.R.string.cancel);
+			
+			int actionCount = ACTIONS_MAX;
+			if (!hasTimestamps) {
+				actionCount--;
+			}
+			actions = new CharSequence[actionCount];
+			Context ctx = callback.getContext();
+			actions[ACTION_DEL_DAY] = ctx.getString(R.string.deleteDayOnly);
+			if (hasTimestamps) {
+				actions[ACTION_DEL_DAY_TIMESTAMPS] = ctx
+						.getString(R.string.deleteDayAndTS);
+			}
+			actions[actionCount - 1] = ctx.getString(android.R.string.cancel);
 		}
 		
 		public CharSequence[] getActions() {
@@ -118,4 +134,9 @@ public class DeleteDayDialog {
 	public boolean isDeleted() {
 		return diaHandler.isDeleted();
 	}
+
+	public Uri getUri() {
+		return uri;
+	}
+
 }
