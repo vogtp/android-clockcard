@@ -239,7 +239,7 @@ public class Day {
 	public int getMonth() {
 		String s = dayRef + "";
 		String substring = s.substring(4, 6);
-		int i = Integer.parseInt(substring) - 1;
+		int i = Integer.parseInt(substring);
 		return i;
 	}
 	

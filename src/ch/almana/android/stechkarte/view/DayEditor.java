@@ -175,12 +175,13 @@ public class DayEditor extends ListActivity implements DialogCallback {
 				@Override
 				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 					day.setYear(year);
-					day.setMonth(monthOfYear);
+					day.setMonth(monthOfYear + 1);
 					day.setDay(dayOfMonth);
 					updateFields();
 				}
 			};
-			return new DatePickerDialog(this, callBack, day.getYear(), day.getMonth(), day.getDay());
+			return new DatePickerDialog(this, callBack, day.getYear(), day
+					.getMonth() - 1, day.getDay());
 			
 		default:
 			return super.onCreateDialog(id);
