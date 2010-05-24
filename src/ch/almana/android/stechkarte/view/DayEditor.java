@@ -66,6 +66,11 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		setContentView(R.layout.day_editor);
 		
 		dayRefTextView = (TextView) findViewById(R.id.TextViewDayRef);
+		/*
+		 * TODO > 2) Urlaubstage in der Tagesansicht mit einer Checkbox zu
+		 * versehen, die, wenn gesetzt einen Defaultwert von 1 hat, (Martin)
+		 * Oder beim Fokus eine 1 setzten wenn es auf 0 ist... (vogtp)
+		 */
 		holiday = (EditText) findViewById(R.id.EditTextHoliday);
 		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
 		overtime = (EditText) findViewById(R.id.EditTextOvertime);
