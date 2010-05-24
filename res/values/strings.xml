@@ -52,4 +52,7 @@
 	<string name="LabelBuyFullVersion">This feature is not available in the free version, buy the full version.</string>
 
 <string name="delete">delete</string>
+<string name="deleteDayOnly">Delete day only</string>
+<string name="deleteDayAndTS">Delete day and its timestamps</string>
+<string name="cannotSaveTS">Cannot save timestamp to database.  Dublicate timestamp?</string>
 </resources>
