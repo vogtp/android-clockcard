@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory
-		android:summary="@string/prefWorkdayLong"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:summary="@string/prefWorkdayLong"
 		android:title="@string/prefWorkday">
-		<EditTextPreference
-			android:key="@string/prefKeyHoursPerDay"
-			android:summary="@string/prefHoursPerDayLong"
-			android:title="@string/prefHoursPerDay"
+		<EditTextPreference android:key="@string/prefKeyHoursPerDay"
+			android:summary="@string/prefHoursPerDayLong" android:title="@string/prefHoursPerDay"
 			android:defaultValue="@string/prefHoursPerDayDefault"></EditTextPreference>
-		<EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><EditTextPreference android:title="@string/prefEmailAddress" android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault" android:key="@string/prefKeyEmailAddress"></EditTextPreference><EditTextPreference
-			android:key="@string/prefKeyLicence"
-			android:title="@string/prefLicence" android:defaultValue="@string/prefLicenceDefault" android:summary="@string/prefLicenceLong"></EditTextPreference>
-	
+		<EditTextPreference android:title="@string/prefMinTimestampDiff"
+			android:summary="@string/prefMinTimestampDiffLong"
+			android:defaultValue="@string/prefMinTimestampDiffDefault"
+			android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference>
+		<EditTextPreference android:title="@string/prefEmailAddress"
+			android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault"
+			android:key="@string/prefKeyEmailAddress"></EditTextPreference>
+		<EditTextPreference android:key="@string/prefKeyLicence"
+			android:title="@string/prefLicence" android:defaultValue="@string/prefLicenceDefault"
+			android:summary="@string/prefLicenceLong"></EditTextPreference>
 
-</PreferenceCategory>
+
+	</PreferenceCategory>
 
 
 
