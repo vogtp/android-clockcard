@@ -141,11 +141,14 @@ public final class R {
         public static final int TimestampTypeIn=0x7f06000b;
         public static final int TimestampTypeOut=0x7f06000c;
         public static final int app_name=0x7f06000a;
+        public static final int cannotSaveTS=0x7f06003f;
         public static final int dayMo=0x7f060029;
         public static final int dayTue=0x7f06002a;
         public static final int defaultHoursPerDay=0x7f060037;
         public static final int delete=0x7f06003c;
         public static final int deleteDay=0x7f060027;
+        public static final int deleteDayAndTS=0x7f06003e;
+        public static final int deleteDayOnly=0x7f06003d;
         public static final int delteSubTimestamps=0x7f060028;
         public static final int menu_delete=0x7f06000e;
         public static final int menu_edit=0x7f060012;
