@@ -105,16 +105,20 @@ public class Settings extends SettingsBase {
 		return false;
 	}
 
-	public boolean isFreeVersion() {
+	public boolean isPayVersion() {
 		if (checkLicense()) {
-			return false;
+			return true;
 		}
+		return false;
+	}
+
+	public boolean isBetaVersion() {
 		String lic = getPrefAsString(R.string.prefKeyLicence,
 				R.string.prefLicenceDefault);
 		if ("sonnenscheinInBasel".equals(lic)) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public long getMinTimestampDiff() {
@@ -135,5 +139,14 @@ public class Settings extends SettingsBase {
 			return "";
 		}
 
+	}
+
+	public boolean isEmailExportEnabled() {
+		return isBetaVersion() || isPayVersion();
+	}
+
+	public boolean isBackupEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

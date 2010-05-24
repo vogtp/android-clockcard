@@ -13,7 +13,8 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 		Preference emailPreference = findPreference(getString(R.string.prefKeyEmailAddress));
-		emailPreference.setEnabled(!Settings.getInstance().isFreeVersion());
+		emailPreference.setEnabled(Settings.getInstance()
+				.isEmailExportEnabled());
 	}
 	
 }

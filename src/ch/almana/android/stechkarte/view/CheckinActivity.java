@@ -35,7 +35,7 @@ public class CheckinActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		if (!Settings.getInstance().isFreeVersion()) {
+		if (!Settings.getInstance().isEmailExportEnabled()) {
 			writeTimestampsToCsv();
 		}
 		
@@ -137,7 +137,8 @@ public class CheckinActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
-		menu.getItem(2).setVisible(!Settings.getInstance().isFreeVersion());
+		MenuItem moreItems = menu.getItem(2);
+		moreItems.getSubMenu().getItem(1).setVisible(Settings.getInstance().isEmailExportEnabled());
 		return true;
 	}
 	
@@ -150,21 +151,21 @@ public class CheckinActivity extends Activity {
 			startActivity(i);
 			break;
 		case R.id.itemExportTimestamps:
-			if (Settings.getInstance().isFreeVersion()) {
-				showFreeVersionDialog();
-			} else {
+			if (Settings.getInstance().isEmailExportEnabled()) {
 				i = new Intent(this, ExportTimestamps.class);
 				startActivity(i);
+			} else {
+				showFreeVersionDialog();
 			}
 			break;
 		
 		case R.id.itemReadInTimestmaps:
-			if (Settings.getInstance().isFreeVersion()) {
-				showFreeVersionDialog();
-			} else {
+			if (Settings.getInstance().isBackupEnabled()) {
 				TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
 				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
 						.getInstance());
+			} else {
+				showFreeVersionDialog();
 			}
 			break;
 		
