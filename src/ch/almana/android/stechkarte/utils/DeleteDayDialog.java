@@ -34,7 +34,7 @@ public class DeleteDayDialog {
 		
 		private static final int ACTION_DEL_DAY = 0;
 		private static final int ACTION_DEL_DAY_TIMESTAMPS = 1;
-		private static final int ACTION_CANCEL = 2;
+		// private static final int ACTION_CANCEL = 2;
 		private static final int ACTIONS_MAX = 3;
 		private final Uri uri;
 		private Day day;
