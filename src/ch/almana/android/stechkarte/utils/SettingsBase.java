@@ -31,7 +31,7 @@ public abstract class SettingsBase {
 		try {
 			return Integer.parseInt(prefValue);
 		} catch (Exception e) {
-			throw new Exception();
+			throw new Exception(e);
 		}
 	}
 	
@@ -40,7 +40,7 @@ public abstract class SettingsBase {
 		try {
 			return Float.parseFloat(prefValue);
 		} catch (Exception e) {
-			throw new Exception();
+			throw new Exception(e);
 		}
 	}
 	
@@ -49,7 +49,7 @@ public abstract class SettingsBase {
 		try {
 			return Long.parseLong(prefValue);
 		} catch (Exception e) {
-			throw new Exception();
+			throw new Exception(e);
 		}
 	}
 	
@@ -67,7 +67,7 @@ public abstract class SettingsBase {
 		} else if ("false".equalsIgnoreCase(defaultValueString)) {
 			defaultValue = false;
 		} else {
-			throw new Exception();
+			throw new Exception("Cannot parse as boolean");
 		}
 		String prefKey = context.getResources().getString(key);
 		return getPreferences().getBoolean(prefKey, defaultValue);
