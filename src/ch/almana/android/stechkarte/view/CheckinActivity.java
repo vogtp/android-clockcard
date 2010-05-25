@@ -137,8 +137,15 @@ public class CheckinActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
-		MenuItem moreItems = menu.getItem(2);
-		moreItems.getSubMenu().getItem(1).setVisible(Settings.getInstance().isEmailExportEnabled());
+		// MenuItem moreItems = menu.getItem(2);
+		// boolean emailExportEnabled =
+		// Settings.getInstance().isEmailExportEnabled();
+		// boolean backupEnabled = Settings.getInstance().isBackupEnabled();
+		// if ( {
+		//			
+		// }
+		// moreItems.getSubMenu().getItem(0).setVisible(emailExportEnabled);
+		// moreItems.getSubMenu().getItem(0).setVisible(backupEnabled);
 		return true;
 	}
 	

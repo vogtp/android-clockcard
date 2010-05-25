@@ -12,6 +12,10 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+
+		Preference betaFeatures = findPreference(getString(R.string.prefKeyLicence));
+		betaFeatures.setEnabled(Settings.getInstance().hasBetaFeatures());
+
 		Preference emailPreference = findPreference(getString(R.string.prefKeyEmailAddress));
 		emailPreference.setEnabled(Settings.getInstance()
 				.isEmailExportEnabled());

@@ -149,4 +149,9 @@ public class Settings extends SettingsBase {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public boolean hasBetaFeatures() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
