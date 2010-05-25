@@ -39,9 +39,15 @@
 	<string name="prefHoursPerDayLong">Number of hours to work per day</string>
 	<string name="prefLicence">Beta Key</string>
 	<string name="prefLicenceLong">Key to unlock beta features</string>
+	<string name="prefBuy">Full version</string>
+	<string name="prefBuyLong">Buy license key for the full version.</string>
     <string name="prefLicenceDefault">e-mail me</string>
 	<string name="prefWorkday">Workday</string>
 	<string name="prefWorkdayLong">Settings about a day of work</string>
+	<string name="prefExportSync">Export and sync</string>
+	<string name="prefExportSyncLong">Export and sync settings</string>
+	<string name="prefFeatures">Features</string>
+	<string name="prefFeaturesLong">Settings controlling the active features</string>
 	<string name="prefMinTimestampDiff">Minimal timestamp difference</string>
 	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in seconds</string>
 	<string name="prefEmailAddress">e-mail address</string>

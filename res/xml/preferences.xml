@@ -9,18 +9,29 @@
 			android:summary="@string/prefMinTimestampDiffLong"
 			android:defaultValue="@string/prefMinTimestampDiffDefault"
 			android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference>
-		<EditTextPreference android:title="@string/prefEmailAddress"
-			android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault"
-			android:key="@string/prefKeyEmailAddress"></EditTextPreference>
-		<EditTextPreference android:key="@string/prefKeyLicence"
-			android:title="@string/prefLicence" android:defaultValue="@string/prefLicenceDefault"
-			android:summary="@string/prefLicenceLong"></EditTextPreference>
+
+
 
 
 	</PreferenceCategory>
 
 
 
+
+	<PreferenceCategory android:summary="@string/prefExportSyncLong"
+		android:title="@string/prefExportSync">
+		<EditTextPreference android:title="@string/prefEmailAddress"
+			android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault"
+			android:key="@string/prefKeyEmailAddress"></EditTextPreference>
+	</PreferenceCategory>
+	<PreferenceCategory android:summary="@string/prefFeaturesLong"
+		android:title="@string/prefFeatures">
+		<Preference android:key="@string/prefKeyBuy"
+			android:summary="@string/prefBuyLong" android:title="@string/prefBuy"></Preference>
+		<EditTextPreference android:key="@string/prefKeyLicence"
+			android:title="@string/prefLicence" android:defaultValue="@string/prefLicenceDefault"
+			android:summary="@string/prefLicenceLong"></EditTextPreference>
+	</PreferenceCategory>
 
 </PreferenceScreen>
 
