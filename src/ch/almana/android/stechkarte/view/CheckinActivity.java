@@ -18,7 +18,7 @@ import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
-	
+
 	public static final String ACTION_TIMESTAMP_TOGGLE = "ch.almana.android.stechkarte.actions.timestampToggle";
 	public static final String ACTION_TIMESTAMP_IN = "ch.almana.android.stechkarte.actions.timestampIn";
 	public static final String ACTION_TIMESTAMP_OUT = "ch.almana.android.stechkarte.actions.timestampOut";
@@ -26,10 +26,10 @@ public class CheckinActivity extends Activity {
 	private TextView overtime;
 	private TextView hoursWorked;
 	private TextView leaveAt;
-	
+
 	private TextView holidaysLeft;
 	private TextView labelLeaveAt;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class CheckinActivity extends Activity {
 		if (!Settings.getInstance().isEmailExportEnabled()) {
 			writeTimestampsToCsv();
 		}
-		
+
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
 		int width = getWindowManager().getDefaultDisplay().getWidth();
@@ -50,9 +50,9 @@ public class CheckinActivity extends Activity {
 		buttonOut.setWidth(width);
 		buttonOut.setHeight(width);
 		buttonOut.setTextSize(size);
-		
+
 		String action = getIntent().getAction();
-		
+
 		if (ACTION_TIMESTAMP_IN.equals(action)) {
 			if (TimestampAccess.getInstance().addInNow(this)) {
 				finish();
@@ -66,7 +66,7 @@ public class CheckinActivity extends Activity {
 				finish();
 			}
 		}
-		
+
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -74,7 +74,7 @@ public class CheckinActivity extends Activity {
 				updateFields();
 			}
 		});
-		
+
 		buttonOut.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -82,7 +82,7 @@ public class CheckinActivity extends Activity {
 				updateFields();
 			}
 		});
-		
+
 		status = (TextView) findViewById(R.id.TextViewStatus);
 		overtime = (TextView) findViewById(R.id.TextViewOvertime);
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
@@ -90,16 +90,16 @@ public class CheckinActivity extends Activity {
 		leaveAt = (TextView) findViewById(R.id.TextViewLeave);
 		labelLeaveAt = (TextView) findViewById(R.id.LabelLeavetAt);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		updateFields();
 		super.onResume();
 	}
-	
+
 	private void updateFields() {
 		CurInfo curInfo = new CurInfo(this);
-		
+
 		if (curInfo.getTimestampType() == Timestamp.TYPE_IN) {
 			if (curInfo.getLeaveInMillies() > 0l) {
 				leaveAt.setText(curInfo.getLeaveAtString());
@@ -117,38 +117,40 @@ public class CheckinActivity extends Activity {
 			labelLeaveAt.setVisibility(TextView.INVISIBLE);
 			labelLeaveAt.setHeight(0);
 		}
-		
+
 		status.setText("You are " + curInfo.getInOutString());
 		holidaysLeft.setText(curInfo.getHolydayLeft());
-		
+
 		overtime.setText(curInfo.getOvertimeString());
 		hoursWorked.setText(curInfo.getHoursWorked());
-		
+
 	}
-	
+
 	private void writeTimestampsToCsv() {
 		TimestampsCsvIO csv = new TimestampsCsvIO();
 		Cursor c = TimestampAccess.getInstance().query(null, null);
 		csv.writeTimestamps(c);
 		c.close();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
-		// MenuItem moreItems = menu.getItem(2);
-		// boolean emailExportEnabled =
-		// Settings.getInstance().isEmailExportEnabled();
-		// boolean backupEnabled = Settings.getInstance().isBackupEnabled();
-		// if ( {
-		//			
-		// }
-		// moreItems.getSubMenu().getItem(0).setVisible(emailExportEnabled);
-		// moreItems.getSubMenu().getItem(0).setVisible(backupEnabled);
+		MenuItem moreItems = menu.getItem(2);
+		boolean emailExportEnabled = Settings.getInstance()
+				.isEmailExportEnabled();
+		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
+		if (emailExportEnabled || backupEnabled) {
+			moreItems.setVisible(true);
+		} else {
+			moreItems.setVisible(false);
+		}
+		moreItems.getSubMenu().getItem(0).setVisible(emailExportEnabled);
+		moreItems.getSubMenu().getItem(2).setVisible(backupEnabled);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
@@ -165,29 +167,30 @@ public class CheckinActivity extends Activity {
 				showFreeVersionDialog();
 			}
 			break;
-		
+
 		case R.id.itemReadInTimestmaps:
 			if (Settings.getInstance().isBackupEnabled()) {
 				TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
-				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath() + "timestamps.csv", TimestampAccess
-						.getInstance());
+				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath()
+						+ "timestamps.csv", TimestampAccess.getInstance());
 			} else {
 				showFreeVersionDialog();
 			}
 			break;
-		
+
 		case R.id.itemPreferences:
-			i = new Intent(getApplicationContext(), StechkartePreferenceActivity.class);
+			i = new Intent(getApplicationContext(),
+					StechkartePreferenceActivity.class);
 			startActivity(i);
 			break;
-		
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void showFreeVersionDialog() {
 		Intent i = new Intent(this, BuyFullVersion.class);
 		startActivity(i);
 	}
-	
+
 }
