@@ -142,7 +142,7 @@ public class Settings extends SettingsBase {
 	}
 
 	public boolean isEmailExportEnabled() {
-		return isBetaVersion() || isPayVersion();
+		return  isPayVersion();
 	}
 
 	public boolean isBackupEnabled() {
@@ -151,7 +151,6 @@ public class Settings extends SettingsBase {
 	}
 
 	public boolean hasBetaFeatures() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
