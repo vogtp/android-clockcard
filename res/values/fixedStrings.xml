@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="prefKeyLicence">prefKeyLicence</string>
-<string name="prefLicenceDefault"></string>
 <string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
 <string name="prefHoursPerDayDefault">8.4</string>
 <string name="prefKeyMinTimestampDiff">prefKeyMinTimestampDiff</string>
