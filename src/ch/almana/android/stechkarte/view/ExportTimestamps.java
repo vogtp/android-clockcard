@@ -19,6 +19,7 @@ import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
@@ -53,7 +54,7 @@ public class ExportTimestamps extends Activity {
 	
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance();
-		Cursor cursor = dayAccess.query(null);
+		Cursor cursor = dayAccess.query(null, Days.REVERSE_SORTORDER);
 		for (int i = 0; i < header.length; i++) {
 			writer.write(header[i]);
 			writer.write(SEPARATOR);
