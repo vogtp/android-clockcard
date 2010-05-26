@@ -330,7 +330,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		Intent intent = new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI);
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, day.getYear());
-		cal.set(Calendar.MONTH, day.getMonth());
+		cal.set(Calendar.MONTH, day.getMonth() - 1);
 		cal.set(Calendar.DAY_OF_MONTH, day.getDay());
 		intent.putExtra(Timestamps.NAME_TIMESTAMP, cal.getTimeInMillis());
 		startActivity(intent);
