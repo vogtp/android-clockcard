@@ -146,11 +146,10 @@ public class Settings extends SettingsBase {
 	}
 
 	public boolean isBackupEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return isBetaVersion();
 	}
 
 	public boolean hasBetaFeatures() {
-		return false;
+		return true;
 	}
 }
