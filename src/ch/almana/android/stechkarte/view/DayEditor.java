@@ -180,13 +180,13 @@ public class DayEditor extends ListActivity implements DialogCallback {
 				@Override
 				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 					day.setYear(year);
-					day.setMonth(monthOfYear + 1);
+					day.setMonth(monthOfYear);
 					day.setDay(dayOfMonth);
 					updateFields();
 				}
 			};
 			return new DatePickerDialog(this, callBack, day.getYear(), day
-					.getMonth() - 1, day.getDay());
+					.getMonth(), day.getDay());
 			
 		default:
 			return super.onCreateDialog(id);
@@ -330,7 +330,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		Intent intent = new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI);
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, day.getYear());
-		cal.set(Calendar.MONTH, day.getMonth() - 1);
+		cal.set(Calendar.MONTH, day.getMonth());
 		cal.set(Calendar.DAY_OF_MONTH, day.getDay());
 		intent.putExtra(Timestamps.NAME_TIMESTAMP, cal.getTimeInMillis());
 		startActivity(intent);

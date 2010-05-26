@@ -219,15 +219,15 @@ public class Day {
 	}
 	
 	public void setYear(int year) {
-		dayRef = year * 10000 + getMonth() * 100 + getDay();
+		dayRef = year * 10000 + getMonthNotZeroBased() * 100 + getDay();
 	}
-	
+
 	public void setDay(int dayOfMonth) {
-		dayRef = getYear() * 10000 + getMonth() * 100 + dayOfMonth;
+		dayRef = getYear() * 10000 + getMonthNotZeroBased() * 100 + dayOfMonth;
 	}
 	
 	public void setMonth(int monthOfYear) {
-		dayRef = getYear() * 10000 + (monthOfYear) * 100 + getDay();
+		dayRef = getYear() * 10000 + (monthOfYear + 1) * 100 + getDay();
 	}
 	
 	public int getYear() {
@@ -237,12 +237,16 @@ public class Day {
 	}
 	
 	public int getMonth() {
+		return getMonthNotZeroBased() - 1;
+	}
+
+	private int getMonthNotZeroBased() {
 		String s = dayRef + "";
 		String substring = s.substring(4, 6);
 		int i = Integer.parseInt(substring);
 		return i;
 	}
-	
+
 	public int getDay() {
 		String s = dayRef + "";
 		String substring = s.substring(6, 8);

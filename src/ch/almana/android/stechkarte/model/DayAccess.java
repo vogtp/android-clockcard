@@ -18,6 +18,7 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
@@ -256,7 +257,9 @@ public class DayAccess implements IAccess {
 		// if (day.getHoursTarget() == 0f) {
 		// day.setHoursTarget(getHoursTargetDefault());
 		// }
-		day.setHoursTarget(day.getHoursTarget() - day.getHolyday() * day.getHoursTarget());
+		float hoursTargetDefault = Settings.getInstance().getHoursTarget();
+		day.setHoursTarget(hoursTargetDefault - day.getHolyday()
+				* hoursTargetDefault);
 		float hoursWorked = worked / HOURS_IN_MILLIES;
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
