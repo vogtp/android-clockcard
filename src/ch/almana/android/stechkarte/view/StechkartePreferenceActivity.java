@@ -30,9 +30,14 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 		Preference betaFeatures = findPreference(getString(R.string.prefKeyLicence));
 		betaFeatures.setEnabled(Settings.getInstance().hasBetaFeatures());
 
+		boolean emailExportEnabled = Settings.getInstance()
+				.isEmailExportEnabled();
 		Preference emailPreference = findPreference(getString(R.string.prefKeyEmailAddress));
-		emailPreference.setEnabled(Settings.getInstance()
-				.isEmailExportEnabled());
+		emailPreference.setEnabled(emailExportEnabled);
+		findPreference(getString(R.string.prefKeyDecimalFormat))
+				.setEnabled(emailExportEnabled);
+		findPreference(getString(R.string.prefKeyCsvFieldSeparator))
+				.setEnabled(emailExportEnabled);
 	}
 
 }

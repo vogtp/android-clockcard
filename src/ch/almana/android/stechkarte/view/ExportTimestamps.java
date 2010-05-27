@@ -3,6 +3,7 @@ package ch.almana.android.stechkarte.view;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +25,8 @@ import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
 	
-	private static final String SEPARATOR = "\t";
+
+	// private static final String separator = "\t";
 	private static final SimpleDateFormat yyyymmddFromat = new SimpleDateFormat("yyyyMMdd");
 	private static final SimpleDateFormat mmddyyyFromat = new SimpleDateFormat("MM/dd/yyyy");
 	
@@ -54,29 +56,35 @@ public class ExportTimestamps extends Activity {
 	
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance();
+		String separator = Settings.getInstance().getCsvSeparator();
+		if ("\\t".equals(separator)) {
+			separator = "\t";
+		}
+		DecimalFormat df = Settings.getInstance().getCsvDecimalFormat();
 		Cursor cursor = dayAccess.query(null, Days.REVERSE_SORTORDER);
 		for (int i = 0; i < header.length; i++) {
 			writer.write(header[i]);
-			writer.write(SEPARATOR);
+			writer.write(separator);
 		}
 		writer.write("\n");
 		while (cursor.moveToNext()) {
 			Day day = new Day(cursor);
 			String dayString = formatDate(day.getDayString());
 			writer.write("\"" + dayString + "\"");
-			writer.write(SEPARATOR);
-			writer.write("\"" + day.getHoursWorked() + "\"");
-			writer.write(SEPARATOR);
-			writer.write("\"" + day.getDayOvertime() + "\"");
-			writer.write(SEPARATOR);
-			writer.write("\"" + day.getOvertime() + "\"");
-			writer.write(SEPARATOR);
-			writer.write("\"" + day.getHolyday() + "\"");
-			writer.write(SEPARATOR);
-			writer.write("\"" + day.getHolydayLeft() + "\"");
+			writer.write(separator);
+			writer.write("\"" + df.format(day.getHoursWorked()) + "\"");
+			writer.write(separator);
+			writer.write("\"" + df.format(day.getDayOvertime()) + "\"");
+			writer.write(separator);
+			String overtime = df.format(day.getOvertime());
+			writer.write("\"" + overtime + "\"");
+			writer.write(separator);
+			writer.write("\"" + df.format(day.getHolyday()) + "\"");
+			writer.write(separator);
+			writer.write("\"" + df.format(day.getHolydayLeft()) + "\"");
 			Cursor timestamps = day.getTimestamps();
 			while (timestamps.moveToNext()) {
-				writer.write(SEPARATOR);
+				writer.write(separator);
 				Timestamp ts = new Timestamp(timestamps);
 				writer.write("\"" + ts.getHM() + "\"");
 			}

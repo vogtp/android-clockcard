@@ -1,5 +1,7 @@
 package ch.almana.android.stechkarte.utils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -139,6 +141,36 @@ public class Settings extends SettingsBase {
 			return "";
 		}
 
+	}
+
+	public String getCsvSeparator() {
+		try {
+			return getPrefAsString(R.string.prefKeyCsvFieldSeparator,
+					R.string.prefCsvFieldSeparatorDefault);
+		} catch (Exception e) {
+			return context.getString(R.string.prefCsvFieldSeparatorDefault);
+		}
+	}
+
+	public DecimalFormat getCsvDecimalFormat() {
+		DecimalFormat df = null;
+		try {
+			String format = getPrefAsString(R.string.prefKeyDecimalFormat,
+					R.string.prefDecimalFormatDefault);
+			if (format != null && !format.trim().equals("")) {
+				df = new DecimalFormat(format);
+			}
+		} catch (Exception e) {
+			Log.e(Logger.LOG_TAG, "Error getting decimalformat from perf", e);
+			// df = new DecimalFormat();
+			// // context
+			// // .getString(R.string.prefDecimalFormatDefault));
+			// df.setMaximumFractionDigits(2);
+		}
+		if (df == null) {
+			df = (DecimalFormat) NumberFormat.getNumberInstance();
+		}
+		return df;
 	}
 
 	public boolean isEmailExportEnabled() {

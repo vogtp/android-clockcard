@@ -20,10 +20,11 @@
 
 	<PreferenceCategory android:summary="@string/prefExportSyncLong"
 		android:title="@string/prefExportSync">
-		<EditTextPreference android:title="@string/prefEmailAddress"
-			android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault"
-			android:key="@string/prefKeyEmailAddress"></EditTextPreference>
-	</PreferenceCategory>
+		
+	<PreferenceScreen android:title="@string/prefExportSync" android:summary="@string/prefExportSyncLong"><EditTextPreference android:title="@string/prefEmailAddress" android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault" android:key="@string/prefKeyEmailAddress"></EditTextPreference><EditTextPreference android:summary="@string/prefCsvFieldSeparatorLong" android:defaultValue="@string/prefCsvFieldSeparatorDefault" android:title="@string/prefCsvFieldSeparator" android:key="@string/prefKeyCsvFieldSeparator"></EditTextPreference>
+<EditTextPreference android:summary="@string/prefDecimalFromLong" android:defaultValue="@string/prefDecimalFormatDefault" android:title="@string/prefDecimalFormat" android:key="@string/prefKeyDecimalFormat"></EditTextPreference>
+</PreferenceScreen>
+</PreferenceCategory>
 	<PreferenceCategory android:summary="@string/prefFeaturesLong"
 		android:title="@string/prefFeatures">
 		<Preference android:key="@string/prefKeyBuy"

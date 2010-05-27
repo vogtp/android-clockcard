@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="menu_insert_day">Insert day</string>
+	<string name="menu_insert_day">Insert day</string>
 	<string name="app_name">clock card</string>
 	<string name="TimestampTypeIn">IN</string>
 	<string name="TimestampTypeOut">OUT</string>
@@ -17,7 +17,8 @@
 	<string name="ButtonReadTimestamps">Read Timestamps</string>
 	<string name="LabelHoursTarget">Target </string>
 	<string name="LabelHolyday">Holiday</string>
-	<string name="LabelOvertimeTotal">total</string><string name="LabelOvertimeTotalLong">Overtime total</string>
+	<string name="LabelOvertimeTotal">total</string>
+	<string name="LabelOvertimeTotalLong">Overtime total</string>
 	<string name="LabelHoliday">Holiday</string>
 	<string name="HintHoliday">Holidays taken on this day</string>
 	<string name="LabelHolidayLeft">Holidays left</string>
@@ -35,13 +36,13 @@
 	<string name="dayTue">Tuesday</string>
 	<string name="workdays">Workdays</string>
 	<string name="perferences">Preferences</string>
-	<string name="prefHoursPerDay">Workinghours per	day</string>
+	<string name="prefHoursPerDay">Workinghours per day</string>
 	<string name="prefHoursPerDayLong">Number of hours to work per day</string>
 	<string name="prefLicence">Beta Key</string>
 	<string name="prefLicenceLong">Key to unlock beta features</string>
 	<string name="prefBuy">Full version</string>
 	<string name="prefBuyLong">Buy license key for the full version.</string>
-    <string name="prefLicenceDefault">e-mail me</string>
+	<string name="prefLicenceDefault"></string>
 	<string name="prefWorkday">Workday</string>
 	<string name="prefWorkdayLong">Settings about a day of work</string>
 	<string name="prefExportSync">Export and sync</string>
@@ -49,17 +50,26 @@
 	<string name="prefFeatures">Features</string>
 	<string name="prefFeaturesLong">Settings controlling the active features</string>
 	<string name="prefMinTimestampDiff">Minimal timestamp difference</string>
-	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in seconds</string>
+	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in seconds
+	</string>
 	<string name="prefEmailAddress">e-mail address</string>
 	<string name="prefEmailAddressLong">e-mail address to send exports to</string>
+	<string name="prefCsvFieldSeparator">CSV Field Separator</string>
+	<string name="prefCsvFieldSeparatorLong">Separator between the fields in the exported CSV</string>
+	<string name="prefDecimalFormat">Decimal Format</string>
+	<string name="prefDecimalFromLong">used in CSV export if empty use locale else see java reference.</string>
 	<string name="defaultHoursPerDay">8.24</string>
 	<string name="LabelHoursWorked">Hours worked</string>
 	<string name="TextViewLeave">Leave at </string>
 	<string name="TextViewLeaveNotIn">...start working!</string>
-	<string name="LabelBuyFullVersion">This feature is not available in the free version, please buy the <a href='market://search?q=pname:ch.almana.android.stechkarteLicense'>full version.</a></string>
+	<string name="LabelBuyFullVersion">
+		This feature is not available in the free version, please buy the
+		<a href='market://search?q=pname:ch.almana.android.stechkarteLicense'>full version.</a>
+	</string>
 
-<string name="delete">delete</string>
-<string name="deleteDayOnly">Delete day only</string>
-<string name="deleteDayAndTS">Delete day and its timestamps</string>
-<string name="cannotSaveTS">Cannot save timestamp to database.  Dublicate timestamp?</string>
+	<string name="delete">delete</string>
+	<string name="deleteDayOnly">Delete day only</string>
+	<string name="deleteDayAndTS">Delete day and its timestamps</string>
+	<string name="cannotSaveTS">Cannot save timestamp to database. Dublicate
+		timestamp?</string>
 </resources>

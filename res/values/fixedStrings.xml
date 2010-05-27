@@ -9,4 +9,8 @@
 <string name="prefMinTimestampDiffDefault">60</string>
 <string name="prefKeyEmailAddress">prefKeyEmailAddress</string>
 <string name="prefEmailAddressDefault"></string>
+<string name="prefKeyCsvFieldSeparator">prefKeyCsvFieldSeparator</string>
+<string name="prefCsvFieldSeparatorDefault">;</string>
+<string name="prefKeyDecimalFormat">prefKeyDecimalFormat</string>
+<string name="prefDecimalFormatDefault"></string>
 </resources>

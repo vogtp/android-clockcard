@@ -1,0 +1,13 @@
+V 
+* features
+-
+* bugfixes
+-
+
+V 1.2.1
+* features
+- More option for export (decimal format and csv separator)
+
+* bugfixes
+- month handling (use 0 based month in day and TS)
+- insert TS in the right day

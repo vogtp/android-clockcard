@@ -3,4 +3,6 @@
 
 <dimen name="title_fontsize">24sp</dimen>
 <dimen name="appWidgetFontsize">11sp</dimen>
+<dimen name="fontsizeTsEditor">25sp</dimen>
+<dimen name="tsEditorPadding">10dp</dimen>
 </resources>
