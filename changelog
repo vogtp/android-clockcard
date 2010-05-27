@@ -11,3 +11,4 @@ V 1.2.1
 * bugfixes
 - month handling (use 0 based month in day and TS)
 - insert TS in the right day
+- fix update holiday when < 1
