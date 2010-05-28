@@ -258,8 +258,12 @@ public class DayAccess implements IAccess {
 		// day.setHoursTarget(getHoursTargetDefault());
 		// }
 		float hoursTargetDefault = Settings.getInstance().getHoursTarget();
-		day.setHoursTarget(hoursTargetDefault - day.getHolyday()
-				* hoursTargetDefault);
+		float hoursTarget = day.getHoursTarget();
+		if (hoursTarget == hoursTargetDefault || hoursTarget < 0f) {
+			float hoursTargetReal = hoursTargetDefault - day.getHolyday()
+					* hoursTargetDefault;
+			day.setHoursTarget(hoursTargetReal);
+		}
 		float hoursWorked = worked / HOURS_IN_MILLIES;
 		float overtime = hoursWorked - day.getHoursTarget();
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
