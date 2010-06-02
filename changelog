@@ -4,6 +4,11 @@ V
 * bugfixes
 -
 
+V 1.2.3
+* bugfixes
+- rebuild days update for traget time 
+- \t in csv export perference
+
 V 1.2.1
 * features
 - More option for export (decimal format and csv separator)
