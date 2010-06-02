@@ -10,7 +10,7 @@
 <string name="prefKeyEmailAddress">prefKeyEmailAddress</string>
 <string name="prefEmailAddressDefault"></string>
 <string name="prefKeyCsvFieldSeparator">prefKeyCsvFieldSeparator</string>
-<string name="prefCsvFieldSeparatorDefault">\t</string>
+<string name="prefCsvFieldSeparatorDefault">\\t</string>
 <string name="prefKeyDecimalFormat">prefKeyDecimalFormat</string>
 <string name="prefDecimalFormatDefault"></string>
 </resources>

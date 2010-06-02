@@ -45,6 +45,17 @@ public class Settings extends SettingsBase {
 			editor.commit();
 		}
 		// END remove since its only for update 1.0 -> 1.0.1
+		// FIXME remove since its only for update 1.2.2 -> 1.2.3
+		String value = getCsvSeparator();
+		if (value != null && value.contains("\t")) {
+			value = value.replace("\t", "\\t"); 
+			key = context.getResources().getString(
+						R.string.prefKeyCsvFieldSeparator);
+			Editor editor = preferences.edit();
+			editor.putString(key, value);
+			editor.commit();
+		}
+		// END remove since its only for update 1.0 -> 1.0.1
 	}
 
 	public float getHoursTarget() {
