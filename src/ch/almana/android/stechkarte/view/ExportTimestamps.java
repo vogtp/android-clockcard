@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
@@ -108,7 +109,8 @@ public class ExportTimestamps extends Activity {
 		
 		sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
 				new String[] { Settings.getInstance().getEmailAddress() });
-		sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Stechkarte timestamps");
+		sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+				getText(R.string.emailExportSubject));
 		sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + filename));
 		sendIntent.setType("text/plain");
 		startActivity(sendIntent);
