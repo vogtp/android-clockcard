@@ -72,4 +72,5 @@
 	<string name="deleteDayAndTS">Delete day and its timestamps</string>
 	<string name="cannotSaveTS">Cannot save timestamp to database. Dublicate
 		timestamp?</string>
+<string name="emailExportSubject">clock card timestamps</string>
 </resources>
