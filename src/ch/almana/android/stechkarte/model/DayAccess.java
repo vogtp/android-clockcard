@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,6 +17,7 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.IProgressWrapper;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class DayAccess implements IAccess {
@@ -150,17 +150,18 @@ public class DayAccess implements IAccess {
 	public void update(Day day) {
 		update(Days.CONTENT_URI, day.getValues(), DB.NAME_ID + "=" + day.getId(), null);
 	}
-	
+
 	/**
 	 * @param timestamp
 	 *            Timestamp to recalculate or null to work on all days
-	 * @param progressDialog
+	 * @param progressWrapper
 	 */
-	public void recalculateDayFromTimestamp(Timestamp timestamp, ProgressDialog progressDialog) {
+	public void recalculateDayFromTimestamp(Timestamp timestamp,
+			IProgressWrapper progressWrapper) {
 		String selection = null;
 		String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
 		if (timestamp != null) {
-			selection = DB.NAME_ID + "=" + timestamp.getId();
+			selection = DB.Timestamps.NAME_TIMESTAMP + ">=" + timestamp.getTimestamp();
 			dayDeleteSelection = dayDeleteSelection + " and " + selection;
 		}
 		// delete all days
@@ -169,9 +170,10 @@ public class DayAccess implements IAccess {
 		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 		SortedSet<Long> dayRefs = new TreeSet<Long>();
 		int i = 0;
-		progressDialog.setMax(c.getCount() * 2);
+		progressWrapper.setMax(c.getCount() * 2);
+		progressWrapper.incrementEvery(2);
 		while (c.moveToNext()) {
-			progressDialog.setProgress(i++);
+			progressWrapper.setProgress(i++);
 			Timestamp ts = new Timestamp(c);
 			long dayref = ts.getDayRef();
 			Day curDay = getOrCreateDay(dayref);
@@ -189,7 +191,7 @@ public class DayAccess implements IAccess {
 		// i = 0;
 		// progressDialog.setProgress(0);
 		while (iterator.hasNext()) {
-			progressDialog.setProgress(i++);
+			progressWrapper.setProgress(i++);
 			Long dayRef = iterator.next();
 			recalculate(context, dayRef);
 		}
@@ -219,6 +221,7 @@ public class DayAccess implements IAccess {
 	}
 	
 	public void recalculate(Context context, Day day) {
+		day.setLastUpdated(System.currentTimeMillis());
 		// if (dayRef < 1) {
 		// return;
 		// }
@@ -272,7 +275,9 @@ public class DayAccess implements IAccess {
 			day.setOvertime(previousDay.getOvertime() + overtime);
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
 		}
-		Log.w(Logger.LOG_TAG, "Recalculated " + dayRef);
+		Log.w(Logger.LOG_TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti "
+				+ previousDay.getOvertime() + overtime);
+		day.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(day);
 	}
 	
@@ -301,4 +306,13 @@ public class DayAccess implements IAccess {
 		}
 	}
 	
+	public Day getOldestUpdatedDay(long since) {
+		Cursor cursor = query(Days.NAME_LAST_UPDATED + " > " + since, Days.NAME_DAYREF + " ASC");
+		if (cursor.moveToFirst()) {
+			return new Day(cursor);
+		} else {
+			return null;
+		}
+	}
+
 }

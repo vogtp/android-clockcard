@@ -15,6 +15,7 @@ import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 import ch.almana.android.stechkarte.utils.CurInfo;
+import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
@@ -173,6 +174,7 @@ public class CheckinActivity extends Activity {
 				TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
 				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath()
 						+ "timestamps.csv", TimestampAccess.getInstance());
+				RebuildDaysTask.rebuildDays(this, null);
 			} else {
 				showFreeVersionDialog();
 			}

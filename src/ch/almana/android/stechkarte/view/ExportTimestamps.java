@@ -22,6 +22,7 @@ import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
@@ -35,7 +36,7 @@ public class ExportTimestamps extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		RebuildDaysTask.rebuildDaysIfNeeded(this);
 		BufferedWriter writer = null;
 		String fileName = TimestampsCsvIO.getPath() + "export.csv";
 		try {

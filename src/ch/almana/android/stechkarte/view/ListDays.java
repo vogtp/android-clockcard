@@ -1,7 +1,6 @@
 package ch.almana.android.stechkarte.view;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -24,7 +24,6 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
-import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
@@ -34,29 +33,27 @@ import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 
 public class ListDays extends ListActivity implements DialogCallback {
-	
-	private ProgressDialog progressDialog = null;
-	
+
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
-		
+		requestWindowFeature(Window.FEATURE_PROGRESS);
+
 		Intent intent = getIntent();
 		if (intent.getData() == null) {
 			intent.setData(Days.CONTENT_URI);
 		}
-		
-		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null,
-				Days.DEFAULT_SORTORDER);
-		
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] {
-				DB.NAME_ID, DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME,
-				DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED },
-				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime,
-						R.id.TextViewHoursTarget, R.id.TextViewHoliday, R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
-		
+
+		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null, Days.DEFAULT_SORTORDER);
+
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] { DB.NAME_ID,
+				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET,
+				DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED }, new int[] { R.id.TextViewDayRef,
+				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
+				R.id.TextViewHoliday, R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
+
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
 			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -112,56 +109,50 @@ public class ListDays extends ListActivity implements DialogCallback {
 				return false;
 			}
 		});
-		
+
 		setListAdapter(adapter);
-		
+
 		getListView().setOnCreateContextMenuListener(this);
 		// dia.dismiss();
 	}
-	
+
+	@Override
+	protected void onResume() {
+		RebuildDaysTask.rebuildDaysIfNeeded(this);
+		super.onResume();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.daylist_option, menu);
-		// menu.add(0, MENU_ITEM_REBUILD, 0, R.string.menu_rebuild).setShortcut('3', 'a').setIcon(
-		// android.R.drawable.ic_menu_revert);
-		//
-		// Intent intent = new Intent(null, getIntent().getData());
-		// intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
-		// menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, new ComponentName(this, ListTimeStamps.class), null,
-		// intent, 0, null);
-		
+		// menu.getItem(0).setEnabled(!RebuildDaysTask.isRebuilding());
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.itemDaylistRebuild:
-			// case MENU_ITEM_REBUILD:
 			rebuildDays();
-			return true;
+			break;
 		case R.id.itemDaylistInsertDay:
 			startActivity(new Intent(Intent.ACTION_INSERT, Days.CONTENT_URI));
-			return true;
+			break;
 		case R.id.itemDaylistInsertTImestamp:
 			startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
-			return true;
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
-	
-	private void rebuildDays() {
-		progressDialog = new ProgressDialog(this);
-		RebuildDaysTask rebuildDaysTask = new RebuildDaysTask(progressDialog);
-		rebuildDaysTask.execute((Timestamp[]) null);
-		
-	}
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
-		
+
 		String action = getIntent().getAction();
 		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
 			setResult(RESULT_OK, new Intent().setData(uri));
@@ -169,17 +160,21 @@ public class ListDays extends ListActivity implements DialogCallback {
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
-	
+
+	private void rebuildDays() {
+		RebuildDaysTask.rebuildDays(this, null);
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		getMenuInflater().inflate(R.menu.daylist_context, menu);
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
-		
+
 		AdapterView.AdapterContextMenuInfo info;
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -187,11 +182,11 @@ public class ListDays extends ListActivity implements DialogCallback {
 			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
 			return false;
 		}
-		
+
 		// Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
 		switch (item.getItemId()) {
 		case R.id.itemDeleteDay: {
-			
+
 			DeleteDayDialog alert = new DeleteDayDialog(this, info.id);
 			alert.setTitle("Delete Day...");
 			alert.show();
@@ -199,18 +194,18 @@ public class ListDays extends ListActivity implements DialogCallback {
 		}
 		}
 		return false;
-		
+
 	}
-	
+
 	@Override
 	public void finished(boolean success) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public Context getContext() {
 		return this;
 	}
-	
+
 }

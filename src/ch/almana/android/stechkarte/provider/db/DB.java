@@ -15,9 +15,12 @@ public interface DB {
 	public static final String NAME_ID = "_id";
 	public static final int INDEX_ID = 0;
 
+	// FIXME insert lastupdated as long
+	// timestamp index in timestamps
+
 	public class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 4;
+		private static final int DATABASE_VERSION = 5;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME
 				+ " (" + DB.NAME_ID + " integer primary key, " + Timestamps.NAME_TIMESTAMP_TYPE + " int,"
@@ -27,7 +30,8 @@ public interface DB {
 				+ DB.NAME_ID + " integer primary key, " + Days.NAME_DAYREF + " long, "
 				+ Days.NAME_HOURS_WORKED + " real, " + Days.NAME_HOURS_TARGET + " real,"
 				+ Days.NAME_HOLIDAY + " real, " + Days.NAME_HOLIDAY_LEFT + " real, " + Days.NAME_OVERTIME
-				+ " real, " + Days.NAME_ERROR + " int, " + Days.NAME_FIXED + " int);";
+ + " real, " + Days.NAME_ERROR + " int, " + Days.NAME_FIXED + " int, "
+				+ Days.NAME_LAST_UPDATED + " long);";
 
 		private static final String LOG_TAG = Logger.LOG_TAG;
 
@@ -57,11 +61,15 @@ public interface DB {
 				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.NAME_FIXED + " int;");
 				// nobreak
 			case 3:
-				Log.w(LOG_TAG, "Upgrading to DB Version 3...");
+				Log.w(LOG_TAG, "Upgrading to DB Version 4...");
 				db
 						.execSQL("create unique index dayref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_DAYREF
 								+ "); ");
 
+			case 4:
+				Log.w(LOG_TAG, "Upgrading to DB Version 5...");
+				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.NAME_LAST_UPDATED + " long;");
+				// nobreak
 
 			default:
 				Log.w(LOG_TAG, "Finished DB upgrading!");
@@ -123,6 +131,7 @@ public interface DB {
 		public static final String NAME_OVERTIME = "overtime";
 		public static final String NAME_ERROR = "error";
 		public static final String NAME_FIXED = "fixed";
+		public static final String NAME_LAST_UPDATED = "lastUpdated";
 
 		public static final int INDEX_DAYREF = 1;
 		public static final int INDEX_HOURS_WORKED = 2;
@@ -132,16 +141,18 @@ public interface DB {
 		public static final int INDEX_OVERTIME = 6;
 		public static final int INDEX_ERROR = 7;
 		public static final int INDEX_FIXED = 8;
+		public static final int INDEX_LAST_UPDATED = 9;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_DAYREF, NAME_HOURS_WORKED,
 				NAME_HOURS_TARGET, NAME_HOLIDAY, NAME_HOLIDAY_LEFT, NAME_OVERTIME, NAME_ERROR,
-				NAME_FIXED };
+				NAME_FIXED, NAME_LAST_UPDATED };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_DAYREF + " DESC";
 		public static final String REVERSE_SORTORDER = NAME_DAYREF + " ASC";
 
 		static final String[] PROJECTTION_DAYREF = new String[] { NAME_DAYREF };
+
 
 	}
 

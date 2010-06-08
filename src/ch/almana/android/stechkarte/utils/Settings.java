@@ -16,12 +16,13 @@ import android.util.Log;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.view.BuyFullVersion;
 
 public class Settings extends SettingsBase {
 
 	private static float hoursTargetDefault = 8.4f;
 	private static final long SECONDS_IN_MILLIES = 1000;
-	private static final int MIN_LICENSE_VERSION = 0;
+	private static final int MIN_LICENSE_VERSION = 1;
 
 	public static void initInstance(Context ctx) {
 		if (instance == null) {
@@ -88,7 +89,7 @@ public class Settings extends SettingsBase {
 				if (packageName.equals(packageInfo.packageName)) {
 					Log.d(Logger.LOG_TAG, "Found package: "
 							+ packageInfo.packageName);
-					if (packageInfo.versionCode > MIN_LICENSE_VERSION) {
+					if (packageInfo.versionCode >= MIN_LICENSE_VERSION) {
 						Signature[] signatures = packageInfo.signatures;
 
 						if (Arrays.equals(signatures, mySignatures)) {
@@ -103,6 +104,7 @@ public class Settings extends SettingsBase {
 						Toast.makeText(context,
 								"License version to low, please update.",
 								Toast.LENGTH_LONG).show();
+						BuyFullVersion.startClockCardInstall(context);
 					}
 				}
 			}
@@ -194,5 +196,15 @@ public class Settings extends SettingsBase {
 
 	public boolean hasBetaFeatures() {
 		return true;
+	}
+
+	public void setLastDaysRebuild(long currentTimeMillis) {
+		Editor editor = getPreferences().edit();
+		editor.putLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, currentTimeMillis);
+		editor.commit();
+	}
+
+	public long getLastDaysRebuild() {
+		return getPreferences().getLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, 0);
 	}
 }

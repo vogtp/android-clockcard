@@ -19,6 +19,7 @@ public class Day {
 	private float overtime = 0;
 	private boolean error = false;
 	private boolean fixed = false;
+	private long lastUpdated = 0;
 	
 	public Day() {
 		this(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
@@ -41,6 +42,7 @@ public class Day {
 		overtime = day.overtime;
 		error = day.error;
 		fixed = day.fixed;
+		lastUpdated = day.lastUpdated;
 	}
 	
 	public Day(Cursor c) {
@@ -54,7 +56,7 @@ public class Day {
 		overtime = c.getFloat(Days.INDEX_OVERTIME);
 		setError(c.getInt(Days.INDEX_ERROR));
 		setFixed(c.getInt(Days.INDEX_FIXED));
-		
+		setLastUpdated(c.getLong(Days.INDEX_LAST_UPDATED));
 	}
 	
 	public Day(Bundle instanceState) {
@@ -75,6 +77,7 @@ public class Day {
 		values.put(Days.NAME_OVERTIME, getOvertime());
 		values.put(Days.NAME_ERROR, getError());
 		values.put(Days.NAME_FIXED, getFixed());
+		values.put(Days.NAME_LAST_UPDATED, getLastUpdated());
 		return values;
 	}
 	
@@ -92,6 +95,7 @@ public class Day {
 		bundle.putFloat(Days.NAME_OVERTIME, getOvertime());
 		bundle.putInt(Days.NAME_ERROR, getError());
 		bundle.putInt(Days.NAME_FIXED, getFixed());
+		bundle.putLong(Days.NAME_LAST_UPDATED, getLastUpdated());
 	}
 	
 	public void readFromBundle(Bundle bundle) {
@@ -104,6 +108,7 @@ public class Day {
 		overtime = bundle.getFloat(Days.NAME_OVERTIME);
 		setError(bundle.getInt(Days.NAME_ERROR));
 		setFixed(bundle.getInt(Days.NAME_FIXED));
+		lastUpdated = bundle.getLong(Days.NAME_LAST_UPDATED);
 	}
 	
 	@Override
@@ -253,5 +258,13 @@ public class Day {
 		int i = Integer.parseInt(substring);
 		return i;
 	}
+
+	public void setLastUpdated(long currentTimeMillis) {
+		this.lastUpdated = currentTimeMillis;
+	}
 	
+	public long getLastUpdated() {
+		return lastUpdated;
+	}
+
 }

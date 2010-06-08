@@ -152,6 +152,7 @@ public final class R {
         public static final int deleteDayAndTS=0x7f06004d;
         public static final int deleteDayOnly=0x7f06004c;
         public static final int delteSubTimestamps=0x7f06002c;
+        public static final int emailExportSubject=0x7f06004f;
         public static final int menu_delete=0x7f060012;
         public static final int menu_edit=0x7f060016;
         public static final int menu_insert=0x7f060013;

@@ -52,7 +52,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 		
 		@Override
 		public void onStart(Intent intent, int startId) {
-			Log.i(Logger.LOG_TAG, "UpdateService started");
+			Log.i(Logger.LOG_TAG, "appwidget update service started");
 //			getContentResolver().notifyChange(Timestamps.CONTENT_URI, observer);
 			RemoteViews rViews = createAppWidgetView(this);
 			ComponentName compName = new ComponentName(this, StechkarteAppwidget.class);

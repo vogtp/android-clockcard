@@ -188,12 +188,16 @@ public class TimestampAccess implements IAccess {
 		if (id > 0) {
 			timestamp.setId(id);
 		}
-		DayAccess.getInstance().recalculate(getContext(), timestamp.getDayRef());
+		DayAccess.getInstance()
+				.recalculate(getContext(), timestamp.getDayRef());
+		// RebuildDaysTask.rebuildDays(getContext(), timestamp);
 	}
 	
 	public void update(Timestamp timestamp) {
 		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.NAME_ID + "=" + timestamp.getId(), null);
-		DayAccess.getInstance().recalculate(getContext(), timestamp.getDayRef());
+		DayAccess.getInstance()
+				.recalculate(getContext(), timestamp.getDayRef());
+		// RebuildDaysTask.rebuildDays(getContext(), timestamp);
 	}
 	
 	public Cursor query(String selection) {
