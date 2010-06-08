@@ -93,8 +93,12 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 		if (day != null) {
 			Cursor tsCursor = day.getTimestamps();
 			if (tsCursor.moveToFirst()) {
-				Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString());
-				RebuildDaysTask.rebuildDays(ctx, new Timestamp(tsCursor));
+				Timestamp ts = new Timestamp(tsCursor);
+				long lastDaysRebuild = Settings.getInstance().getLastDaysRebuild();
+				if (true) { // FIXME ts.getTimestamp() > lastDaysRebuild) {
+					Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString());
+					RebuildDaysTask.rebuildDays(ctx, ts);
+				}
 			}
 		}
 
