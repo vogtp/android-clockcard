@@ -3,6 +3,13 @@ V
 -
 * bugfixes
 -
+
+V 1.3.1 
+* features
+-
+* bugfixes
+- fix forceclose on insert timestamp and open editor for old timestamp
+
 V 1.3
 * features
 - automatically rebuild days if timestamp changed

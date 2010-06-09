@@ -76,6 +76,7 @@ public class TimestampAccess implements IAccess {
 			case ACTION_ADDLAST_ADD:
 				insert(timestamp);
 				Intent i = new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				i.putExtra(Timestamps.NAME_TIMESTAMP_TYPE, Timestamp.invertTimestampType(timestamp));
 				context.startActivity(i);
 				break;
@@ -141,7 +142,7 @@ public class TimestampAccess implements IAccess {
 		return processInOutAdd(ctx, time, Timestamp.TYPE_IN);
 	}
 	
-	private boolean processInOutAdd(Context context, long time, int timestampType) {
+	private boolean processInOutAdd(Context ctx, long time, int timestampType) {
 		Timestamp lastTs = getLastTimestamp();
 			
 		if (timestampType == Timestamp.TYPE_UNDEF) {
@@ -155,7 +156,7 @@ public class TimestampAccess implements IAccess {
 				String tsTime = timestamp.toString();
 				String ltsTime = lastTs.toString();
 				Toast.makeText(
-						context,
+						ctx,
 						"Difference betwenn current and last timestamp is too small!\n"
 								+ tsTime + "\n" + ltsTime
 								+ "\nIgnoring timestamp.", Toast.LENGTH_LONG)
@@ -164,11 +165,9 @@ public class TimestampAccess implements IAccess {
 			}
 			if (timestamp.getTimestampType() == lastTs.getTimestampType()) {
 
-				Builder alert = new AlertDialog.Builder(context);
-				alert.setTitle("Same timestamp types: "
-						+ timestamp.getTimestampTypeAsString(context));
-				AlertDialogHandler alertDiaHandler = new TimestampAccess.AlertDialogHandler(
-						context, timestamp);
+				Builder alert = new AlertDialog.Builder(ctx);
+				alert.setTitle("Same timestamp types: " + timestamp.getTimestampTypeAsString(ctx));
+				AlertDialogHandler alertDiaHandler = new TimestampAccess.AlertDialogHandler(ctx, timestamp);
 				alert.setItems(alertDiaHandler.getActions(), alertDiaHandler);
 				alert.create();
 				alert.show();
