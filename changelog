@@ -4,9 +4,13 @@ V
 * bugfixes
 -
 
-V 1.3.1 
+V 1.3.2
 * features
--
+- Rebuild only the days needed to rebuild
+* bugfixes
+- Fix FC in rebuild days with no days 
+
+V 1.3.1
 * bugfixes
 - fix forceclose on insert timestamp and open editor for old timestamp
 

@@ -32,7 +32,11 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void setMax(int i) {
-		this.inc = 10000 / i;
+		if (i > 0) {
+			this.inc = 10000 / i;
+		} else {
+			this.inc = 1;
+		}
 	}
 
 	@Override
