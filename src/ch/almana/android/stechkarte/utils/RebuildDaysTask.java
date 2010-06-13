@@ -1,5 +1,8 @@
 package ch.almana.android.stechkarte.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
@@ -57,14 +60,14 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected void onPostExecute(Object result) {
-		super.onPostExecute(result);
+		Settings.getInstance().setLastDaysRebuild(System.currentTimeMillis());
 		rebuilding = false;
 		progressWrapper.dismiss();
+		super.onPostExecute(result);
 	}
 
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
-		Settings.getInstance().setLastDaysRebuild(System.currentTimeMillis());
 		DayAccess.getInstance().recalculateDayFromTimestamp(timestamp,
 				progressWrapper);
 		return null;
@@ -89,14 +92,18 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	}
 
 	public static void rebuildDaysIfNeeded(Context ctx) {
-		Day day = DayAccess.getInstance().getOldestUpdatedDay(RebuildDaysTask.getLastUpdate());
+		long lastDaysRebuild = RebuildDaysTask.getLastUpdate();
+		Day day = DayAccess.getInstance().getOldestUpdatedDay(lastDaysRebuild);
 		if (day != null) {
 			Cursor tsCursor = day.getTimestamps();
 			if (tsCursor.moveToFirst()) {
 				Timestamp ts = new Timestamp(tsCursor);
-				long lastDaysRebuild = Settings.getInstance().getLastDaysRebuild();
 				if (true) { // FIXME ts.getTimestamp() > lastDaysRebuild) {
-					Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString());
+					long luDay = day.getLastUpdated();
+					String lastDaysRebuildStr = SimpleDateFormat.getInstance().format(new Date(lastDaysRebuild));
+					String luDayStr = SimpleDateFormat.getInstance().format(new Date(luDay));
+					Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr
+							+ " last global rebuild " + lastDaysRebuildStr + ")");
 					RebuildDaysTask.rebuildDays(ctx, ts);
 				}
 			}
