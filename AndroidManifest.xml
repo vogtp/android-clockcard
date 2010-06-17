@@ -57,6 +57,7 @@
 				android:name="android.appwidget.provider" android:resource="@xml/appwidget_provider_clockcard"></meta-data>
 </receiver>
 <service android:name=".view.appwidget.StechkarteAppwidget$UpdateAppWidgetService"></service>
+<activity android:name=".view.HolidaysEditor"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4"/>
 

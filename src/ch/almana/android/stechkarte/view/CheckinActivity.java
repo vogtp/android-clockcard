@@ -138,17 +138,17 @@ public class CheckinActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
-		MenuItem moreItems = menu.getItem(2);
-		boolean emailExportEnabled = Settings.getInstance()
-				.isEmailExportEnabled();
+		MenuItem moreItems = menu.findItem(R.id.optionMore);
+
+		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
 		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
-		if (emailExportEnabled || backupEnabled) {
-			moreItems.setVisible(true);
-		} else {
-			moreItems.setVisible(false);
-		}
-		moreItems.getSubMenu().getItem(0).setVisible(emailExportEnabled);
-		moreItems.getSubMenu().getItem(2).setVisible(backupEnabled);
+		// if (emailExportEnabled || backupEnabled) {
+		// moreItems.setVisible(true);
+		// } else {
+		// moreItems.setVisible(false);
+		// }
+		moreItems.getSubMenu().findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
+		moreItems.getSubMenu().findItem(R.id.itemReadInTimestmaps).setVisible(backupEnabled);
 		return true;
 	}
 
@@ -183,6 +183,11 @@ public class CheckinActivity extends Activity {
 		case R.id.itemPreferences:
 			i = new Intent(getApplicationContext(),
 					StechkartePreferenceActivity.class);
+			startActivity(i);
+			break;
+
+		case R.id.itemHolidayEditor:
+			i = new Intent(this, HolidaysEditor.class);
 			startActivity(i);
 			break;
 
