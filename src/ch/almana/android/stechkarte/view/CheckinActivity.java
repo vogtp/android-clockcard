@@ -36,7 +36,7 @@ public class CheckinActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		if (!Settings.getInstance().isEmailExportEnabled()) {
+		if (Settings.getInstance().isBackupEnabled()) {
 			writeTimestampsToCsv();
 		}
 
