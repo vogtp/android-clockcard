@@ -27,7 +27,7 @@
 	<string name="LabelOvertime">Overtime</string>
 	<string name="CheckBoxFixed">Not automatically updated</string>
 	<string name="TextViewHolidaysLeft">left</string>
-	<string name="LabelTimestamps">TImestamps</string>
+	<string name="LabelTimestamps">Timestamps</string>
 	<string name="optionMore">more</string>
 	<string name="ExportTImestamps">E-mail export as CSV</string>
 	<string name="deleteDay">Delete day</string>
@@ -77,9 +77,10 @@
 <string name="LabelHolidayEnd">End</string>
 <string name="ButtonHolidayDateNone">no date given</string>
 <string name="MenuHolidayEditor">Holiday Editor</string>
-<string name="labelHolidayDurationStart">Duration on stating day </string>
-<string name="labelHolidayDurationEnd">Duration on ending day </string>
-<string name="LabelDay">day</string>
+<string name="MenuFAQ">Open FAQ</string>
+<string name="labelHolidayDurationStart">Duration on stating day:</string>
+<string name="labelHolidayDurationEnd">Duration on ending day:</string>
+<string name="LabelDay">days</string>
 <string name="CheckBoxFillupDay">Fill up not worked hours</string>
 <string name="CheckBoxIsPayed">Is payed</string>
 <string name="EditTextCommentHint">Comment</string>

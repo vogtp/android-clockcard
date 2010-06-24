@@ -9,6 +9,10 @@
 		android:titleCondensed="@string/MenuHolidayEditor"
 		android:id="@+id/itemHolidayEditor"></item>
 		
+	<item android:title="@string/MenuFAQ"
+		android:titleCondensed="@string/MenuFAQ"
+		android:id="@+id/itemFAQ"></item>
+		
 <item android:id="@+id/itemPreferences" android:title="@string/perferences"></item>
 	<item android:title="@+string/optionMore"
 		android:titleCondensed="@+string/optionMore"

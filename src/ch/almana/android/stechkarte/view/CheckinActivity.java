@@ -3,6 +3,7 @@ package ch.almana.android.stechkarte.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -149,6 +150,9 @@ public class CheckinActivity extends Activity {
 		// }
 		moreItems.getSubMenu().findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
 		moreItems.getSubMenu().findItem(R.id.itemReadInTimestmaps).setVisible(backupEnabled);
+
+		menu.findItem(R.id.itemHolidayEditor).setVisible(Settings.getInstance().isBetaVersion());
+
 		return true;
 	}
 
@@ -172,8 +176,10 @@ public class CheckinActivity extends Activity {
 		case R.id.itemReadInTimestmaps:
 			if (Settings.getInstance().isBackupEnabled()) {
 				TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
-				timestampsCsvIO.readTimestamps(TimestampsCsvIO.getPath()
-						+ "timestamps.csv", TimestampAccess.getInstance());
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append(TimestampsCsvIO.getPath());
+				stringBuilder.append("timestamps.csv");
+				timestampsCsvIO.readTimestamps(stringBuilder.toString(), TimestampAccess.getInstance());
 				RebuildDaysTask.rebuildDays(this, null);
 			} else {
 				showFreeVersionDialog();
@@ -181,13 +187,17 @@ public class CheckinActivity extends Activity {
 			break;
 
 		case R.id.itemPreferences:
-			i = new Intent(getApplicationContext(),
-					StechkartePreferenceActivity.class);
+			i = new Intent(getApplicationContext(), StechkartePreferenceActivity.class);
 			startActivity(i);
 			break;
 
 		case R.id.itemHolidayEditor:
 			i = new Intent(this, HolidaysEditor.class);
+			startActivity(i);
+			break;
+
+		case R.id.itemFAQ:
+			i = new Intent(Intent.ACTION_DEFAULT, Uri.parse("http://clockcard.sourceforge.net/faq.html"));
 			startActivity(i);
 			break;
 
