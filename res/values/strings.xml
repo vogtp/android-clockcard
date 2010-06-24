@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="mailBody">See attachment for CSV export.</string>
 	<string name="menu_insert_day">Insert day</string>
 	<string name="app_name">clock card</string>
 	<string name="TimestampTypeIn">IN</string>

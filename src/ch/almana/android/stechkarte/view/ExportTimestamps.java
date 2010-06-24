@@ -22,16 +22,16 @@ import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
-	
 
 	// private static final String separator = "\t";
 	private static final SimpleDateFormat yyyymmddFromat = new SimpleDateFormat("yyyyMMdd");
 	private static final SimpleDateFormat mmddyyyFromat = new SimpleDateFormat("MM/dd/yyyy");
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +51,9 @@ public class ExportTimestamps extends Activity {
 			finish();
 		}
 	}
-	
-	private String[] header = { "day", "Hours worked", "Overtime of day",
-			"Overtime", "holiday", "holiday left", "IN", "OUT", "IN", "OUT",
-			"IN", "OUT" };
-	
+
+	private String[] header = { "day", "Hours worked", "Overtime of day", "Overtime", "holiday", "holiday left", "IN", "OUT", "IN", "OUT", "IN", "OUT" };
+
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance();
 		String separator = Settings.getInstance().getCsvSeparator();
@@ -94,7 +92,7 @@ public class ExportTimestamps extends Activity {
 			timestamps.close();
 		}
 	}
-	
+
 	private String formatDate(String dayString) {
 		try {
 			Date date = yyyymmddFromat.parse(dayString);
@@ -104,17 +102,25 @@ public class ExportTimestamps extends Activity {
 			return dayString;
 		}
 	}
-	
+
 	private void sendMail(String filename) {
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
-		
-		sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
-				new String[] { Settings.getInstance().getEmailAddress() });
-		sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-				getText(R.string.emailExportSubject));
+
+		sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { Settings.getInstance().getEmailAddress() });
+		sendIntent.putExtra(Intent.EXTRA_SUBJECT, getText(R.string.emailExportSubject));
+		StringBuilder body = new StringBuilder(getString(R.string.mailBody));
+		CurInfo curInfo = new CurInfo(this);
+		body.append(getString(R.string.TextViewOvertimeShort));
+		body.append(": ");
+		body.append(curInfo.getOvertimeString());
+		body.append("\n");
+		body.append(getString(R.string.HintHolidaysLeft));
+		body.append(": ");
+		body.append(curInfo.getHolydayLeft());
+		body.append("\n");
+		sendIntent.putExtra(Intent.EXTRA_TEXT, body.toString());
 		sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + filename));
 		sendIntent.setType("text/plain");
 		startActivity(sendIntent);
 	}
-	
 }
