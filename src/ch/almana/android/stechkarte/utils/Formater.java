@@ -15,10 +15,14 @@ public class Formater {
 			hours = -hours;
 			neg = true;
 		}
-		int h = (int) Math.floor(hours);
-		int m = Math.round((hours - h) * 60); // rather: /100 * 60 * 100
+		double h1 = Math.floor(hours);
+		long m = Math.round((hours - h1) * 60); // rather: /100 * 60 * 100
+		if (m == 60) {
+			m = 59;
+		}
+		int h = (int) h1;
 		String sign = neg ? "-" : "";
-		return sign + h + ":" + String.format("%02d", m);
+		return sign + String.format("%02d", h) + ":" + String.format("%02d", m);
 	}
 
 	public static float getHoursFromHoursMin(String hourMin) {
