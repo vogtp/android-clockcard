@@ -194,7 +194,7 @@ public class TimestampAccess implements IAccess {
 		if (timestamp.getTimestampType() == Timestamp.TYPE_OUT && timestamp.getDayRef() != lastTs.getDayRef()) {
 			long lastDayRef = lastTs.getDayRef();
 			long tsDiff = timestamp.getTimestamp() - lastTs.getTimestamp();
-			long targetHours = (long) Settings.getInstance().getHoursTarget();
+			long targetHours = (long) Settings.getInstance().getHoursTarget(timestamp.getDayRef());
 			long maxTsDiff = targetHours * 4320000l; // ==60*60*1000*1.2
 			if (lastDayRef == todayDayRef - 1 && tsDiff < maxTsDiff) {
 				return lastDayRef;

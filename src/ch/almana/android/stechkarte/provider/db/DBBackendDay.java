@@ -35,8 +35,7 @@ public class DBBackendDay {
 
 		case DAY_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.delete(Days.TABLE_NAME, DB.NAME_ID + "=" + noteId
-					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+			count = db.delete(Days.TABLE_NAME, DB.NAME_ID + "=" + noteId + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
 		default:
@@ -82,7 +81,7 @@ public class DBBackendDay {
 			values = new ContentValues();
 		}
 		if (values.getAsFloat(Days.NAME_HOURS_TARGET) < 0) {
-			values.put(Days.NAME_HOURS_TARGET, Settings.getInstance().getHoursTarget());
+			values.put(Days.NAME_HOURS_TARGET, Settings.getInstance().getHoursTarget(values.getAsLong(Days.NAME_DAYREF)));
 		}
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		long rowId = db.insert(Days.TABLE_NAME, Days.NAME_DAYREF, values);
@@ -95,8 +94,7 @@ public class DBBackendDay {
 		throw new SQLException("Failed to insert row into " + uri);
 	}
 
-	public static Cursor query(OpenHelper openHelper, Uri uri, String[] projection, String selection,
-			String[] selectionArgs, String sortOrder) {
+	public static Cursor query(OpenHelper openHelper, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		qb.setTables(Days.TABLE_NAME);
@@ -128,8 +126,7 @@ public class DBBackendDay {
 		return c;
 	}
 
-	public static int update(OpenHelper openHelper, Uri uri, ContentValues values, String selection,
-			String[] selectionArgs) {
+	public static int update(OpenHelper openHelper, Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		int count;
 		switch (sUriMatcher.match(uri)) {
@@ -139,8 +136,7 @@ public class DBBackendDay {
 
 		case DAY_ID:
 			String noteId = uri.getPathSegments().get(1);
-			count = db.update(Days.TABLE_NAME, values, DB.NAME_ID + "=" + noteId
-					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+			count = db.update(Days.TABLE_NAME, values, DB.NAME_ID + "=" + noteId + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
 			break;
 
 		default:

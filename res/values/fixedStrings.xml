@@ -3,7 +3,6 @@
     <string name="prefKeyNightshift">prefKeyNightshift</string>
 <string name="prefKeyLicence">prefKeyLicence</string>
 <string name="prefKeyBuy">prefKeyBuy</string>
-<string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
 <string name="prefHoursPerDayDefault">8.4</string>
 <string name="prefKeyMinTimestampDiff">prefKeyMinTimestampDiff</string>
 <string name="prefKeyMinTimestampDiffInSecs">prefKeyMinTimestampDiffInSecs</string>
@@ -14,4 +13,15 @@
 <string name="prefCsvFieldSeparatorDefault">\\t</string>
 <string name="prefKeyDecimalFormat">prefKeyDecimalFormat</string>
 <string name="prefDecimalFormatDefault"></string>
+<string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
+<string name="prefKeyWorkHours">prefKeyWorkHours</string>
+<string name="prefKeyWorkHoursWeekBase">prefKeyWorkHours</string>
+<string name="prefKeyWorkHoursMon">prefKeyWorkHoursMon</string>
+<string name="prefKeyWorkHoursTue">prefKeyWorkHoursTue</string>
+<string name="prefKeyWorkHoursWed">prefKeyWorkHoursWed</string>
+<string name="prefKeyWorkHoursThu">prefKeyWorkHoursThu</string>
+<string name="prefKeyWorkHoursFri">prefKeyWorkHoursFri</string>
+<string name="prefKeyWorkHoursSat">prefKeyWorkHoursSat</string>
+<string name="prefKeyWorkHoursSun">prefKeyWorkHoursSun</string>
+<string name="prefHoursPerDayWeekDefault">-1</string>
 </resources>

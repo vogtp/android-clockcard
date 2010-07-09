@@ -94,4 +94,22 @@
 <item name="restofday" >rest of day</item>
 <item name="specify" >specify</item>
 </array>
+	<string name="prefWorkHours">Workinghours setting</string>
+	<string name="prefWorkHoursLong">Settings for hours to work per day</string>
+	<string name="prefWorkHoursCategory">Default</string>
+	<string name="prefWorkHoursWeekCategory">Weekday</string>
+	<string name="prefWorkHoursMon">Workinghours on Monday</string>
+	<string name="prefWorkHoursMonLong">Set to -1 to use default</string>
+	<string name="prefWorkHoursTue">Workinghours on Tuesday</string>
+	<string name="prefWorkHoursTueLong">Set to -1 to use default</string>
+	<string name="prefWorkHoursWed">Workinghours on Wednesday</string>
+	<string name="prefWorkHoursWedLong">Set to -1 to use default</string>
+	<string name="prefWorkHoursThu">Workinghours on Thursday</string>
+	<string name="prefWorkHoursThuLong">Set to -1 to use default</string>
+	<string name="prefWorkHoursFri">Workinghours on Friday</string>
+	<string name="prefWorkHoursFriLong">Set to -1 to use default</string>
+	<string name="prefWorkHoursSat">Workinghours on Saturday</string>
+	<string name="prefWorkHoursSatLong">Set to -1 to use default</string>
+	<string name="prefWorkHoursSun">Workinghours on Sunday</string>
+	<string name="prefWorkHoursSunLong">Set to -1 to use default</string>
 </resources>

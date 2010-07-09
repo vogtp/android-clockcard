@@ -2,9 +2,37 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory android:summary="@string/prefWorkdayLong"
 		android:title="@string/prefWorkday">
-		<EditTextPreference android:key="@string/prefKeyHoursPerDay"
-			android:summary="@string/prefHoursPerDayLong" android:title="@string/prefHoursPerDay"
-			android:defaultValue="@string/prefHoursPerDayDefault"></EditTextPreference>
+		<PreferenceScreen android:key="@string/prefKeyWorkHours"
+			android:summary="@string/prefWorkHoursLong" android:title="@string/prefWorkHours">
+			<PreferenceCategory android:title="@string/prefWorkHoursCategory">
+				<EditTextPreference android:key="@string/prefKeyHoursPerDay"
+					android:summary="@string/prefHoursPerDayLong" android:title="@string/prefHoursPerDay"
+					android:defaultValue="@string/prefHoursPerDayDefault"></EditTextPreference>
+			</PreferenceCategory>
+			<PreferenceCategory android:title="@string/prefWorkHoursWeekCategory">
+				<EditTextPreference android:key="@string/prefKeyWorkHoursMon"
+					android:summary="@string/prefWorkHoursMonLong" android:title="@string/prefWorkHoursMon"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+				<EditTextPreference android:key="@string/prefKeyWorkHoursTue"
+					android:summary="@string/prefWorkHoursTueLong" android:title="@string/prefWorkHoursTue"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+				<EditTextPreference android:key="@string/prefKeyWorkHoursWed"
+					android:summary="@string/prefWorkHoursWedLong" android:title="@string/prefWorkHoursWed"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+				<EditTextPreference android:key="@string/prefKeyWorkHoursThu"
+					android:summary="@string/prefWorkHoursThuLong" android:title="@string/prefWorkHoursThu"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+				<EditTextPreference android:key="@string/prefKeyWorkHoursFri"
+					android:summary="@string/prefWorkHoursFriLong" android:title="@string/prefWorkHoursFri"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+				<EditTextPreference android:key="@string/prefKeyWorkHoursSat"
+					android:summary="@string/prefWorkHoursSatLong" android:title="@string/prefWorkHoursSat"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+				<EditTextPreference android:key="@string/prefKeyWorkHoursSun"
+					android:summary="@string/prefWorkHoursSunLong" android:title="@string/prefWorkHoursSun"
+					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+			</PreferenceCategory>
+		</PreferenceScreen>
 		<EditTextPreference android:title="@string/prefMinTimestampDiff"
 			android:summary="@string/prefMinTimestampDiffLong"
 			android:defaultValue="@string/prefMinTimestampDiffDefault"
@@ -13,7 +41,10 @@
 
 
 
-	<CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference>
+		<CheckBoxPreference android:defaultValue="false"
+			android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff"
+			android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference>
+
 </PreferenceCategory>
 
 

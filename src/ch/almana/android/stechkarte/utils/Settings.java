@@ -2,6 +2,7 @@ package ch.almana.android.stechkarte.utils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.view.BuyFullVersion;
 
 public class Settings extends SettingsBase {
@@ -56,14 +58,29 @@ public class Settings extends SettingsBase {
 		// END remove since its only for update 1.0 -> 1.0.1
 	}
 
-	public float getHoursTarget() {
+	static final SimpleDateFormat weekdayFormat = new SimpleDateFormat("EEE");
+
+	public float getHoursTarget(long dayref) {
+		float hoursTarget = -1;
 		try {
-			return getPrefAsFloat(R.string.prefKeyHoursPerDay, R.string.prefHoursPerDayDefault);
+			long timestamp = DayAccess.timestampFromDayRef(dayref);
+			String prefKey = context.getString(R.string.prefKeyWorkHoursWeekBase);
+			prefKey = prefKey + weekdayFormat.format(timestamp);
+			hoursTarget = Float.parseFloat(getPreferences().getString(prefKey, "-1"));
 		} catch (Exception e) {
-			Log.w(Logger.LOG_TAG, "Error parsing setting hours per day", e);
-			return hoursTargetDefault;
+			Log.w(Logger.LOG_TAG, "Error parsing setting hours per weekday", e);
+			hoursTarget = -1;
+		}
+		if (hoursTarget < 0) {
+			try {
+				hoursTarget = getPrefAsFloat(R.string.prefKeyHoursPerDay, R.string.prefHoursPerDayDefault);
+			} catch (Exception e) {
+				Log.w(Logger.LOG_TAG, "Error parsing setting hours per day", e);
+				hoursTarget = hoursTargetDefault;
+			}
 		}
 
+		return hoursTarget;
 	}
 
 	private boolean checkLicense() {

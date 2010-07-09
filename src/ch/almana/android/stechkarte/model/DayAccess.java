@@ -1,5 +1,6 @@
 package ch.almana.android.stechkarte.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -260,7 +261,7 @@ public class DayAccess implements IAccess {
 		// if (day.getHoursTarget() == 0f) {
 		// day.setHoursTarget(getHoursTargetDefault());
 		// }
-		float hoursTargetDefault = Settings.getInstance().getHoursTarget();
+		float hoursTargetDefault = Settings.getInstance().getHoursTarget(day.getDayRef());
 		float hoursTarget = day.getHoursTarget();
 		if (hoursTarget == hoursTargetDefault || hoursTarget < 0f) {
 			float hoursTargetReal = hoursTargetDefault - day.getHolyday() * hoursTargetDefault;
@@ -282,6 +283,10 @@ public class DayAccess implements IAccess {
 	public static long dayRefFromTimestamp(long timestamp) {
 		String timeString = dayRefDateFormat.format(new Date(timestamp));
 		return Long.parseLong(timeString);
+	}
+
+	public static long timestampFromDayRef(long dayref) throws ParseException {
+		return dayRefDateFormat.parse(dayref + "").getTime();
 	}
 
 	public static long getNextFreeDayref(long timestamp) {

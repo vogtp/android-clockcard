@@ -3,9 +3,9 @@ package ch.almana.android.stechkarte.view;
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +14,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
@@ -27,9 +27,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SimpleCursorAdapter.ViewBinder;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
@@ -58,6 +58,8 @@ public class DayEditor extends ListActivity implements DialogCallback {
 	private SimpleCursorAdapter adapter;
 	private boolean overtimeAction;
 
+	// change work time on day change
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,16 +83,14 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
-			Log.w(Logger.LOG_TAG,
-					"Reading day information from savedInstanceState");
+			Log.w(Logger.LOG_TAG, "Reading day information from savedInstanceState");
 			if (day != null) {
 				day.readFromBundle(savedInstanceState);
 			} else {
 				day = new Day(savedInstanceState);
 			}
 		} else if (Intent.ACTION_INSERT.equals(action)) {
-			day = new Day(DayAccess.getNextFreeDayref(System
-					.currentTimeMillis()));
+			day = new Day(DayAccess.getNextFreeDayref(System.currentTimeMillis()));
 			TextView dayInfo = (TextView) findViewById(R.id.TextViewDayEditorDateInfo);
 			dayInfo.setText("Tap to change date");
 			dayRefTextView.setOnClickListener(new OnClickListener() {
@@ -106,8 +106,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 				}
 			});
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			Cursor c = managedQuery(intent.getData(),
-					DB.Days.DEFAULT_PROJECTION, null, null, null);
+			Cursor c = managedQuery(intent.getData(), DB.Days.DEFAULT_PROJECTION, null, null, null);
 			if (c.moveToFirst()) {
 				day = new Day(c);
 			}
@@ -128,11 +127,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 				if (overtimeAction) {
 					overtimeAction = false;
 					fixed.setChecked(true);
-					Toast.makeText(
-							DayEditor.this,
-							"Overtime changed setting day to "
-									+ getText(R.string.CheckBoxFixed),
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(DayEditor.this, "Overtime changed setting day to " + getText(R.string.CheckBoxFixed), Toast.LENGTH_SHORT).show();
 				}
 				return false;
 			}
@@ -147,21 +142,17 @@ public class DayEditor extends ListActivity implements DialogCallback {
 
 		Cursor cursor = TimestampAccess.getInstance().query(selection);
 		// Used to map notes entries from the database to views
-		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item,
-				cursor, new String[] { Timestamps.NAME_TIMESTAMP,
-						Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
-						R.id.TextViewTimestamp, R.id.TextViewTimestampType });
+		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] { Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
+				R.id.TextViewTimestamp, R.id.TextViewTimestampType });
 		adapter.setViewBinder(new ViewBinder() {
 
 			@Override
-			public boolean setViewValue(View view, Cursor cursor,
-					int columnIndex) {
+			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 				if (cursor == null) {
 					return false;
 				}
 				if (columnIndex == Timestamps.INDEX_TIMESTAMP) {
-					TextView ts = (TextView) view
-							.findViewById(R.id.TextViewTimestamp);
+					TextView ts = (TextView) view.findViewById(R.id.TextViewTimestamp);
 					long time = cursor.getLong(Timestamps.INDEX_TIMESTAMP);
 					ts.setText(Timestamp.timestampToString(time));
 				} else if (columnIndex == Timestamps.INDEX_TIMESTAMP_TYPE) {
@@ -172,8 +163,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 					} else if (type == Timestamp.TYPE_OUT) {
 						txt = " OUT";
 					}
-					((TextView) view.findViewById(R.id.TextViewTimestampType))
-							.setText(txt);
+					((TextView) view.findViewById(R.id.TextViewTimestampType)).setText(txt);
 				}
 				return true;
 			}
@@ -187,16 +177,14 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		case DIA_DATE_SELECT:
 			OnDateSetListener callBack = new OnDateSetListener() {
 				@Override
-				public void onDateSet(DatePicker view, int year,
-						int monthOfYear, int dayOfMonth) {
+				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 					day.setYear(year);
 					day.setMonth(monthOfYear);
 					day.setDay(dayOfMonth);
 					updateFields();
 				}
 			};
-			return new DatePickerDialog(this, callBack, day.getYear(), day
-					.getMonth(), day.getDay());
+			return new DatePickerDialog(this, callBack, day.getYear(), day.getMonth(), day.getDay());
 
 		default:
 			return super.onCreateDialog(id);
@@ -217,47 +205,30 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		holidayLeft.setText(day.getHolydayLeft() + "");
 		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime()));
 		fixed.setChecked(day.isFixed());
-		hoursTarget.setText(Formater.formatHourMinFromHours(day
-				.getHoursTarget()));
-		hoursWorked.setText(Formater.formatHourMinFromHours(day
-				.getHoursWorked()));
+		hoursTarget.setText(Formater.formatHourMinFromHours(day.getHoursTarget()));
+		hoursWorked.setText(Formater.formatHourMinFromHours(day.getHoursWorked()));
 	}
 
 	private void updateModel() {
 		try {
 			day.setHolyday(Float.parseFloat(holiday.getText().toString()));
 		} catch (NumberFormatException e) {
-			Toast
-					.makeText(getApplicationContext(),
-							"Cannot parse number " + e.getMessage(),
-							Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		try {
-			day.setHolydayLeft(Float.parseFloat(holidayLeft.getText()
-					.toString()));
+			day.setHolydayLeft(Float.parseFloat(holidayLeft.getText().toString()));
 		} catch (NumberFormatException e) {
-			Toast
-					.makeText(getApplicationContext(),
-							"Cannot parse number " + e.getMessage(),
-							Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		try {
-			day.setOvertime(Formater.getHoursFromHoursMin(overtime.getText()
-					.toString()));
+			day.setOvertime(Formater.getHoursFromHoursMin(overtime.getText().toString()));
 		} catch (NumberFormatException e) {
-			Toast
-					.makeText(getApplicationContext(),
-							"Cannot parse number " + e.getMessage(),
-							Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		try {
-			day.setHoursTarget(Formater.getHoursFromHoursMin(hoursTarget
-					.getText().toString()));
+			day.setHoursTarget(Formater.getHoursFromHoursMin(hoursTarget.getText().toString()));
 		} catch (NumberFormatException e) {
-			Toast
-					.makeText(getApplicationContext(),
-							"Cannot parse number " + e.getMessage(),
-							Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		day.setFixed(fixed.isChecked());
 	}
@@ -301,8 +272,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 		getMenuInflater().inflate(R.menu.dayeditor_context, menu);
 	}
