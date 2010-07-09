@@ -22,38 +22,38 @@ import ch.almana.android.stechkarte.utils.Settings;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
-	
+
 	private static SimpleDateFormat dayRefDateFormat = new SimpleDateFormat("yyyyMMdd");
-	
+
 	private final Context context;
-	
+
 	private static DayAccess instance;
 	public static final float HOURS_IN_MILLIES = 1000f * 60f * 60f;
-	
+
 	public static void initInstance(Context context) {
 		instance = new DayAccess(context);
 	}
-	
+
 	public static DayAccess getInstance() {
 		return instance;
 	}
-	
+
 	public DayAccess(Context context) {
 		super();
 		this.context = context;
 	}
-	
+
 	public Context getContext() {
 		return context;
 	}
-	
+
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		int count = getContext().getContentResolver().delete(uri, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
-	
+
 	public int deleteTimestamps(Day day) {
 		Cursor c = null;
 		int delRows = 0;
@@ -70,26 +70,26 @@ public class DayAccess implements IAccess {
 		}
 		return delRows;
 	}
-	
+
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		Uri ret = getContext().getContentResolver().insert(uri, initialValues);
 		getContext().getContentResolver().notifyChange(ret, null);
 		return ret;
 	}
-	
+
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return getContext().getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
 	}
-	
+
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		int count = getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
-	
+
 	public void insert(Day day) {
 		Uri uri = insert(DB.Days.CONTENT_URI, day.getValues());
 		long id = ContentUris.parseId(uri);
@@ -97,30 +97,29 @@ public class DayAccess implements IAccess {
 			day.setId(id);
 		}
 	}
-	
+
 	public boolean hasDayRef(long dayref) {
 		Cursor c = null;
 		try {
-			c = query(Days.CONTENT_URI, DB.Days.PROJECTTION_DAYREF, DB.Days.NAME_DAYREF + "=" + dayref, null,
-					DB.Days.DEFAULT_SORTORDER);
+			c = query(Days.CONTENT_URI, DB.Days.PROJECTTION_DAYREF, DB.Days.NAME_DAYREF + "=" + dayref, null, DB.Days.DEFAULT_SORTORDER);
 			return c.moveToFirst();
 		} finally {
 			if (c != null) {
 				c.close();
 				c = null;
 			}
-			
+
 		}
 	}
-	
+
 	public Cursor query(String selection) {
 		return query(selection, Days.DEFAULT_SORTORDER);
 	}
-	
+
 	public Cursor query(String selection, String sortOrder) {
 		return query(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, selection, null, sortOrder);
 	}
-	
+
 	public Day getOrCreateDay(long dayref) {
 		Day d;
 		Cursor c = null;
@@ -138,7 +137,7 @@ public class DayAccess implements IAccess {
 		}
 		return d;
 	}
-	
+
 	public void insertOrUpdate(Day day) {
 		if (day.getId() > -1) {
 			update(day);
@@ -146,7 +145,7 @@ public class DayAccess implements IAccess {
 			insert(day);
 		}
 	}
-	
+
 	public void update(Day day) {
 		update(Days.CONTENT_URI, day.getValues(), DB.NAME_ID + "=" + day.getId(), null);
 	}
@@ -156,8 +155,7 @@ public class DayAccess implements IAccess {
 	 *            Timestamp to recalculate or null to work on all days
 	 * @param progressWrapper
 	 */
-	public void recalculateDayFromTimestamp(Timestamp timestamp,
-			IProgressWrapper progressWrapper) {
+	public void recalculateDayFromTimestamp(Timestamp timestamp, IProgressWrapper progressWrapper) {
 		String selection = null;
 		String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
 		if (timestamp != null) {
@@ -172,19 +170,22 @@ public class DayAccess implements IAccess {
 		int i = 0;
 		progressWrapper.setMax(c.getCount() * 2);
 		progressWrapper.incrementEvery(2);
+		Timestamp lastTs = null;
 		while (c.moveToNext()) {
 			progressWrapper.setProgress(i++);
 			Timestamp ts = new Timestamp(c);
-			long dayref = ts.getDayRef();
+			long dayref = timestampAccess.calculateDayrefForTimestamp(ts, lastTs);
 			Day curDay = getOrCreateDay(dayref);
 			if (curDay.isFixed()) {
 				continue;
 			}
+
+			ts.setDayRef(dayref);
 			if (dayRefs.add(dayref)) {
 				Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
 			}
-			ts.setDayRef(dayref);
 			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
+			lastTs = ts;
 		}
 		c.close();
 		Iterator<Long> iterator = dayRefs.iterator();
@@ -196,7 +197,7 @@ public class DayAccess implements IAccess {
 			recalculate(context, dayRef);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param currentDay
@@ -211,7 +212,7 @@ public class DayAccess implements IAccess {
 		c.close();
 		return d;
 	}
-	
+
 	public void recalculate(Context context, long dayRef) {
 		if (dayRef < 1) {
 			return;
@@ -219,7 +220,7 @@ public class DayAccess implements IAccess {
 		Day day = getOrCreateDay(dayRef);
 		recalculate(context, day);
 	}
-	
+
 	public void recalculate(Context context, Day day) {
 		day.setLastUpdated(System.currentTimeMillis());
 		// if (dayRef < 1) {
@@ -244,8 +245,7 @@ public class DayAccess implements IAccess {
 					Timestamp t2 = new Timestamp(c);
 					long diff = (t2.getTimestamp() - t1.getTimestamp());
 					worked = worked + diff;
-					Log.i(LOG_TAG, "Worked " + diff / HOURS_IN_MILLIES + " form " + t1.toString() + " to "
-							+ t2.toString());
+					Log.i(LOG_TAG, "Worked " + diff / HOURS_IN_MILLIES + " form " + t1.toString() + " to " + t2.toString());
 				} else {
 					error = true;
 				}
@@ -263,8 +263,7 @@ public class DayAccess implements IAccess {
 		float hoursTargetDefault = Settings.getInstance().getHoursTarget();
 		float hoursTarget = day.getHoursTarget();
 		if (hoursTarget == hoursTargetDefault || hoursTarget < 0f) {
-			float hoursTargetReal = hoursTargetDefault - day.getHolyday()
-					* hoursTargetDefault;
+			float hoursTargetReal = hoursTargetDefault - day.getHolyday() * hoursTargetDefault;
 			day.setHoursTarget(hoursTargetReal);
 		}
 		float hoursWorked = worked / HOURS_IN_MILLIES;
@@ -275,17 +274,16 @@ public class DayAccess implements IAccess {
 			day.setOvertime(previousDay.getOvertime() + overtime);
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
 		}
-		Log.w(Logger.LOG_TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti "
-				+ previousDay.getOvertime() + overtime);
+		Log.w(Logger.LOG_TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti " + previousDay.getOvertime() + overtime);
 		day.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(day);
 	}
-	
+
 	public static long dayRefFromTimestamp(long timestamp) {
 		String timeString = dayRefDateFormat.format(new Date(timestamp));
 		return Long.parseLong(timeString);
 	}
-	
+
 	public static long getNextFreeDayref(long timestamp) {
 		long dayref = dayRefFromTimestamp(timestamp);
 		while (exists(dayref)) {
@@ -293,7 +291,7 @@ public class DayAccess implements IAccess {
 		}
 		return dayref;
 	}
-	
+
 	private static boolean exists(long dayref) {
 		Cursor c = null;
 		try {
@@ -305,7 +303,7 @@ public class DayAccess implements IAccess {
 			}
 		}
 	}
-	
+
 	public Day getOldestUpdatedDay(long since) {
 		Cursor cursor = query(Days.NAME_LAST_UPDATED + " > " + since, Days.NAME_DAYREF + " ASC");
 		if (cursor.moveToFirst()) {

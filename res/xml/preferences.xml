@@ -13,18 +13,29 @@
 
 
 
-	</PreferenceCategory>
+	<CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference>
+</PreferenceCategory>
 
 
 
 
 	<PreferenceCategory android:summary="@string/prefExportSyncLong"
 		android:title="@string/prefExportSync">
-		
-	<PreferenceScreen android:title="@string/prefExportSync" android:summary="@string/prefExportSyncLong"><EditTextPreference android:title="@string/prefEmailAddress" android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault" android:key="@string/prefKeyEmailAddress"></EditTextPreference><EditTextPreference android:summary="@string/prefCsvFieldSeparatorLong" android:defaultValue="@string/prefCsvFieldSeparatorDefault" android:title="@string/prefCsvFieldSeparator" android:key="@string/prefKeyCsvFieldSeparator"></EditTextPreference>
-<EditTextPreference android:summary="@string/prefDecimalFromLong" android:defaultValue="@string/prefDecimalFormatDefault" android:title="@string/prefDecimalFormat" android:key="@string/prefKeyDecimalFormat" android:shouldDisableView="true" android:enabled="false"></EditTextPreference>
-</PreferenceScreen>
-</PreferenceCategory>
+
+		<PreferenceScreen android:title="@string/prefExportSync"
+			android:summary="@string/prefExportSyncLong">
+			<EditTextPreference android:title="@string/prefEmailAddress"
+				android:summary="@string/prefEmailAddressLong" android:defaultValue="@string/prefEmailAddressDefault"
+				android:key="@string/prefKeyEmailAddress"></EditTextPreference>
+			<EditTextPreference android:summary="@string/prefCsvFieldSeparatorLong"
+				android:defaultValue="@string/prefCsvFieldSeparatorDefault"
+				android:title="@string/prefCsvFieldSeparator" android:key="@string/prefKeyCsvFieldSeparator"></EditTextPreference>
+			<EditTextPreference android:summary="@string/prefDecimalFromLong"
+				android:defaultValue="@string/prefDecimalFormatDefault"
+				android:title="@string/prefDecimalFormat" android:key="@string/prefKeyDecimalFormat"
+				android:shouldDisableView="true" android:enabled="false"></EditTextPreference>
+		</PreferenceScreen>
+	</PreferenceCategory>
 	<PreferenceCategory android:summary="@string/prefFeaturesLong"
 		android:title="@string/prefFeatures">
 		<Preference android:key="@string/prefKeyBuy"

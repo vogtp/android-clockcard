@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefKeyNightshift">prefKeyNightshift</string>
 <string name="prefKeyLicence">prefKeyLicence</string>
 <string name="prefKeyBuy">prefKeyBuy</string>
 <string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>

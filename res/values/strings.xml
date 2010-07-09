@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefNightshift">Enable nightshifts</string>
+    <string name="prefNightshiftLongOff">Add timestamp to current day</string>
+    <string name="prefNightshiftLongOn">Add first OUT of day to last day if finished with IN</string>
     <string name="mailBody">See attachment for CSV export.</string>
 	<string name="menu_insert_day">Insert day</string>
 	<string name="app_name">clock card</string>
@@ -85,4 +88,10 @@
 <string name="CheckBoxFillupDay">Fill up not worked hours</string>
 <string name="CheckBoxIsPayed">Is payed</string>
 <string name="EditTextCommentHint">Comment</string>
+<array name="holidayBorderType">
+<item name="allday" >all day</item>
+<item name="halfday" >half day</item>
+<item name="restofday" >rest of day</item>
+<item name="specify" >specify</item>
+</array>
 </resources>

@@ -33,12 +33,10 @@ public class Settings extends SettingsBase {
 	private Settings(Context ctx) {
 		super(ctx);
 		// FIXME remove since its only for update 1.0 -> 1.0.1
-		String key = context.getResources().getString(
-				R.string.prefKeyMinTimestampDiff);
+		String key = context.getResources().getString(R.string.prefKeyMinTimestampDiff);
 		SharedPreferences preferences = getPreferences();
 		if (preferences.contains(key)) {
-			String keyNew = context.getResources().getString(
-					R.string.prefKeyMinTimestampDiffInSecs);
+			String keyNew = context.getResources().getString(R.string.prefKeyMinTimestampDiffInSecs);
 			Editor editor = preferences.edit();
 			int minutes = Integer.parseInt(preferences.getString(key, "1")) * 60;
 			editor.putString(keyNew, minutes + "");
@@ -49,9 +47,8 @@ public class Settings extends SettingsBase {
 		// FIXME remove since its only for update 1.2.2 -> 1.2.3
 		String value = getCsvSeparator();
 		if (value != null && value.contains("\t")) {
-			value = value.replace("\t", "\\t"); 
-			key = context.getResources().getString(
-						R.string.prefKeyCsvFieldSeparator);
+			value = value.replace("\t", "\\t");
+			key = context.getResources().getString(R.string.prefKeyCsvFieldSeparator);
 			Editor editor = preferences.edit();
 			editor.putString(key, value);
 			editor.commit();
@@ -61,8 +58,7 @@ public class Settings extends SettingsBase {
 
 	public float getHoursTarget() {
 		try {
-			return getPrefAsFloat(R.string.prefKeyHoursPerDay,
-					R.string.prefHoursPerDayDefault);
+			return getPrefAsFloat(R.string.prefKeyHoursPerDay, R.string.prefHoursPerDayDefault);
 		} catch (Exception e) {
 			Log.w(Logger.LOG_TAG, "Error parsing setting hours per day", e);
 			return hoursTargetDefault;
@@ -76,19 +72,13 @@ public class Settings extends SettingsBase {
 		// packageName);
 		try {
 			PackageManager pm = context.getPackageManager();
-			Signature[] mySignatures = context.getApplicationContext()
-					.getPackageManager().getPackageInfo(
-							context.getPackageName(),
-							PackageManager.GET_SIGNATURES).signatures;
-			List<PackageInfo> preferredPackages = pm
-					.getInstalledPackages(PackageManager.GET_SIGNATURES);
-			for (Iterator<PackageInfo> iterator = preferredPackages.iterator(); iterator
-					.hasNext();) {
+			Signature[] mySignatures = context.getApplicationContext().getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
+			List<PackageInfo> preferredPackages = pm.getInstalledPackages(PackageManager.GET_SIGNATURES);
+			for (Iterator<PackageInfo> iterator = preferredPackages.iterator(); iterator.hasNext();) {
 				PackageInfo packageInfo = iterator.next();
 				// Log.d(Logger.LOG_TAG, "Package: " + packageInfo.packageName);
 				if (packageName.equals(packageInfo.packageName)) {
-					Log.d(Logger.LOG_TAG, "Found package: "
-							+ packageInfo.packageName);
+					Log.d(Logger.LOG_TAG, "Found package: " + packageInfo.packageName);
 					if (packageInfo.versionCode >= MIN_LICENSE_VERSION) {
 						Signature[] signatures = packageInfo.signatures;
 
@@ -96,14 +86,11 @@ public class Settings extends SettingsBase {
 							Log.i(Logger.LOG_TAG, "Found valid license");
 							return true;
 						} else {
-							Toast.makeText(context, "Wrong license signature.",
-									Toast.LENGTH_LONG).show();
+							Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
 						}
 
 					} else {
-						Toast.makeText(context,
-								"License version to low, please update.",
-								Toast.LENGTH_LONG).show();
+						Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
 						BuyFullVersion.startClockCardInstall(context);
 					}
 				}
@@ -113,8 +100,7 @@ public class Settings extends SettingsBase {
 			// PackageManager.GET_SIGNATURES);
 
 		} catch (Exception e) {
-			Log.d(Logger.LOG_TAG, "Exception while looking for " + packageName
-					+ " as license", e);
+			Log.d(Logger.LOG_TAG, "Exception while looking for " + packageName + " as license", e);
 		}
 		Log.i(Logger.LOG_TAG, "License " + packageName + " not found");
 		return false;
@@ -128,8 +114,7 @@ public class Settings extends SettingsBase {
 	}
 
 	public boolean isBetaVersion() {
-		String lic = getPrefAsString(R.string.prefKeyLicence,
-				R.string.prefLicenceDefault);
+		String lic = getPrefAsString(R.string.prefKeyLicence, R.string.prefLicenceDefault);
 		if ("sonnenscheinInBasel".equals(lic)) {
 			return true;
 		}
@@ -138,8 +123,7 @@ public class Settings extends SettingsBase {
 
 	public long getMinTimestampDiff() {
 		try {
-			long diff = getPrefAsLong(R.string.prefKeyMinTimestampDiffInSecs,
-					R.string.prefMinTimestampDiffDefault);
+			long diff = getPrefAsLong(R.string.prefKeyMinTimestampDiffInSecs, R.string.prefMinTimestampDiffDefault);
 			return diff * SECONDS_IN_MILLIES;
 		} catch (Exception e) {
 			return SECONDS_IN_MILLIES;
@@ -148,8 +132,7 @@ public class Settings extends SettingsBase {
 
 	public String getEmailAddress() {
 		try {
-			return getPrefAsString(R.string.prefKeyEmailAddress,
-					R.string.prefEmailAddressDefault);
+			return getPrefAsString(R.string.prefKeyEmailAddress, R.string.prefEmailAddressDefault);
 		} catch (Exception e) {
 			return "";
 		}
@@ -158,8 +141,7 @@ public class Settings extends SettingsBase {
 
 	public String getCsvSeparator() {
 		try {
-			return getPrefAsString(R.string.prefKeyCsvFieldSeparator,
-					R.string.prefCsvFieldSeparatorDefault);
+			return getPrefAsString(R.string.prefKeyCsvFieldSeparator, R.string.prefCsvFieldSeparatorDefault);
 		} catch (Exception e) {
 			return context.getString(R.string.prefCsvFieldSeparatorDefault);
 		}
@@ -168,8 +150,7 @@ public class Settings extends SettingsBase {
 	public DecimalFormat getCsvDecimalFormat() {
 		DecimalFormat df = null;
 		try {
-			String format = getPrefAsString(R.string.prefKeyDecimalFormat,
-					R.string.prefDecimalFormatDefault);
+			String format = getPrefAsString(R.string.prefKeyDecimalFormat, R.string.prefDecimalFormatDefault);
 			if (format != null && !format.trim().equals("")) {
 				df = new DecimalFormat(format);
 			}
@@ -187,7 +168,7 @@ public class Settings extends SettingsBase {
 	}
 
 	public boolean isEmailExportEnabled() {
-		return  isPayVersion();
+		return isPayVersion();
 	}
 
 	public boolean isBackupEnabled() {
@@ -206,5 +187,9 @@ public class Settings extends SettingsBase {
 
 	public long getLastDaysRebuild() {
 		return getPreferences().getLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, 0);
+	}
+
+	public boolean isNightshiftEnabled() {
+		return getPreferences().getBoolean(context.getString(R.string.prefKeyNightshift), false);
 	}
 }
