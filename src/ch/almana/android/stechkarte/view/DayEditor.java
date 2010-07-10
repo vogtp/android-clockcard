@@ -41,6 +41,7 @@ import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.DeleteDayDialog;
 import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class DayEditor extends ListActivity implements DialogCallback {
 
@@ -57,8 +58,6 @@ public class DayEditor extends ListActivity implements DialogCallback {
 	private ListView timestamps;
 	private SimpleCursorAdapter adapter;
 	private boolean overtimeAction;
-
-	// change work time on day change
 
 	/** Called when the activity is first created. */
 	@Override
@@ -207,6 +206,11 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		fixed.setChecked(day.isFixed());
 		hoursTarget.setText(Formater.formatHourMinFromHours(day.getHoursTarget()));
 		hoursWorked.setText(Formater.formatHourMinFromHours(day.getHoursWorked()));
+		if (!day.isFixed()) {
+			// change work time on day change
+			hoursTarget.setText(Settings.getInstance().getHoursTarget(day.getDayRef()) + "");
+		}
+
 	}
 
 	private void updateModel() {
