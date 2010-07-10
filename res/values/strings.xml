@@ -90,7 +90,7 @@
 <string name="EditTextCommentHint">Comment</string>
 <string name="dayEditorTitle">clock card: Day Editor</string>
 <string name="daysListTitle">clock card: Days List</string>
-<string name="timestampEditorTitle">clock card: Day Timestamp</string>
+<string name="timestampEditorTitle">clock card: Timestamp Editor</string>
 <string name="preferencesTitle">clock card: Preferences</string>
 <string name="holidayEditorTitle">clock card: Holiday Editor</string>
 <array name="holidayBorderType">
