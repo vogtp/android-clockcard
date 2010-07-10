@@ -10,17 +10,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
@@ -34,12 +34,12 @@ import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 
 public class ListDays extends ListActivity implements DialogCallback {
 
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		setTitle(R.string.daysListTitle);
 
 		Intent intent = getIntent();
 		if (intent.getData() == null) {
@@ -48,11 +48,10 @@ public class ListDays extends ListActivity implements DialogCallback {
 
 		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null, Days.DEFAULT_SORTORDER);
 
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] { DB.NAME_ID,
-				DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED, DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET,
-				DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED }, new int[] { R.id.TextViewDayRef,
-				R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
-				R.id.TextViewHoliday, R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] { DB.NAME_ID, DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED,
+				DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED },
+				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, R.id.TextViewHoliday,
+						R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
 
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
@@ -94,8 +93,7 @@ public class ListDays extends ListActivity implements DialogCallback {
 					return true;
 				} else if (columnIndex == DB.Days.INDEX_HOURS_TARGET) {
 					Day d = new Day(cursor);
-					((TextView) view.findViewById(R.id.TextViewHoursTarget)).setText(Formater.formatHourMinFromHours(d
-							.getHoursTarget()));
+					((TextView) view.findViewById(R.id.TextViewHoursTarget)).setText(Formater.formatHourMinFromHours(d.getHoursTarget()));
 					return true;
 				} else if (columnIndex == DB.Days.INDEX_FIXED) {
 					ImageView iv = (ImageView) view.findViewById(R.id.ImageViewLock);

@@ -88,6 +88,11 @@
 <string name="CheckBoxFillupDay">Fill up not worked hours</string>
 <string name="CheckBoxIsPayed">Is payed</string>
 <string name="EditTextCommentHint">Comment</string>
+<string name="dayEditorTitle">clock card: Day Editor</string>
+<string name="daysListTitle">clock card: Days List</string>
+<string name="timestampEditorTitle">clock card: Day Timestamp</string>
+<string name="preferencesTitle">clock card: Preferences</string>
+<string name="holidayEditorTitle">clock card: Holiday Editor</string>
 <array name="holidayBorderType">
 <item name="allday" >all day</item>
 <item name="halfday" >half day</item>

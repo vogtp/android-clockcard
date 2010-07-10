@@ -65,6 +65,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.day_editor);
+		setTitle(R.string.dayEditorTitle);
 
 		dayRefTextView = (TextView) findViewById(R.id.TextViewDayRef);
 		/*

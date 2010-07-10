@@ -13,6 +13,7 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		setTitle(R.string.preferencesTitle);
 
 		Preference buyPreference = findPreference(getString(R.string.prefKeyBuy));
 		buyPreference.setEnabled(!Settings.getInstance().isPayVersion());

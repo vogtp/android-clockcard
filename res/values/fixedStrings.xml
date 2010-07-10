@@ -24,4 +24,5 @@
 <string name="prefKeyWorkHoursSat">prefKeyWorkHoursSat</string>
 <string name="prefKeyWorkHoursSun">prefKeyWorkHoursSun</string>
 <string name="prefHoursPerDayWeekDefault">-1</string>
+<string name="prefHoursPerDayWeekEndDefault">0</string>
 </resources>

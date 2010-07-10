@@ -93,6 +93,7 @@ public class HolidaysEditor extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.holidays_editor);
+		setTitle(R.string.holidayEditorTitle);
 
 		startSpecBorder = new SpecialBorderFields();
 		startSpecBorder.editText = (EditText) findViewById(R.id.EditTextHolidayDurationStart);

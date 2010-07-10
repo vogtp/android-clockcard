@@ -26,11 +26,9 @@
 					android:summary="@string/prefWorkHoursFriLong" android:title="@string/prefWorkHoursFri"
 					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
 				<EditTextPreference android:key="@string/prefKeyWorkHoursSat"
-					android:summary="@string/prefWorkHoursSatLong" android:title="@string/prefWorkHoursSat"
-					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+					android:summary="@string/prefWorkHoursSatLong" android:title="@string/prefWorkHoursSat" android:defaultValue="@string/prefHoursPerDayWeekEndDefault"></EditTextPreference>
 				<EditTextPreference android:key="@string/prefKeyWorkHoursSun"
-					android:summary="@string/prefWorkHoursSunLong" android:title="@string/prefWorkHoursSun"
-					android:defaultValue="@string/prefHoursPerDayWeekDefault"></EditTextPreference>
+					android:summary="@string/prefWorkHoursSunLong" android:title="@string/prefWorkHoursSun" android:defaultValue="@string/prefHoursPerDayWeekEndDefault"></EditTextPreference>
 			</PreferenceCategory>
 		</PreferenceScreen>
 		<EditTextPreference android:title="@string/prefMinTimestampDiff"
