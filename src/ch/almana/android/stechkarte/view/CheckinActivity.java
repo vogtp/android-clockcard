@@ -36,10 +36,29 @@ public class CheckinActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		if (Settings.getInstance().isBackupEnabled()) {
-			writeTimestampsToCsv();
+
+		String action = getIntent().getAction();
+		try {
+			if (ACTION_TIMESTAMP_IN.equals(action)) {
+				if (TimestampAccess.getInstance().addInNow(this)) {
+					finish();
+				}
+			} else if (ACTION_TIMESTAMP_OUT.equals(action)) {
+				if (TimestampAccess.getInstance().addOutNow(this)) {
+					finish();
+				}
+			} else if (ACTION_TIMESTAMP_TOGGLE.equals(action)) {
+				if (TimestampAccess.getInstance().addToggleTimestampNow(this)) {
+					finish();
+				}
+			}
+		} finally {
+			if (Settings.getInstance().isBackupEnabled()) {
+				writeTimestampsToCsv();
+			}
 		}
+
+		setContentView(R.layout.main);
 
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
@@ -52,22 +71,6 @@ public class CheckinActivity extends Activity {
 		buttonOut.setWidth(width);
 		buttonOut.setHeight(width);
 		buttonOut.setTextSize(size);
-
-		String action = getIntent().getAction();
-
-		if (ACTION_TIMESTAMP_IN.equals(action)) {
-			if (TimestampAccess.getInstance().addInNow(this)) {
-				finish();
-			}
-		} else if (ACTION_TIMESTAMP_OUT.equals(action)) {
-			if (TimestampAccess.getInstance().addOutNow(this)) {
-				finish();
-			}
-		} else if (ACTION_TIMESTAMP_TOGGLE.equals(action)) {
-			if (TimestampAccess.getInstance().addToggleTimestampNow(this)) {
-				finish();
-			}
-		}
 
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override
