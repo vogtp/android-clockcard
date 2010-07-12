@@ -31,7 +31,7 @@ public class TimestampsCsvIO {
 	private static final String HEADER_LINEINDICATOR = "H";
 	private static final String DATA_LINEINDICATOR = "D";
 
-	private BufferedWriter writer;
+	// private BufferedWriter writer;
 	private BufferedReader reader;
 
 	private String[] columnNames;
@@ -40,9 +40,7 @@ public class TimestampsCsvIO {
 	}
 
 	static public String getPath() {
-		String pathName = Environment.getExternalStorageDirectory()
-				.getAbsolutePath()
-				+ DIRECTORY;
+		String pathName = Environment.getExternalStorageDirectory().getAbsolutePath() + DIRECTORY;
 		File path = new File(pathName);
 		if (!path.isDirectory()) {
 			if (!path.mkdirs()) {
@@ -54,24 +52,29 @@ public class TimestampsCsvIO {
 
 	private static SimpleDateFormat simpleDatetimeFormat = new SimpleDateFormat("yyyyMMdd");
 
-	private String buildFilename() {
+	private String buildFilenameWithTimestamp() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		String timeString = simpleDatetimeFormat.format(calendar.getTime());
+		return buildFilename(timeString);
+	}
+
+	private String buildFilename(String timeString) {
 		return getPath() + "timestamps" + timeString + ".csv";
 	}
 
 	public void writeTimestamps(Cursor c) {
-		String filename = buildFilename();
+		String filename = buildFilenameWithTimestamp();
+		BufferedWriter writer = null;
 		try {
 			if (!c.moveToFirst()) {
 				return;
 			}
 			writer = new BufferedWriter(new FileWriter(filename));
-			writeHeaderLine(c);
-			writeDataLine(c);
+			writeHeaderLine(writer, c);
+			writeDataLine(writer, c);
 			while (c.moveToNext()) {
-				writeDataLine(c);
+				writeDataLine(writer, c);
 			}
 			writer.flush();
 		} catch (IOException e) {
@@ -94,8 +97,7 @@ public class TimestampsCsvIO {
 			readHeaderLine();
 			ContentValues values = new ContentValues();
 			while (readDataLine(values)) {
-				Cursor c = timestampAccess.query(DB.Timestamps.NAME_TIMESTAMP + "="
-						+ values.getAsLong(DB.Timestamps.NAME_TIMESTAMP));
+				Cursor c = timestampAccess.query(DB.Timestamps.NAME_TIMESTAMP + "=" + values.getAsLong(DB.Timestamps.NAME_TIMESTAMP));
 				if (!c.moveToFirst()) {
 					timestampAccess.insert(DB.Timestamps.CONTENT_URI, values);
 				}
@@ -104,7 +106,7 @@ public class TimestampsCsvIO {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			Log.e(LOG_TAG, "Unable to process file " + buildFilename() + " for reading", e);
+			Log.e(LOG_TAG, "Unable to process file " + buildFilenameWithTimestamp() + " for reading", e);
 		} finally {
 			if (reader != null) {
 				try {
@@ -118,15 +120,15 @@ public class TimestampsCsvIO {
 
 	}
 
-	private boolean writeHeaderLine(Cursor c) {
-		return writeLine(buildHeaderLine(c));
+	private boolean writeHeaderLine(BufferedWriter writer, Cursor c) {
+		return writeLine(writer, buildHeaderLine(c));
 	}
 
-	private boolean writeDataLine(Cursor c) {
-		return writeLine(buildDataLine(c));
+	private boolean writeDataLine(BufferedWriter writer, Cursor c) {
+		return writeLine(writer, buildDataLine(c));
 	}
 
-	private boolean writeLine(String s) {
+	private boolean writeLine(BufferedWriter writer, String s) {
 		if (writer == null) {
 			return false;
 		}
