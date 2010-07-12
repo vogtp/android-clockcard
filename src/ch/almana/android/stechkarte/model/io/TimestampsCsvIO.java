@@ -22,7 +22,6 @@ import ch.almana.android.stechkarte.provider.db.DB;
 public class TimestampsCsvIO {
 
 	public static final String DIRECTORY = "/clockcard/";
-	// public static final String DIRECTORY = "/stechkarte/";
 
 	private static final String LOG_TAG = Logger.LOG_TAG;
 
@@ -60,7 +59,11 @@ public class TimestampsCsvIO {
 	}
 
 	private String buildFilename(String timeString) {
-		return getPath() + "timestamps" + timeString + ".csv";
+		return getPath() + filenameStem() + timeString + ".csv";
+	}
+
+	static public String filenameStem() {
+		return "timestamps";
 	}
 
 	public void writeTimestamps(Cursor c) {

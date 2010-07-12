@@ -16,7 +16,7 @@ import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 import ch.almana.android.stechkarte.utils.CurInfo;
-import ch.almana.android.stechkarte.utils.RebuildDaysTask;
+import ch.almana.android.stechkarte.utils.DialogHelper;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
@@ -172,20 +172,23 @@ public class CheckinActivity extends Activity {
 				i = new Intent(this, ExportTimestamps.class);
 				startActivity(i);
 			} else {
-				showFreeVersionDialog();
+				DialogHelper.showFreeVersionDialog(this);
 			}
 			break;
 
 		case R.id.itemReadInTimestmaps:
 			if (Settings.getInstance().isBackupEnabled()) {
-				TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append(TimestampsCsvIO.getPath());
-				stringBuilder.append("timestamps.csv");
-				timestampsCsvIO.readTimestamps(stringBuilder.toString(), TimestampAccess.getInstance());
-				RebuildDaysTask.rebuildDays(this, null);
+				i = new Intent(this, RestoreActivity.class);
+				startActivity(i);
+				// TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
+				// StringBuilder stringBuilder = new StringBuilder();
+				// stringBuilder.append(TimestampsCsvIO.getPath());
+				// stringBuilder.append("timestamps.csv");
+				// timestampsCsvIO.readTimestamps(stringBuilder.toString(),
+				// TimestampAccess.getInstance());
+				// RebuildDaysTask.rebuildDays(this, null);
 			} else {
-				showFreeVersionDialog();
+				DialogHelper.showFreeVersionDialog(this);
 			}
 			break;
 
@@ -206,11 +209,6 @@ public class CheckinActivity extends Activity {
 
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	private void showFreeVersionDialog() {
-		Intent i = new Intent(this, BuyFullVersion.class);
-		startActivity(i);
 	}
 
 }
