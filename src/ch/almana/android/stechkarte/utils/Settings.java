@@ -209,4 +209,33 @@ public class Settings extends SettingsBase {
 	public boolean isNightshiftEnabled() {
 		return getPreferences().getBoolean(context.getString(R.string.prefKeyNightshift), false);
 	}
+
+	public float getOvertimeResetValue() {
+		try {
+			return getPrefAsFloat(R.string.prefKeyOvertimeResetMinTime, R.string.prefOvertimeResetMinTimeDefault);
+		} catch (Exception e) {
+			Log.w(Logger.LOG_TAG, "Error getting min overtime reset time", e);
+			return 0;
+		}
+	}
+
+	public boolean isResetOvertimeIfBigger() {
+		return getPreferences().getBoolean(context.getString(R.string.prefKeyOvertimeResetIfBigger), false);
+	}
+
+	private String getOvertimeResetPoint() {
+		return getPreferences().getString(context.getString(R.string.prefKeyOvertimeResetPoint), "0");
+	}
+
+	public boolean isWeeklyOvertimeReset() {
+		return "1".equals(getOvertimeResetPoint());
+	}
+
+	public boolean isMonthlyOvertimeReset() {
+		return "2".equals(getOvertimeResetPoint());
+	}
+
+	public boolean isYearlyOvertimeReset() {
+		return "3".equals(getOvertimeResetPoint());
+	}
 }

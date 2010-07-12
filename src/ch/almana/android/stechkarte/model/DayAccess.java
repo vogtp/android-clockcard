@@ -2,6 +2,7 @@ package ch.almana.android.stechkarte.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -272,12 +273,52 @@ public class DayAccess implements IAccess {
 		Log.i(LOG_TAG, "Total hours worked: " + hoursWorked + " yields overtime: " + overtime);
 		day.setHoursWorked(hoursWorked);
 		if (!day.isFixed()) {
-			day.setOvertime(previousDay.getOvertime() + overtime);
+
+			day.setOvertime(getTotalOvertime(day, previousDay, overtime));
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
 		}
 		Log.w(Logger.LOG_TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti " + previousDay.getOvertime() + overtime);
 		day.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(day);
+	}
+
+	private float getTotalOvertime(Day day, Day previousDay, float overtime) {
+		float prevOvertime = previousDay.getOvertime();
+		float totalOvertime = prevOvertime + overtime;
+		Settings settings = Settings.getInstance();
+		if (settings.isWeeklyOvertimeReset() || settings.isMonthlyOvertimeReset() || settings.isYearlyOvertimeReset()) {
+			try {
+
+				Calendar today = Calendar.getInstance();
+				today.setTimeInMillis(timestampFromDayRef(day.getDayRef()));
+				Calendar yesterday = Calendar.getInstance();
+				yesterday.setTimeInMillis(timestampFromDayRef(previousDay.getDayRef()));
+				int calField = Calendar.YEAR;
+				if (settings.isWeeklyOvertimeReset()) {
+					calField = Calendar.WEEK_OF_YEAR;
+				} else if (settings.isMonthlyOvertimeReset()) {
+					calField = Calendar.MONTH;
+				}
+				int tVal = today.get(calField);
+				int yVal = yesterday.get(calField);
+				if (tVal != yVal) {
+					float resetValue = settings.getOvertimeResetValue();
+					Log.i(LOG_TAG, "Resetting overtime");
+					if (settings.isResetOvertimeIfBigger()) {
+						if (prevOvertime > resetValue) {
+							totalOvertime = overtime + resetValue;
+						} else {
+							totalOvertime = overtime + prevOvertime;
+						}
+					} else {
+						totalOvertime = overtime + resetValue;
+					}
+				}
+			} catch (ParseException e) {
+				Log.w(LOG_TAG, "Error in overtime reset handling", e);
+			}
+		}
+		return totalOvertime;
 	}
 
 	public static long dayRefFromTimestamp(long timestamp) {

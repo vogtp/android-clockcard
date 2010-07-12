@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefOvertimeResetIfBiggerDefault">false</string>
+    <string name="prefKeyOvertimeResetIfBigger">Reset if bigger</string>
+    <string name="prefOvertimeResetMinTimeDefault">0</string>
+    <string name="prefKeyOvertimeResetMinTime">prefKeyOvertimeResetMinTime</string>
     <string name="prefKeyNightshift">prefKeyNightshift</string>
 <string name="prefKeyLicence">prefKeyLicence</string>
 <string name="prefKeyBuy">prefKeyBuy</string>
@@ -25,4 +29,10 @@
 <string name="prefKeyWorkHoursSun">prefKeyWorkHoursSun</string>
 <string name="prefHoursPerDayWeekDefault">-1</string>
 <string name="prefHoursPerDayWeekEndDefault">0</string>
+<string-array name="overtimeResetEntryValues">
+<item>0</item>
+<item>1</item>
+<item>2</item>
+<item>3</item>
+</string-array>
 </resources>

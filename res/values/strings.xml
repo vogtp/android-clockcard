@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefOvertimeHandlingLong">Defines timeframe for overtime calculation</string>
+    <string name="prefKeyOvertimeResetPointLong">Calculate overtime per week, month or year</string>
+    <string name="prefOvertimeResetPoint">Calculate overtime for ...</string>
+    <string name="prefKeyOvertimeResetPoint">prefKeyOvertimeResetPoint</string>
+    <string name="prefOvertimeResetIfBiggerTrue">Only restart overtime calculation if the overtime is bigger than reset value</string>
+     <string name="prefOvertimeResetIfBiggerFalse">Always restart overtime calculation.</string>
+   <string name="prefOvertimeResetIfBigger">Restart only if bigger</string>
+    <string name="prefOvertimeResetMinTimeLong">Number of hours to reset to</string>
+    <string name="prefOvertimeResetMinTime">Reset Value</string>
+    <string name="prefOvertimeResetSettings">Overtime Restart Settings</string>
+    <string name="prefOvertimeResetInterval">Overtime Restart Interval</string>
+    <string name="prefOvertimeHandling">Overtime Handling</string>
+    <string name="prefTimestampHandling">Timestamp Handling</string>
     <string name="prefNightshift">Enable nightshifts</string>
     <string name="prefNightshiftLongOff">Add timestamp to current day</string>
     <string name="prefNightshiftLongOn">Add first OUT of day to last day if finished with IN</string>
@@ -99,6 +112,12 @@
 <item name="restofday" >rest of day</item>
 <item name="specify" >specify</item>
 </array>
+<string-array name="overtimeResetEntries">
+<item>none</item>
+<item>week</item>
+<item>month</item>
+<item>year</item>
+</string-array>
 	<string name="prefWorkHours">Workinghours setting</string>
 	<string name="prefWorkHoursLong">Settings for hours to work per day</string>
 	<string name="prefWorkHoursCategory">Default</string>
