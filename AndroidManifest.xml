@@ -58,7 +58,7 @@
 </receiver>
 <service android:name=".view.appwidget.StechkarteAppwidget$UpdateAppWidgetService"></service>
 <activity android:name=".view.HolidaysEditor"></activity>
-<activity android:name=".view.RestoreActivity"></activity>
+<activity android:name=".view.BackupRestoreActivity"></activity>
 </application>
     <uses-sdk android:minSdkVersion="4"/>
 

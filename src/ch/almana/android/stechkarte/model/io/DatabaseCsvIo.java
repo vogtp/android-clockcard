@@ -2,72 +2,37 @@ package ch.almana.android.stechkarte.model.io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.os.Environment;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
-import ch.almana.android.stechkarte.model.TimestampAccess;
+import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 
-public class TimestampsCsvIO {
+public abstract class DatabaseCsvIo {
 
-	public static final String DIRECTORY = "/clockcard/";
-
-	private static final String LOG_TAG = Logger.LOG_TAG;
-
+	protected static final String LOG_TAG = Logger.LOG_TAG;
 	private static final String SEPARATOR = "\t";
-
 	private static final String HEADER_LINEINDICATOR = "H";
 	private static final String DATA_LINEINDICATOR = "D";
-
-	// private BufferedWriter writer;
 	private BufferedReader reader;
-
 	private String[] columnNames;
 
-	public TimestampsCsvIO() {
+	protected abstract String buildFilename(String filestem);
+
+	public DatabaseCsvIo() {
+		super();
 	}
 
-	static public String getPath() {
-		String pathName = Environment.getExternalStorageDirectory().getAbsolutePath() + DIRECTORY;
-		File path = new File(pathName);
-		if (!path.isDirectory()) {
-			if (!path.mkdirs()) {
-				Log.e(LOG_TAG, "Cannot create " + path.getAbsolutePath());
-			}
-		}
-		return pathName;
-	}
-
-	private static SimpleDateFormat simpleDatetimeFormat = new SimpleDateFormat("yyyyMMdd");
-
-	private String buildFilenameWithTimestamp() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		String timeString = simpleDatetimeFormat.format(calendar.getTime());
-		return buildFilename(timeString);
-	}
-
-	private String buildFilename(String timeString) {
-		return getPath() + filenameStem() + timeString + ".csv";
-	}
-
-	static public String filenameStem() {
-		return "timestamps";
-	}
-
-	public void writeTimestamps(Cursor c) {
-		String filename = buildFilenameWithTimestamp();
+	public void writeCursor(Cursor c, String filestem) {
+		String filename = buildFilename(filestem);
 		BufferedWriter writer = null;
 		try {
 			if (!c.moveToFirst()) {
@@ -94,22 +59,22 @@ public class TimestampsCsvIO {
 		}
 	}
 
-	public void readTimestamps(String filename, TimestampAccess timestampAccess) {
+	public void readCursor(String filename, IAccess iAccess, Uri contentUri, String indexName) {
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 			readHeaderLine();
 			ContentValues values = new ContentValues();
 			while (readDataLine(values)) {
-				Cursor c = timestampAccess.query(DB.Timestamps.NAME_TIMESTAMP + "=" + values.getAsLong(DB.Timestamps.NAME_TIMESTAMP));
+				Cursor c = iAccess.query(indexName + "=" + values.getAsLong(indexName));
 				if (!c.moveToFirst()) {
-					timestampAccess.insert(DB.Timestamps.CONTENT_URI, values);
+					iAccess.insert(contentUri, values);
 				}
 				if (c != null && !c.isClosed()) {
 					c.close();
 				}
 			}
 		} catch (FileNotFoundException e) {
-			Log.e(LOG_TAG, "Unable to process file " + buildFilenameWithTimestamp() + " for reading", e);
+			Log.e(LOG_TAG, "Unable to process file " + filename + " for reading", e);
 		} finally {
 			if (reader != null) {
 				try {

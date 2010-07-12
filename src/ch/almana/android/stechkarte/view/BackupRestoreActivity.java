@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import android.app.ListActivity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,12 +14,14 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.model.io.DatabaseCsvIo;
+import ch.almana.android.stechkarte.model.io.StechkarteCsvIO;
+import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.utils.DialogHelper;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
-public class RestoreActivity extends ListActivity {
+public class BackupRestoreActivity extends ListActivity {
 
 	/** Called when the activity is first created. */
 	@Override
@@ -28,11 +31,10 @@ public class RestoreActivity extends ListActivity {
 		ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filenames);
 		getListView().setAdapter(adapter);
 		getListView().setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
 				CharSequence text = ((TextView) view.findViewById(android.R.id.text1)).getText();
-				Toast.makeText(RestoreActivity.this, "Loading timestamps from " + text, Toast.LENGTH_LONG).show();
+				Toast.makeText(BackupRestoreActivity.this, "Loading timestamps from " + text, Toast.LENGTH_LONG).show();
 				restoreTimestamps(text.toString());
 				finish();
 			}
@@ -40,14 +42,14 @@ public class RestoreActivity extends ListActivity {
 	}
 
 	private String[] getFilenames() {
-		File exportDir = new File(TimestampsCsvIO.getPath());
+		File exportDir = new File(StechkarteCsvIO.getPath());
 		String[] list = exportDir.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
 				if (filename == null) {
 					return false;
 				}
-				return filename.startsWith(TimestampsCsvIO.filenameStem());
+				return filename.startsWith(StechkarteCsvIO.filenameTimestampsStem());
 			}
 		});
 		int length = list.length;
@@ -60,15 +62,22 @@ public class RestoreActivity extends ListActivity {
 
 	private void restoreTimestamps(String filename) {
 		if (Settings.getInstance().isBackupEnabled()) {
-			TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
+			DatabaseCsvIo timestampsCsvIO = new StechkarteCsvIO();
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(TimestampsCsvIO.getPath());
+			stringBuilder.append(StechkarteCsvIO.getPath());
 			stringBuilder.append(filename);
-			timestampsCsvIO.readTimestamps(stringBuilder.toString(), TimestampAccess.getInstance());
+			timestampsCsvIO.readCursor(stringBuilder.toString(), TimestampAccess.getInstance(), DB.Timestamps.CONTENT_URI, DB.Timestamps.NAME_TIMESTAMP);
 			RebuildDaysTask.rebuildDays(this, null);
 		} else {
 			DialogHelper.showFreeVersionDialog(this);
 		}
+	}
+
+	static public void backupDbToCsv() {
+		StechkarteCsvIO csv = new StechkarteCsvIO();
+		Cursor c = TimestampAccess.getInstance().query(null, null);
+		csv.writeTimestamps(c);
+		c.close();
 	}
 
 }

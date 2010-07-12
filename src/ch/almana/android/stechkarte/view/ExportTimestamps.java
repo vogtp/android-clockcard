@@ -20,7 +20,7 @@ import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
-import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
+import ch.almana.android.stechkarte.model.io.StechkarteCsvIO;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
@@ -38,7 +38,7 @@ public class ExportTimestamps extends Activity {
 		super.onCreate(savedInstanceState);
 		RebuildDaysTask.rebuildDaysIfNeeded(this);
 		BufferedWriter writer = null;
-		String fileName = TimestampsCsvIO.getPath() + "export.csv";
+		String fileName = StechkarteCsvIO.getPath() + "export.csv";
 		try {
 			writer = new BufferedWriter(new FileWriter(fileName));
 			writeCSV(writer);

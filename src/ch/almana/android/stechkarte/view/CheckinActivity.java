@@ -2,7 +2,6 @@ package ch.almana.android.stechkarte.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.io.TimestampsCsvIO;
 import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.utils.DialogHelper;
 import ch.almana.android.stechkarte.utils.Settings;
@@ -54,7 +52,7 @@ public class CheckinActivity extends Activity {
 			}
 		} finally {
 			if (Settings.getInstance().isBackupEnabled()) {
-				writeTimestampsToCsv();
+				BackupRestoreActivity.backupDbToCsv();
 			}
 		}
 
@@ -131,13 +129,6 @@ public class CheckinActivity extends Activity {
 
 	}
 
-	private void writeTimestampsToCsv() {
-		TimestampsCsvIO csv = new TimestampsCsvIO();
-		Cursor c = TimestampAccess.getInstance().query(null, null);
-		csv.writeTimestamps(c);
-		c.close();
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -178,15 +169,8 @@ public class CheckinActivity extends Activity {
 
 		case R.id.itemReadInTimestmaps:
 			if (Settings.getInstance().isBackupEnabled()) {
-				i = new Intent(this, RestoreActivity.class);
+				i = new Intent(this, BackupRestoreActivity.class);
 				startActivity(i);
-				// TimestampsCsvIO timestampsCsvIO = new TimestampsCsvIO();
-				// StringBuilder stringBuilder = new StringBuilder();
-				// stringBuilder.append(TimestampsCsvIO.getPath());
-				// stringBuilder.append("timestamps.csv");
-				// timestampsCsvIO.readTimestamps(stringBuilder.toString(),
-				// TimestampAccess.getInstance());
-				// RebuildDaysTask.rebuildDays(this, null);
 			} else {
 				DialogHelper.showFreeVersionDialog(this);
 			}
