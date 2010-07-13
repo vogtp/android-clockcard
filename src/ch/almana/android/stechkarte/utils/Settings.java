@@ -24,7 +24,7 @@ public class Settings extends SettingsBase {
 
 	private static float hoursTargetDefault = 8.4f;
 	private static final long SECONDS_IN_MILLIES = 1000;
-	private static final int MIN_LICENSE_VERSION = 1;
+	private static final int MIN_LICENSE_VERSION = 201007231;
 
 	public static void initInstance(Context ctx) {
 		if (instance == null) {
@@ -189,7 +189,7 @@ public class Settings extends SettingsBase {
 	}
 
 	public boolean isBackupEnabled() {
-		return isBetaVersion();
+		return isPayVersion();
 	}
 
 	public boolean hasBetaFeatures() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="prefOvertimeResetIfBiggerDefault">false</string>
-    <string name="prefKeyOvertimeResetIfBigger">Reset if bigger</string>
+    <string name="prefKeyOvertimeResetIfBigger">prefKeyOvertimeResetIfBigger</string>
     <string name="prefOvertimeResetMinTimeDefault">0</string>
     <string name="prefKeyOvertimeResetMinTime">prefKeyOvertimeResetMinTime</string>
     <string name="prefKeyNightshift">prefKeyNightshift</string>

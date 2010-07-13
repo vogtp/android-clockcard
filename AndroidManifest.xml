@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="ch.almana.android.stechkarte"
-      android:versionName="1.5" android:versionCode="201007120">
+      android:versionName="1.5.1-pre2" android:versionCode="201007130">
     <application android:icon="@drawable/stechkarte" android:allowClearUserData="true" android:allowBackup="true" android:name=".application.StechkarteApplication" android:label="@string/app_name">
         <activity android:label="@string/app_name" android:name=".view.CheckinActivity" android:screenOrientation="portrait">
             <intent-filter><action android:name="ch.almana.android.stechkarte.actions.launch"></action>

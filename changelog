@@ -4,6 +4,13 @@ V
 * bugfixes
 -
 
+V 1.5.1
+* features
+- Backup/restore
+* bugfixes
+- Fix (nightshift) dayref
+
+
 V 1.5
 * features
 - worktime per weekday

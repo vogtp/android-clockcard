@@ -13,10 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.io.DatabaseCsvIo;
 import ch.almana.android.stechkarte.model.io.StechkarteCsvIO;
-import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.utils.DialogHelper;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
@@ -42,14 +41,16 @@ public class BackupRestoreActivity extends ListActivity {
 	}
 
 	private String[] getFilenames() {
-		File exportDir = new File(StechkarteCsvIO.getPath());
+		File exportDir = new File(StechkarteCsvIO.getBasePath());
 		String[] list = exportDir.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
-				if (filename == null) {
-					return false;
-				}
-				return filename.startsWith(StechkarteCsvIO.filenameTimestampsStem());
+				// if (filename == null) {
+				// return false;
+				// }
+				// return
+				// filename.startsWith(StechkarteCsvIO.filenameTimestampsStem());
+				return true;
 			}
 		});
 		int length = list.length;
@@ -62,11 +63,10 @@ public class BackupRestoreActivity extends ListActivity {
 
 	private void restoreTimestamps(String filename) {
 		if (Settings.getInstance().isBackupEnabled()) {
-			DatabaseCsvIo timestampsCsvIO = new StechkarteCsvIO();
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(StechkarteCsvIO.getPath());
-			stringBuilder.append(filename);
-			timestampsCsvIO.readCursor(stringBuilder.toString(), TimestampAccess.getInstance(), DB.Timestamps.CONTENT_URI, DB.Timestamps.NAME_TIMESTAMP);
+			StechkarteCsvIO csvIO = new StechkarteCsvIO();
+			csvIO.restoreTimestamps(filename);
+			csvIO = new StechkarteCsvIO();
+			csvIO.restoreDays(filename);
 			RebuildDaysTask.rebuildDays(this, null);
 		} else {
 			DialogHelper.showFreeVersionDialog(this);
@@ -77,6 +77,10 @@ public class BackupRestoreActivity extends ListActivity {
 		StechkarteCsvIO csv = new StechkarteCsvIO();
 		Cursor c = TimestampAccess.getInstance().query(null, null);
 		csv.writeTimestamps(c);
+		c.close();
+		csv = new StechkarteCsvIO();
+		c = DayAccess.getInstance().query(null, null);
+		csv.writeDays(c);
 		c.close();
 	}
 

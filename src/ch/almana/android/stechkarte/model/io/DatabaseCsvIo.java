@@ -32,6 +32,9 @@ public abstract class DatabaseCsvIo {
 	}
 
 	public void writeCursor(Cursor c, String filestem) {
+		if (c.getCount() < 1) {
+			return;
+		}
 		String filename = buildFilename(filestem);
 		BufferedWriter writer = null;
 		try {

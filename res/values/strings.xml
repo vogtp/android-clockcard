@@ -31,7 +31,7 @@
 	<string name="menu_rebuild">Rebuild days</string>
 	<string name="TextViewWorkedShort">Worked </string>
 	<string name="TextViewOvertimeShort">Overtime </string>
-	<string name="ButtonReadTimestamps">Read Timestamps</string>
+	<string name="ButtonReadTimestamps">Restore backup</string>
 	<string name="LabelHoursTarget">Target </string>
 	<string name="LabelHolyday">Holiday</string>
 	<string name="LabelOvertimeTotal">total</string>
@@ -59,7 +59,7 @@
 	<string name="prefLicenceLong">Key to unlock beta features</string>
 	<string name="prefBuy">Full version</string>
 	<string name="prefBuyLong">Buy license key for the full version.</string>
-	<string name="prefLicenceDefault">e-mail me</string>
+	<string name="prefLicenceDefault"></string>
 	<string name="prefWorkday">Workday</string>
 	<string name="prefWorkdayLong">Settings about a day of work</string>
 	<string name="prefExportSync">Export and sync</string>

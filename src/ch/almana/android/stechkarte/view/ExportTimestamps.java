@@ -38,7 +38,7 @@ public class ExportTimestamps extends Activity {
 		super.onCreate(savedInstanceState);
 		RebuildDaysTask.rebuildDaysIfNeeded(this);
 		BufferedWriter writer = null;
-		String fileName = StechkarteCsvIO.getPath() + "export.csv";
+		String fileName = StechkarteCsvIO.getBasePath() + "export.csv";
 		try {
 			writer = new BufferedWriter(new FileWriter(fileName));
 			writeCSV(writer);
