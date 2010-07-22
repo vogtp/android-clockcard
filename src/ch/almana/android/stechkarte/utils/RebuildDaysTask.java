@@ -49,9 +49,6 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected void onPreExecute() {
-		if (rebuilding) {
-			// FIXME do not start
-		}
 		rebuilding = true;
 		progressWrapper.setTitle("Rebuilding days");
 		progressWrapper.show();
@@ -68,8 +65,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
-		DayAccess.getInstance().recalculateDayFromTimestamp(timestamp,
-				progressWrapper);
+		DayAccess.getInstance().recalculateDayFromTimestamp(timestamp, progressWrapper);
 		return null;
 	}
 
@@ -102,8 +98,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 					long luDay = day.getLastUpdated();
 					String lastDaysRebuildStr = SimpleDateFormat.getInstance().format(new Date(lastDaysRebuild));
 					String luDayStr = SimpleDateFormat.getInstance().format(new Date(luDay));
-					Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr
-							+ " last global rebuild " + lastDaysRebuildStr + ")");
+					Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr + " last global rebuild " + lastDaysRebuildStr + ")");
 					RebuildDaysTask.rebuildDays(ctx, ts);
 				}
 			}

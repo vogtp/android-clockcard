@@ -4,6 +4,12 @@ V
 * bugfixes
 -
 
+V 1.5.2
+* features
+-
+* bugfixes
+- fix target hours format in day editor
+
 V 1.5.1
 * features
 - Backup/restore
