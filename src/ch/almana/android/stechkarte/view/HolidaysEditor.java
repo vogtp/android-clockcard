@@ -30,7 +30,7 @@ public class HolidaysEditor extends Activity {
 	private Spinner spHolidayDurationStart;
 	private Spinner spHolidayDurationEnd;
 
-	private class SpecialBorderFields {
+	private static class SpecialBorderFields {
 		EditText editText;
 		TextView label;
 	}

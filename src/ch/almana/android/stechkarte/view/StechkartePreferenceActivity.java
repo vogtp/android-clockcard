@@ -27,7 +27,7 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 		});
 
 		Preference betaFeatures = findPreference(getString(R.string.prefKeyLicence));
-		betaFeatures.setEnabled(Settings.getInstance().hasBetaFeatures());
+		betaFeatures.setEnabled(Settings.getInstance().isBetaVersion());
 
 		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
 		Preference emailPreference = findPreference(getString(R.string.prefKeyEmailAddress));
