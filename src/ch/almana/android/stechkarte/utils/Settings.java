@@ -25,6 +25,12 @@ public class Settings extends SettingsBase {
 	private static float hoursTargetDefault = 8.4f;
 	private static final long SECONDS_IN_MILLIES = 1000;
 	private static final int MIN_LICENSE_VERSION = 201007231;
+	private static final String MARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicense";
+	private static final String NONMARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicenseNonMarket";
+	private static final int MIN_NON_MARKET_LICENSE_VERSION = 0;
+
+	private boolean featuresChanged = false;
+	static final SimpleDateFormat weekdayFormat = new SimpleDateFormat("EEE");
 
 	public static void initInstance(Context ctx) {
 		if (instance == null) {
@@ -58,8 +64,6 @@ public class Settings extends SettingsBase {
 		// END remove since its only for update 1.0 -> 1.0.1
 	}
 
-	static final SimpleDateFormat weekdayFormat = new SimpleDateFormat("EEE");
-
 	public float getHoursTarget(long dayref) {
 		float hoursTarget = -1;
 		try {
@@ -84,7 +88,6 @@ public class Settings extends SettingsBase {
 	}
 
 	private boolean checkLicense() {
-		String packageName = "ch.almana.android.stechkarteLicense";
 		// ComponentName componentName = new ComponentName(context,
 		// packageName);
 		try {
@@ -94,21 +97,15 @@ public class Settings extends SettingsBase {
 			for (Iterator<PackageInfo> iterator = preferredPackages.iterator(); iterator.hasNext();) {
 				PackageInfo packageInfo = iterator.next();
 				// Log.d(Logger.LOG_TAG, "Package: " + packageInfo.packageName);
-				if (packageName.equals(packageInfo.packageName)) {
-					Log.d(Logger.LOG_TAG, "Found package: " + packageInfo.packageName);
-					if (packageInfo.versionCode >= MIN_LICENSE_VERSION) {
-						Signature[] signatures = packageInfo.signatures;
-
-						if (Arrays.equals(signatures, mySignatures)) {
-							Log.i(Logger.LOG_TAG, "Found valid license");
-							return true;
-						} else {
-							Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
-						}
-
-					} else {
-						Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
-						BuyFullVersion.startClockCardInstall(context);
+				if (MARKETLICENSE_PACKEBAME.equals(packageInfo.packageName)) {
+					if (checkMarketLicense(mySignatures, packageInfo)) {
+						featuresChanged = true;
+						return true;
+					}
+				} else if (NONMARKETLICENSE_PACKEBAME.equals(packageInfo.packageName)) {
+					if (checkNonMarketLicense(mySignatures, packageInfo)) {
+						featuresChanged = true;
+						return true;
 					}
 				}
 			}
@@ -117,9 +114,47 @@ public class Settings extends SettingsBase {
 			// PackageManager.GET_SIGNATURES);
 
 		} catch (Exception e) {
-			Log.d(Logger.LOG_TAG, "Exception while looking for " + packageName + " as license", e);
+			Log.d(Logger.LOG_TAG, "Exception while looking for  license", e);
 		}
-		Log.i(Logger.LOG_TAG, "License " + packageName + " not found");
+		Log.i(Logger.LOG_TAG, "No license found");
+		return false;
+	}
+
+	private boolean checkMarketLicense(Signature[] mySignatures, PackageInfo packageInfo) {
+		Log.d(Logger.LOG_TAG, "Found package: " + packageInfo.packageName);
+		if (packageInfo.versionCode >= MIN_LICENSE_VERSION) {
+			Signature[] signatures = packageInfo.signatures;
+
+			if (Arrays.equals(signatures, mySignatures)) {
+				Log.i(Logger.LOG_TAG, "Found valid license");
+				return true;
+			} else {
+				Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
+			}
+
+		} else {
+			Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
+			BuyFullVersion.startClockCardInstall(context);
+		}
+		return false;
+	}
+
+	private boolean checkNonMarketLicense(Signature[] mySignatures, PackageInfo packageInfo) {
+		Log.d(Logger.LOG_TAG, "Found package: " + packageInfo.packageName);
+		if (packageInfo.versionCode >= MIN_NON_MARKET_LICENSE_VERSION) {
+			Signature[] signatures = packageInfo.signatures;
+
+			if (Arrays.equals(signatures, mySignatures)) {
+				Log.i(Logger.LOG_TAG, "Found valid license");
+				// return true;
+			} else {
+				Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
+			}
+
+		} else {
+			Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
+			BuyFullVersion.startClockCardInstall(context);
+		}
 		return false;
 	}
 
@@ -192,10 +227,6 @@ public class Settings extends SettingsBase {
 		return isPayVersion();
 	}
 
-	public boolean hasBetaFeatures() {
-		return true;
-	}
-
 	public void setLastDaysRebuild(long currentTimeMillis) {
 		Editor editor = getPreferences().edit();
 		editor.putLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, currentTimeMillis);
@@ -237,5 +268,13 @@ public class Settings extends SettingsBase {
 
 	public boolean isYearlyOvertimeReset() {
 		return "3".equals(getOvertimeResetPoint());
+	}
+
+	public boolean isFeaturesChanged() {
+		if (featuresChanged) {
+			featuresChanged = false;
+			return true;
+		}
+		return featuresChanged;
 	}
 }
