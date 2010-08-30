@@ -1,70 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="ch.almana.android.stechkarte"
-      android:versionName="1.5.2" android:versionCode="201007220">
-    <application android:icon="@drawable/stechkarte" android:allowClearUserData="true" android:allowBackup="true" android:name=".application.StechkarteApplication" android:label="@string/app_name">
-        <activity android:label="@string/app_name" android:name=".view.CheckinActivity" android:screenOrientation="portrait">
-            <intent-filter><action android:name="ch.almana.android.stechkarte.actions.launch"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter><intent-filter><action android:name="ch.almana.android.stechkarte.actions.timestampIn"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter><intent-filter><category android:name="android.intent.category.DEFAULT"></category><action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
-</intent-filter><intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        <intent-filter><category android:name="android.intent.category.DEFAULT"></category><action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
-</intent-filter>
-</activity>
-
-    
-<provider android:authorities="ch.almana.android.stechkarte" android:name=".provider.StechkarteProvider"></provider>
-<activity android:name=".view.TimestampEditor" android:screenOrientation="portrait"><activity android:name=".view.TimestampEditor"><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamp"></data>
-<action android:name="android.intent.action.INSERT"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter>
-<intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamp"></data><category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter>
-</activity><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamp"></data>
-<action android:name="android.intent.action.INSERT"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter>
-<intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamp"></data><category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter>
-</activity>
-<activity android:name=".view.ListDays" android:screenOrientation="portrait"><intent-filter>
+	package="ch.almana.android.stechkarte" android:installLocation="auto" android:versionName="1.5.3-rc1" android:versionCode="201008300">
+	<application android:icon="@drawable/stechkarte"
+		android:allowClearUserData="true" android:allowBackup="true"
+		android:name=".application.StechkarteApplication" android:label="@string/app_name" android:allowTaskReparenting="true" android:backupAgent="ch.almana.android.stechkarte.utils.StechkarteBackupAgent">
+		<meta-data android:name="com.google.android.backup.api_key"
+    android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
+		<activity android:label="@string/app_name" android:name=".view.CheckinActivity"
+			android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="ch.almana.android.stechkarte.actions.launch"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="ch.almana.android.stechkarte.actions.timestampIn"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT"></category>
+				<action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT"></category>
+				<action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
+			</intent-filter>
+		</activity>
 
 
-<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte"></data>
-<action android:name="android.intent.action.VIEW"></action>
-<action android:name="android.intent.action.PICK"></action>
-<action android:name="android.intent.action.EDIT"></action>
-</intent-filter></activity>
-<activity android:name=".view.DayEditor" android:screenOrientation="portrait"><intent-filter><action android:name="android.intent.action.EDIT"></action><data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.day"></data><category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter><intent-filter><data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.day"></data>
-<action android:name="android.intent.action.INSERT"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter></activity>
-<activity android:name=".view.ExportTimestamps"></activity>
+		<provider android:authorities="ch.almana.android.stechkarte"
+			android:name=".provider.StechkarteProvider"></provider>
+		<activity android:name=".view.TimestampEditor"
+			android:screenOrientation="portrait">
+			<activity android:name=".view.TimestampEditor">
+				<intent-filter>
+					<data
+						android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamp"></data>
+					<action android:name="android.intent.action.INSERT"></action>
+					<category android:name="android.intent.category.DEFAULT"></category>
+				</intent-filter>
+				<intent-filter>
+					<action android:name="android.intent.action.EDIT"></action>
+					<data
+						android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamp"></data>
+					<category android:name="android.intent.category.DEFAULT"></category>
+				</intent-filter>
+			</activity>
+			<intent-filter>
+				<data
+					android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.timestamp"></data>
+				<action android:name="android.intent.action.INSERT"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"></action>
+				<data
+					android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.timestamp"></data>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</activity>
+		<activity android:name=".view.ListDays"
+			android:screenOrientation="portrait">
+			<intent-filter>
 
-<activity android:name=".view.StechkartePreferenceActivity"></activity>
-<activity android:name=".view.BuyFullVersion" android:theme="@android:style/Theme.Dialog"></activity>
+
+				<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte"></data>
+				<action android:name="android.intent.action.VIEW"></action>
+				<action android:name="android.intent.action.PICK"></action>
+				<action android:name="android.intent.action.EDIT"></action>
+			</intent-filter>
+		</activity>
+		<activity android:name=".view.DayEditor"
+			android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"></action>
+				<data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.day"></data>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+			<intent-filter>
+				<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.day"></data>
+				<action android:name="android.intent.action.INSERT"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</activity>
+		<activity android:name=".view.ExportTimestamps"></activity>
+
+		<activity android:name=".view.StechkartePreferenceActivity"></activity>
+		<activity android:name=".view.BuyFullVersion" android:theme="@android:style/Theme.Dialog"></activity>
 
 
-<receiver android:name=".view.appwidget.StechkarteAppwidget"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-</intent-filter><meta-data
-				android:name="android.appwidget.provider" android:resource="@xml/appwidget_provider_clockcard"></meta-data>
-</receiver>
-<service android:name=".view.appwidget.StechkarteAppwidget$UpdateAppWidgetService"></service>
-<activity android:name=".view.HolidaysEditor"></activity>
-<activity android:name=".view.BackupRestoreActivity"></activity>
-</application>
-    <uses-sdk android:minSdkVersion="4"/>
+		<receiver android:name=".view.appwidget.StechkarteAppwidget">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/appwidget_provider_clockcard"></meta-data>
+		</receiver>
+		<service android:name=".view.appwidget.StechkarteAppwidget$UpdateAppWidgetService"></service>
+		<activity android:name=".view.HolidaysEditor"></activity>
+		<activity android:name=".view.BackupRestoreActivity"></activity>
+	</application>
+	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
 
 
 
 
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest> 

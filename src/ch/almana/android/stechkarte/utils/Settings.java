@@ -102,12 +102,15 @@ public class Settings extends SettingsBase {
 						featuresChanged = true;
 						return true;
 					}
-				} else if (NONMARKETLICENSE_PACKEBAME.equals(packageInfo.packageName)) {
-					if (checkNonMarketLicense(mySignatures, packageInfo)) {
-						featuresChanged = true;
-						return true;
-					}
 				}
+				// else if
+				// (NONMARKETLICENSE_PACKEBAME.equals(packageInfo.packageName))
+				// {
+				// if (checkNonMarketLicense(mySignatures, packageInfo)) {
+				// featuresChanged = true;
+				// return true;
+				// }
+				// }
 			}
 
 			// PackageInfo packageInfo = pm.getPackageInfo(packageName,

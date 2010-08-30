@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
@@ -48,6 +49,10 @@ public class ExportTimestamps extends Activity {
 			Log.e(Logger.LOG_TAG, "Export days", e);
 			Toast.makeText(this, "Cannot open " + fileName, Toast.LENGTH_LONG).show();
 		} finally {
+			// if (writer != null) {
+			// writer.flush();
+			// writer.close();
+			// }
 			finish();
 		}
 	}
@@ -67,9 +72,26 @@ public class ExportTimestamps extends Activity {
 			writer.write(separator);
 		}
 		writer.write("\n");
+		Calendar cal = null;
 		while (cursor.moveToNext()) {
 			Day day = new Day(cursor);
-			String dayString = formatDate(day.getDayString());
+			if (cal == null) {
+				cal = Calendar.getInstance();
+				cal.set(Calendar.YEAR, day.getYear());
+				cal.set(Calendar.MONTH, day.getMonth());
+				cal.set(Calendar.DAY_OF_MONTH, day.getDay());
+			} else {
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+				Date date = cal.getTime();
+				long dr = DayAccess.dayRefFromDate(date);
+				while (dr < day.getDayRef()) {
+					writer.write("\"" + formatDate(date) + "\"\n");
+					cal.add(Calendar.DAY_OF_MONTH, 1);
+					date = cal.getTime();
+					dr = DayAccess.dayRefFromDate(date);
+				}
+			}
+			String dayString = formatDateString(day.getDayString());
 			writer.write("\"" + dayString + "\"");
 			writer.write(separator);
 			writer.write("\"" + df.format(day.getHoursWorked()) + "\"");
@@ -91,16 +113,21 @@ public class ExportTimestamps extends Activity {
 			writer.write("\n");
 			timestamps.close();
 		}
+		writer.flush();
 	}
 
-	private String formatDate(String dayString) {
+	private String formatDateString(String dayString) {
 		try {
 			Date date = yyyymmddFromat.parse(dayString);
-			return mmddyyyFromat.format(date);
+			return formatDate(date);
 		} catch (ParseException e) {
 			Log.e(Logger.LOG_TAG, "Cannot parse " + dayString, e);
 			return dayString;
 		}
+	}
+
+	private String formatDate(Date date) {
+		return mmddyyyFromat.format(date);
 	}
 
 	private void sendMail(String filename) {

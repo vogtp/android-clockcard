@@ -4,6 +4,12 @@ V
 * bugfixes
 -
 
+V 1.5.3
+* features
+- backup to cloud
+* bugfixes
+- fix menu not updated on key install
+
 V 1.5.2
 * features
 -
