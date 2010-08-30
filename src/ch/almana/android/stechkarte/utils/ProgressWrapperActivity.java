@@ -5,7 +5,7 @@ import android.app.Activity;
 public class ProgressWrapperActivity implements IProgressWrapper {
 
 	private Activity progressAct;
-	private int max;
+	// private int max;
 	private CharSequence origTitle;
 	private int inc;
 

@@ -6,7 +6,8 @@ import android.content.Context;
 public class ProgressWrapperDialog implements IProgressWrapper {
 
 	private ProgressDialog progressDialog;
-	private int incrementEvery;
+
+	// private int incrementEvery;
 
 	public ProgressWrapperDialog(Context ctx) {
 		progressDialog = new ProgressDialog(ctx);

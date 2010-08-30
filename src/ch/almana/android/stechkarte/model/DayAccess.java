@@ -159,10 +159,10 @@ public class DayAccess implements IAccess {
 	 */
 	public void recalculateDayFromTimestamp(Timestamp timestamp, IProgressWrapper progressWrapper) {
 		String selection = null;
-		String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
+		// String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
 		if (timestamp != null) {
 			selection = DB.Timestamps.NAME_TIMESTAMP + ">=" + timestamp.getTimestamp();
-			dayDeleteSelection = dayDeleteSelection + " and " + selection;
+			// dayDeleteSelection = dayDeleteSelection + " and " + selection;
 		}
 		// delete all days
 		// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
@@ -322,7 +322,11 @@ public class DayAccess implements IAccess {
 	}
 
 	public static long dayRefFromTimestamp(long timestamp) {
-		String timeString = dayRefDateFormat.format(new Date(timestamp));
+		return dayRefFromDate(new Date(timestamp));
+	}
+
+	public static long dayRefFromDate(Date date) {
+		String timeString = dayRefDateFormat.format(date);
 		return Long.parseLong(timeString);
 	}
 
