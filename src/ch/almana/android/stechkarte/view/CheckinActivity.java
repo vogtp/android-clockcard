@@ -61,8 +61,8 @@ public class CheckinActivity extends Activity {
 		Button buttonIn = (Button) findViewById(R.id.ButtonIn);
 		Button buttonOut = (Button) findViewById(R.id.ButtonOut);
 		int width = getWindowManager().getDefaultDisplay().getWidth();
-		width = Math.round(width / 2);
-		int size = Math.round(width / 5);
+		width = Math.round(width / 2f);
+		int size = Math.round(width / 5f);
 		buttonIn.setWidth(width);
 		buttonIn.setHeight(width);
 		buttonIn.setTextSize(size);
@@ -133,15 +133,17 @@ public class CheckinActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.chekin_option, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 		MenuItem moreItems = menu.findItem(R.id.optionMore);
 
 		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
 		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
-		// if (emailExportEnabled || backupEnabled) {
-		// moreItems.setVisible(true);
-		// } else {
-		// moreItems.setVisible(false);
-		// }
+
 		moreItems.getSubMenu().findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
 		moreItems.getSubMenu().findItem(R.id.itemReadInTimestmaps).setVisible(backupEnabled);
 
