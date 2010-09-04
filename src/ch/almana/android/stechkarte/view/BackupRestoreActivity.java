@@ -53,7 +53,10 @@ public class BackupRestoreActivity extends ListActivity {
 				return true;
 			}
 		});
-		int length = list.length;
+		int length = 0;
+		if (list != null) {
+			length = list.length;
+		}
 		String[] files = new String[length];
 		for (String file : list) {
 			files[--length] = file;
