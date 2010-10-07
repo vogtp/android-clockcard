@@ -1,6 +1,8 @@
 package ch.almana.android.stechkarte.application;
 
 import android.app.Application;
+import android.util.Log;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
@@ -15,10 +17,13 @@ public class StechkarteApplication extends Application {
 		Settings.initInstance(this);
 		TimestampAccess.initInstance(this);
 		DayAccess.initInstance(this);
-		DB.OpenHelper oh = new OpenHelper(this);
-		oh.getWritableDatabase();
-		oh.close();
+		try {
+			DB.OpenHelper oh = new OpenHelper(this);
+			oh.getWritableDatabase();
+			oh.close();
+		} catch (Throwable e) {
+			Log.e(Logger.LOG_TAG, "Unable to open DB for initialisation", e);
+		}
 	}
-	
-	
+
 }
