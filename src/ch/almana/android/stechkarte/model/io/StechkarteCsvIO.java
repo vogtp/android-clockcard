@@ -20,7 +20,9 @@ public class StechkarteCsvIO extends DatabaseCsvIo {
 	}
 
 	public static String getBasePath() {
-		return Environment.getExternalStorageDirectory().getAbsolutePath() + DIRECTORY;
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + DIRECTORY;
+		DatabaseCsvIo.checkOrCreateDirectory(new File(path));
+		return path;
 	}
 
 	static public String getPath(String time) {

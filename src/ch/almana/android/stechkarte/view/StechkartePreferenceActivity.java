@@ -6,6 +6,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.utils.Settings;
+import ch.almana.android.stechkarte.utils.StechkarteBackupAgentHelper;
 
 public class StechkartePreferenceActivity extends PreferenceActivity {
 
@@ -34,6 +35,18 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 		emailPreference.setEnabled(emailExportEnabled);
 		findPreference(getString(R.string.prefKeyDecimalFormat)).setEnabled(false);
 		findPreference(getString(R.string.prefKeyCsvFieldSeparator)).setEnabled(emailExportEnabled);
+	}
+
+	@Override
+	protected void onPause() {
+		StechkarteBackupAgentHelper.dataChanged();
+		super.onPause();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		StechkarteBackupAgentHelper.dataChanged();
+		super.onSaveInstanceState(outState);
 	}
 
 }

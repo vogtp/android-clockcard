@@ -2,10 +2,13 @@ package ch.almana.android.stechkarte.model.io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -31,6 +34,21 @@ public abstract class DatabaseCsvIo {
 		super();
 	}
 
+	public static boolean checkOrCreateDirectory(File parentFile) {
+		if (parentFile == null) {
+			return false;
+		}
+		if (parentFile.isDirectory()) {
+			return true;
+		}
+		if (!parentFile.mkdir()) {
+			if (checkOrCreateDirectory(parentFile.getParentFile())) {
+				return parentFile.mkdir();
+			}
+		}
+		return false;
+	}
+
 	public void writeCursor(Cursor c, String filestem) {
 		if (c.getCount() < 1) {
 			return;
@@ -38,16 +56,11 @@ public abstract class DatabaseCsvIo {
 		String filename = buildFilename(filestem);
 		BufferedWriter writer = null;
 		try {
-			if (!c.moveToFirst()) {
+			File path = new File(filename);
+			if (!checkOrCreateDirectory(path.getParentFile())) {
 				return;
 			}
-			writer = new BufferedWriter(new FileWriter(filename));
-			writeHeaderLine(writer, c);
-			writeDataLine(writer, c);
-			while (c.moveToNext()) {
-				writeDataLine(writer, c);
-			}
-			writer.flush();
+			writeCursor(c, new FileWriter(filename));
 		} catch (IOException e) {
 			Log.e(LOG_TAG, "Unable to process file " + filename + " for writing", e);
 		} finally {
@@ -62,20 +75,37 @@ public abstract class DatabaseCsvIo {
 		}
 	}
 
+	public void writeCursor(Cursor c, Writer writer) throws IOException {
+		if (!c.moveToFirst()) {
+			return;
+		}
+		BufferedWriter bWriter = new BufferedWriter(writer);
+		writeHeaderLine(bWriter, c);
+		writeDataLine(bWriter, c);
+		while (c.moveToNext()) {
+			writeDataLine(bWriter, c);
+		}
+		bWriter.flush();
+	}
+
+	public void readCursor(Reader reader, IAccess iAccess, Uri contentUri, String indexName) {
+		readHeaderLine();
+		ContentValues values = new ContentValues();
+		while (readDataLine(values)) {
+			Cursor c = iAccess.query(indexName + "=" + values.getAsLong(indexName));
+			if (!c.moveToFirst()) {
+				iAccess.insert(contentUri, values);
+			}
+			if (c != null && !c.isClosed()) {
+				c.close();
+			}
+		}
+	}
+
 	public void readCursor(String filename, IAccess iAccess, Uri contentUri, String indexName) {
 		try {
 			reader = new BufferedReader(new FileReader(filename));
-			readHeaderLine();
-			ContentValues values = new ContentValues();
-			while (readDataLine(values)) {
-				Cursor c = iAccess.query(indexName + "=" + values.getAsLong(indexName));
-				if (!c.moveToFirst()) {
-					iAccess.insert(contentUri, values);
-				}
-				if (c != null && !c.isClosed()) {
-					c.close();
-				}
-			}
+			readCursor(reader, iAccess, contentUri, indexName);
 		} catch (FileNotFoundException e) {
 			Log.e(LOG_TAG, "Unable to process file " + filename + " for reading", e);
 		} finally {

@@ -4,9 +4,10 @@ V
 * bugfixes
 -
 
-V 1.5.3
+V 1.6.0
 * features
 - backup to cloud
+- export contains days without timestamps
 * bugfixes
 - fix menu not updated on key install
 

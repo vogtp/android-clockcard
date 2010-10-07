@@ -298,6 +298,8 @@ public class DayAccess implements IAccess {
 					calField = Calendar.WEEK_OF_YEAR;
 				} else if (settings.isMonthlyOvertimeReset()) {
 					calField = Calendar.MONTH;
+				} else if (settings.isYearlyOvertimeReset()) {
+					calField = Calendar.YEAR;
 				}
 				int tVal = today.get(calField);
 				int yVal = yesterday.get(calField);
