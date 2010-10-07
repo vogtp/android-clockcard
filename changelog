@@ -6,7 +6,7 @@ V
 
 V 1.6.0
 * features
-- backup to cloud
+- backup preferences to cloud
 - export contains days without timestamps
 * bugfixes
 - fix menu not updated on key install
