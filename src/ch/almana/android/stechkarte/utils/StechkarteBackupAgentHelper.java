@@ -12,7 +12,6 @@ public class StechkarteBackupAgentHelper {
 				if (dataChanged == null) {
 					@SuppressWarnings("rawtypes")
 					Class bckMgr = Class.forName("android.app.backup.BackupManager");
-
 					dataChanged = bckMgr.getMethod("dataChanged", new Class[] { String.class });
 				}
 				dataChanged.invoke(null, new Object[] { "ch.almana.android.stechkarte" });
