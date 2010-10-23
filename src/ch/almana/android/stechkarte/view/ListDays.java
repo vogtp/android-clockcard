@@ -75,6 +75,7 @@ public class ListDays extends ListActivity implements DialogCallback {
 					TextView tv = (TextView) ((View) view.getParent()).findViewById(R.id.TextViewOvertimeCur);
 					float overtime = d.getHoursWorked() - d.getHoursTarget();
 					tv.setText(Formater.formatHourMinFromHours(overtime));
+					tv.setTextColor(Color.LTGRAY);
 					if (overtime > 5) {
 						tv.setTextColor(Color.RED);
 					} else if (overtime > 3) {
@@ -85,9 +86,10 @@ public class ListDays extends ListActivity implements DialogCallback {
 					float hoursWorked = cursor.getFloat(Days.INDEX_HOURS_WORKED);
 					TextView tv = (TextView) view.findViewById(R.id.TextViewHoursWorked);
 					tv.setText(Formater.formatHourMinFromHours(hoursWorked));
-					if (hoursWorked > 15) {
+					tv.setTextColor(Color.LTGRAY);
+					if (hoursWorked > 12) {
 						tv.setTextColor(Color.RED);
-					} else if (hoursWorked > 12) {
+					} else if (hoursWorked > 10) {
 						tv.setTextColor(Color.YELLOW);
 					}
 					return true;

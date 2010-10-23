@@ -4,6 +4,12 @@ V
 * bugfixes
 -
 
+V 1.6.1
+* features
+-
+* bugfixes
+- fix time color in daylist
+
 V 1.6.0
 * features
 - backup preferences to cloud
