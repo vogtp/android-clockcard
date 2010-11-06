@@ -4,6 +4,14 @@ V
 * bugfixes
 -
 
+V 2.0.0
+* features
+- tabbed main view
+- new dayslist table layout
+- new options menus
+* bugfixes
+- do not update widget during rebuild
+
 V 1.6.1
 * features
 -
