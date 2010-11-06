@@ -110,21 +110,20 @@ public final class R {
         public static final int TextViewTimestamp=0x7f0b0047;
         public static final int TextViewTimestampType=0x7f0b0048;
         public static final int TimePicker01=0x7f0b0044;
-        public static final int itemDayDeleteTimestamp=0x7f0b0053;
-        public static final int itemDayEditTimestamp=0x7f0b0052;
-        public static final int itemDayInsertTimestamp=0x7f0b0051;
-        public static final int itemDaylistInsertDay=0x7f0b0056;
-        public static final int itemDaylistInsertTImestamp=0x7f0b0057;
-        public static final int itemDaylistRebuild=0x7f0b0055;
-        public static final int itemDaysList=0x7f0b0049;
-        public static final int itemDeleteDay=0x7f0b0054;
-        public static final int itemExportTimestamps=0x7f0b004e;
-        public static final int itemFAQ=0x7f0b004b;
-        public static final int itemHolidayEditor=0x7f0b004a;
-        public static final int itemPreferences=0x7f0b004c;
-        public static final int itemReadInTimestmaps=0x7f0b0050;
-        public static final int itemTimestampList=0x7f0b004f;
-        public static final int optionMore=0x7f0b004d;
+        public static final int itemDayDeleteTimestamp=0x7f0b004b;
+        public static final int itemDayEditTimestamp=0x7f0b004a;
+        public static final int itemDayInsertTimestamp=0x7f0b0049;
+        public static final int itemDaylistInsertDay=0x7f0b004d;
+        public static final int itemDaylistInsertTImestamp=0x7f0b004e;
+        public static final int itemDaylistRebuild=0x7f0b004f;
+        public static final int itemDeleteDay=0x7f0b004c;
+        public static final int itemExportTimestamps=0x7f0b0054;
+        public static final int itemFAQ=0x7f0b0052;
+        public static final int itemHolidayEditor=0x7f0b0050;
+        public static final int itemPreferences=0x7f0b0051;
+        public static final int itemReadInTimestmaps=0x7f0b0056;
+        public static final int itemTimestampList=0x7f0b0055;
+        public static final int optionMore=0x7f0b0053;
     }
     public static final class layout {
         public static final int appwidget_1x1=0x7f030000;
@@ -139,11 +138,11 @@ public final class R {
         public static final int timestamplist_item=0x7f030009;
     }
     public static final class menu {
-        public static final int chekin_option=0x7f0a0000;
-        public static final int dayeditor_context=0x7f0a0001;
-        public static final int dayeditor_option=0x7f0a0002;
-        public static final int daylist_context=0x7f0a0003;
-        public static final int daylist_option=0x7f0a0004;
+        public static final int dayeditor_context=0x7f0a0000;
+        public static final int dayeditor_option=0x7f0a0001;
+        public static final int daylist_context=0x7f0a0002;
+        public static final int daylist_option=0x7f0a0003;
+        public static final int general_option=0x7f0a0004;
     }
     public static final class string {
         public static final int AUTHORITY_TIMESTAMP=0x7f060036;

@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
 	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:title="@string/ButtonDayList"
-		android:titleCondensed="@string/ButtonDayList"
-		android:id="@+id/itemDaysList"></item>
+	
 
 	<item android:title="@string/MenuHolidayEditor"
 		android:titleCondensed="@string/MenuHolidayEditor"
-		android:id="@+id/itemHolidayEditor"></item>
+		android:id="@+id/itemHolidayEditor" android:orderInCategory="10"></item>
 		
-	<item android:title="@string/MenuFAQ"
-		android:titleCondensed="@string/MenuFAQ"
-		android:id="@+id/itemFAQ"></item>
+	
 		
-<item android:id="@+id/itemPreferences" android:title="@string/perferences"></item>
+<item android:id="@+id/itemPreferences" android:title="@string/perferences" android:orderInCategory="11"></item><item android:title="@string/MenuFAQ" android:titleCondensed="@string/MenuFAQ" android:id="@+id/itemFAQ" android:orderInCategory="12"></item>
 	<item android:title="@+string/optionMore"
 		android:titleCondensed="@+string/optionMore"
-		android:id="@+id/optionMore" android:visible="true">
+		android:id="@+id/optionMore" android:visible="true" android:menuCategory="secondary" android:orderInCategory="12">
 		<menu>
 			<item android:id="@+id/itemExportTimestamps"
 				android:title="@string/ExportTImestamps"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/itemDaylistRebuild" android:titleCondensed="@string/menu_rebuild" android:title="@string/menu_rebuild"></item>
-<item android:id="@+id/itemDaylistInsertDay" android:titleCondensed="@string/menu_insert_day" android:title="@string/menu_insert_day"></item><item android:id="@+id/itemDaylistInsertTImestamp" android:titleCondensed="@string/menu_insert_timestamp" android:title="@string/menu_insert_timestamp"></item>
+
+<item android:id="@+id/itemDaylistInsertDay" android:titleCondensed="@string/menu_insert_day" android:title="@string/menu_insert_day" android:orderInCategory="1"></item><item android:id="@+id/itemDaylistInsertTImestamp" android:titleCondensed="@string/menu_insert_timestamp" android:title="@string/menu_insert_timestamp" android:orderInCategory="2"></item><item android:id="@+id/itemDaylistRebuild" android:titleCondensed="@string/menu_rebuild" android:title="@string/menu_rebuild" android:orderInCategory="3"></item>
 </menu>
