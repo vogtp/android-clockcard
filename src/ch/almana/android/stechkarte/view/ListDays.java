@@ -100,7 +100,7 @@ public class ListDays extends ListActivity implements DialogCallback {
 				} else if (columnIndex == DB.Days.INDEX_FIXED) {
 					ImageView iv = (ImageView) view.findViewById(R.id.ImageViewLock);
 					if (cursor.getInt(Days.INDEX_FIXED) > 0) {
-						iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_lock_lock));
+						iv.setImageDrawable(getResources().getDrawable(R.drawable.locked));
 					} else {
 						iv.setImageBitmap(null);
 					}
@@ -111,14 +111,18 @@ public class ListDays extends ListActivity implements DialogCallback {
 		});
 
 		setListAdapter(adapter);
-
+		// getListView().addHeaderView(getLayoutInflater().inflate(R.layout.daylist_header));
 		getListView().setOnCreateContextMenuListener(this);
 		// dia.dismiss();
 	}
 
 	@Override
 	protected void onResume() {
-		RebuildDaysTask.rebuildDaysIfNeeded(this);
+		Context ctx = this;
+		if (TabbedMainActivity.instance != null) {
+			ctx = TabbedMainActivity.instance;
+		}
+		RebuildDaysTask.rebuildDaysIfNeeded(ctx);
 		super.onResume();
 	}
 
@@ -162,7 +166,11 @@ public class ListDays extends ListActivity implements DialogCallback {
 	}
 
 	private void rebuildDays() {
-		RebuildDaysTask.rebuildDays(this, null);
+		Context ctx = this;
+		if (TabbedMainActivity.instance != null) {
+			ctx = TabbedMainActivity.instance;
+		}
+		RebuildDaysTask.rebuildDays(ctx, null);
 	}
 
 	@Override

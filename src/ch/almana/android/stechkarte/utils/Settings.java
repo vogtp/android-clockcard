@@ -26,7 +26,7 @@ public class Settings extends SettingsBase {
 	private static final long SECONDS_IN_MILLIES = 1000;
 	private static final int MIN_LICENSE_VERSION = 201008300;
 	private static final String MARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicense";
-	private static final String NONMARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicenseNonMarket";
+	private static final String NONMARKETLICENSE_PACKENAME = "ch.almana.android.stechkarteLicenseNonMarket";
 	private static final int MIN_NON_MARKET_LICENSE_VERSION = 0;
 
 	private boolean featuresChanged = false;
@@ -231,9 +231,8 @@ public class Settings extends SettingsBase {
 	}
 
 	public void setLastDaysRebuild(long currentTimeMillis) {
-		Editor editor = getPreferences().edit();
-		editor.putLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, currentTimeMillis);
-		editor.commit();
+		putLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, currentTimeMillis);
+
 	}
 
 	public long getLastDaysRebuild() {

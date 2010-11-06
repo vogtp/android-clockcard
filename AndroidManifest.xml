@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="ch.almana.android.stechkarte" android:installLocation="auto" android:versionCode="201010230" android:versionName="1.6.1">
+	package="ch.almana.android.stechkarte" android:installLocation="auto"
+	android:versionCode="201010230" android:versionName="1.6.1">
 	<application android:icon="@drawable/stechkarte"
 		android:allowClearUserData="true" android:allowBackup="true"
-		android:name=".application.StechkarteApplication" android:label="@string/app_name" android:allowTaskReparenting="true" android:backupAgent="ch.almana.android.stechkarte.utils.StechkarteBackupAgent">
+		android:name=".application.StechkarteApplication" android:label="@string/app_name"
+		android:allowTaskReparenting="true"
+		android:backupAgent="ch.almana.android.stechkarte.utils.StechkarteBackupAgent">
 		<meta-data android:name="com.google.android.backup.api_key"
-    android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
+			android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
 		<activity android:label="@string/app_name" android:name=".view.CheckinActivity"
 			android:screenOrientation="portrait">
 			<intent-filter>
@@ -20,10 +23,7 @@
 				<category android:name="android.intent.category.DEFAULT"></category>
 				<action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
 			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
+			
 			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT"></category>
 				<action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
@@ -103,13 +103,17 @@
 		<service android:name=".view.appwidget.StechkarteAppwidget$UpdateAppWidgetService"></service>
 		<activity android:name=".view.HolidaysEditor"></activity>
 		<activity android:name=".view.BackupRestoreActivity"></activity>
-	</application>
-	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
+	<activity android:name=".view.TabbedMainActivity"><intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter></activity>
+</application>
+	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8" />
 
 
 
 
 
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-<uses-permission android:name="android.permission.BACKUP"></uses-permission>
+	<uses-permission android:name="android.permission.BACKUP"></uses-permission>
 </manifest> 

@@ -21,6 +21,7 @@ import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.IProgressWrapper;
 import ch.almana.android.stechkarte.utils.Settings;
+import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
 public class DayAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
@@ -114,6 +115,7 @@ public class DayAccess implements IAccess {
 		}
 	}
 
+	@Override
 	public Cursor query(String selection) {
 		return query(selection, Days.DEFAULT_SORTORDER);
 	}
@@ -158,45 +160,52 @@ public class DayAccess implements IAccess {
 	 * @param progressWrapper
 	 */
 	public void recalculateDayFromTimestamp(Timestamp timestamp, IProgressWrapper progressWrapper) {
-		String selection = null;
-		// String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
-		if (timestamp != null) {
-			selection = DB.Timestamps.NAME_TIMESTAMP + ">=" + timestamp.getTimestamp();
-			// dayDeleteSelection = dayDeleteSelection + " and " + selection;
-		}
-		// delete all days
-		// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
-		TimestampAccess timestampAccess = TimestampAccess.getInstance();
-		Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
-		SortedSet<Long> dayRefs = new TreeSet<Long>();
-		int i = 0;
-		progressWrapper.setMax(c.getCount() * 2);
-		progressWrapper.incrementEvery(2);
-		Timestamp lastTs = null;
-		while (c.moveToNext()) {
-			progressWrapper.setProgress(i++);
-			Timestamp ts = new Timestamp(c);
-			long dayref = timestampAccess.calculateDayrefForTimestamp(ts, lastTs);
-			Day curDay = getOrCreateDay(dayref);
-			if (curDay.isFixed()) {
-				continue;
+		StechkarteAppwidget.setDoNotUpdate(true);
+		try {
+			String selection = null;
+			// String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
+			if (timestamp != null) {
+				selection = DB.Timestamps.NAME_TIMESTAMP + ">=" + timestamp.getTimestamp();
+				// dayDeleteSelection = dayDeleteSelection + " and " +
+				// selection;
 			}
+			// delete all days
+			// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
+			TimestampAccess timestampAccess = TimestampAccess.getInstance();
+			Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
+			SortedSet<Long> dayRefs = new TreeSet<Long>();
+			int i = 0;
+			progressWrapper.setMax(c.getCount() * 2);
+			progressWrapper.incrementEvery(2);
+			Timestamp lastTs = null;
+			while (c.moveToNext()) {
+				progressWrapper.setProgress(i++);
+				Timestamp ts = new Timestamp(c);
+				long dayref = timestampAccess.calculateDayrefForTimestamp(ts, lastTs);
+				Day curDay = getOrCreateDay(dayref);
+				if (curDay.isFixed()) {
+					continue;
+				}
 
-			ts.setDayRef(dayref);
-			if (dayRefs.add(dayref)) {
-				Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
+				ts.setDayRef(dayref);
+				if (dayRefs.add(dayref)) {
+					Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
+				}
+				timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
+				lastTs = ts;
 			}
-			timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
-			lastTs = ts;
-		}
-		c.close();
-		Iterator<Long> iterator = dayRefs.iterator();
-		// i = 0;
-		// progressDialog.setProgress(0);
-		while (iterator.hasNext()) {
-			progressWrapper.setProgress(i++);
-			Long dayRef = iterator.next();
-			recalculate(context, dayRef);
+			c.close();
+			Iterator<Long> iterator = dayRefs.iterator();
+			// i = 0;
+			// progressDialog.setProgress(0);
+			while (iterator.hasNext()) {
+				progressWrapper.setProgress(i++);
+				Long dayRef = iterator.next();
+				recalculate(context, dayRef);
+			}
+		} finally {
+			StechkarteAppwidget.setDoNotUpdate(false);
+			StechkarteAppwidget.updateView(getContext());
 		}
 	}
 
@@ -333,7 +342,12 @@ public class DayAccess implements IAccess {
 	}
 
 	public static long timestampFromDayRef(long dayref) throws ParseException {
-		return dayRefDateFormat.parse(dayref + "").getTime();
+		try {
+			return dayRefDateFormat.parse(dayref + "").getTime();
+		} catch (ParseException e) {
+			Log.w(LOG_TAG, "Cannot parse " + dayref + " as dayref", e);
+			return 0;
+		}
 	}
 
 	public static long getNextFreeDayref(long timestamp) {

@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent">
-<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1"><LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewDayRef" android:text="@+id/TextViewDayRef" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewWorkedShort" android:paddingRight="5px" android:id="@+id/LabelWorkedShort"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked" android:text="@+id/TextViewHoursWorked" android:paddingRight="5px"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/LabelHoursTarget" android:text="@+string/LabelHoursTarget" android:paddingRight="5px" android:paddingLeft="25px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+id/TextViewHoursTarget" android:id="@+id/TextViewHoursTarget" android:paddingRight="5px"></TextView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:orientation="horizontal"
+	android:layout_width="fill_parent" android:layout_gravity="center_vertical" android:paddingTop="15dp" android:paddingBottom="15dp">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewDayRef"
+		android:text="@+id/TextViewDayRef" android:width="70dp"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked"
+		android:text="@+id/TextViewHoursWorked" android:layout_gravity="right" android:width="40dp"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@+id/TextViewHoursTarget"
+		android:id="@+id/TextViewHoursTarget" android:layout_gravity="right" android:width="40dp"></TextView>
+	<TextView android:text="@+id/TextView01" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewOvertimeCur"
+		android:layout_gravity="right" android:gravity="right" android:width="43dp"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort"
+		android:id="@+id/TextViewOvertime" android:layout_gravity="right" android:gravity="right" android:width="43dp"></TextView>
+	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewHoliday"
+		android:layout_gravity="right" android:gravity="right" android:width="25dp"></TextView>
+	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewHolidaysLeft" android:layout_gravity="right" android:gravity="right" android:width="22dp"></TextView>
 
-
-
-
-
-
-</LinearLayout><LinearLayout android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort" android:paddingRight="5px" android:id="@+id/LabelOvertimeShort" android:paddingLeft="25px"></TextView><TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewOvertimeCur" android:paddingRight="5px"></TextView><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelOvertimeTotal" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort" android:id="@+id/TextViewOvertime" android:paddingRight="5px"></TextView>
-
-
-
-
-
-</LinearLayout><LinearLayout android:id="@+id/LinearLayout03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/LabelHolyday" android:paddingRight="5px" android:id="@+id/LabelHoliday" android:paddingLeft="25px"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoliday" android:paddingRight="5px"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/LabelHolidaysLeft" android:text="@+string/TextViewHolidaysLeft" android:paddingRight="5px"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5px" android:id="@+id/TextViewHolidaysLeft"></TextView></LinearLayout></LinearLayout>
-
-<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ImageViewLock" android:layout_weight="0.1"></ImageView>
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/ImageViewLock"
+		android:maxHeight="20dp" android:maxWidth="20dp" android:paddingLeft="5dp"></ImageView>
 
 
 

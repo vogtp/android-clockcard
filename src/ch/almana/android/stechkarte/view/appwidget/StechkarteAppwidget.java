@@ -19,57 +19,69 @@ import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.view.CheckinActivity;
 
 public class StechkarteAppwidget extends AppWidgetProvider {
-	
+
+	private static boolean doNotUpdate = false;
+
+	public static void setDoNotUpdate(boolean b) {
+		doNotUpdate = b;
+	}
+
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		Log.i(Logger.LOG_TAG, "onUpdate started");
 		StechkarteAppwidget.updateView(context);
 	}
-	
+
 	public static void updateView(Context context) {
 		context.startService(new Intent(context, UpdateAppWidgetService.class));
 	}
-	
+
 	public static class UpdateAppWidgetService extends Service {
-		
+
 		private static final SimpleDateFormat tsDateFormat = new SimpleDateFormat("HH:mm dd.MM.yy");
-//		private final ContentObserver observer = new TimestampsContentObserver(new Handler());
-//		
-//		private class TimestampsContentObserver extends ContentObserver {
-//			
-//			public TimestampsContentObserver(Handler handler) {
-//				super(handler);
-//			}
-//			
-//			@Override
-//			public void onChange(boolean selfChange) {
-//				StechkarteAppwidget.updateView(UpdateAppWidgetService.this);
-//				super.onChange(selfChange);
-//			}
-//			
-//		}
-		
+
+		// private final ContentObserver observer = new
+		// TimestampsContentObserver(new Handler());
+		//
+		// private class TimestampsContentObserver extends ContentObserver {
+		//
+		// public TimestampsContentObserver(Handler handler) {
+		// super(handler);
+		// }
+		//
+		// @Override
+		// public void onChange(boolean selfChange) {
+		// StechkarteAppwidget.updateView(UpdateAppWidgetService.this);
+		// super.onChange(selfChange);
+		// }
+		//
+		// }
+
 		@Override
 		public void onStart(Intent intent, int startId) {
+			if (doNotUpdate) {
+				return;
+			}
 			Log.i(Logger.LOG_TAG, "appwidget update service started");
-//			getContentResolver().notifyChange(Timestamps.CONTENT_URI, observer);
+			// getContentResolver().notifyChange(Timestamps.CONTENT_URI,
+			// observer);
 			RemoteViews rViews = createAppWidgetView(this);
 			ComponentName compName = new ComponentName(this, StechkarteAppwidget.class);
 			AppWidgetManager manager = AppWidgetManager.getInstance(this);
 			manager.updateAppWidget(compName, rViews);
 		}
-		
+
 		@Override
 		public IBinder onBind(Intent intent) {
 			return null;
 		}
-		
+
 		public static RemoteViews createAppWidgetView(Context context) {
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget_1x1);
-			
+
 			CurInfo curInfo = new CurInfo(context);
-			
+
 			int color = R.color.timestampTypeOut;
 			CharSequence addInfo;
 			String labelAddInfo;
@@ -86,9 +98,9 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 				addInfo = "";
 				labelAddInfo = "";
 			}
-			
+
 			views.setTextColor(R.id.TextViewAppWidgetInOut, context.getResources().getColor(color));
-			
+
 			views.setTextViewText(R.id.TextViewAppWidgetInOut, curInfo.getInOutString());
 			long unixTimestamp = curInfo.getUnixTimestamp();
 			if (unixTimestamp > 0) {
@@ -98,7 +110,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			}
 			views.setTextViewText(R.id.LabelAddInfo, labelAddInfo);
 			views.setTextViewText(R.id.TextViewAppWidgetAddInfo, addInfo);
-			
+
 			Intent intent = new Intent(context, CheckinActivity.class);
 			intent.setAction(CheckinActivity.ACTION_TIMESTAMP_TOGGLE);
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);

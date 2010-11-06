@@ -188,7 +188,7 @@ public class TimestampAccess implements IAccess {
 			return 0;
 		}
 		long todayDayRef = DayAccess.dayRefFromTimestamp(timestamp.getTimestamp());
-		if (!Settings.getInstance().isNightshiftEnabled() || lastTs == null || timestamp == null) {
+		if (!Settings.getInstance().isNightshiftEnabled() || lastTs == null) {
 			return todayDayRef;
 		}
 		if (timestamp.getTimestampType() == Timestamp.TYPE_OUT && timestamp.getDayRef() != lastTs.getDayRef()) {
@@ -220,6 +220,7 @@ public class TimestampAccess implements IAccess {
 		// RebuildDaysTask.rebuildDays(getContext(), timestamp);
 	}
 
+	@Override
 	public Cursor query(String selection) {
 		return query(selection, DB.Timestamps.DEFAUL_SORTORDER);
 	}

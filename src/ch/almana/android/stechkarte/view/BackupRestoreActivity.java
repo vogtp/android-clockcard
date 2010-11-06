@@ -70,7 +70,12 @@ public class BackupRestoreActivity extends ListActivity {
 			csvIO.restoreTimestamps(filename);
 			csvIO = new StechkarteCsvIO();
 			csvIO.restoreDays(filename);
-			RebuildDaysTask.rebuildDays(this, null);
+			if (TabbedMainActivity.instance != null) {
+				RebuildDaysTask.rebuildDays(TabbedMainActivity.instance, null);
+				finish();
+			} else {
+				RebuildDaysTask.rebuildDays(this, null);
+			}
 		} else {
 			DialogHelper.showFreeVersionDialog(this);
 		}
