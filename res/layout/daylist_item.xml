@@ -13,10 +13,10 @@
 		android:id="@+id/TextViewHoursTarget" android:layout_gravity="right" android:width="40dp"></TextView>
 	<TextView android:text="@+id/TextView01" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/TextViewOvertimeCur"
-		android:layout_gravity="right" android:gravity="right" android:width="43dp"></TextView>
+		android:layout_gravity="right" android:gravity="right" android:width="45dp"></TextView>
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort"
-		android:id="@+id/TextViewOvertime" android:layout_gravity="right" android:gravity="right" android:width="43dp"></TextView>
+		android:id="@+id/TextViewOvertime" android:layout_gravity="right" android:gravity="right" android:width="45dp"></TextView>
 	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/TextViewHoliday"
 		android:layout_gravity="right" android:gravity="right" android:width="25dp"></TextView>
@@ -26,10 +26,5 @@
 	<ImageView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/ImageViewLock"
 		android:maxHeight="20dp" android:maxWidth="20dp" android:paddingLeft="5dp"></ImageView>
-
-
-
-
-
 
 </LinearLayout>

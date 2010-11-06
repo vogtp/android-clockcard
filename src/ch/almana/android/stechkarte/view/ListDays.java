@@ -39,6 +39,7 @@ public class ListDays extends ListActivity implements DialogCallback {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		setContentView(R.layout.days_listview);
 		setTitle(R.string.daysListTitle);
 
 		Intent intent = getIntent();
@@ -110,8 +111,7 @@ public class ListDays extends ListActivity implements DialogCallback {
 			}
 		});
 
-		setListAdapter(adapter);
-		// getListView().addHeaderView(getLayoutInflater().inflate(R.layout.daylist_header));
+		getListView().setAdapter(adapter);
 		getListView().setOnCreateContextMenuListener(this);
 		// dia.dismiss();
 	}

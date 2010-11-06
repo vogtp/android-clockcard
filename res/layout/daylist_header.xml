@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
-<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Header"></TextView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:orientation="horizontal"
+	android:layout_width="fill_parent" android:layout_gravity="center_vertical"
+	android:paddingBottom="2dp" android:paddingTop="2dp">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:width="70dp"
+		android:text="Date" android:gravity="center" android:textSize="@dimen/listHeader"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:width="40dp" android:gravity="center" android:text="Worked" android:textSize="@dimen/listHeader"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:width="40dp" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Target"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:gravity="center" android:textSize="@dimen/listHeader" android:text="Overtime" android:width="45dp"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:gravity="center" android:textSize="@dimen/listHeader" android:text="Total Overtime" android:width="45dp"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:gravity="center" android:textSize="@dimen/listHeader" android:width="47dp" android:text="Holidays"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:width="22dp" android:gravity="center" android:textSize="@dimen/listHeader"></TextView>
+
+	
+
 </LinearLayout>
