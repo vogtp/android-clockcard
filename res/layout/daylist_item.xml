@@ -19,9 +19,9 @@
 		android:id="@+id/TextViewOvertime" android:layout_gravity="right" android:gravity="right" android:width="45dp"></TextView>
 	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/TextViewHoliday"
-		android:layout_gravity="right" android:gravity="right" android:width="25dp"></TextView>
+		android:layout_gravity="right" android:gravity="right" android:width="30dp"></TextView>
 	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/TextViewHolidaysLeft" android:layout_gravity="right" android:gravity="right" android:width="22dp"></TextView>
+		android:layout_height="wrap_content" android:id="@+id/TextViewHolidaysLeft" android:layout_gravity="right" android:gravity="right" android:width="27dp"></TextView>
 
 	<ImageView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/ImageViewLock"

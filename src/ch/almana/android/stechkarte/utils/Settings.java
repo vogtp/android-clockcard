@@ -24,7 +24,7 @@ public class Settings extends SettingsBase {
 
 	private static float hoursTargetDefault = 8.4f;
 	private static final long SECONDS_IN_MILLIES = 1000;
-	private static final int MIN_LICENSE_VERSION = 201008300;
+	private static final int MIN_LICENSE_VERSION = 201011060;
 	private static final String MARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicense";
 	private static final String NONMARKETLICENSE_PACKENAME = "ch.almana.android.stechkarteLicenseNonMarket";
 	private static final int MIN_NON_MARKET_LICENSE_VERSION = 0;
