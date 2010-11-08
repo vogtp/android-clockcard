@@ -32,10 +32,9 @@ public class TabbedMainActivity extends TabActivity {
 		// getResources().getDrawable(R.drawable.tab_week))
 		// .setContent(new Intent(this,
 		// ListDays.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-		// tabHost.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months",
-		// getResources().getDrawable(R.drawable.tab_month))
-		// .setContent(new Intent(this,
-		// ListDays.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+
+		tabHost.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months", getResources().getDrawable(R.drawable.tab_month))
+				.setContent(new Intent(this, ListMonths.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
 		instance = this;
 	}

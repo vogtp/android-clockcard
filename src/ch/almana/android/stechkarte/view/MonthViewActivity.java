@@ -1,21 +1,12 @@
 package ch.almana.android.stechkarte.view;
 
 import android.app.ListActivity;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -24,31 +15,64 @@ import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
+import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.Month;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
-import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
-import ch.almana.android.stechkarte.utils.DeleteDayDialog;
-import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
-import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 
-public class ListDays extends ListActivity implements DialogCallback {
+public class MonthViewActivity extends ListActivity {
+
+	private Month month;
+	private TextView tvMonthRef;
+	private TextView tvHoursWorked;
+	private TextView tvOvertime;
+	private TextView tvHoursTarget;
+	private TextView tvViewHoliday;
+	private TextView tvHolidaysLeft;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_PROGRESS);
-		setContentView(R.layout.day_listview);
-		setTitle(R.string.daysListTitle);
+
+		setContentView(R.layout.month_view);
+		setTitle(R.string.monthViewTitle);
+
+		tvMonthRef = (TextView) findViewById(R.id.TextViewMonthRef);
+		tvHoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
+		tvOvertime = (TextView) findViewById(R.id.TextViewOvertime);
+		tvHoursTarget = (TextView) findViewById(R.id.TextViewHoursTarget);
+		tvViewHoliday = (TextView) findViewById(R.id.TextViewHoliday);
+		tvHolidaysLeft = (TextView) findViewById(R.id.TextViewHolidaysLeft);
 
 		Intent intent = getIntent();
-		if (intent.getData() == null) {
-			intent.setData(Days.CONTENT_URI);
+		String action = intent.getAction();
+		if (savedInstanceState != null) {
+			Log.w(Logger.LOG_TAG, "Reading day information from savedInstanceState");
+			if (month != null) {
+				month.readFromBundle(savedInstanceState);
+			} else {
+				month = new Month(savedInstanceState);
+			}
+		} else if (Intent.ACTION_EDIT.equals(action)) {
+			Cursor c = managedQuery(intent.getData(), DB.Months.DEFAULT_PROJECTION, null, null, null);
+			if (c.moveToFirst()) {
+				month = new Month(c);
+			}
+			c.close();
 		}
 
-		Cursor cursor = managedQuery(DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, null, null, Days.DEFAULT_SORTORDER);
+		if (month == null) {
+			month = new Month();
+		}
+		long monthRef = month.getMonthRef();
+		String selection = null;
+		if (monthRef > 0) {
+			selection = DB.Days.NAME_MONTHREF + "=" + monthRef;
+		}
 
+		Cursor cursor = DayAccess.getInstance().query(selection);
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.daylist_item, cursor, new String[] { DB.NAME_ID, DB.Days.NAME_DAYREF, DB.Days.NAME_HOURS_WORKED,
 				DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED },
 				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, R.id.TextViewHoliday,
@@ -112,108 +136,41 @@ public class ListDays extends ListActivity implements DialogCallback {
 		});
 
 		getListView().setAdapter(adapter);
-		getListView().setOnCreateContextMenuListener(this);
-		// dia.dismiss();
 	}
 
 	@Override
 	protected void onResume() {
-		Context ctx = this;
-		if (TabbedMainActivity.instance != null) {
-			ctx = TabbedMainActivity.instance;
-		}
-		RebuildDaysTask.rebuildDaysIfNeeded(ctx);
 		super.onResume();
+		updateView();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.daylist_option, menu);
-		// menu.getItem(0).setEnabled(!RebuildDaysTask.isRebuilding());
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.itemDaylistRebuild:
-			rebuildDays();
-			break;
-		case R.id.itemDaylistInsertDay:
-			startActivity(new Intent(Intent.ACTION_INSERT, Days.CONTENT_URI));
-			break;
-		case R.id.itemDaylistInsertTImestamp:
-			startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
-			break;
-		default:
-			return super.onOptionsItemSelected(item);
-
-		}
-		return true;
+	private void updateView() {
+		tvMonthRef.setText(month.getMonthRef() + "");
+		tvHoursWorked.setText(month.getHoursWorked() + "");
+		float overtime = month.getHoursWorked() - month.getHoursTarget();
+		tvOvertime.setText(overtime + "");
+		tvHoursTarget.setText(month.getOvertime() + "");
+		tvViewHoliday.setText(month.getHolyday() + "");
+		tvHolidaysLeft.setText(month.getHolydayLeft() + "");
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
 
-		String action = getIntent().getAction();
-		if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-			setResult(RESULT_OK, new Intent().setData(uri));
-		} else {
-			startActivity(new Intent(Intent.ACTION_EDIT, uri));
-		}
-	}
+		Object day = getListView().getItemAtPosition(position);
+		Cursor days = month.getDays();
+		days.moveToPosition(position);
+		Day day2 = new Day(days);
 
-	private void rebuildDays() {
-		Context ctx = this;
-		if (TabbedMainActivity.instance != null) {
-			ctx = TabbedMainActivity.instance;
-		}
-		RebuildDaysTask.rebuildDays(ctx, null);
-	}
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		getMenuInflater().inflate(R.menu.daylist_context, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		super.onContextItemSelected(item);
-
-		AdapterView.AdapterContextMenuInfo info;
-		try {
-			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		} catch (ClassCastException e) {
-			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
-			return false;
-		}
-
-		// Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
-		switch (item.getItemId()) {
-		case R.id.itemDeleteDay: {
-
-			DeleteDayDialog alert = new DeleteDayDialog(this, info.id);
-			alert.setTitle("Delete Day...");
-			alert.show();
-			return true;
-		}
-		}
-		return false;
+		// Uri uri = ContentUris.withAppendedId(DB.Days.CONTENT_URI,
+		// day.getId());
+		// String action = getIntent().getAction();
+		// if (Intent.ACTION_VIEW.equals(action) ||
+		// Intent.ACTION_GET_CONTENT.equals(action)) {
+		// setResult(RESULT_OK, new Intent().setData(uri));
+		// } else {
+		// startActivity(new Intent(Intent.ACTION_EDIT, uri));
+		// }
 
 	}
-
-	@Override
-	public void finished(boolean success) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Context getContext() {
-		return this;
-	}
-
 }

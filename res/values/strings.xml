@@ -102,7 +102,9 @@
 <string name="CheckBoxIsPayed">Is payed</string>
 <string name="EditTextCommentHint">Comment</string>
 <string name="dayEditorTitle">clock card: Day Editor</string>
+<string name="monthViewTitle">clock card: Month</string>
 <string name="daysListTitle">clock card: Days List</string>
+<string name="monthListTitle">clock card: Month List</string>
 <string name="timestampEditorTitle">clock card: Timestamp Editor</string>
 <string name="preferencesTitle">clock card: Preferences</string>
 <string name="holidayEditorTitle">clock card: Holiday Editor</string>

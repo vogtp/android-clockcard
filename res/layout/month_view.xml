@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_gravity="center_vertical" android:orientation="vertical">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@+id/TextViewDayRef" android:width="@dimen/monthListMonth" android:gravity="right" android:id="@+id/TextViewMonthRef"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked"
+		android:text="@+id/TextViewHoursWorked" android:layout_gravity="right" android:width="@dimen/monthListWorkWorked" android:gravity="right"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@+id/TextViewHoursTarget"
+		android:id="@+id/TextViewHoursTarget" android:layout_gravity="right" android:width="@dimen/monthListWorkTarget" android:gravity="right"></TextView>
+	<TextView android:text="@+id/TextView01" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewOvertimeCur"
+		android:layout_gravity="right" android:gravity="right" android:width="@dimen/monthListOvertimeCur"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort"
+		android:id="@+id/TextViewOvertime" android:layout_gravity="right" android:gravity="right" android:width="@dimen/monthListOvertimeTotal"></TextView>
+	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewHoliday"
+		android:layout_gravity="right" android:gravity="right" android:width="@dimen/monthListHolidaysCur"></TextView>
+	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/TextViewHolidaysLeft" android:layout_gravity="right" android:gravity="right" android:width="@dimen/monthListHolidaysTotal" android:paddingRight="5dp"></TextView><ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@id/android:list" android:scrollbars="vertical"></ListView>
+
+	
+
+</LinearLayout>

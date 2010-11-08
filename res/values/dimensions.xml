@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <dimen name="listHeader">10sp</dimen>
+<dimen name="monthListMonth">49dp</dimen>
+<dimen name="monthListWorkWorked">49dp</dimen>
+<dimen name="monthListWorkTarget">49dp</dimen>
+<dimen name="monthListOvertimeCur">49dp</dimen>
+<dimen name="monthListOvertimeTotal">49dp</dimen>
+<dimen name="monthListHolidaysCur">35dp</dimen>
+<dimen name="monthListHolidaysTotal">35dp</dimen>
 </resources>

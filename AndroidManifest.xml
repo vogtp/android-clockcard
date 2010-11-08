@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="ch.almana.android.stechkarte" android:versionName="2.0.0" android:versionCode="201011070" android:installLocation="internalOnly">
+	package="ch.almana.android.stechkarte" android:installLocation="internalOnly" android:versionCode="201011080" android:versionName="2.1.0-rc1">
 	<application android:icon="@drawable/stechkarte"
 		android:allowClearUserData="true" android:allowBackup="true"
 		android:name=".application.StechkarteApplication" android:label="@string/app_name"
@@ -61,6 +61,16 @@
 				<category android:name="android.intent.category.DEFAULT"></category>
 			</intent-filter>
 		</activity>
+		<activity android:screenOrientation="portrait" android:name=".view.ListMonths">
+			<intent-filter>
+
+
+				<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.month"></data>
+				<action android:name="android.intent.action.VIEW"></action>
+				<action android:name="android.intent.action.PICK"></action>
+				<action android:name="android.intent.action.EDIT"></action>
+			</intent-filter>
+		</activity>
 		<activity android:name=".view.ListDays"
 			android:screenOrientation="portrait">
 			<intent-filter>
@@ -105,6 +115,11 @@
 	<activity android:name=".view.TabbedMainActivity"><intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter></activity>
+<activity android:name=".view.MonthViewActivity"><intent-filter>
+				<action android:name="android.intent.action.EDIT"></action>
+				<data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.month"></data>
+				<category android:name="android.intent.category.DEFAULT"></category>
 			</intent-filter></activity>
 </application>
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8" />

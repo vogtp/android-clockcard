@@ -99,6 +99,7 @@ public class DayAccess implements IAccess {
 		if (id > 0) {
 			day.setId(id);
 		}
+		MonthAccess.getInstance().recalculate(day.getMonthRef());
 	}
 
 	public boolean hasDayRef(long dayref) {
@@ -152,6 +153,7 @@ public class DayAccess implements IAccess {
 
 	public void update(Day day) {
 		update(Days.CONTENT_URI, day.getValues(), DB.NAME_ID + "=" + day.getId(), null);
+		MonthAccess.getInstance().recalculate(day.getMonthRef());
 	}
 
 	/**
@@ -160,7 +162,10 @@ public class DayAccess implements IAccess {
 	 * @param progressWrapper
 	 */
 	public void recalculateDayFromTimestamp(Timestamp timestamp, IProgressWrapper progressWrapper) {
+		int i = 0;
 		StechkarteAppwidget.setDoNotUpdate(true);
+		MonthAccess.getInstance().setDoNotRecalculate(true);
+		SortedSet<Long> monthRefs = new TreeSet<Long>();
 		try {
 			String selection = null;
 			// String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
@@ -174,7 +179,6 @@ public class DayAccess implements IAccess {
 			TimestampAccess timestampAccess = TimestampAccess.getInstance();
 			Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 			SortedSet<Long> dayRefs = new TreeSet<Long>();
-			int i = 0;
 			progressWrapper.setMax(c.getCount() * 2);
 			progressWrapper.incrementEvery(2);
 			Timestamp lastTs = null;
@@ -191,21 +195,30 @@ public class DayAccess implements IAccess {
 				if (dayRefs.add(dayref)) {
 					Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
 				}
+				long monthref = MonthAccess.getMonthRefFromDayRef(dayref);
+				if (monthRefs.add(monthref)) {
+					Log.i(LOG_TAG, "Added month " + monthref + " for recalculation");
+				}
+
 				timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
 				lastTs = ts;
 			}
 			c.close();
-			Iterator<Long> iterator = dayRefs.iterator();
-			// i = 0;
-			// progressDialog.setProgress(0);
-			while (iterator.hasNext()) {
+
+			for (Iterator<Long> iterator = dayRefs.iterator(); iterator.hasNext();) {
 				progressWrapper.setProgress(i++);
 				Long dayRef = iterator.next();
-				recalculate(context, dayRef);
+				recalculate(dayRef);
 			}
 		} finally {
 			StechkarteAppwidget.setDoNotUpdate(false);
+			MonthAccess.getInstance().setDoNotRecalculate(false);
 			StechkarteAppwidget.updateView(getContext());
+		}
+		for (Iterator<Long> iterator = monthRefs.iterator(); iterator.hasNext();) {
+			progressWrapper.setProgress(i++);
+			Long monthRef = iterator.next();
+			MonthAccess.getInstance().recalculate(monthRef);
 		}
 	}
 
@@ -224,7 +237,7 @@ public class DayAccess implements IAccess {
 		return d;
 	}
 
-	public void recalculate(Context context, long dayRef) {
+	public void recalculate(long dayRef) {
 		if (dayRef < 1) {
 			return;
 		}

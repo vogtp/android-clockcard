@@ -20,6 +20,7 @@ public class Day {
 	private boolean error = false;
 	private boolean fixed = false;
 	private long lastUpdated = 0;
+	private long monthRef = 0;
 
 	public Day() {
 		this(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
@@ -43,6 +44,7 @@ public class Day {
 		error = day.error;
 		fixed = day.fixed;
 		lastUpdated = day.lastUpdated;
+		monthRef = day.monthRef;
 	}
 
 	public Day(Cursor c) {
@@ -57,6 +59,7 @@ public class Day {
 		setError(c.getInt(Days.INDEX_ERROR));
 		setFixed(c.getInt(Days.INDEX_FIXED));
 		setLastUpdated(c.getLong(Days.INDEX_LAST_UPDATED));
+		setMonthRef(c.getLong(Days.INDEX_MONTHREF));
 	}
 
 	public Day(Bundle instanceState) {
@@ -78,6 +81,7 @@ public class Day {
 		values.put(Days.NAME_ERROR, getError());
 		values.put(Days.NAME_FIXED, getFixed());
 		values.put(Days.NAME_LAST_UPDATED, getLastUpdated());
+		values.put(Days.NAME_MONTHREF, getMonthRef());
 		return values;
 	}
 
@@ -96,6 +100,7 @@ public class Day {
 		bundle.putInt(Days.NAME_ERROR, getError());
 		bundle.putInt(Days.NAME_FIXED, getFixed());
 		bundle.putLong(Days.NAME_LAST_UPDATED, getLastUpdated());
+		bundle.putLong(Days.NAME_MONTHREF, getMonthRef());
 	}
 
 	public void readFromBundle(Bundle bundle) {
@@ -109,6 +114,7 @@ public class Day {
 		setError(bundle.getInt(Days.NAME_ERROR));
 		setFixed(bundle.getInt(Days.NAME_FIXED));
 		lastUpdated = bundle.getLong(Days.NAME_LAST_UPDATED);
+		monthRef = bundle.getLong(Days.NAME_MONTHREF);
 	}
 
 	@Override
@@ -117,7 +123,7 @@ public class Day {
 			Day day = (Day) o;
 
 			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday && holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
-					&& hoursWorked == day.hoursWorked && overtime == day.overtime;
+					&& hoursWorked == day.hoursWorked && overtime == day.overtime && monthRef == day.monthRef;
 		}
 		return super.equals(o);
 	}
@@ -216,6 +222,19 @@ public class Day {
 
 	public int getFixed() {
 		return fixed ? 1 : 0;
+	}
+
+	public long getMonthRef() {
+		if (monthRef > 0) {
+			return monthRef;
+		} else {
+			// return DayAccess.dayRefFromTimestamp(timestamp);
+			return MonthAccess.getMonthRefFromDayRef(dayRef);
+		}
+	}
+
+	public void setMonthRef(long monthRef) {
+		this.monthRef = monthRef;
 	}
 
 	public String getDayString() {

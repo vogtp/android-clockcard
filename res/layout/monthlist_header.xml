@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:orientation="horizontal"
+	android:layout_width="fill_parent" android:layout_gravity="center_vertical"
+	android:paddingBottom="2dp" android:paddingTop="2dp">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:gravity="center" android:textSize="@dimen/listHeader"
+		android:layout_gravity="center_vertical" android:text="Month" android:width="@dimen/monthListMonth"></TextView>
+	<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:orientation="vertical" android:id="@+id/LinearLayoutWorktime">
+		<TextView android:layout_height="wrap_content"
+			android:gravity="center" android:text="Work time" android:textSize="@dimen/listHeader"
+			android:layout_width="fill_parent"></TextView>
+		<LinearLayout android:id="@+id/LinearLayout02"
+			android:layout_width="wrap_content" android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:gravity="center" android:text="Worked"
+				android:textSize="@dimen/listHeader" android:width="@dimen/monthListWorkWorked"></TextView>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:gravity="center" android:textSize="@dimen/listHeader"
+				android:text="Target" android:width="@dimen/monthListWorkTarget"></TextView>
+		</LinearLayout>
+
+</LinearLayout><LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/LinearLayoutOvertime"><TextView android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Overtime" android:width="45dp" android:layout_width="fill_parent"></TextView><LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Cur" android:width="@dimen/monthListOvertimeCur"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Total" android:width="@dimen/monthListOvertimeTotal"></TextView></LinearLayout>
+</LinearLayout>
+	
+	<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/LinearLayoutHolidays"><TextView android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:width="45dp" android:layout_width="fill_parent" android:text="Holidays"></TextView><LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Cur" android:width="@dimen/monthListHolidaysCur"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Total" android:width="@dimen/monthListHolidaysTotal"></TextView></LinearLayout>
+</LinearLayout>
+	
+	
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right"
+		android:gravity="center" android:textSize="@dimen/listHeader" android:width="20dp"></TextView>
+
+	
+
+
+
+</LinearLayout>
