@@ -252,6 +252,7 @@ public class MonthAccess implements IAccess {
 		Log.i(LOG_TAG, "Recalculating " + monthRef + " with prev month " + previousMonth.getMonthRef());
 		float worked = 0;
 		float target = 0;
+		float holiday = 0;
 
 		Cursor c = month.getDays();
 		boolean error = false;
@@ -260,6 +261,7 @@ public class MonthAccess implements IAccess {
 			day = new Day(c);
 			worked = worked + day.getHoursWorked();
 			target = target + day.getHoursTarget();
+			holiday = holiday + day.getHolyday();
 			error = error ? error : day.isError();
 
 		}
@@ -270,9 +272,9 @@ public class MonthAccess implements IAccess {
 		month.setError(error);
 		month.setHoursWorked(worked);
 		month.setHoursTarget(target);
+		month.setHolyday(holiday);
 		if (day != null) {
 			month.setOvertime(day.getOvertime());
-			month.setHolyday(day.getHolyday());
 			month.setHolydayLeft(day.getHolydayLeft());
 		}
 

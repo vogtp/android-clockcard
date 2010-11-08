@@ -28,7 +28,7 @@
 	<string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
 	<string name="menu_edit">Edit</string>
 	<string name="ButtonDayList">Days</string>
-	<string name="menu_rebuild">Rebuild days</string>
+	<string name="menu_rebuild">Rebuild</string>
 	<string name="TextViewWorkedShort">Worked </string>
 	<string name="TextViewOvertimeShort">Overtime </string>
 	<string name="ButtonReadTimestamps">Restore backup</string>

@@ -8,12 +8,15 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Month;
 import ch.almana.android.stechkarte.model.MonthAccess;
@@ -114,42 +117,39 @@ public class ListMonths extends ListActivity implements DialogCallback {
 		super.onResume();
 	}
 
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// super.onCreateOptionsMenu(menu);
-	// getMenuInflater().inflate(R.menu.daylist_option, menu);
-	// // menu.getItem(0).setEnabled(!RebuildDaysTask.isRebuilding());
-	// return true;
-	// }
-	//
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item) {
-	// switch (item.getItemId()) {
-	// case R.id.itemDaylistRebuild:
-	// rebuildDays();
-	// break;
-	// case R.id.itemDaylistInsertDay:
-	// startActivity(new Intent(Intent.ACTION_INSERT, Days.CONTENT_URI));
-	// break;
-	// case R.id.itemDaylistInsertTImestamp:
-	// startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
-	// break;
-	// default:
-	// return super.onOptionsItemSelected(item);
-	//
-	// }
-	// return true;
-	// }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.monthlist_option, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.itemDaylistRebuild:
+			rebuildDays();
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+		return true;
+	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
+		Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
+		if (false) {
+			Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
 
-		String action = getIntent().getAction();
-		if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-			setResult(RESULT_OK, new Intent().setData(uri));
-		} else {
-			startActivity(new Intent(Intent.ACTION_EDIT, uri));
+			String action = getIntent().getAction();
+			if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
+				setResult(RESULT_OK, new Intent().setData(uri));
+			} else {
+				startActivity(new Intent(Intent.ACTION_EDIT, uri));
+			}
 		}
 	}
 

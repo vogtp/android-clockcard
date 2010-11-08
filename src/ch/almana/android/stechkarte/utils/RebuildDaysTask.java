@@ -50,7 +50,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	@Override
 	protected void onPreExecute() {
 		rebuilding = true;
-		progressWrapper.setTitle("Rebuilding days");
+		progressWrapper.setTitle("Rebuilding...");
 		progressWrapper.show();
 		super.onPreExecute();
 	}
@@ -71,15 +71,15 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	public static void rebuildDays(Context ctx, Timestamp timestamp) {
 		if (rebuilding) {
-			Log.w(Logger.LOG_TAG, "Allready rebuilding days, returning");
-			Toast.makeText(ctx, "A rebuild days task is allready running.  Not starting again...", Toast.LENGTH_SHORT).show();
+			Log.w(Logger.LOG_TAG, "Allready rebuilding, returning");
+			Toast.makeText(ctx, "A rebuild task is allready running.  Not starting again...", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		RebuildDaysTask rebuildDaysTask = new RebuildDaysTask(ctx, timestamp);
 		try {
 			rebuildDaysTask.execute((Timestamp[]) null);
 		} catch (Exception e) {
-			Log.w(Logger.LOG_TAG, "Cannot rebuild days", e);
+			Log.w(Logger.LOG_TAG, "Cannot rebuild", e);
 		}
 	}
 

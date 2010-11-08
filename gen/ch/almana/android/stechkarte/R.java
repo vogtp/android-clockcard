@@ -161,6 +161,7 @@ public final class R {
         public static final int daylist_context=0x7f0a0002;
         public static final int daylist_option=0x7f0a0003;
         public static final int general_option=0x7f0a0004;
+        public static final int monthlist_option=0x7f0a0005;
     }
     public static final class string {
         public static final int AUTHORITY_TIMESTAMP=0x7f070036;

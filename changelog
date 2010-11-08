@@ -4,6 +4,12 @@ V
 * bugfixes
 -
 
+V 2.1.0
+* features
+- month list 
+* bugfixes
+- make tabbed main handle timestamps actions
+
 V 2.0.1
 * features
 -
