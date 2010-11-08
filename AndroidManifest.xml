@@ -10,23 +10,11 @@
 			android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
 		<activity android:label="@string/app_name" android:name=".view.CheckinActivity"
 			android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="ch.almana.android.stechkarte.actions.launch"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-			<intent-filter>
-				<action android:name="ch.almana.android.stechkarte.actions.timestampIn"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-			<intent-filter>
-				<category android:name="android.intent.category.DEFAULT"></category>
-				<action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
-			</intent-filter>
 			
-			<intent-filter>
-				<category android:name="android.intent.category.DEFAULT"></category>
-				<action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
-			</intent-filter>
+			
+			
+			
+			
 		</activity>
 
 
@@ -113,6 +101,15 @@
 		<activity android:name=".view.HolidaysEditor"></activity>
 		<activity android:name=".view.BackupRestoreActivity"></activity>
 	<activity android:name=".view.TabbedMainActivity"><intent-filter>
+				<action android:name="ch.almana.android.stechkarte.actions.timestampIn"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter><intent-filter>
+				<category android:name="android.intent.category.DEFAULT"></category>
+				<action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
+			</intent-filter><intent-filter>
+				<category android:name="android.intent.category.DEFAULT"></category>
+				<action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
+			</intent-filter><intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter></activity>

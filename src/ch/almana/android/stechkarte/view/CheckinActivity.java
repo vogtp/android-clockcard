@@ -10,7 +10,6 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.utils.CurInfo;
-import ch.almana.android.stechkarte.utils.Settings;
 
 public class CheckinActivity extends Activity {
 
@@ -29,27 +28,6 @@ public class CheckinActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		String action = getIntent().getAction();
-		try {
-			if (ACTION_TIMESTAMP_IN.equals(action)) {
-				if (TimestampAccess.getInstance().addInNow(this)) {
-					finish();
-				}
-			} else if (ACTION_TIMESTAMP_OUT.equals(action)) {
-				if (TimestampAccess.getInstance().addOutNow(this)) {
-					finish();
-				}
-			} else if (ACTION_TIMESTAMP_TOGGLE.equals(action)) {
-				if (TimestampAccess.getInstance().addToggleTimestampNow(this)) {
-					finish();
-				}
-			}
-		} finally {
-			if (Settings.getInstance().isBackupEnabled()) {
-				BackupRestoreActivity.backupDbToCsv();
-			}
-		}
 
 		setContentView(R.layout.main);
 

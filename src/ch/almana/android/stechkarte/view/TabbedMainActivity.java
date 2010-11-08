@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TabHost;
 import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.utils.DialogHelper;
 import ch.almana.android.stechkarte.utils.Settings;
 
@@ -21,7 +22,24 @@ public class TabbedMainActivity extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		String action = getIntent().getAction();
+		try {
+			if (CheckinActivity.ACTION_TIMESTAMP_IN.equals(action)) {
+				if (TimestampAccess.getInstance().addInNow(this)) {
+					finish();
+				}
+			} else if (CheckinActivity.ACTION_TIMESTAMP_OUT.equals(action)) {
+				if (TimestampAccess.getInstance().addOutNow(this)) {
+					finish();
+				}
+			} else if (CheckinActivity.ACTION_TIMESTAMP_TOGGLE.equals(action)) {
+				if (TimestampAccess.getInstance().addToggleTimestampNow(this)) {
+					finish();
+				}
+			}
+		} finally {
 
+		}
 		final TabHost tabHost = getTabHost();
 
 		tabHost.addTab(tabHost.newTabSpec("tabCheckin").setIndicator("Main", getResources().getDrawable(R.drawable.tab_main))

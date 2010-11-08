@@ -111,8 +111,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			views.setTextViewText(R.id.LabelAddInfo, labelAddInfo);
 			views.setTextViewText(R.id.TextViewAppWidgetAddInfo, addInfo);
 
-			Intent intent = new Intent(context, CheckinActivity.class);
-			intent.setAction(CheckinActivity.ACTION_TIMESTAMP_TOGGLE);
+			Intent intent = new Intent(CheckinActivity.ACTION_TIMESTAMP_TOGGLE);
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 			views.setOnClickPendingIntent(R.id.LinearLayoutAppwidget1x1, pendingIntent);
 			return views;

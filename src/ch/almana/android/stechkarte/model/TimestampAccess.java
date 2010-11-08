@@ -16,6 +16,7 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Settings;
+import ch.almana.android.stechkarte.view.BackupRestoreActivity;
 
 public class TimestampAccess implements IAccess {
 
@@ -169,7 +170,9 @@ public class TimestampAccess implements IAccess {
 			}
 		}
 		insert(timestamp);
-
+		if (Settings.getInstance().isBackupEnabled()) {
+			BackupRestoreActivity.backupDbToCsv();
+		}
 		return true;
 	}
 
