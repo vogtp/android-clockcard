@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefKeyIs24hours">prefKeyIs24hours</string>
     <string name="prefOvertimeResetIfBiggerDefault">false</string>
     <string name="prefKeyOvertimeResetIfBigger">prefKeyOvertimeResetIfBigger</string>
     <string name="prefOvertimeResetMinTimeDefault">0</string>

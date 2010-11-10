@@ -10,6 +10,7 @@ import android.os.Bundle;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class Timestamp {
 
@@ -118,9 +119,14 @@ public class Timestamp {
 	}
 
 	private static SimpleDateFormat toStingDatetimeFormat = new SimpleDateFormat("HH:mm:ss (dd.MM.yyyy)");
+	private static SimpleDateFormat toStingDatetimeFormatPM = new SimpleDateFormat("hh:mm:ss a (dd.MM.yyyy)");
 
 	public static String timestampToString(long time) {
-		return formatTime(time, toStingDatetimeFormat);
+		if (Settings.getInstance().is24hours()) {
+			return formatTime(time, toStingDatetimeFormat);
+		} else {
+			return formatTime(time, toStingDatetimeFormatPM);
+		}
 	}
 
 	private static String formatTime(long time, SimpleDateFormat datetimeFormat) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefIs24hours">24h timeformat</string>
     <string name="prefOvertimeHandlingLong">Defines timeframe for overtime calculation</string>
     <string name="prefKeyOvertimeResetPointLong">Calculate overtime per week, month or year</string>
     <string name="prefOvertimeResetPoint">Calculate overtime for ...</string>

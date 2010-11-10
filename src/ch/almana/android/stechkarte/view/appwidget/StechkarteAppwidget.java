@@ -1,7 +1,5 @@
 package ch.almana.android.stechkarte.view.appwidget;
 
-import java.text.SimpleDateFormat;
-
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -38,25 +36,6 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 	}
 
 	public static class UpdateAppWidgetService extends Service {
-
-		private static final SimpleDateFormat tsDateFormat = new SimpleDateFormat("HH:mm dd.MM.yy");
-
-		// private final ContentObserver observer = new
-		// TimestampsContentObserver(new Handler());
-		//
-		// private class TimestampsContentObserver extends ContentObserver {
-		//
-		// public TimestampsContentObserver(Handler handler) {
-		// super(handler);
-		// }
-		//
-		// @Override
-		// public void onChange(boolean selfChange) {
-		// StechkarteAppwidget.updateView(UpdateAppWidgetService.this);
-		// super.onChange(selfChange);
-		// }
-		//
-		// }
 
 		@Override
 		public void onStart(Intent intent, int startId) {
@@ -104,7 +83,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			views.setTextViewText(R.id.TextViewAppWidgetInOut, curInfo.getInOutString());
 			long unixTimestamp = curInfo.getUnixTimestamp();
 			if (unixTimestamp > 0) {
-				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, tsDateFormat.format(unixTimestamp));
+				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, Timestamp.timestampToString(unixTimestamp));
 			} else {
 				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, "none");
 			}

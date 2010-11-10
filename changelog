@@ -4,6 +4,18 @@ V
 * bugfixes
 -
 
+V 2.2
+* features
+- month view
+* bugfixes
+-
+
+V 2.1.1
+* features
+-
+* bugfixes
+- fix exception while progress update of month rebuild
+
 V 2.1.0
 * features
 - month list 

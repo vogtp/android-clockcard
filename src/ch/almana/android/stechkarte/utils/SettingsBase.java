@@ -70,6 +70,10 @@ public abstract class SettingsBase {
 		} else {
 			throw new Exception("Cannot parse as boolean");
 		}
+		return getPrefAsBoolean(key, defaultValue);
+	}
+
+	protected boolean getPrefAsBoolean(int key, boolean defaultValue) {
 		String prefKey = context.getResources().getString(key);
 		return getPreferences().getBoolean(prefKey, defaultValue);
 	}

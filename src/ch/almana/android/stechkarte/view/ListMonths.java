@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
-import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Month;
 import ch.almana.android.stechkarte.model.MonthAccess;
@@ -140,16 +139,13 @@ public class ListMonths extends ListActivity implements DialogCallback {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
-		if (false) {
-			Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
+		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
 
-			String action = getIntent().getAction();
-			if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-				setResult(RESULT_OK, new Intent().setData(uri));
-			} else {
-				startActivity(new Intent(Intent.ACTION_EDIT, uri));
-			}
+		String action = getIntent().getAction();
+		if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
+			setResult(RESULT_OK, new Intent().setData(uri));
+		} else {
+			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 		}
 	}
 

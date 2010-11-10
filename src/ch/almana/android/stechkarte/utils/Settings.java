@@ -279,4 +279,8 @@ public class Settings extends SettingsBase {
 		}
 		return featuresChanged;
 	}
+
+	public boolean is24hours() {
+		return getPrefAsBoolean(R.string.prefKeyIs24hours, false);
+	}
 }

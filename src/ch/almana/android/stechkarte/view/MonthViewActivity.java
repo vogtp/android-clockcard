@@ -1,9 +1,11 @@
 package ch.almana.android.stechkarte.view;
 
 import android.app.ListActivity;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
@@ -20,6 +23,7 @@ import ch.almana.android.stechkarte.model.Month;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.utils.Formater;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class MonthViewActivity extends ListActivity {
 
@@ -30,6 +34,7 @@ public class MonthViewActivity extends ListActivity {
 	private TextView tvHoursTarget;
 	private TextView tvViewHoliday;
 	private TextView tvHolidaysLeft;
+	private TextView tvOvertimeCur;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -41,6 +46,7 @@ public class MonthViewActivity extends ListActivity {
 
 		tvMonthRef = (TextView) findViewById(R.id.TextViewMonthRef);
 		tvHoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
+		tvOvertimeCur = (TextView) findViewById(R.id.TextViewOvertimeCur);
 		tvOvertime = (TextView) findViewById(R.id.TextViewOvertime);
 		tvHoursTarget = (TextView) findViewById(R.id.TextViewHoursTarget);
 		tvViewHoliday = (TextView) findViewById(R.id.TextViewHoliday);
@@ -147,9 +153,10 @@ public class MonthViewActivity extends ListActivity {
 	private void updateView() {
 		tvMonthRef.setText(month.getMonthRef() + "");
 		tvHoursWorked.setText(month.getHoursWorked() + "");
+		tvHoursTarget.setText(month.getHoursTarget() + "");
 		float overtime = month.getHoursWorked() - month.getHoursTarget();
 		tvOvertime.setText(overtime + "");
-		tvHoursTarget.setText(month.getOvertime() + "");
+		tvOvertimeCur.setText(month.getOvertime() + "");
 		tvViewHoliday.setText(month.getHolyday() + "");
 		tvHolidaysLeft.setText(month.getHolydayLeft() + "");
 	}
@@ -157,20 +164,24 @@ public class MonthViewActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
-		Object day = getListView().getItemAtPosition(position);
-		Cursor days = month.getDays();
-		days.moveToPosition(position);
-		Day day2 = new Day(days);
+		if (Settings.getInstance().isBetaVersion()) {
+			Cursor c = (Cursor) getListView().getItemAtPosition(position);
+			Day day = new Day(c);
 
-		// Uri uri = ContentUris.withAppendedId(DB.Days.CONTENT_URI,
-		// day.getId());
-		// String action = getIntent().getAction();
-		// if (Intent.ACTION_VIEW.equals(action) ||
-		// Intent.ACTION_GET_CONTENT.equals(action)) {
-		// setResult(RESULT_OK, new Intent().setData(uri));
-		// } else {
-		// startActivity(new Intent(Intent.ACTION_EDIT, uri));
-		// }
+			Uri uri = ContentUris.withAppendedId(DB.Days.CONTENT_URI, day.getId());
 
+			startActivity(new Intent(Intent.ACTION_EDIT, uri));
+
+			// String action = getIntent().getAction();
+			// if (Intent.ACTION_VIEW.equals(action) ||
+			// Intent.ACTION_GET_CONTENT.equals(action)) {
+			// setResult(RESULT_OK, new Intent().setData(uri));
+			// } else {
+			// startActivity(new Intent(Intent.ACTION_EDIT, uri));
+			// }
+
+		} else {
+			Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
+		}
 	}
 }

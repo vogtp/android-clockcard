@@ -44,7 +44,8 @@
 <CheckBoxPreference android:defaultValue="@string/prefOvertimeResetIfBiggerDefault" android:key="@string/prefKeyOvertimeResetIfBigger" android:summaryOff="@string/prefOvertimeResetIfBiggerFalse" android:summaryOn="@string/prefOvertimeResetIfBiggerTrue" android:title="@string/prefOvertimeResetIfBigger"></CheckBoxPreference>
 </PreferenceCategory>
 </PreferenceScreen>
-</PreferenceCategory><PreferenceCategory android:title="@string/app_name"><EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference></PreferenceCategory>
+</PreferenceCategory><PreferenceCategory android:title="@string/app_name"><EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference><CheckBoxPreference android:defaultValue="true" android:title="@string/prefIs24hours" android:key="@string/prefKeyIs24hours"></CheckBoxPreference>
+</PreferenceCategory>
 
 
 
@@ -72,7 +73,7 @@
 			android:summary="@string/prefBuyLong" android:title="@string/prefBuy"></Preference>
 		<EditTextPreference android:key="@string/prefKeyLicence"
 			android:title="@string/prefLicence" android:defaultValue="@string/prefLicenceDefault"
-			android:summary="@string/prefLicenceLong"></EditTextPreference>
+			android:summary="@string/prefLicenceLong" android:shouldDisableView="false"></EditTextPreference>
 	</PreferenceCategory>
 
 

@@ -216,7 +216,11 @@ public class DayAccess implements IAccess {
 			StechkarteAppwidget.updateView(getContext());
 		}
 		for (Iterator<Long> iterator = monthRefs.iterator(); iterator.hasNext();) {
-			progressWrapper.setProgress(i++);
+			try {
+				progressWrapper.setProgress(i++);
+			} catch (Exception e) {
+				Log.w("Error updating progress from update month view", e);
+			}
 			Long monthRef = iterator.next();
 			MonthAccess.getInstance().recalculate(monthRef);
 		}
