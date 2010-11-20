@@ -302,4 +302,8 @@ public class Settings extends SettingsBase {
 			return 0;
 		}
 	}
+
+	public boolean isShowPayTab() {
+		return getPrefAsBoolean(R.string.prefKeyPaymentShow, true);
+	}
 }

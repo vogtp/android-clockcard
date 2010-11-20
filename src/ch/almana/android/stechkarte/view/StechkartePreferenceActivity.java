@@ -17,7 +17,8 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 		setTitle(R.string.preferencesTitle);
 
 		Preference buyPreference = findPreference(getString(R.string.prefKeyBuy));
-		buyPreference.setEnabled(!Settings.getInstance().isPayVersion());
+		boolean payVersion = Settings.getInstance().isPayVersion();
+		buyPreference.setEnabled(!payVersion);
 		buyPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			@Override
@@ -28,13 +29,13 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 		});
 
 		Preference payRateOvertimePreference = findPreference(getString(R.string.prefKeyPaymentOvertime));
-		payRateOvertimePreference.setEnabled(Settings.getInstance().isPayVersion());
-
+		payRateOvertimePreference.setEnabled(payVersion);
 		Preference payRatePreference = findPreference(getString(R.string.prefKeyPaymentRegular));
-		payRatePreference.setEnabled(Settings.getInstance().isPayVersion());
-
-		Preference betaFeatures = findPreference(getString(R.string.prefKeyLicence));
-		// betaFeatures.setEnabled(Settings.getInstance().isBetaVersion());
+		payRatePreference.setEnabled(payVersion);
+		if (!payVersion) {
+			payRateOvertimePreference.setSummary(R.string.prefPaymentLong);
+			payRatePreference.setSummary(R.string.prefPaymentLong);
+		}
 
 		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
 		Preference emailPreference = findPreference(getString(R.string.prefKeyEmailAddress));

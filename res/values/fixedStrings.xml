@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefKeyPaymentShow">prefKeyPaymentShow</string>
     <string name="prefKeyPaymentRegularDefault">0</string>
     <string name="prefKeyPaymentOvertimeDefault">0</string>
     <string name="prefKeyPaymentRegular">prefKeyPaymentRegular</string>

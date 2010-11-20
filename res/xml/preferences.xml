@@ -46,6 +46,7 @@
 
 </PreferenceScreen><PreferenceScreen android:title="@string/prefPayment" android:summary="@string/prefPaymentLong"><PreferenceCategory android:title="@string/prefPayment"><EditTextPreference android:title="@string/prefPaymentRegular" android:key="@string/prefKeyPaymentRegular" android:summary="@string/prefPaymentRegularLong" android:defaultValue="@string/prefKeyPaymentRegularDefault"></EditTextPreference>
 <EditTextPreference android:title="@string/prefPaymentOvertime" android:key="@string/prefKeyPaymentOvertime" android:summary="@string/prefPaymentOvertimeLong" android:defaultValue="@string/prefKeyPaymentOvertimeDefault"></EditTextPreference>
+<CheckBoxPreference android:title="@string/prefPaymentShow" android:defaultValue="true" android:key="@string/prefKeyPaymentShow" android:summary="@string/prefPaymentShowLong"></CheckBoxPreference>
 </PreferenceCategory>
 </PreferenceScreen>
 

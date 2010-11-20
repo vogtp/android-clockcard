@@ -17,10 +17,7 @@
 			<item android:id="@+id/itemExportTimestamps"
 				android:title="@string/ExportTImestamps"
 				android:titleCondensed="@string/ExportTImestamps"></item>
-			<item android:titleCondensed="@string/ButtonTSList"
-				android:title="@string/ButtonTSList"
-				android:id="@+id/itemTimestampList"
-				android:visible="false"></item>
+			
 			<item android:id="@+id/itemReadInTimestmaps"
 				android:titleCondensed="@string/ButtonReadTimestamps"
 				android:title="@string/ButtonReadTimestamps" android:visible="false"></item>

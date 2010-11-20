@@ -54,11 +54,10 @@ public class TabbedMainActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months", getResources().getDrawable(R.drawable.tab_month))
 				.setContent(new Intent(this, ListMonths.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
-		if (Settings.getInstance().isPayVersion()) {
+		if (Settings.getInstance().isShowPayTab()) {
 			tabHost.addTab(tabHost.newTabSpec("tabMonthPay").setIndicator("Payment", getResources().getDrawable(R.drawable.payment))
 					.setContent(new Intent(this, ListPayment.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 		}
-
 		instance = this;
 	}
 
@@ -129,7 +128,7 @@ public class TabbedMainActivity extends TabActivity {
 		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
 
 		moreItems.getSubMenu().findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
-		moreItems.getSubMenu().findItem(R.id.itemReadInTimestmaps).setVisible(backupEnabled);
+		moreItems.getSubMenu().findItem(R.id.itemReadInTimestmaps).setEnabled(backupEnabled);
 
 		menu.findItem(R.id.itemHolidayEditor).setVisible(Settings.getInstance().isBetaVersion());
 

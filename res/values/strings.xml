@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefPaymentShowLong">App needs to be restarted.</string>
+    <string name="prefPaymentShow">Show payment tab</string>
     <string name="prefPaymentLong">Only available in full version...</string>
     <string name="prefPaymentOvertimeLong">Pay Rate for overtime working hours</string>
     <string name="prefPaymentOvertime">Overtime Pay Rate</string>
