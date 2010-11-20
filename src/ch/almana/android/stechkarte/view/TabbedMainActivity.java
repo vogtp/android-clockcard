@@ -54,6 +54,11 @@ public class TabbedMainActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months", getResources().getDrawable(R.drawable.tab_month))
 				.setContent(new Intent(this, ListMonths.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
+		if (Settings.getInstance().isPayVersion()) {
+			tabHost.addTab(tabHost.newTabSpec("tabMonthPay").setIndicator("Payment", getResources().getDrawable(R.drawable.payment))
+					.setContent(new Intent(this, ListPayment.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+		}
+
 		instance = this;
 	}
 

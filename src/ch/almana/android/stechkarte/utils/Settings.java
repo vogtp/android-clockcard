@@ -92,7 +92,8 @@ public class Settings extends SettingsBase {
 		// packageName);
 		try {
 			PackageManager pm = context.getPackageManager();
-			Signature[] mySignatures = context.getApplicationContext().getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
+			Signature[] mySignatures = context.getApplicationContext().getPackageManager()
+					.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
 			List<PackageInfo> preferredPackages = pm.getInstalledPackages(PackageManager.GET_SIGNATURES);
 			for (Iterator<PackageInfo> iterator = preferredPackages.iterator(); iterator.hasNext();) {
 				PackageInfo packageInfo = iterator.next();
@@ -282,5 +283,23 @@ public class Settings extends SettingsBase {
 
 	public boolean is24hours() {
 		return getPrefAsBoolean(R.string.prefKeyIs24hours, false);
+	}
+
+	public float getPayRateOvertime() {
+		try {
+			return getPrefAsFloat(R.string.prefKeyPaymentOvertime, R.string.prefKeyPaymentOvertimeDefault);
+		} catch (Exception e) {
+			Log.e(Logger.LOG_TAG, "Error parsing overtime pay rate", e);
+			return 0;
+		}
+	}
+
+	public float getPayRate() {
+		try {
+			return getPrefAsFloat(R.string.prefKeyPaymentRegular, R.string.prefKeyPaymentRegularDefault);
+		} catch (Exception e) {
+			Log.e(Logger.LOG_TAG, "Error parsing regular pay rate", e);
+			return 0;
+		}
 	}
 }

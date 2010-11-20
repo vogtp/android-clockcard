@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefPaymentLong">Only available in full version...</string>
+    <string name="prefPaymentOvertimeLong">Pay Rate for overtime working hours</string>
+    <string name="prefPaymentOvertime">Overtime Pay Rate</string>
+    <string name="prefPaymentRegularLong">Pay Rate for normal working hours</string>
+    <string name="prefPaymentRegular">Regular Pay Rate</string>
+    <string name="prefPayment">Payment</string>
     <string name="prefIs24hours">24h timeformat</string>
     <string name="prefOvertimeHandlingLong">Defines timeframe for overtime calculation</string>
     <string name="prefKeyOvertimeResetPointLong">Calculate overtime per week, month or year</string>
@@ -61,7 +67,7 @@
 	<string name="prefBuy">Full version</string>
 	<string name="prefBuyLong">Buy license key for the full version.</string>
 	<string name="prefLicenceDefault"></string>
-	<string name="prefWorkday">Workday</string>
+	<string name="prefWorkday">Work</string>
 	<string name="prefWorkdayLong">Settings about a day of work</string>
 	<string name="prefExportSync">Export and sync</string>
 	<string name="prefExportSyncLong">Export and sync settings</string>

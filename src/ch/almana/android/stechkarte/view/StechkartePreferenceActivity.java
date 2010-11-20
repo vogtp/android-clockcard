@@ -27,6 +27,12 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 			}
 		});
 
+		Preference payRateOvertimePreference = findPreference(getString(R.string.prefKeyPaymentOvertime));
+		payRateOvertimePreference.setEnabled(Settings.getInstance().isPayVersion());
+
+		Preference payRatePreference = findPreference(getString(R.string.prefKeyPaymentRegular));
+		payRatePreference.setEnabled(Settings.getInstance().isPayVersion());
+
 		Preference betaFeatures = findPreference(getString(R.string.prefKeyLicence));
 		// betaFeatures.setEnabled(Settings.getInstance().isBetaVersion());
 

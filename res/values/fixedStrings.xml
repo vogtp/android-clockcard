@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefKeyPaymentRegularDefault">0</string>
+    <string name="prefKeyPaymentOvertimeDefault">0</string>
+    <string name="prefKeyPaymentRegular">prefKeyPaymentRegular</string>
+    <string name="prefKeyPaymentOvertime">prefKeyPaymentOvertime</string>
     <string name="prefKeyIs24hours">prefKeyIs24hours</string>
     <string name="prefOvertimeResetIfBiggerDefault">false</string>
     <string name="prefKeyOvertimeResetIfBigger">prefKeyOvertimeResetIfBigger</string>

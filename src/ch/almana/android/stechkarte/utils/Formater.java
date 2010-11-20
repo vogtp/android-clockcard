@@ -61,4 +61,8 @@ public class Formater {
 		return hours;
 	}
 
+	public static String formatPayment(float pay) {
+		return String.format("%.2f", pay);
+	}
+
 }
