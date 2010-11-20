@@ -1,8 +1,14 @@
 V 
 * features
 -
-* bugfixes
+* bug fixes
 -
+
+V 2.3.0
+* features
+- calculate payment (full version)
+* bug fixes
+- make backup/restore disabled not invisible in free version 
 
 V 2.2
 * features
