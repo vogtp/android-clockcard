@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
-import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
@@ -23,7 +22,6 @@ import ch.almana.android.stechkarte.model.Month;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.utils.Formater;
-import ch.almana.android.stechkarte.utils.Settings;
 
 public class MonthViewActivity extends ListActivity {
 
@@ -163,25 +161,9 @@ public class MonthViewActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-
-		if (Settings.getInstance().isBetaVersion()) {
-			Cursor c = (Cursor) getListView().getItemAtPosition(position);
-			Day day = new Day(c);
-
-			Uri uri = ContentUris.withAppendedId(DB.Days.CONTENT_URI, day.getId());
-
-			startActivity(new Intent(Intent.ACTION_EDIT, uri));
-
-			// String action = getIntent().getAction();
-			// if (Intent.ACTION_VIEW.equals(action) ||
-			// Intent.ACTION_GET_CONTENT.equals(action)) {
-			// setResult(RESULT_OK, new Intent().setData(uri));
-			// } else {
-			// startActivity(new Intent(Intent.ACTION_EDIT, uri));
-			// }
-
-		} else {
-			Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
-		}
+		Cursor c = (Cursor) getListView().getItemAtPosition(position);
+		Day day = new Day(c);
+		Uri uri = ContentUris.withAppendedId(DB.Days.CONTENT_URI, day.getId());
+		startActivity(new Intent(Intent.ACTION_EDIT, uri));
 	}
 }

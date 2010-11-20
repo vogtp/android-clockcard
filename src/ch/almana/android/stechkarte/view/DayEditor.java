@@ -141,8 +141,9 @@ public class DayEditor extends ListActivity implements DialogCallback {
 
 		Cursor cursor = TimestampAccess.getInstance().query(selection);
 		// Used to map notes entries from the database to views
-		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor, new String[] { Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
-				R.id.TextViewTimestamp, R.id.TextViewTimestampType });
+		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor,
+				new String[] { Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
+						R.id.TextViewTimestamp, R.id.TextViewTimestampType });
 		adapter.setViewBinder(new ViewBinder() {
 
 			@Override
@@ -239,7 +240,6 @@ public class DayEditor extends ListActivity implements DialogCallback {
 
 	@Override
 	protected void onPause() {
-		super.onPause();
 		updateModel();
 		String action = getIntent().getAction();
 		if (origDay.equals(day) && !Intent.ACTION_INSERT.equals(action)) {
@@ -257,6 +257,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			Log.e(Logger.LOG_TAG, "Cannot save day", e);
 			Toast.makeText(this, "Error saving day.", Toast.LENGTH_LONG).show();
 		}
+		super.onPause();
 	}
 
 	@Override
