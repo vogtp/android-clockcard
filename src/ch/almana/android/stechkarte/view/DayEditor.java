@@ -240,6 +240,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 
 	@Override
 	protected void onPause() {
+		super.onPause();
 		updateModel();
 		String action = getIntent().getAction();
 		if (origDay.equals(day) && !Intent.ACTION_INSERT.equals(action)) {
@@ -257,7 +258,6 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			Log.e(Logger.LOG_TAG, "Cannot save day", e);
 			Toast.makeText(this, "Error saving day.", Toast.LENGTH_LONG).show();
 		}
-		super.onPause();
 	}
 
 	@Override
