@@ -20,7 +20,7 @@
 			
 			<item android:id="@+id/itemReadInTimestmaps"
 				android:titleCondensed="@string/ButtonReadTimestamps"
-				android:title="@string/ButtonReadTimestamps" android:visible="false"></item>
+				android:title="@string/ButtonReadTimestamps"></item>
 		</menu>
 	</item>
 </menu>

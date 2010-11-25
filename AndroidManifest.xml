@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="ch.almana.android.stechkarte" android:installLocation="internalOnly" android:versionCode="201011210" android:versionName="2.3.1">
+	package="ch.almana.android.stechkarte" android:installLocation="internalOnly" android:versionCode="201011250" android:versionName="2.3.2">
 	<application android:icon="@drawable/stechkarte"
 		android:allowClearUserData="true" android:allowBackup="true"
 		android:name=".application.StechkarteApplication" android:label="@string/app_name"
