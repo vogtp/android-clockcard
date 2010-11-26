@@ -134,10 +134,12 @@ public class Settings extends SettingsBase {
 				return true;
 			} else {
 				Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
+				Log.i(Logger.LOG_TAG, "Wrong license signature.");
 			}
 
 		} else {
 			Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
+			Log.i(Logger.LOG_TAG, "License version to low, please update.");
 			BuyFullVersion.startClockCardInstall(context);
 		}
 		return false;
