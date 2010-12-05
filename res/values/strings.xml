@@ -3,7 +3,6 @@
     <string name="prefPaymentTabTypeLong">Show payment for weeks, month or hide it.</string>
     <string name="prefPaymentTabType">Payment Tab</string>
     <string name="prefPaymentShowLong">App needs to be restarted.</string>
-    <string name="prefPaymentShow">Show payment tab</string>
     <string name="prefPaymentLong">Only available in full version...</string>
     <string name="prefPaymentOvertimeLong">Pay Rate for overtime working hours</string>
     <string name="prefPaymentOvertime">Overtime Pay Rate</string>

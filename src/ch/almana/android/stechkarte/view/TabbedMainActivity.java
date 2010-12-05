@@ -47,6 +47,7 @@ public class TabbedMainActivity extends TabActivity {
 
 	private void initTabs() {
 		final TabHost tabHost = getTabHost();
+		// tabHost.setup();
 
 		tabHost.addTab(tabHost.newTabSpec("tabCheckin").setIndicator("Main", getResources().getDrawable(R.drawable.tab_main))
 				.setContent(new Intent(this, CheckinActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
@@ -61,6 +62,7 @@ public class TabbedMainActivity extends TabActivity {
 
 		payTabType = Settings.getInstance().getPayTabType();
 		if (payTabType > StechkartePreferenceActivity.PAY_TAB_HIDE) {
+			@SuppressWarnings("rawtypes")
 			Class payList = ListPaymentMonth.class;
 			if (payTabType == StechkartePreferenceActivity.PAY_TAB_WEEK) {
 				payList = ListPaymentWeek.class;
@@ -73,10 +75,10 @@ public class TabbedMainActivity extends TabActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (payTabType != Settings.getInstance().getPayTabType()) {
-			getTabHost().clearAllTabs();
-			initTabs();
-		}
+		// if (payTabType != Settings.getInstance().getPayTabType()) {
+		// getTabHost().clearAllTabs();
+		// initTabs();
+		// }
 	}
 
 	@Override
