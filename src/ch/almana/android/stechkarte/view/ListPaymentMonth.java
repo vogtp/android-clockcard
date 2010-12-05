@@ -26,7 +26,7 @@ import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
-public class ListPayment extends ListActivity implements DialogCallback {
+public class ListPaymentMonth extends ListActivity implements DialogCallback {
 
 	/** Called when the activity is first created. */
 	@Override
@@ -149,39 +149,6 @@ public class ListPayment extends ListActivity implements DialogCallback {
 		}
 		RebuildDaysTask.rebuildDays(ctx, null);
 	}
-
-	// @Override
-	// public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo
-	// menuInfo) {
-	// super.onCreateContextMenu(menu, v, menuInfo);
-	// getMenuInflater().inflate(R.menu.daylist_context, menu);
-	// }
-	//
-	// @Override
-	// public boolean onContextItemSelected(MenuItem item) {
-	// super.onContextItemSelected(item);
-	//
-	// AdapterView.AdapterContextMenuInfo info;
-	// try {
-	// info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-	// } catch (ClassCastException e) {
-	// Log.e(Logger.LOG_TAG, "bad menuInfo", e);
-	// return false;
-	// }
-	//
-	// // Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, info.id);
-	// switch (item.getItemId()) {
-	// case R.id.itemDeleteDay: {
-	//
-	// DeleteDayDialog alert = new DeleteDayDialog(this, info.id);
-	// alert.setTitle("Delete Day...");
-	// alert.show();
-	// return true;
-	// }
-	// }
-	// return false;
-	//
-	// }
 
 	@Override
 	public void finished(boolean success) {

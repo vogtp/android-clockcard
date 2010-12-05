@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefKeyPaymentTabType">prefKeyPaymentTabType</string>
+    <string name="prefPaymentTabTypeDefault">1</string>
     <string name="prefKeyPaymentShow">prefKeyPaymentShow</string>
     <string name="prefKeyPaymentRegularDefault">0</string>
     <string name="prefKeyPaymentOvertimeDefault">0</string>
@@ -40,5 +42,10 @@
 <item>1</item>
 <item>2</item>
 <item>3</item>
+</string-array>
+<string-array name="prefPaymentTabValues">
+<item>1</item>
+<item>2</item>
+<item>0</item>
 </string-array>
 </resources>

@@ -305,8 +305,13 @@ public class Settings extends SettingsBase {
 		}
 	}
 
-	public boolean isShowPayTab() {
-		return getPrefAsBoolean(R.string.prefKeyPaymentShow, true);
+	public int getPayTabType() {
+		try {
+			return Integer.parseInt(getPrefAsString(R.string.prefKeyPaymentTabType, R.string.prefPaymentTabTypeDefault));
+		} catch (NumberFormatException e) {
+			Log.e(Logger.LOG_TAG, "Error parsing pay tab type", e);
+			return 1;
+		}
 	}
 
 	public int getFirstDayOfWeek() {

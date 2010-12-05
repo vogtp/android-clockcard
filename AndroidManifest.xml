@@ -146,8 +146,9 @@
 				<category android:name="android.intent.category.DEFAULT"></category>
 			</intent-filter>
 		</activity>
-		<activity android:name=".view.ListPayment"></activity>
-	</application>
+		<activity android:name=".view.ListPaymentMonth"></activity>
+	<activity android:name=".view.ListPaymentWeek"></activity>
+</application>
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8" />
 
 

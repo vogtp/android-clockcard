@@ -219,7 +219,10 @@ public class WeekAccess implements IAccess {
 	public static long getWeekRefFromDate(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		c.setFirstDayOfWeek(Settings.getInstance().getFirstDayOfWeek());
+		int firstDayOfWeek = Settings.getInstance().getFirstDayOfWeek();
+		if (firstDayOfWeek > -1) {
+			c.setFirstDayOfWeek(firstDayOfWeek);
+		}
 		return c.get(Calendar.WEEK_OF_YEAR);
 	}
 

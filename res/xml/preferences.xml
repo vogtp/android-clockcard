@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory android:summary="@string/prefWorkdayLong"
-		android:title="@string/prefWorkday">
+		android:title="@string/prefWorkday" android:key="prefKeyWorkday">
 		<PreferenceScreen android:key="@string/prefKeyWorkHours"
 			android:summary="@string/prefWorkHoursLong" android:title="@string/prefWorkHours">
 			<PreferenceCategory android:title="@string/prefWorkHoursCategory">
@@ -38,27 +38,28 @@
 
 		
 
-<PreferenceScreen android:title="@string/prefOvertimeHandling" android:summary="@string/prefOvertimeHandlingLong"><PreferenceCategory android:title="@string/prefOvertimeResetInterval"><ListPreference android:key="@string/prefKeyOvertimeResetPoint" android:title="@string/prefOvertimeResetPoint" android:summary="@string/prefKeyOvertimeResetPointLong" android:entries="@array/overtimeResetEntries" android:entryValues="@array/overtimeResetEntryValues"></ListPreference>
+<PreferenceScreen android:title="@string/prefOvertimeHandling" android:summary="@string/prefOvertimeHandlingLong" android:key="prefKeyOvertimeHandling"><PreferenceCategory android:title="@string/prefOvertimeResetInterval"><ListPreference android:key="@string/prefKeyOvertimeResetPoint" android:title="@string/prefOvertimeResetPoint" android:summary="@string/prefKeyOvertimeResetPointLong" android:entries="@array/overtimeResetEntries" android:entryValues="@array/overtimeResetEntryValues"></ListPreference>
 </PreferenceCategory>
 <PreferenceCategory android:title="@string/prefOvertimeResetSettings"><EditTextPreference android:summary="@string/prefOvertimeResetMinTimeLong" android:title="@string/prefOvertimeResetMinTime" android:defaultValue="@string/prefOvertimeResetMinTimeDefault" android:key="@string/prefOvertimeResetMinTime"></EditTextPreference>
 <CheckBoxPreference android:defaultValue="@string/prefOvertimeResetIfBiggerDefault" android:key="@string/prefKeyOvertimeResetIfBigger" android:summaryOff="@string/prefOvertimeResetIfBiggerFalse" android:summaryOn="@string/prefOvertimeResetIfBiggerTrue" android:title="@string/prefOvertimeResetIfBigger"></CheckBoxPreference>
 </PreferenceCategory>
 
-</PreferenceScreen><PreferenceScreen android:title="@string/prefPayment" android:summary="@string/prefPaymentLong"><PreferenceCategory android:title="@string/prefPayment"><EditTextPreference android:title="@string/prefPaymentRegular" android:key="@string/prefKeyPaymentRegular" android:summary="@string/prefPaymentRegularLong" android:defaultValue="@string/prefKeyPaymentRegularDefault"></EditTextPreference>
+</PreferenceScreen><PreferenceScreen android:title="@string/prefPayment" android:summary="@string/prefPaymentLong" android:key="prefKeyPayment"><PreferenceCategory android:title="@string/prefPayment"><EditTextPreference android:title="@string/prefPaymentRegular" android:key="@string/prefKeyPaymentRegular" android:summary="@string/prefPaymentRegularLong" android:defaultValue="@string/prefKeyPaymentRegularDefault"></EditTextPreference>
 <EditTextPreference android:title="@string/prefPaymentOvertime" android:key="@string/prefKeyPaymentOvertime" android:summary="@string/prefPaymentOvertimeLong" android:defaultValue="@string/prefKeyPaymentOvertimeDefault"></EditTextPreference>
 <CheckBoxPreference android:title="@string/prefPaymentShow" android:defaultValue="true" android:key="@string/prefKeyPaymentShow" android:summary="@string/prefPaymentShowLong"></CheckBoxPreference>
+<ListPreference android:entryValues="@array/prefPaymentTabValues" android:title="@string/prefPaymentTabType" android:summary="@string/prefPaymentTabTypeLong" android:entries="@array/prefPaymentTabEntries" android:key="@string/prefKeyPaymentTabType" android:defaultValue="@string/prefPaymentTabTypeDefault"></ListPreference>
 </PreferenceCategory>
 </PreferenceScreen>
 
 
-</PreferenceCategory><PreferenceCategory android:title="@string/app_name"><EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference><CheckBoxPreference android:defaultValue="true" android:title="@string/prefIs24hours" android:key="@string/prefKeyIs24hours"></CheckBoxPreference>
+</PreferenceCategory><PreferenceCategory android:title="@string/prefWorkday"><EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference><CheckBoxPreference android:defaultValue="true" android:title="@string/prefIs24hours" android:key="@string/prefKeyIs24hours"></CheckBoxPreference>
 </PreferenceCategory>
 
 
 
 
 	<PreferenceCategory android:summary="@string/prefExportSyncLong"
-		android:title="@string/prefExportSync">
+		android:title="@string/prefExportSync" android:key="prefKeyExportSync">
 
 		<PreferenceScreen android:title="@string/prefExportSync"
 			android:summary="@string/prefExportSyncLong">
@@ -75,7 +76,7 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory android:summary="@string/prefFeaturesLong"
-		android:title="@string/prefFeatures">
+		android:title="@string/prefFeatures" android:key="prefKeyFeatures">
 		<Preference android:key="@string/prefKeyBuy"
 			android:summary="@string/prefBuyLong" android:title="@string/prefBuy"></Preference>
 		<EditTextPreference android:key="@string/prefKeyLicence"

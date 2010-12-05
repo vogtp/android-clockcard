@@ -10,6 +10,10 @@ import ch.almana.android.stechkarte.utils.StechkarteBackupAgentHelper;
 
 public class StechkartePreferenceActivity extends PreferenceActivity {
 
+	public static final int PAY_TAB_WEEK = 1;
+	public static final int PAY_TAB_MONTH = 2;
+	public static final int PAY_TAB_HIDE = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
