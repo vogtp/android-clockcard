@@ -52,7 +52,7 @@
 </PreferenceScreen>
 
 
-</PreferenceCategory><PreferenceCategory android:title="@string/prefWorkday"><EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference><CheckBoxPreference android:defaultValue="true" android:title="@string/prefIs24hours" android:key="@string/prefKeyIs24hours"></CheckBoxPreference>
+</PreferenceCategory><PreferenceCategory android:title="@string/app_name"><EditTextPreference android:title="@string/prefMinTimestampDiff" android:summary="@string/prefMinTimestampDiffLong" android:defaultValue="@string/prefMinTimestampDiffDefault" android:key="@string/prefKeyMinTimestampDiffInSecs"></EditTextPreference><CheckBoxPreference android:defaultValue="false" android:summaryOn="@string/prefNightshiftLongOn" android:summaryOff="@string/prefNightshiftLongOff" android:title="@string/prefNightshift" android:key="@string/prefKeyNightshift"></CheckBoxPreference><CheckBoxPreference android:defaultValue="true" android:title="@string/prefIs24hours" android:key="@string/prefKeyIs24hours"></CheckBoxPreference>
 </PreferenceCategory>
 
 

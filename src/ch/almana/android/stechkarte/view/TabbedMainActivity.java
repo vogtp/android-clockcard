@@ -17,6 +17,7 @@ import ch.almana.android.stechkarte.utils.Settings;
 public class TabbedMainActivity extends TabActivity {
 
 	public static Activity instance;
+	private int payTabType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,11 @@ public class TabbedMainActivity extends TabActivity {
 		} finally {
 
 		}
+		initTabs();
+		instance = this;
+	}
+
+	private void initTabs() {
 		final TabHost tabHost = getTabHost();
 
 		tabHost.addTab(tabHost.newTabSpec("tabCheckin").setIndicator("Main", getResources().getDrawable(R.drawable.tab_main))
@@ -53,7 +59,7 @@ public class TabbedMainActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months", getResources().getDrawable(R.drawable.tab_month))
 				.setContent(new Intent(this, ListMonths.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
-		int payTabType = Settings.getInstance().getPayTabType();
+		payTabType = Settings.getInstance().getPayTabType();
 		if (payTabType > StechkartePreferenceActivity.PAY_TAB_HIDE) {
 			Class payList = ListPaymentMonth.class;
 			if (payTabType == StechkartePreferenceActivity.PAY_TAB_WEEK) {
@@ -62,7 +68,15 @@ public class TabbedMainActivity extends TabActivity {
 			tabHost.addTab(tabHost.newTabSpec("tabMonthPay").setIndicator("Payment", getResources().getDrawable(R.drawable.payment))
 					.setContent(new Intent(this, payList).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 		}
-		instance = this;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (payTabType != Settings.getInstance().getPayTabType()) {
+			getTabHost().clearAllTabs();
+			initTabs();
+		}
 	}
 
 	@Override
