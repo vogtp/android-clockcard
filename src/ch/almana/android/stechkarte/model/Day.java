@@ -21,6 +21,7 @@ public class Day {
 	private boolean fixed = false;
 	private long lastUpdated = 0;
 	private long monthRef = 0;
+	private long weekRef = 0;
 
 	public Day() {
 		this(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
@@ -45,6 +46,7 @@ public class Day {
 		fixed = day.fixed;
 		lastUpdated = day.lastUpdated;
 		monthRef = day.monthRef;
+		setWeekRef(day.getWeekRef());
 	}
 
 	public Day(Cursor c) {
@@ -60,6 +62,7 @@ public class Day {
 		setFixed(c.getInt(Days.INDEX_FIXED));
 		setLastUpdated(c.getLong(Days.INDEX_LAST_UPDATED));
 		setMonthRef(c.getLong(Days.INDEX_MONTHREF));
+		setWeekRef(c.getLong(Days.INDEX_WEEKREF));
 	}
 
 	public Day(Bundle instanceState) {
@@ -82,6 +85,7 @@ public class Day {
 		values.put(Days.NAME_FIXED, getFixed());
 		values.put(Days.NAME_LAST_UPDATED, getLastUpdated());
 		values.put(Days.NAME_MONTHREF, getMonthRef());
+		values.put(Days.NAME_WEEKREF, getWeekRef());
 		return values;
 	}
 
@@ -101,6 +105,7 @@ public class Day {
 		bundle.putInt(Days.NAME_FIXED, getFixed());
 		bundle.putLong(Days.NAME_LAST_UPDATED, getLastUpdated());
 		bundle.putLong(Days.NAME_MONTHREF, getMonthRef());
+		bundle.putLong(Days.NAME_WEEKREF, getWeekRef());
 	}
 
 	public void readFromBundle(Bundle bundle) {
@@ -115,6 +120,7 @@ public class Day {
 		setFixed(bundle.getInt(Days.NAME_FIXED));
 		lastUpdated = bundle.getLong(Days.NAME_LAST_UPDATED);
 		monthRef = bundle.getLong(Days.NAME_MONTHREF);
+		weekRef = bundle.getLong(Days.NAME_WEEKREF);
 	}
 
 	@Override
@@ -122,8 +128,9 @@ public class Day {
 		if (o instanceof Day) {
 			Day day = (Day) o;
 
-			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday && holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
-					&& hoursWorked == day.hoursWorked && overtime == day.overtime && monthRef == day.monthRef;
+			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday && holydayLeft == day.holydayLeft
+					&& hoursTarget == day.hoursTarget
+					&& hoursWorked == day.hoursWorked && overtime == day.overtime && monthRef == day.monthRef && weekRef == day.weekRef;
 		}
 		return super.equals(o);
 	}
@@ -225,12 +232,17 @@ public class Day {
 	}
 
 	public long getMonthRef() {
-		if (monthRef > 0) {
-			return monthRef;
-		} else {
-			// return DayAccess.dayRefFromTimestamp(timestamp);
-			return MonthAccess.getMonthRefFromDayRef(dayRef);
+		if (monthRef < 1) {
+			monthRef = MonthAccess.getMonthRefFromDayRef(dayRef);
 		}
+		return monthRef;
+	}
+
+	public long getWeekRef() {
+		if (weekRef < 1) {
+			weekRef = WeekAccess.getWeekRefFromDayRef(dayRef);
+		}
+		return weekRef;
 	}
 
 	public void setMonthRef(long monthRef) {
@@ -283,6 +295,10 @@ public class Day {
 
 	public long getLastUpdated() {
 		return lastUpdated;
+	}
+
+	public void setWeekRef(long weekRef) {
+		this.weekRef = weekRef;
 	}
 
 }

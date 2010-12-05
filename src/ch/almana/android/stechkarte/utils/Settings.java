@@ -308,4 +308,9 @@ public class Settings extends SettingsBase {
 	public boolean isShowPayTab() {
 		return getPrefAsBoolean(R.string.prefKeyPaymentShow, true);
 	}
+
+	public int getFirstDayOfWeek() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

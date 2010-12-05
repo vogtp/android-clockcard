@@ -47,11 +47,11 @@ public final class R {
         public static final int widget_frame_black=0x7f020008;
     }
     public static final class id {
-        public static final int ButtonDate=0x7f0b004a;
+        public static final int ButtonDate=0x7f0b004b;
         public static final int ButtonHolidayDateEnd=0x7f0b0037;
         public static final int ButtonHolidayDateStart=0x7f0b0031;
         public static final int ButtonIn=0x7f0b0042;
-        public static final int ButtonInOut=0x7f0b004b;
+        public static final int ButtonInOut=0x7f0b004c;
         public static final int ButtonOK=0x7f0b0007;
         public static final int ButtonOut=0x7f0b0043;
         public static final int CheckBoxFillupDayEnd=0x7f0b0041;
@@ -120,24 +120,25 @@ public final class R {
         public static final int TextViewOvertime=0x7f0b0029;
         public static final int TextViewOvertimeCur=0x7f0b0028;
         public static final int TextViewStatus=0x7f0b0044;
-        public static final int TextViewTime=0x7f0b0048;
-        public static final int TextViewTimestamp=0x7f0b004c;
-        public static final int TextViewTimestampType=0x7f0b004d;
-        public static final int TimePicker01=0x7f0b0049;
+        public static final int TextViewTime=0x7f0b0049;
+        public static final int TextViewTimestamp=0x7f0b004d;
+        public static final int TextViewTimestampType=0x7f0b004e;
+        public static final int TimePicker01=0x7f0b004a;
         public static final int includeLocationHeader=0x7f0b0020;
-        public static final int itemDayDeleteTimestamp=0x7f0b0050;
-        public static final int itemDayEditTimestamp=0x7f0b004f;
-        public static final int itemDayInsertTimestamp=0x7f0b004e;
-        public static final int itemDaylistInsertDay=0x7f0b0052;
-        public static final int itemDaylistInsertTImestamp=0x7f0b0053;
-        public static final int itemDaylistRebuild=0x7f0b0054;
-        public static final int itemDeleteDay=0x7f0b0051;
-        public static final int itemExportTimestamps=0x7f0b0059;
-        public static final int itemFAQ=0x7f0b0057;
-        public static final int itemHolidayEditor=0x7f0b0055;
-        public static final int itemPreferences=0x7f0b0056;
-        public static final int itemReadInTimestmaps=0x7f0b005a;
-        public static final int optionMore=0x7f0b0058;
+        public static final int itemDayDeleteTimestamp=0x7f0b0051;
+        public static final int itemDayEditTimestamp=0x7f0b0050;
+        public static final int itemDayInsertTimestamp=0x7f0b004f;
+        public static final int itemDaylistInsertDay=0x7f0b0053;
+        public static final int itemDaylistInsertTImestamp=0x7f0b0054;
+        public static final int itemDaylistRebuild=0x7f0b0055;
+        public static final int itemDeleteDay=0x7f0b0052;
+        public static final int itemExportTimestamps=0x7f0b005a;
+        public static final int itemFAQ=0x7f0b0058;
+        public static final int itemHolidayEditor=0x7f0b0056;
+        public static final int itemPreferences=0x7f0b0057;
+        public static final int itemReadInTimestmaps=0x7f0b005b;
+        public static final int labelRef=0x7f0b0048;
+        public static final int optionMore=0x7f0b0059;
     }
     public static final class layout {
         public static final int appwidget_1x1=0x7f030000;

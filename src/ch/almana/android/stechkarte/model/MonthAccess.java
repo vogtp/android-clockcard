@@ -1,6 +1,5 @@
 package ch.almana.android.stechkarte.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -55,23 +54,6 @@ public class MonthAccess implements IAccess {
 		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
-
-	// public int deleteTimestamps(Day day) {
-	// Cursor c = null;
-	// int delRows = 0;
-	// try {
-	// c = day.getTimestamps();
-	// while (c.moveToNext()) {
-	// // delete timestamp
-	// delRows += TimestampAccess.getInstance().delete(c);
-	// }
-	// } finally {
-	// if (c != null) {
-	// c.close();
-	// }
-	// }
-	// return delRows;
-	// }
 
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
@@ -153,70 +135,6 @@ public class MonthAccess implements IAccess {
 		update(Months.CONTENT_URI, month.getValues(), DB.NAME_ID + "=" + month.getId(), null);
 	}
 
-	/**
-	 * @param timestamp
-	 *            Timestamp to recalculate or null to work on all days
-	 * @param progressWrapper
-	 */
-	// public void recalculateDayFromTimestamp(Timestamp timestamp,
-	// IProgressWrapper progressWrapper) {
-	// StechkarteAppwidget.setDoNotUpdate(true);
-	// try {
-	// String selection = null;
-	// // String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
-	// if (timestamp != null) {
-	// selection = DB.Timestamps.NAME_TIMESTAMP + ">=" +
-	// timestamp.getTimestamp();
-	// // dayDeleteSelection = dayDeleteSelection + " and " +
-	// // selection;
-	// }
-	// // delete all days
-	// // dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
-	// TimestampAccess timestampAccess = TimestampAccess.getInstance();
-	// Cursor c = timestampAccess.query(selection,
-	// Timestamps.REVERSE_SORTORDER);
-	// SortedSet<Long> dayRefs = new TreeSet<Long>();
-	// int i = 0;
-	// progressWrapper.setMax(c.getCount() * 2);
-	// progressWrapper.incrementEvery(2);
-	// Timestamp lastTs = null;
-	// while (c.moveToNext()) {
-	// progressWrapper.setProgress(i++);
-	// Timestamp ts = new Timestamp(c);
-	// long dayref = timestampAccess.calculateDayrefForTimestamp(ts, lastTs);
-	// Day curDay = getOrCreateDay(dayref);
-	// if (curDay.isFixed()) {
-	// continue;
-	// }
-	//
-	// ts.setDayRef(dayref);
-	// if (dayRefs.add(dayref)) {
-	// Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
-	// }
-	// timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(),
-	// DB.NAME_ID + "=" + ts.getId(), null);
-	// lastTs = ts;
-	// }
-	// c.close();
-	// Iterator<Long> iterator = dayRefs.iterator();
-	// // i = 0;
-	// // progressDialog.setProgress(0);
-	// while (iterator.hasNext()) {
-	// progressWrapper.setProgress(i++);
-	// Long dayRef = iterator.next();
-	// recalculate(context, dayRef);
-	// }
-	// } finally {
-	// StechkarteAppwidget.setDoNotUpdate(false);
-	// StechkarteAppwidget.updateView(getContext());
-	// }
-	// }
-
-	/**
-	 * 
-	 * @param currentDay
-	 * @return the day before or null if none exists
-	 */
 	private Month getMonthBefore(Month currentMonth) {
 		Month m = null;
 		Cursor c = query(Months.NAME_MONTHREF + "<" + currentMonth.getMonthRef(), Months.DEFAULT_SORTORDER);
@@ -304,49 +222,6 @@ public class MonthAccess implements IAccess {
 		insertOrUpdate(month);
 	}
 
-	// private float getTotalOvertime(Day day, Day previousDay, float overtime)
-	// {
-	// float prevOvertime = previousDay.getOvertime();
-	// float totalOvertime = prevOvertime + overtime;
-	// Settings settings = Settings.getInstance();
-	// if (settings.isWeeklyOvertimeReset() || settings.isMonthlyOvertimeReset()
-	// || settings.isYearlyOvertimeReset()) {
-	// try {
-	//
-	// Calendar today = Calendar.getInstance();
-	// today.setTimeInMillis(timestampFromDayRef(day.getDayRef()));
-	// Calendar yesterday = Calendar.getInstance();
-	// yesterday.setTimeInMillis(timestampFromDayRef(previousDay.getDayRef()));
-	// int calField = Calendar.YEAR;
-	// if (settings.isWeeklyOvertimeReset()) {
-	// calField = Calendar.WEEK_OF_YEAR;
-	// } else if (settings.isMonthlyOvertimeReset()) {
-	// calField = Calendar.MONTH;
-	// } else if (settings.isYearlyOvertimeReset()) {
-	// calField = Calendar.YEAR;
-	// }
-	// int tVal = today.get(calField);
-	// int yVal = yesterday.get(calField);
-	// if (tVal != yVal) {
-	// float resetValue = settings.getOvertimeResetValue();
-	// Log.i(LOG_TAG, "Resetting overtime");
-	// if (settings.isResetOvertimeIfBigger()) {
-	// if (prevOvertime > resetValue) {
-	// totalOvertime = overtime + resetValue;
-	// } else {
-	// totalOvertime = overtime + prevOvertime;
-	// }
-	// } else {
-	// totalOvertime = overtime + resetValue;
-	// }
-	// }
-	// } catch (ParseException e) {
-	// Log.w(LOG_TAG, "Error in overtime reset handling", e);
-	// }
-	// }
-	// return totalOvertime;
-	// }
-
 	public static long getMonthRefFromDayRef(long dayRef) {
 		long monthRef = dayRef / 100;
 		Log.d(LOG_TAG, "dayRef " + dayRef + " -> monthRef " + monthRef);
@@ -362,39 +237,20 @@ public class MonthAccess implements IAccess {
 		return Long.parseLong(timeString);
 	}
 
-	public static long getTimestampFromMonthRef(long monthref) throws ParseException {
-		try {
-			return monthRefDateFormat.parse(monthref + "").getTime();
-		} catch (ParseException e) {
-			Log.w(LOG_TAG, "Cannot parse " + monthref + " as monthref", e);
-			return 0;
-		}
-	}
-
-	// public static long getNextFreeDayref(long timestamp) {
-	// long dayref = dayRefFromTimestamp(timestamp);
-	// while (exists(dayref)) {
-	// dayref++;
-	// }
-	// return dayref;
-	// }
-
-	// private static boolean exists(long dayref) {
-	// Cursor c = null;
+	// public static long getTimestampFromMonthRef(long monthref) throws
+	// ParseException {
 	// try {
-	// c = getInstance().query(Days.NAME_DAYREF + "=" + dayref);
-	// return c.moveToFirst();
-	// } finally {
-	// if (c != null) {
-	// c.close();
-	// }
+	// return monthRefDateFormat.parse(monthref + "").getTime();
+	// } catch (ParseException e) {
+	// Log.w(LOG_TAG, "Cannot parse " + monthref + " as monthref", e);
+	// return 0;
 	// }
 	// }
 
-	public Day getOldestUpdatedMonth(long since) {
+	public Month getOldestUpdatedMonth(long since) {
 		Cursor cursor = query(Months.NAME_LAST_UPDATED + " > " + since, Months.NAME_MONTHREF + " ASC");
 		if (cursor.moveToFirst()) {
-			return new Day(cursor);
+			return new Month(cursor);
 		} else {
 			return null;
 		}

@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content" android:orientation="horizontal"
-	android:layout_width="fill_parent" android:layout_gravity="center_vertical" android:paddingTop="15dp" android:paddingBottom="15dp">
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/TextViewDayRef"
-		android:text="@+id/TextViewDayRef" android:width="70dp"></TextView>
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked"
-		android:text="@+id/TextViewHoursWorked" android:layout_gravity="right" android:width="40dp"></TextView>
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@+id/TextViewHoursTarget"
-		android:id="@+id/TextViewHoursTarget" android:layout_gravity="right" android:width="40dp"></TextView>
+	android:layout_width="fill_parent" android:layout_gravity="center_vertical"
+	android:paddingTop="5dp" android:paddingBottom="15dp" android:gravity="bottom">
+	<TextView android:layout_width="wrap_content" android:id="@+id/TextViewDayRef"
+		android:text="@+id/TextViewDayRef" android:width="70dp"
+		android:layout_height="wrap_content"></TextView>
+	<TextView android:layout_width="wrap_content" android:id="@+id/TextViewHoursWorked"
+		android:text="@+id/TextViewHoursWorked" android:layout_gravity="right"
+		android:width="40dp" android:layout_height="fill_parent"
+		android:gravity="bottom"></TextView>
+	<TextView android:layout_width="wrap_content" android:text="@+id/TextViewHoursTarget"
+		android:id="@+id/TextViewHoursTarget" android:layout_gravity="right"
+		android:width="40dp" android:layout_height="fill_parent"
+		android:gravity="bottom"></TextView>
 	<TextView android:text="@+id/TextView01" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/TextViewOvertimeCur"
-		android:layout_gravity="right" android:gravity="right" android:width="45dp"></TextView>
+		android:id="@+id/TextViewOvertimeCur" android:layout_gravity="right"
+		 android:width="45dp" android:layout_height="fill_parent"
+		android:gravity="bottom"></TextView>
 	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort"
-		android:id="@+id/TextViewOvertime" android:layout_gravity="right" android:gravity="right" android:width="45dp"></TextView>
+		android:text="@+string/TextViewOvertimeShort" android:id="@+id/TextViewOvertime"
+		android:layout_gravity="right"  android:width="45dp"
+		android:layout_height="fill_parent" android:gravity="bottom"></TextView>
 	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/TextViewHoliday"
-		android:layout_gravity="right" android:gravity="right" android:width="30dp"></TextView>
+		android:id="@+id/TextViewHoliday" android:layout_gravity="right"
+		 android:width="30dp" android:layout_height="fill_parent"
+		android:gravity="bottom"></TextView>
 	<TextView android:text="@+id/TextView02" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/TextViewHolidaysLeft" android:layout_gravity="right" android:gravity="right" android:width="27dp"></TextView>
+		android:id="@+id/TextViewHolidaysLeft" android:layout_gravity="right"
+		 android:width="27dp" android:layout_height="fill_parent"
+		android:gravity="bottom"></TextView>
 
-	<ImageView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/ImageViewLock"
-		android:maxHeight="20dp" android:maxWidth="20dp" android:paddingLeft="5dp"></ImageView>
+	<ImageView android:layout_width="wrap_content" android:id="@+id/ImageViewLock"
+		android:maxHeight="20dp" android:maxWidth="20dp" android:paddingLeft="5dp"
+		android:layout_height="fill_parent" android:layout_gravity="bottom" android:gravity="bottom"></ImageView>
 
 </LinearLayout>

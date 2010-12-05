@@ -46,10 +46,9 @@ public class TabbedMainActivity extends TabActivity {
 				.setContent(new Intent(this, CheckinActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 		tabHost.addTab(tabHost.newTabSpec("tabDays").setIndicator("Days", getResources().getDrawable(R.drawable.tab_day))
 				.setContent(new Intent(this, ListDays.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-		// tabHost.addTab(tabHost.newTabSpec("tabWekk").setIndicator("Weeks",
-		// getResources().getDrawable(R.drawable.tab_week))
-		// .setContent(new Intent(this,
-		// ListDays.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+		tabHost.addTab(tabHost.newTabSpec("tabWekk").setIndicator("Weeks",
+				getResources().getDrawable(R.drawable.tab_week))
+				.setContent(new Intent(this, ListWeeks.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
 		tabHost.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months", getResources().getDrawable(R.drawable.tab_month))
 				.setContent(new Intent(this, ListMonths.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));

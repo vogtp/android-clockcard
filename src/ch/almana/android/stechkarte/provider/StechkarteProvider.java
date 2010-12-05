@@ -9,9 +9,11 @@ import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Months;
 import ch.almana.android.stechkarte.provider.db.DB.OpenHelper;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.db.DB.Weeks;
 import ch.almana.android.stechkarte.provider.db.DBBackendDay;
 import ch.almana.android.stechkarte.provider.db.DBBackendMonth;
 import ch.almana.android.stechkarte.provider.db.DBBackendTimestamp;
+import ch.almana.android.stechkarte.provider.db.DBBackendWeek;
 import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
 public class StechkarteProvider extends ContentProvider {
@@ -21,6 +23,7 @@ public class StechkarteProvider extends ContentProvider {
 	private static final int TIMESTAMP = 1;
 	private static final int DAY = 2;
 	private static final int MONTH = 3;
+	private static final int WEEK = 4;
 
 	private static final UriMatcher sUriMatcher;
 
@@ -45,6 +48,9 @@ public class StechkarteProvider extends ContentProvider {
 		case MONTH:
 			count = DBBackendMonth.delete(openHelper, uri, selection, selectionArgs);
 			break;
+		case WEEK:
+			count = DBBackendWeek.delete(openHelper, uri, selection, selectionArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -62,6 +68,8 @@ public class StechkarteProvider extends ContentProvider {
 			return DBBackendDay.getType(uri);
 		case MONTH:
 			return DBBackendMonth.getType(uri);
+		case WEEK:
+			return DBBackendWeek.getType(uri);
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -79,6 +87,9 @@ public class StechkarteProvider extends ContentProvider {
 			break;
 		case MONTH:
 			ret = DBBackendMonth.insert(openHelper, uri, initialValues);
+			break;
+		case WEEK:
+			ret = DBBackendWeek.insert(openHelper, uri, initialValues);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -100,6 +111,9 @@ public class StechkarteProvider extends ContentProvider {
 			break;
 		case MONTH:
 			c = DBBackendMonth.query(openHelper, uri, projection, selection, selectionArgs, sortOrder);
+			break;
+		case WEEK:
+			c = DBBackendWeek.query(openHelper, uri, projection, selection, selectionArgs, sortOrder);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -124,6 +138,9 @@ public class StechkarteProvider extends ContentProvider {
 		case MONTH:
 			count = DBBackendMonth.update(openHelper, uri, values, selection, selectionArgs);
 			break;
+		case WEEK:
+			count = DBBackendWeek.update(openHelper, uri, values, selection, selectionArgs);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -146,6 +163,8 @@ public class StechkarteProvider extends ContentProvider {
 		sUriMatcher.addURI(AUTHORITY, Days.CONTENT_ITEM_NAME + "/#", DAY);
 		sUriMatcher.addURI(AUTHORITY, Months.CONTENT_ITEM_NAME, MONTH);
 		sUriMatcher.addURI(AUTHORITY, Months.CONTENT_ITEM_NAME + "/#", MONTH);
+		sUriMatcher.addURI(AUTHORITY, Weeks.CONTENT_ITEM_NAME, WEEK);
+		sUriMatcher.addURI(AUTHORITY, Weeks.CONTENT_ITEM_NAME + "/#", WEEK);
 
 	}
 

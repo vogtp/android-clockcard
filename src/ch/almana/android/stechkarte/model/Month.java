@@ -108,7 +108,8 @@ public class Month {
 		if (o instanceof Month) {
 			Month month = (Month) o;
 
-			return monthRef == month.monthRef && error == month.error && holyday == month.holyday && holydayLeft == month.holydayLeft && hoursTarget == month.hoursTarget
+			return monthRef == month.monthRef && error == month.error && holyday == month.holyday && holydayLeft == month.holydayLeft
+					&& hoursTarget == month.hoursTarget
 					&& hoursWorked == month.hoursWorked && overtime == month.overtime;
 		}
 		return super.equals(o);
@@ -198,37 +199,31 @@ public class Month {
 		return getMonthRef() + "";
 	}
 
-	public void setYear(int year) {
-		monthRef = year * 10000 + getMonthNotZeroBased() * 100 + getDay();
-	}
-
-	public void setMonth(int monthOfYear) {
-		monthRef = getYear() * 10000 + (monthOfYear + 1) * 100 + getDay();
-	}
-
-	public int getYear() {
-		String s = monthRef + "";
-		int i = Integer.parseInt(s.substring(0, 4));
-		return i;
-	}
-
-	public int getMonth() {
-		return getMonthNotZeroBased() - 1;
-	}
-
-	private int getMonthNotZeroBased() {
-		String s = monthRef + "";
-		String substring = s.substring(4, 6);
-		int i = Integer.parseInt(substring);
-		return i;
-	}
-
-	public int getDay() {
-		String s = monthRef + "";
-		String substring = s.substring(6, 8);
-		int i = Integer.parseInt(substring);
-		return i;
-	}
+	//
+	// public void setYear(int year) {
+	// monthRef = year * 100 + getMonthNotZeroBased() ;
+	// }
+	//
+	// public void setMonth(int monthOfYear) {
+	// monthRef = getYear() * 100 + (monthOfYear + 1) ;
+	// }
+	//
+	// public int getYear() {
+	// String s = monthRef + "";
+	// int i = Integer.parseInt(s.substring(0, 4));
+	// return i;
+	// }
+	//
+	// public int getMonth() {
+	// return getMonthNotZeroBased() - 1;
+	// }
+	//
+	// private int getMonthNotZeroBased() {
+	// String s = monthRef + "";
+	// String substring = s.substring(4, 6);
+	// int i = Integer.parseInt(substring);
+	// return i;
+	// }
 
 	public void setLastUpdated(long currentTimeMillis) {
 		this.lastUpdated = currentTimeMillis;

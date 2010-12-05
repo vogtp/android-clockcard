@@ -166,6 +166,7 @@ public class DayAccess implements IAccess {
 		StechkarteAppwidget.setDoNotUpdate(true);
 		MonthAccess.getInstance().setDoNotRecalculate(true);
 		SortedSet<Long> monthRefs = new TreeSet<Long>();
+		SortedSet<Long> weekRefs = new TreeSet<Long>();
 		try {
 			String selection = null;
 			// String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
@@ -199,6 +200,10 @@ public class DayAccess implements IAccess {
 				if (monthRefs.add(monthref)) {
 					Log.i(LOG_TAG, "Added month " + monthref + " for recalculation");
 				}
+				long wekkref = WeekAccess.getWeekRefFromDayRef(dayref);
+				if (weekRefs.add(wekkref)) {
+					Log.i(LOG_TAG, "Added week " + wekkref + " for recalculation");
+				}
 
 				timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);
 				lastTs = ts;
@@ -223,6 +228,15 @@ public class DayAccess implements IAccess {
 			}
 			Long monthRef = iterator.next();
 			MonthAccess.getInstance().recalculate(monthRef);
+		}
+		for (Iterator<Long> iterator = weekRefs.iterator(); iterator.hasNext();) {
+			try {
+				progressWrapper.setProgress(i++);
+			} catch (Exception e) {
+				Log.w("Error updating progress from update week view", e);
+			}
+			Long weekRef = iterator.next();
+			WeekAccess.getInstance().recalculate(weekRef);
 		}
 	}
 

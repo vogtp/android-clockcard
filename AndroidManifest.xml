@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="ch.almana.android.stechkarte" android:installLocation="internalOnly" android:versionCode="201011250" android:versionName="2.3.2">
+	package="ch.almana.android.stechkarte" android:installLocation="internalOnly"
+	android:versionCode="201011250" android:versionName="2.3.2">
 	<application android:icon="@drawable/stechkarte"
 		android:allowClearUserData="true" android:allowBackup="true"
 		android:name=".application.StechkarteApplication" android:label="@string/app_name"
@@ -10,11 +11,11 @@
 			android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
 		<activity android:label="@string/app_name" android:name=".view.CheckinActivity"
 			android:screenOrientation="portrait">
-			
-			
-			
-			
-			
+
+
+
+
+
 		</activity>
 
 
@@ -54,6 +55,16 @@
 
 
 				<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.month"></data>
+				<action android:name="android.intent.action.VIEW"></action>
+				<action android:name="android.intent.action.PICK"></action>
+				<action android:name="android.intent.action.EDIT"></action>
+			</intent-filter>
+		</activity>
+		<activity android:screenOrientation="portrait" android:name=".view.ListWeeks">
+			<intent-filter>
+
+
+				<data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.week"></data>
 				<action android:name="android.intent.action.VIEW"></action>
 				<action android:name="android.intent.action.PICK"></action>
 				<action android:name="android.intent.action.EDIT"></action>
@@ -100,26 +111,43 @@
 		<service android:name=".view.appwidget.StechkarteAppwidget$UpdateAppWidgetService"></service>
 		<activity android:name=".view.HolidaysEditor"></activity>
 		<activity android:name=".view.BackupRestoreActivity"></activity>
-	<activity android:name=".view.TabbedMainActivity" android:screenOrientation="portrait"><intent-filter>
+		<activity android:name=".view.TabbedMainActivity"
+			android:screenOrientation="portrait">
+			<intent-filter>
 				<action android:name="ch.almana.android.stechkarte.actions.timestampIn"></action>
 				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter><intent-filter>
+			</intent-filter>
+			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT"></category>
 				<action android:name="ch.almana.android.stechkarte.actions.timestampOut"></action>
-			</intent-filter><intent-filter>
+			</intent-filter>
+			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT"></category>
 				<action android:name="ch.almana.android.stechkarte.actions.timestampToggle"></action>
-			</intent-filter><intent-filter>
+			</intent-filter>
+			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter></activity>
-<activity android:name=".view.MonthViewActivity" android:screenOrientation="portrait"><intent-filter>
+			</intent-filter>
+		</activity>
+		<activity android:name=".view.MonthViewActivity"
+			android:screenOrientation="portrait">
+			<intent-filter>
 				<action android:name="android.intent.action.EDIT"></action>
 				<data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.month"></data>
 				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter></activity>
-<activity android:name=".view.ListPayment"></activity>
-</application>
+			</intent-filter>
+		</activity>
+		<activity android:name=".view.WeekViewActivity"
+			android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"></action>
+				<data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.week"></data>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</activity>
+		<activity android:name=".view.ListPayment"></activity>
+	</application>
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8" />
 
 
