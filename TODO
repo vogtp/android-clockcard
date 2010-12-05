@@ -1,7 +1,4 @@
-- calculation for the week
-- wages for the week
 - time rounding
-- negative overtime in : notation
 
 - Also double time calculation after working certain amount of overtime hours for the week ?
 - Is it too complicated to set it up for 40 hours a week and have option for over time to start at so many hours after 40, so make a option to have overtime start 10 hours after 40 hours.
