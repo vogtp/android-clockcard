@@ -49,7 +49,13 @@ public class Formater {
 				// FIXME check for -0:50
 				float min = Float.parseFloat(m);
 				min /= 60f;
-				if (hours < 0) {
+				if (hours == 0) {
+					if (hourMin.startsWith("-")) {
+						hours -= min;
+					} else {
+						hours += min;
+					}
+				} else if (hours < 0) {
 					hours -= min;
 				} else {
 					hours += min;
