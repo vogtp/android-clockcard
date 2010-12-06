@@ -31,7 +31,7 @@ public interface DB {
 				+ " long, " + Days.NAME_HOURS_WORKED + " real, " + Days.NAME_HOURS_TARGET + " real," + Days.NAME_HOLIDAY + " real, " + Days.NAME_HOLIDAY_LEFT
 				+ " real, "
 				+ Days.NAME_OVERTIME + " real, " + Days.NAME_ERROR + " int, " + Days.NAME_FIXED + " int, " + Days.NAME_LAST_UPDATED + " long, "
-				+ Days.NAME_MONTHREF + " long);";
+				+ Days.NAME_MONTHREF + " long, " + Days.NAME_WEEKREF + " long);";
 
 		private static final String CREATE_MONTH_TABLE = "create table if not exists " + Months.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
 				+ Months.NAME_MONTHREF
