@@ -1,12 +1,14 @@
 package ch.almana.android.stechkarte.utils;
 
 import android.app.Activity;
+import android.util.Log;
+import ch.almana.android.stechkarte.log.Logger;
 
 public class ProgressWrapperActivity implements IProgressWrapper {
 
-	private Activity progressAct;
+	private final Activity progressAct;
 	// private int max;
-	private CharSequence origTitle;
+	private final CharSequence origTitle;
 	private int inc;
 
 	public ProgressWrapperActivity(Activity act) throws Exception {
@@ -20,13 +22,16 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void dismiss() {
-		progressAct.setTitle(origTitle);
-		progressAct.setProgressBarVisibility(false);
+		try {
+			progressAct.setTitle(origTitle);
+			progressAct.setProgressBarVisibility(false);
+		} catch (Throwable e) {
+			Log.w(Logger.LOG_TAG, "Cannot dismiss progress", e);
+		}
 	}
 
 	@Override
 	public void incrementEvery(int i) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -41,18 +46,29 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void setProgress(int i) {
-		// TODO Auto-generated method stub
-		progressAct.setProgress(i * inc);
+		try {
+			progressAct.setProgress(i * inc);
+		} catch (Throwable e) {
+			Log.w(Logger.LOG_TAG, "Cannot set progress to " + i, e);
+		}
 	}
 
 	@Override
 	public void setTitle(String title) {
-		progressAct.setTitle(title);
+		try {
+			progressAct.setTitle(title);
+		} catch (Throwable e) {
+			Log.w(Logger.LOG_TAG, "Cannot set progress title to " + title, e);
+		}
 	}
 
 	@Override
 	public void show() {
-		progressAct.setProgressBarVisibility(true);
+		try {
+			progressAct.setProgressBarVisibility(true);
+		} catch (Throwable e) {
+			Log.w(Logger.LOG_TAG, "Cannot show progress", e);
+		}
 	}
 
 }
