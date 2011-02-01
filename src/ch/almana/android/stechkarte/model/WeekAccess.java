@@ -24,7 +24,7 @@ import ch.almana.android.stechkarte.utils.Settings;
 public class WeekAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
 
-	private static SimpleDateFormat weekRefDateFormat = new SimpleDateFormat("yyyyMM");
+	private static SimpleDateFormat weekRefDateFormat = new SimpleDateFormat("yyyyww");
 
 	private final Context context;
 
@@ -218,12 +218,17 @@ public class WeekAccess implements IAccess {
 	public static long getWeekRefFromDate(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
+		long weekref = Long.parseLong( weekRefDateFormat.format(c.getTime()) );
 		int firstDayOfWeek = Settings.getInstance().getFirstDayOfWeek();
 		if (firstDayOfWeek > -1) {
-			c.setFirstDayOfWeek(firstDayOfWeek);
+			if (firstDayOfWeek > c.get(Calendar.DAY_OF_WEEK)) {
+				weekref--;
+			}
+			// does not work
+//			c.setFirstDayOfWeek(firstDayOfWeek);
+//			c.clear();
 		}
-		//return c.get(Calendar.WEEK_OF_YEAR);
-		return Long.parseLong( weekRefDateFormat.format(c.getTime()) );
+		return weekref;
 	}
 
 	// public static long getTimestampFromWeekRef(long weekref) throws
