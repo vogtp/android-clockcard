@@ -315,7 +315,13 @@ public class Settings extends SettingsBase {
 	}
 
 	public int getFirstDayOfWeek() {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			String prefAsString = getPrefAsString(R.string.prefKeyFirstDayOfWeek, R.string.prefFirstDayOfWeekDefault);
+			int i = Integer.parseInt(prefAsString);
+			return i;
+		} catch (NumberFormatException e) {
+			Log.e(Logger.LOG_TAG, "Error parsing first day of week", e);
+			return -1;
+		}
 	}
 }

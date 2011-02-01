@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefFirstDayOfWeekDefault">1</string>
+    <string name="prefKeyFirstDayOfWeek">prefKeyFirstDayOfWeek</string>
     <string name="prefKeyPaymentTabType">prefKeyPaymentTabType</string>
     <string name="prefPaymentTabTypeDefault">1</string>
     <string name="prefKeyPaymentRegularDefault">0</string>
@@ -46,5 +48,14 @@
 <item>1</item>
 <item>2</item>
 <item>0</item>
+</string-array>
+<string-array name="prefFirstDayOfWeekValues">
+<item>1</item>
+<item>2</item>
+<item>3</item>
+<item>4</item>
+<item>5</item>
+<item>6</item>
+<item>7</item>
 </string-array>
 </resources>

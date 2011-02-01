@@ -154,6 +154,7 @@ public class DayAccess implements IAccess {
 	public void update(Day day) {
 		update(Days.CONTENT_URI, day.getValues(), DB.NAME_ID + "=" + day.getId(), null);
 		MonthAccess.getInstance().recalculate(day.getMonthRef());
+		WeekAccess.getInstance().recalculate(day.getWeekRef());
 	}
 
 	/**
@@ -317,6 +318,8 @@ public class DayAccess implements IAccess {
 			day.setOvertime(getTotalOvertime(day, previousDay, overtime));
 			day.setHolydayLeft(previousDay.getHolydayLeft() - day.getHolyday());
 		}
+		day.setWeekRef(-1);
+		day.getWeekRef();
 		Log.w(Logger.LOG_TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti " + previousDay.getOvertime() + overtime);
 		day.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(day);

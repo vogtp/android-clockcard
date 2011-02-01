@@ -1,6 +1,7 @@
 package ch.almana.android.stechkarte.model;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -18,14 +19,12 @@ import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.provider.db.DB.Weeks;
-import ch.almana.android.stechkarte.utils.IProgressWrapper;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class WeekAccess implements IAccess {
 	private static final String LOG_TAG = Logger.LOG_TAG;
 
-	// private static SimpleDateFormat weekRefDateFormat = new
-	// SimpleDateFormat("yyyyMM");
+	private static SimpleDateFormat weekRefDateFormat = new SimpleDateFormat("yyyyMM");
 
 	private final Context context;
 
@@ -223,7 +222,8 @@ public class WeekAccess implements IAccess {
 		if (firstDayOfWeek > -1) {
 			c.setFirstDayOfWeek(firstDayOfWeek);
 		}
-		return c.get(Calendar.WEEK_OF_YEAR);
+		//return c.get(Calendar.WEEK_OF_YEAR);
+		return Long.parseLong( weekRefDateFormat.format(c.getTime()) );
 	}
 
 	// public static long getTimestampFromWeekRef(long weekref) throws
@@ -244,11 +244,11 @@ public class WeekAccess implements IAccess {
 			return null;
 		}
 	}
-
-	public void recalculateWeekFromTimestamp(Timestamp timestamp, IProgressWrapper progressWrapper) {
-		// TODO Auto-generated method stub
-		// FIXME dfydfasd
-	}
+//
+//	public void recalculateWeekFromTimestamp(Timestamp timestamp, IProgressWrapper progressWrapper) {
+//		// TODO Auto-generated method stub
+//		// FIXME dfydfasd
+//	}
 
 	public void setDoNotRecalculate(boolean b) {
 		this.doNotRecalculate = b;

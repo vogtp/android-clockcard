@@ -20,7 +20,7 @@ public interface DB {
 
 	public class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 7;
+		private static final int DATABASE_VERSION = 8;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME + " (" + DB.NAME_ID
 				+ " integer primary key, "
@@ -105,6 +105,12 @@ public interface DB {
 				db.execSQL("create index days_weekref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_WEEKREF + "); ");
 				db.execSQL("create unique index weeks_weekref_idx on " + Weeks.TABLE_NAME + " (" + Weeks.NAME_WEEKREF + "); ");
 				// nobreak
+				
+			case 7:
+				Log.w(LOG_TAG, "Upgrading to DB Version 8...");
+				db.execSQL("delete from "+Weeks.TABLE_NAME+" where "+Weeks.NAME_WEEKREF+" < 100;");
+				db.execSQL("update  "+Days.TABLE_NAME+" set "+Days.NAME_WEEKREF+"=-1  where "+Days.NAME_WEEKREF+" < 100;");
+				
 
 			default:
 				Log.w(LOG_TAG, "Finished DB upgrading!");

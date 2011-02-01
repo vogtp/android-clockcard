@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="prefFirstDayOfWeekLong">Configure with which day a week starts</string>
+    <string name="prefFirstDayOfWeek">First day of the week</string>
     <string name="prefPaymentTabTypeLong">Show payment for weeks, month or hide it.</string>
     <string name="prefPaymentTabType">Payment Tab</string>
     <string name="prefPaymentShowLong">App needs to be restarted.</string>
@@ -134,6 +136,15 @@
 <item>week</item>
 <item>month</item>
 <item>hide</item>
+</string-array>
+<string-array name="prefFirstDayOfWeekEntries">
+<item>Sunday</item>
+<item>Monday</item>
+<item>Tuesday</item>
+<item>Wednesday</item>
+<item>Thursday</item>
+<item>Friday</item>
+<item>Saturday</item>
 </string-array>
 	<string name="prefWorkHours">Workinghours setting</string>
 	<string name="prefWorkHoursLong">Default settings for hours to work per day</string>
