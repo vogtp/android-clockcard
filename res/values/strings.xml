@@ -57,7 +57,7 @@
 	<string name="CheckBoxFixed">Not automatically updated</string>
 	<string name="TextViewHolidaysLeft">left</string>
 	<string name="LabelTimestamps">Timestamps</string>
-	<string name="optionMore">more</string>
+	<string name="optionMore">more</string><string name="monthListTitle">clock card: Month List</string>
 	<string name="ExportTImestamps">E-mail export as CSV</string>
 	<string name="deleteDay">Delete day</string>
 	<string name="delteSubTimestamps">Delete timestamps as well?</string>
@@ -114,9 +114,9 @@
 <string name="CheckBoxIsPayed">Is payed</string>
 <string name="EditTextCommentHint">Comment</string>
 <string name="dayEditorTitle">clock card: Day Editor</string>
-<string name="monthViewTitle">clock card: Month</string>
+<string name="monthViewTitle">clock card: Month</string><string name="weekViewTitle">clock card: Week</string>
 <string name="daysListTitle">clock card: Days List</string>
-<string name="monthListTitle">clock card: Month List</string>
+<string name="weekListTitle">clock card: Week List</string>
 <string name="timestampEditorTitle">clock card: Timestamp Editor</string>
 <string name="preferencesTitle">clock card: Preferences</string>
 <string name="holidayEditorTitle">clock card: Holiday Editor</string>

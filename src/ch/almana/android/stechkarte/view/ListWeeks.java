@@ -33,7 +33,7 @@ public class ListWeeks extends ListActivity implements DialogCallback {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.month_listview);
-		// setTitle(R.string.monthListTitle);
+		 setTitle(R.string.weekListTitle);
 		((TextView) findViewById(R.id.labelRef)).setText("Week");
 
 		Intent intent = getIntent();

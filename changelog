@@ -4,9 +4,10 @@ V
 * bug fixes
 -
 
-V 
+V  2.4.3
 * features
-- Configure first day of week
+- Configure first day of week 
+- fix weeks number (for than one year)
 * bug fixes
 -
 

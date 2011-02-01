@@ -35,7 +35,7 @@ public class WeekViewActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.month_view);
-		setTitle(R.string.monthViewTitle);
+		setTitle(R.string.weekViewTitle);
 
 		tvMonthRef = (TextView) findViewById(R.id.TextViewMonthRef);
 		tvHoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);
