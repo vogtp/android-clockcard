@@ -20,7 +20,7 @@ public interface DB {
 
 	public class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 8;
+		private static final int DATABASE_VERSION = 9;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME + " (" + DB.NAME_ID
 				+ " integer primary key, "
@@ -31,7 +31,7 @@ public interface DB {
 				+ " long, " + Days.NAME_HOURS_WORKED + " real, " + Days.NAME_HOURS_TARGET + " real," + Days.NAME_HOLIDAY + " real, " + Days.NAME_HOLIDAY_LEFT
 				+ " real, "
 				+ Days.NAME_OVERTIME + " real, " + Days.NAME_ERROR + " int, " + Days.NAME_FIXED + " int, " + Days.NAME_LAST_UPDATED + " long, "
-				+ Days.NAME_MONTHREF + " long, " + Days.NAME_WEEKREF + " long);";
+				+ Days.NAME_MONTHREF + " long, " + Days.NAME_WEEKREF + " long, "+ Days.NAME_COMMENT+" text);";
 
 		private static final String CREATE_MONTH_TABLE = "create table if not exists " + Months.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
 				+ Months.NAME_MONTHREF
@@ -110,7 +110,12 @@ public interface DB {
 				Log.w(LOG_TAG, "Upgrading to DB Version 8...");
 				db.execSQL("delete from "+Weeks.TABLE_NAME+" where "+Weeks.NAME_WEEKREF+" < 100;");
 				db.execSQL("update  "+Days.TABLE_NAME+" set "+Days.NAME_WEEKREF+"=-1  where "+Days.NAME_WEEKREF+" < 100;");
+				// nobreak
 				
+			case 8:
+				Log.w(LOG_TAG, "Upgrading to DB Version 9...");
+				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.NAME_COMMENT + " text;");
+				// nobreak
 
 			default:
 				Log.w(LOG_TAG, "Finished DB upgrading!");
@@ -171,6 +176,7 @@ public interface DB {
 		public static final String NAME_LAST_UPDATED = "lastUpdated";
 		public static final String NAME_MONTHREF = "monthRef";
 		public static final String NAME_WEEKREF = "weekRef";
+		public static final String NAME_COMMENT = "comment";
 
 		public static final int INDEX_DAYREF = 1;
 		public static final int INDEX_HOURS_WORKED = 2;
@@ -183,16 +189,18 @@ public interface DB {
 		public static final int INDEX_LAST_UPDATED = 9;
 		public static final int INDEX_MONTHREF = 10;
 		public static final int INDEX_WEEKREF = 11;
+		public static final int INDEX_COMMENT = 12;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_DAYREF, NAME_HOURS_WORKED, NAME_HOURS_TARGET, NAME_HOLIDAY, NAME_HOLIDAY_LEFT,
 				NAME_OVERTIME,
-				NAME_ERROR, NAME_FIXED, NAME_LAST_UPDATED, NAME_MONTHREF, NAME_WEEKREF };
+				NAME_ERROR, NAME_FIXED, NAME_LAST_UPDATED, NAME_MONTHREF, NAME_WEEKREF, NAME_COMMENT };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_DAYREF + " DESC";
 		public static final String REVERSE_SORTORDER = NAME_DAYREF + " ASC";
 
 		static final String[] PROJECTTION_DAYREF = new String[] { NAME_DAYREF };
+
 
 	}
 

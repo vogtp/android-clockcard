@@ -22,6 +22,7 @@ public class Day {
 	private long lastUpdated = 0;
 	private long monthRef = 0;
 	private long weekRef = 0;
+	private String comment;
 
 	public Day() {
 		this(DayAccess.dayRefFromTimestamp(System.currentTimeMillis()));
@@ -47,6 +48,7 @@ public class Day {
 		lastUpdated = day.lastUpdated;
 		monthRef = day.monthRef;
 		setWeekRef(day.getWeekRef());
+		comment = day.comment;
 	}
 
 	public Day(Cursor c) {
@@ -58,6 +60,7 @@ public class Day {
 		holyday = c.getFloat(Days.INDEX_HOLIDAY);
 		holydayLeft = c.getFloat(Days.INDEX_HOLIDAY_LEFT);
 		overtime = c.getFloat(Days.INDEX_OVERTIME);
+		comment = c.getString(Days.INDEX_COMMENT);
 		setError(c.getInt(Days.INDEX_ERROR));
 		setFixed(c.getInt(Days.INDEX_FIXED));
 		setLastUpdated(c.getLong(Days.INDEX_LAST_UPDATED));
@@ -86,6 +89,7 @@ public class Day {
 		values.put(Days.NAME_LAST_UPDATED, getLastUpdated());
 		values.put(Days.NAME_MONTHREF, getMonthRef());
 		values.put(Days.NAME_WEEKREF, getWeekRef());
+		values.put(Days.NAME_COMMENT, getComment());
 		return values;
 	}
 
@@ -106,6 +110,7 @@ public class Day {
 		bundle.putLong(Days.NAME_LAST_UPDATED, getLastUpdated());
 		bundle.putLong(Days.NAME_MONTHREF, getMonthRef());
 		bundle.putLong(Days.NAME_WEEKREF, getWeekRef());
+		bundle.putString(Days.NAME_COMMENT, getComment());
 	}
 
 	public void readFromBundle(Bundle bundle) {
@@ -121,6 +126,7 @@ public class Day {
 		lastUpdated = bundle.getLong(Days.NAME_LAST_UPDATED);
 		monthRef = bundle.getLong(Days.NAME_MONTHREF);
 		weekRef = bundle.getLong(Days.NAME_WEEKREF);
+		comment = bundle.getString(Days.NAME_COMMENT);
 	}
 
 	@Override
@@ -128,9 +134,8 @@ public class Day {
 		if (o instanceof Day) {
 			Day day = (Day) o;
 
-			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday && holydayLeft == day.holydayLeft
-					&& hoursTarget == day.hoursTarget
-					&& hoursWorked == day.hoursWorked && overtime == day.overtime && monthRef == day.monthRef && weekRef == day.weekRef;
+			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday && holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
+					&& hoursWorked == day.hoursWorked && overtime == day.overtime && monthRef == day.monthRef && weekRef == day.weekRef && comment.equals(day.comment);
 		}
 		return super.equals(o);
 	}
@@ -299,6 +304,14 @@ public class Day {
 
 	public void setWeekRef(long weekRef) {
 		this.weekRef = weekRef;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

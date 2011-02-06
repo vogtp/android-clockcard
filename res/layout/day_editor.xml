@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	android:orientation="vertical">
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:isScrollContainer="true">
 	<LinearLayout android:id="@+id/LinearLayout01"
-		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/TextViewDayRef"
 			android:text="@+id/TextViewDayRef" android:textSize="25sp"
@@ -14,77 +14,55 @@
 			android:layout_gravity="center_vertical"></TextView>
 	</LinearLayout>
 	<TableLayout android:id="@+id/TableLayout01"
-		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
 		<TableRow android:id="@+id/TableRow06" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 			<TextView android:id="@+id/TextView05" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:includeFontPadding="false"
-				android:text="@+string/LabelHoursWorked"></TextView>
+				android:layout_height="wrap_content" 
+				android:text="@+string/LabelHoursWorked" android:paddingRight="5dp"></TextView>
 			<TextView android:text="@+id/TextView06"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:id="@+id/TextViewHoursWorkedDayEditor" android:textSize="24dp"></TextView>
-		</TableRow>
-		<TableRow android:id="@+id/TableRow05" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<TextView android:text="@+string/LabelHoursTarget"
-				android:id="@+id/TextView04" android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<EditText android:text="@+id/EditText01" android:id="@+id/EditTextHoursTarget"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
-
-
+				android:id="@+id/TextViewHoursWorkedDayEditor" android:textSize="24dp"
+				></TextView>
+			<TextView android:layout_width="wrap_content" android:id="@+id/TextView04"
+				android:text="@+string/LabelHoursTarget" android:layout_height="wrap_content"
+				android:paddingRight="5dp" android:paddingLeft="5dp"></TextView>
+			<EditText android:layout_width="wrap_content" android:id="@+id/EditTextHoursTarget"
+				android:text="@+id/EditText01" 
+				android:layout_height="wrap_content" android:width="@dimen/dayEditorFieldWidth" android:height="@dimen/dayEditorFieldHeight"></EditText>
 		</TableRow>
 		<TableRow android:id="@+id/TableRow03" android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content" android:id="@+id/TextView06" android:layout_height="wrap_content" android:text="Overtime"></TextView>
+			<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvOvertimeCur" android:textSize="24dp"></TextView>
 			<TextView android:id="@+id/TextView03" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@+string/LabelOvertimeTotalLong"></TextView>
+				android:layout_height="wrap_content" android:paddingRight="5dp" android:text="total"></TextView>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextOvertime"
-				android:hint="@+string/HintOvertime"></EditText>
+				android:hint="@+string/HintOvertime" android:width="@dimen/dayEditorFieldWidth" android:height="@dimen/dayEditorFieldHeight"></EditText>
 
 		</TableRow>
 		<TableRow android:id="@+id/TableRow01" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content" android:weightSum=".9">
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="@+string/LabelHoliday"
 				android:id="@+id/LabelHoliday" android:paddingRight="5px"></TextView>
-			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextHoliday"
-				android:hint="@+string/HintHoliday"></EditText>
-		</TableRow>
-		<TableRow android:id="@+id/TableRow02" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<TextView android:id="@+id/TextView02" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@+string/LabelHolidayLeft"
-				android:paddingRight="5px"></TextView>
-			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextHolidaysLeft"
-				android:hint="@+string/HintHolidaysLeft"></EditText>
-		</TableRow>
-		<TableRow android:id="@+id/TableRow04" android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/Spacer"></TextView>
-			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxFixed"
-				android:text="@+string/CheckBoxFixed"></CheckBox>
-
+			<EditText android:layout_width="wrap_content" android:id="@+id/EditTextHoliday"
+				android:hint="@+string/HintHoliday" android:layout_height="wrap_content" android:lines="1" android:width="@dimen/dayEditorFieldWidth" android:height="@dimen/dayEditorFieldHeight"></EditText>
+			<TextView android:layout_width="wrap_content" android:id="@+id/TextView02"
+				android:layout_height="wrap_content" android:paddingLeft="5dp"
+				android:paddingRight="5dp" android:text="left"></TextView>
+			<EditText android:layout_width="wrap_content" android:text="EditText"
+				android:id="@+id/EditTextHolidaysLeft" android:hint="@+string/HintHolidaysLeft"
+				android:layout_height="wrap_content" android:lines="1" android:height="@dimen/dayEditorFieldHeight" android:width="@dimen/dayEditorFieldWidth"></EditText>
 		</TableRow>
 	</TableLayout>
-
-
-
-
-
-
-
-
-
-	<TextView android:id="@+id/TextView01" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@+string/LabelTimestamps"></TextView>
-	<ListView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@id/android:list"
-		android:scrollbars="vertical"></ListView>
+	<EditText android:text="EditText" android:id="@+id/etComment" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Comment"></EditText>
+	<CheckBox android:text="@+string/CheckBoxFixed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/CheckBoxFixed"></CheckBox>
+	<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:text="@+string/LabelTimestamps" android:layout_height="wrap_content"></TextView>
+	<ListView android:id="@id/android:list" android:scrollbars="vertical"
+		android:layout_height="fill_parent" android:layout_width="match_parent"
+		android:layout_weight=".1" android:isScrollContainer="false"></ListView>
 
 
 

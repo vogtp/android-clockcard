@@ -57,7 +57,7 @@ public class ExportTimestamps extends Activity {
 		}
 	}
 
-	private String[] header = { "day", "Hours worked", "Overtime of day", "Overtime", "holiday", "holiday left", "IN", "OUT", "IN", "OUT", "IN", "OUT" };
+	private String[] header = { "day", "Hours worked", "Overtime of day", "Overtime", "holiday", "holiday left","comment", "IN", "OUT", "IN", "OUT", "IN", "OUT" };
 
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance();
@@ -104,6 +104,12 @@ public class ExportTimestamps extends Activity {
 			writer.write("\"" + df.format(day.getHolyday()) + "\"");
 			writer.write(separator);
 			writer.write("\"" + df.format(day.getHolydayLeft()) + "\"");
+			writer.write(separator);
+			if (day.getComment() == null) {
+				writer.write("\"\"");
+			}else {
+				writer.write("\"" +  day.getComment() + "\"");
+			}
 			Cursor timestamps = day.getTimestamps();
 			while (timestamps.moveToNext()) {
 				writer.write(separator);

@@ -57,6 +57,8 @@ public class DayEditor extends ListActivity implements DialogCallback {
 	private ListView timestamps;
 	private SimpleCursorAdapter adapter;
 	private boolean overtimeAction;
+	private TextView overtimeCur;
+	private EditText comment;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -74,10 +76,12 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		 */
 		holiday = (EditText) findViewById(R.id.EditTextHoliday);
 		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
+		overtimeCur = (TextView) findViewById(R.id.tvOvertimeCur);
 		overtime = (EditText) findViewById(R.id.EditTextOvertime);
 		hoursTarget = (EditText) findViewById(R.id.EditTextHoursTarget);
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorkedDayEditor);
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
+		comment = (EditText) findViewById(R.id.etComment);
 
 		Intent intent = getIntent();
 		String action = intent.getAction();
@@ -204,9 +208,11 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		holiday.setText(day.getHolyday() + "");
 		holidayLeft.setText(day.getHolydayLeft() + "");
 		overtime.setText(Formater.formatHourMinFromHours(day.getOvertime()));
+		overtimeCur.setText(Formater.formatHourMinFromHours(day.getDayOvertime()));
 		fixed.setChecked(day.isFixed());
 		hoursTarget.setText(Formater.formatHourMinFromHours(day.getHoursTarget()));
 		hoursWorked.setText(Formater.formatHourMinFromHours(day.getHoursWorked()));
+		comment.setText(day.getComment());
 		// if (!day.isFixed()) {
 		// // change work time on day change
 		// hoursTarget.setText(Formater.formatHourMinFromHours(Settings.getInstance().getHoursTarget(day.getDayRef())));
@@ -236,6 +242,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			Toast.makeText(getApplicationContext(), "Cannot parse number " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 		day.setFixed(fixed.isChecked());
+		day.setComment(comment.getText().toString());
 	}
 
 	@Override
