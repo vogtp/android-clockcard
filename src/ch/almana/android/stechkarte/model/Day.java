@@ -130,14 +130,61 @@ public class Day {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Day) {
-			Day day = (Day) o;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + (int) (dayRef ^ (dayRef >>> 32));
+		result = prime * result + (error ? 1231 : 1237);
+		result = prime * result + (fixed ? 1231 : 1237);
+		result = prime * result + Float.floatToIntBits(holyday);
+		result = prime * result + Float.floatToIntBits(holydayLeft);
+		result = prime * result + Float.floatToIntBits(hoursTarget);
+		result = prime * result + Float.floatToIntBits(hoursWorked);
+		result = prime * result + (int) (lastUpdated ^ (lastUpdated >>> 32));
+		result = prime * result + (int) (monthRef ^ (monthRef >>> 32));
+		result = prime * result + Float.floatToIntBits(overtime);
+		result = prime * result + (int) (weekRef ^ (weekRef >>> 32));
+		return result;
+	}
 
-			return dayRef == day.dayRef && error == day.error && fixed == day.fixed && holyday == day.holyday && holydayLeft == day.holydayLeft && hoursTarget == day.hoursTarget
-					&& hoursWorked == day.hoursWorked && overtime == day.overtime && monthRef == day.monthRef && weekRef == day.weekRef && comment.equals(day.comment);
-		}
-		return super.equals(o);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Day other = (Day) obj;
+		if (comment == null) {
+			if (other.comment != null)
+				return false;
+		} else if (!comment.equals(other.comment))
+			return false;
+		if (dayRef != other.dayRef)
+			return false;
+		if (error != other.error)
+			return false;
+		if (fixed != other.fixed)
+			return false;
+		if (Float.floatToIntBits(holyday) != Float.floatToIntBits(other.holyday))
+			return false;
+		if (Float.floatToIntBits(holydayLeft) != Float.floatToIntBits(other.holydayLeft))
+			return false;
+		if (Float.floatToIntBits(hoursTarget) != Float.floatToIntBits(other.hoursTarget))
+			return false;
+		if (Float.floatToIntBits(hoursWorked) != Float.floatToIntBits(other.hoursWorked))
+			return false;
+		if (lastUpdated != other.lastUpdated)
+			return false;
+		if (monthRef != other.monthRef)
+			return false;
+		if (Float.floatToIntBits(overtime) != Float.floatToIntBits(other.overtime))
+			return false;
+		if (weekRef != other.weekRef)
+			return false;
+		return true;
 	}
 
 	public Cursor getTimestamps() {
