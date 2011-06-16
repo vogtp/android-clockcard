@@ -324,4 +324,9 @@ public class Settings extends SettingsBase {
 			return -1;
 		}
 	}
+
+	public boolean isUseCalendarDays() {
+		// FIXME make confable
+		return isBetaVersion();
+	}
 }

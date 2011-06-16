@@ -170,21 +170,26 @@ public class DayAccess implements IAccess {
 		SortedSet<Long> weekRefs = new TreeSet<Long>();
 		try {
 			String selection = null;
-			// String dayDeleteSelection = DB.Days.NAME_FIXED + "=0";
 			if (timestamp != null) {
 				selection = DB.Timestamps.NAME_TIMESTAMP + ">=" + timestamp.getTimestamp();
-				// dayDeleteSelection = dayDeleteSelection + " and " +
-				// selection;
 			}
-			// delete all days
-			// dayAccess.delete(Days.CONTENT_URI, dayDeleteSelection, null);
+
+			boolean useCalendarDays = Settings.getInstance().isUseCalendarDays();
+
+			Calendar cal;
+			if (useCalendarDays) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(timestamp.getTimestamp());
+				// TODO: handle progress
+			}
+
 			TimestampAccess timestampAccess = TimestampAccess.getInstance();
 			Cursor c = timestampAccess.query(selection, Timestamps.REVERSE_SORTORDER);
 			SortedSet<Long> dayRefs = new TreeSet<Long>();
 			progressWrapper.setMax(c.getCount() * 2);
 			progressWrapper.incrementEvery(2);
 			Timestamp lastTs = null;
-			while (c.moveToNext()) {
+			while (hasMoreTsToProcess(c, cal, useCalendarDays)) {
 				progressWrapper.setProgress(i++);
 				Timestamp ts = new Timestamp(c);
 				long dayref = timestampAccess.calculateDayrefForTimestamp(ts, lastTs);
@@ -241,6 +246,14 @@ public class DayAccess implements IAccess {
 		}
 	}
 
+	private boolean hasMoreTsToProcess(Cursor c, Calendar cal, boolean useCalendarDays) {
+		boolean result = c.moveToNext();
+		if (useCalendarDays) {
+
+		}
+		return result;
+	}
+
 	/**
 	 * 
 	 * @param currentDay
@@ -278,14 +291,14 @@ public class DayAccess implements IAccess {
 		Log.i(LOG_TAG, "Recalculating " + dayRef + " with prev day " + previousDay.getDayRef());
 		long worked = 0;
 		// calculate for timestamps
-		Cursor c = day.getTimestamps();
+		Cursor timestampCursor = day.getTimestamps();
 		boolean error = false;
-		while (c.moveToNext()) {
+		while (timestampCursor.moveToNext()) {
 			// what a timestamp is in an other day?
-			Timestamp t1 = new Timestamp(c);
+			Timestamp t1 = new Timestamp(timestampCursor);
 			if (t1.getTimestampType() == Timestamp.TYPE_IN) {
-				if (c.moveToNext()) {
-					Timestamp t2 = new Timestamp(c);
+				if (timestampCursor.moveToNext()) {
+					Timestamp t2 = new Timestamp(timestampCursor);
 					long diff = (t2.getTimestamp() - t1.getTimestamp());
 					worked = worked + diff;
 					Log.i(LOG_TAG, "Worked " + diff / HOURS_IN_MILLIES + " form " + t1.toString() + " to " + t2.toString());
@@ -296,8 +309,8 @@ public class DayAccess implements IAccess {
 				error = true;
 			}
 		}
-		if (!c.isClosed()) {
-			c.close();
+		if (!timestampCursor.isClosed()) {
+			timestampCursor.close();
 		}
 		day.setError(error);
 		// if (day.getHoursTarget() == 0f) {

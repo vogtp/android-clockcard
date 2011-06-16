@@ -33,8 +33,7 @@
 							android:id="@+id/EditTextHolidayDurationStart"
 							android:layout_width="wrap_content" android:visibility="invisible"></EditText>
 						<TextView android:layout_height="wrap_content"
-							android:text="@string/LabelDay"
-							android:paddingLeft="5dp" android:layout_width="wrap_content" android:visibility="invisible" android:id="@+id/LabelHolidayDurationStart"></TextView>
+							android:paddingLeft="5dp" android:layout_width="wrap_content" android:visibility="invisible" android:id="@+id/LabelHolidayDurationStart" android:text="@string/LabelHours"></TextView>
 
 					</LinearLayout>
 				</LinearLayout>
@@ -74,8 +73,7 @@
 							android:id="@+id/EditTextHolidayDurationEnd"
 							android:layout_width="wrap_content" android:visibility="invisible"></EditText>
 						<TextView android:layout_height="wrap_content"
-							android:text="@string/LabelDay"
-							android:paddingLeft="5dp" android:layout_width="wrap_content" android:visibility="invisible" android:id="@+id/LabelHolidayDurationEnd"></TextView>
+							android:paddingLeft="5dp" android:layout_width="wrap_content" android:visibility="invisible" android:id="@+id/LabelHolidayDurationEnd" android:text="@string/LabelHours"></TextView>
 
 					</LinearLayout>
 				</LinearLayout>

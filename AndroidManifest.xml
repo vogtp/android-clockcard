@@ -6,7 +6,7 @@
 		android:allowClearUserData="true" android:allowBackup="true"
 		android:name=".application.StechkarteApplication" android:label="@string/app_name"
 		android:allowTaskReparenting="true"
-		android:backupAgent="ch.almana.android.stechkarte.utils.StechkarteBackupAgent">
+		android:backupAgent="ch.almana.android.stechkarte.utils.StechkarteBackupAgent" android:killAfterRestore="true" android:restoreNeedsApplication="true">
 		<meta-data android:name="com.google.android.backup.api_key"
 			android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
 		<activity android:label="@string/app_name" android:name=".view.CheckinActivity"
