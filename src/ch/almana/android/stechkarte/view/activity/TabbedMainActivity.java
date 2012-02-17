@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -16,6 +17,7 @@ import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.utils.DialogHelper;
 import ch.almana.android.stechkarte.utils.Settings;
 import ch.almana.android.stechkarte.utils.TabManager;
+import ch.almana.android.stechkarte.view.adapter.TabsAdapter;
 import ch.almana.android.stechkarte.view.fragment.CheckinFragment;
 import ch.almana.android.stechkarte.view.fragment.DaysListFragment;
 import ch.almana.android.stechkarte.view.fragment.MonthsListFragment;
@@ -29,18 +31,9 @@ public class TabbedMainActivity extends FragmentActivity {
 	public static final String ACTION_TIMESTAMP_OUT = "ch.almana.android.stechkarte.actions.timestampOut";
 	public static Activity instance; // FIXME remove?
 	private TabHost tabHost;
+	private ViewPager viewPager;
+	private TabsAdapter mTabsAdapter;
 
-	/**
-	 * This is a helper class that implements a generic mechanism for
-	 * associating fragments with the tabs in a tab host. It relies on a trick.
-	 * Normally a tab host has a simple API for supplying a View or Intent that
-	 * each tab will show. This is not sufficient for switching between
-	 * fragments. So instead we make the content part of the tab host 0dp high
-	 * (it is not shown) and the TabManager supplies its own dummy view to show
-	 * as the tab content. It listens to changes in tabs, and takes care of
-	 * switch to the correct fragment shown in a separate content area whenever
-	 * the selected tab changes.
-	 */
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,56 +70,28 @@ public class TabbedMainActivity extends FragmentActivity {
 			}
 		}
 
+
 		if (Settings.getInstance().hasHoloTheme()) {
+			viewPager = new ViewPager(this);
+			viewPager.setId(R.id.pager);
+			setContentView(viewPager);
 
 			final ActionBar bar = getActionBar();
+			bar.setTitle(R.string.app_name);
 			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 			bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+			mTabsAdapter = new TabsAdapter(this, viewPager);
+			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_main), CheckinFragment.class, null);
+			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_days), DaysListFragment.class, null);
+			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_weeks), WeeksListFragment.class, null);
+			mTabsAdapter.addTab(bar.newTab().setText(R.string.tabel_tab_months), MonthsListFragment.class, null);
+			if (payList != null) {
+				mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_payment), payList, null);
+			}
 
-			//			Tab tab = bar.newTab().setText(R.string.label_tab_main);
-			//			android.app.ActionBar.TabListener listener = new TabListener() {
-			//				
-			//				@Override
-			//				public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			//					// TODO Auto-generated method stub
-			//					
-			//				}
-			//				
-			//				@Override
-			//				public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			//					// TODO Auto-generated method stub
-			//					
-			//				}
-			//				
-			//				@Override
-			//				public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			//					// TODO Auto-generated method stub
-			//					
-			//				}
-			//			};
-			//			tab.setTabListener(listener );
-			//			bar.addTab(tab );
-			//			
-			//			bar.addTab(bar.newTab().setText(R.string.label_tab_main).setTabListener(new TabListener<CheckinFragment>(
-			//					this, R.string.label_tab_main, CheckinFragment.class)));
-			//			bar.addTab(bar.newTab()
-			//					.setText("Contacts")
-			//					.setTabListener(new TabListener<LoaderCursor.CursorLoaderListFragment>(
-			//							this, "contacts", LoaderCursor.CursorLoaderListFragment.class)));
-			//			bar.addTab(bar.newTab()
-			//					.setText("Apps")
-			//					.setTabListener(new TabListener<LoaderCustom.AppListFragment>(
-			//							this, "apps", LoaderCustom.AppListFragment.class)));
-			//			bar.addTab(bar.newTab()
-			//					.setText("Throttle")
-			//					.setTabListener(new TabListener<LoaderThrottle.ThrottledLoaderListFragment>(
-			//							this, "throttle", LoaderThrottle.ThrottledLoaderListFragment.class)));
-			//
-			//			if (savedInstanceState != null) {
-			//				bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
-			//			}
+
 		}
-		//		else {
+		else {
 
 			tabHost = (TabHost) findViewById(android.R.id.tabhost);
 			tabHost.setup();
@@ -139,7 +104,7 @@ public class TabbedMainActivity extends FragmentActivity {
 			mTabManager.addTab(tabHost.newTabSpec("tabWeek").setIndicator(getString(R.string.label_tab_weeks), getResources().getDrawable(R.drawable.tab_week)),
 					WeeksListFragment.class, null);
 
-			mTabManager.addTab(tabHost.newTabSpec("tabMonth").setIndicator("Months", getResources().getDrawable(R.drawable.tab_month)),
+			mTabManager.addTab(tabHost.newTabSpec("tabMonth").setIndicator(getString(R.string.tabel_tab_months), getResources().getDrawable(R.drawable.tab_month)),
 					MonthsListFragment.class, null);
 			if (payList != null) {
 				mTabManager.addTab(tabHost.newTabSpec("tabMonthPay").setIndicator(getString(R.string.label_tab_payment), getResources().getDrawable(R.drawable.payment)),
@@ -149,7 +114,7 @@ public class TabbedMainActivity extends FragmentActivity {
 			if (savedInstanceState != null) {
 				tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 			}
-		//		}
+		}
 
 	}
 
@@ -165,11 +130,11 @@ public class TabbedMainActivity extends FragmentActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		//		if (Settings.getInstance().hasHoloTheme()) {
-		//			outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
-		//		} else {
+		if (Settings.getInstance().hasHoloTheme()) {
+			outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+		} else {
 			outState.putString("tab", tabHost.getCurrentTabTag());
-		//		}
+		}
 	}
 
 	@Override
