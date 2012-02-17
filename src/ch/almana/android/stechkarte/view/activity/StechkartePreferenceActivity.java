@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import android.os.Bundle;
 import android.preference.Preference;

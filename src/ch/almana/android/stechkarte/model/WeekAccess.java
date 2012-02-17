@@ -22,7 +22,7 @@ import ch.almana.android.stechkarte.provider.db.DB.Weeks;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class WeekAccess implements IAccess {
-	private static final String LOG_TAG = Logger.LOG_TAG;
+	private static final String LOG_TAG = Logger.TAG;
 
 	private static SimpleDateFormat weekRefDateFormat = new SimpleDateFormat("yyyyww");
 
@@ -197,7 +197,7 @@ public class WeekAccess implements IAccess {
 			week.setOvertime(day.getOvertime());
 			week.setHolydayLeft(day.getHolydayLeft());
 		}
-		Log.w(Logger.LOG_TAG, "Rebuild week: " + weekRef + " w:" + worked + " target " + target);
+		Log.w(Logger.TAG, "Rebuild week: " + weekRef + " w:" + worked + " target " + target);
 		week.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(week);
 	}
@@ -206,7 +206,7 @@ public class WeekAccess implements IAccess {
 		try {
 			return getWeekRefFromTimestamp(DayAccess.timestampFromDayRef(dayRef));
 		} catch (ParseException e) {
-			Log.w(Logger.LOG_TAG, "Cannot parse " + dayRef + " as daref", e);
+			Log.w(Logger.TAG, "Cannot parse " + dayRef + " as daref", e);
 			return -1;
 		}
 	}

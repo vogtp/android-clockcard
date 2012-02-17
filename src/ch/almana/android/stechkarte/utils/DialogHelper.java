@@ -2,7 +2,7 @@ package ch.almana.android.stechkarte.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import ch.almana.android.stechkarte.view.BuyFullVersion;
+import ch.almana.android.stechkarte.view.activity.BuyFullVersion;
 
 public class DialogHelper {
 

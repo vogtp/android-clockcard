@@ -14,7 +14,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.utils.CurInfo;
-import ch.almana.android.stechkarte.view.CheckinActivity;
+import ch.almana.android.stechkarte.view.activity.TabbedMainActivity;
 
 public class StechkarteAppwidget extends AppWidgetProvider {
 
@@ -27,7 +27,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
-		Log.i(Logger.LOG_TAG, "onUpdate started");
+		Log.i(Logger.TAG, "onUpdate started");
 		StechkarteAppwidget.updateView(context);
 	}
 
@@ -42,7 +42,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			if (doNotUpdate) {
 				return;
 			}
-			Log.i(Logger.LOG_TAG, "appwidget update service started");
+			Log.i(Logger.TAG, "appwidget update service started");
 			// getContentResolver().notifyChange(Timestamps.CONTENT_URI,
 			// observer);
 			RemoteViews rViews = createAppWidgetView(this);
@@ -90,7 +90,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			views.setTextViewText(R.id.LabelAddInfo, labelAddInfo);
 			views.setTextViewText(R.id.TextViewAppWidgetAddInfo, addInfo);
 
-			Intent intent = new Intent(CheckinActivity.ACTION_TIMESTAMP_TOGGLE);
+			Intent intent = new Intent(TabbedMainActivity.ACTION_TIMESTAMP_TOGGLE);
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 			views.setOnClickPendingIntent(R.id.LinearLayoutAppwidget1x1, pendingIntent);
 			return views;

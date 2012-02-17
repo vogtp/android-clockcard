@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import android.app.ListActivity;
 import android.content.ContentUris;
@@ -193,7 +193,7 @@ public class ListDays extends ListActivity implements DialogCallback {
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		} catch (ClassCastException e) {
-			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
+			Log.e(Logger.TAG, "bad menuInfo", e);
 			return false;
 		}
 

@@ -165,4 +165,9 @@
 	<string name="prefWorkHoursSun">Workinghours on Sunday</string>
 	<string name="prefWorkHoursSunLong">Set to -1 to use default</string>
 	<string name="LabelHours">hours</string>
+	<string name="label_tab_main">Main</string>
+	<string name="label_tab_days">Days</string>
+	<string name="label_tab_weeks">Weeks</string>
+	<string name="label_week">Week</string>
+	<string name="label_tab_payment">Payment</string>
 </resources>

@@ -20,7 +20,7 @@ import ch.almana.android.stechkarte.provider.db.DB.Months;
 import ch.almana.android.stechkarte.utils.IProgressWrapper;
 
 public class MonthAccess implements IAccess {
-	private static final String LOG_TAG = Logger.LOG_TAG;
+	private static final String LOG_TAG = Logger.TAG;
 
 	private static SimpleDateFormat monthRefDateFormat = new SimpleDateFormat("yyyyMM");
 
@@ -217,7 +217,7 @@ public class MonthAccess implements IAccess {
 		// month.setHolydayLeft(previousMonth.getHolydayLeft() -
 		// month.getHolyday());
 		// }
-		Log.w(Logger.LOG_TAG, "Rebuild month: " + monthRef + " w:" + worked + " target " + target);
+		Log.w(Logger.TAG, "Rebuild month: " + monthRef + " w:" + worked + " target " + target);
 		month.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(month);
 	}

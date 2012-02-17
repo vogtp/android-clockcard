@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -46,7 +46,7 @@ public class ExportTimestamps extends Activity {
 			writer.close();
 			sendMail(fileName);
 		} catch (IOException e) {
-			Log.e(Logger.LOG_TAG, "Export days", e);
+			Log.e(Logger.TAG, "Export days", e);
 			Toast.makeText(this, "Cannot open " + fileName, Toast.LENGTH_LONG).show();
 		} finally {
 			// if (writer != null) {
@@ -127,7 +127,7 @@ public class ExportTimestamps extends Activity {
 			Date date = yyyymmddFromat.parse(dayString);
 			return formatDate(date);
 		} catch (ParseException e) {
-			Log.e(Logger.LOG_TAG, "Cannot parse " + dayString, e);
+			Log.e(Logger.TAG, "Cannot parse " + dayString, e);
 			return dayString;
 		}
 	}

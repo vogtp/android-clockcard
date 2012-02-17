@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import java.util.Calendar;
 
@@ -86,7 +86,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
-			Log.w(Logger.LOG_TAG, "Reading day information from savedInstanceState");
+			Log.w(Logger.TAG, "Reading day information from savedInstanceState");
 			if (day != null) {
 				day.readFromBundle(savedInstanceState);
 			} else {
@@ -262,7 +262,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			// .rebuildDays(getContext(), new Timestamp(cursor));
 			// }
 		} catch (Exception e) {
-			Log.e(Logger.LOG_TAG, "Cannot save day", e);
+			Log.e(Logger.TAG, "Cannot save day", e);
 			Toast.makeText(this, "Error saving day.", Toast.LENGTH_LONG).show();
 		}
 	}
@@ -302,7 +302,7 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		} catch (ClassCastException e) {
-			Log.e(Logger.LOG_TAG, "bad menuInfo", e);
+			Log.e(Logger.TAG, "bad menuInfo", e);
 			return false;
 		}
 

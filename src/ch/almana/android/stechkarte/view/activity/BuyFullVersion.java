@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,7 +37,7 @@ public class BuyFullVersion extends Activity {
 			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(ccMarket));
 			ctx.startActivity(i);
 		} catch (Exception e1) {
-			Log.e(Logger.LOG_TAG, "Cannot install clock card license", e1);
+			Log.e(Logger.TAG, "Cannot install clock card license", e1);
 			Toast.makeText(ctx,
 					"Cannot launch market to install clock card license",
 					Toast.LENGTH_LONG).show();

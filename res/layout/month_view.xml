@@ -1,36 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:orientation="vertical"
-	android:layout_height="fill_parent">
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="@+id/TextViewDayRef"
-		android:id="@+id/TextViewMonthRef" android:textSize="25sp" android:paddingLeft="15dp"></TextView>
-	<TableLayout android:id="@+id/TableLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TableRow android:id="@+id/TableRow01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView05" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:includeFontPadding="false"
-				android:text="@+string/LabelHoursWorked"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoursWorked" android:text="@+id/TextViewHoursWorked" android:paddingLeft="15dp"></TextView></TableRow><TableRow android:id="@+id/TableRow02" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:text="@+string/LabelHoursTarget"
-				android:id="@+id/TextView04" android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+id/TextViewHoursTarget" android:id="@+id/TextViewHoursTarget" android:paddingLeft="15dp"></TextView></TableRow><TableRow android:id="@+id/TableRow03" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/TextViewOvertimeShort"></TextView><TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewOvertimeCur" android:paddingLeft="15dp"></TextView>
-</TableRow><TableRow android:id="@+id/TableRow04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView03" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@+string/LabelOvertimeTotalLong"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/TextViewOvertimeShort" android:id="@+id/TextViewOvertime" android:paddingLeft="15dp"> </TextView></TableRow><TableRow android:id="@+id/TableRow05" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@+string/LabelHoliday"
-				android:id="@+id/LabelHoliday"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHoliday" android:paddingLeft="15dp"></TextView></TableRow><TableRow android:id="@+id/TableRow06" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:id="@+id/TextView02" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="@+string/LabelHolidayLeft"></TextView><TextView android:text="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewHolidaysLeft" android:paddingLeft="15dp"></TextView></TableRow></TableLayout>
-	
-	
-	
-	
-	
-	<ListView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@id/android:list"
-		android:scrollbars="vertical"></ListView>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/TextViewMonthRef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:text="@+id/TextViewDayRef"
+        android:textSize="25sp" >
+    </TextView>
 
+    <TableLayout
+        android:id="@+id/TableLayout01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
+        <TableRow
+            android:id="@+id/TableRow01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@+string/LabelHoursWorked" >
+            </TextView>
 
+            <TextView
+                android:id="@+id/TextViewHoursWorked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="@+id/TextViewHoursWorked" >
+            </TextView>
+        </TableRow>
 
+        <TableRow
+            android:id="@+id/TableRow02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
+            <TextView
+                android:id="@+id/TextView04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+string/LabelHoursTarget" >
+            </TextView>
 
+            <TextView
+                android:id="@+id/TextViewHoursTarget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="@+id/TextViewHoursTarget" >
+            </TextView>
+        </TableRow>
 
+        <TableRow
+            android:id="@+id/TableRow03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TextViewOvertimeShort" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextViewOvertimeCur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="@+id/TextView01" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+string/LabelOvertimeTotalLong" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextViewOvertime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="@+string/TextViewOvertimeShort" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/LabelHoliday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+string/LabelHoliday" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextViewHoliday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="@+id/TextView02" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRow06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+string/LabelHolidayLeft" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextViewHolidaysLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="@+id/TextView02" >
+            </TextView>
+        </TableRow>
+    </TableLayout>
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" >
+    </ListView>
 
 </LinearLayout>

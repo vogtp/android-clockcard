@@ -13,12 +13,13 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DayAccess;
-import ch.almana.android.stechkarte.view.BuyFullVersion;
+import ch.almana.android.stechkarte.view.activity.BuyFullVersion;
 
 public class Settings extends SettingsBase {
 
@@ -72,14 +73,14 @@ public class Settings extends SettingsBase {
 			prefKey = prefKey + weekdayFormat.format(timestamp);
 			hoursTarget = Float.parseFloat(getPreferences().getString(prefKey, "-1"));
 		} catch (Exception e) {
-			Log.w(Logger.LOG_TAG, "Error parsing setting hours per weekday", e);
+			Log.w(Logger.TAG, "Error parsing setting hours per weekday", e);
 			hoursTarget = -1;
 		}
 		if (hoursTarget < 0) {
 			try {
 				hoursTarget = getPrefAsFloat(R.string.prefKeyHoursPerDay, R.string.prefHoursPerDayDefault);
 			} catch (Exception e) {
-				Log.w(Logger.LOG_TAG, "Error parsing setting hours per day", e);
+				Log.w(Logger.TAG, "Error parsing setting hours per day", e);
 				hoursTarget = hoursTargetDefault;
 			}
 		}
@@ -118,40 +119,40 @@ public class Settings extends SettingsBase {
 			// PackageManager.GET_SIGNATURES);
 
 		} catch (Exception e) {
-			Log.d(Logger.LOG_TAG, "Exception while looking for  license", e);
+			Log.d(Logger.TAG, "Exception while looking for  license", e);
 		}
-		Log.i(Logger.LOG_TAG, "No license found");
+		Log.i(Logger.TAG, "No license found");
 		return false;
 	}
 
 	private boolean checkMarketLicense(Signature[] mySignatures, PackageInfo packageInfo) {
-		Log.d(Logger.LOG_TAG, "Found package: " + packageInfo.packageName);
+		Log.d(Logger.TAG, "Found package: " + packageInfo.packageName);
 		if (packageInfo.versionCode >= MIN_LICENSE_VERSION) {
 			Signature[] signatures = packageInfo.signatures;
 
 			if (Arrays.equals(signatures, mySignatures)) {
-				Log.i(Logger.LOG_TAG, "Found valid license");
+				Log.i(Logger.TAG, "Found valid license");
 				return true;
 			} else {
 				Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
-				Log.i(Logger.LOG_TAG, "Wrong license signature.");
+				Log.i(Logger.TAG, "Wrong license signature.");
 			}
 
 		} else {
 			Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
-			Log.i(Logger.LOG_TAG, "License version to low, please update.");
+			Log.i(Logger.TAG, "License version to low, please update.");
 			BuyFullVersion.startClockCardInstall(context);
 		}
 		return false;
 	}
 
 	private boolean checkNonMarketLicense(Signature[] mySignatures, PackageInfo packageInfo) {
-		Log.d(Logger.LOG_TAG, "Found package: " + packageInfo.packageName);
+		Log.d(Logger.TAG, "Found package: " + packageInfo.packageName);
 		if (packageInfo.versionCode >= MIN_NON_MARKET_LICENSE_VERSION) {
 			Signature[] signatures = packageInfo.signatures;
 
 			if (Arrays.equals(signatures, mySignatures)) {
-				Log.i(Logger.LOG_TAG, "Found valid license");
+				Log.i(Logger.TAG, "Found valid license");
 				// return true;
 			} else {
 				Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
@@ -213,7 +214,7 @@ public class Settings extends SettingsBase {
 				df = new DecimalFormat(format);
 			}
 		} catch (Exception e) {
-			Log.e(Logger.LOG_TAG, "Error getting decimalformat from perf", e);
+			Log.e(Logger.TAG, "Error getting decimalformat from perf", e);
 			// df = new DecimalFormat();
 			// // context
 			// // .getString(R.string.prefDecimalFormatDefault));
@@ -250,7 +251,7 @@ public class Settings extends SettingsBase {
 		try {
 			return getPrefAsFloat(R.string.prefKeyOvertimeResetMinTime, R.string.prefOvertimeResetMinTimeDefault);
 		} catch (Exception e) {
-			Log.w(Logger.LOG_TAG, "Error getting min overtime reset time", e);
+			Log.w(Logger.TAG, "Error getting min overtime reset time", e);
 			return 0;
 		}
 	}
@@ -291,7 +292,7 @@ public class Settings extends SettingsBase {
 		try {
 			return getPrefAsFloat(R.string.prefKeyPaymentOvertime, R.string.prefKeyPaymentOvertimeDefault);
 		} catch (Exception e) {
-			Log.e(Logger.LOG_TAG, "Error parsing overtime pay rate", e);
+			Log.e(Logger.TAG, "Error parsing overtime pay rate", e);
 			return 0;
 		}
 	}
@@ -300,7 +301,7 @@ public class Settings extends SettingsBase {
 		try {
 			return getPrefAsFloat(R.string.prefKeyPaymentRegular, R.string.prefKeyPaymentRegularDefault);
 		} catch (Exception e) {
-			Log.e(Logger.LOG_TAG, "Error parsing regular pay rate", e);
+			Log.e(Logger.TAG, "Error parsing regular pay rate", e);
 			return 0;
 		}
 	}
@@ -309,7 +310,7 @@ public class Settings extends SettingsBase {
 		try {
 			return Integer.parseInt(getPrefAsString(R.string.prefKeyPaymentTabType, R.string.prefPaymentTabTypeDefault));
 		} catch (NumberFormatException e) {
-			Log.e(Logger.LOG_TAG, "Error parsing pay tab type", e);
+			Log.e(Logger.TAG, "Error parsing pay tab type", e);
 			return 1;
 		}
 	}
@@ -320,7 +321,7 @@ public class Settings extends SettingsBase {
 			int i = Integer.parseInt(prefAsString);
 			return i;
 		} catch (NumberFormatException e) {
-			Log.e(Logger.LOG_TAG, "Error parsing first day of week", e);
+			Log.e(Logger.TAG, "Error parsing first day of week", e);
 			return -1;
 		}
 	}
@@ -328,5 +329,9 @@ public class Settings extends SettingsBase {
 	public boolean isUseCalendarDays() {
 		// FIXME make confable
 		return isBetaVersion();
+	}
+
+	public boolean hasHoloTheme() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	}
 }

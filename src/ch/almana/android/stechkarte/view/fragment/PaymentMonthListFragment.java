@@ -1,6 +1,5 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.fragment;
 
-import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -8,49 +7,42 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Month;
-import ch.almana.android.stechkarte.model.MonthAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Months;
 import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
+import ch.almana.android.stechkarte.view.activity.TabbedMainActivity;
 
-public class ListPaymentMonth extends ListActivity implements DialogCallback {
+public class PaymentMonthListFragment extends ListFragment implements DialogCallback, LoaderCallbacks<Cursor> {
 
-	/** Called when the activity is first created. */
+	private SimpleCursorAdapter adapter;
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_PROGRESS);
-		setContentView(R.layout.pay_listview);
 
-		Intent intent = getIntent();
-		if (intent.getData() == null) {
-			intent.setData(Months.CONTENT_URI);
-		}
-
-		Cursor cursor = managedQuery(DB.Months.CONTENT_URI, DB.Months.DEFAULT_PROJECTION, null, null, Months.DEFAULT_SORTORDER);
-
-		if (cursor.getCount() < 1) {
-			MonthAccess.getInstance().rebuildFromDayRef(0);
-			cursor = managedQuery(DB.Months.CONTENT_URI, DB.Months.DEFAULT_PROJECTION, null, null, Months.DEFAULT_SORTORDER);
-		}
-
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.paylist_item, cursor,
+		setListShown(false);
+		getLoaderManager().initLoader(0, null, this);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.paylist_item, null,
 				new String[] { DB.NAME_ID, DB.Months.NAME_MONTHREF, DB.Months.NAME_HOURS_WORKED, DB.Months.NAME_OVERTIME, DB.Months.NAME_HOURS_TARGET },
 				new int[] {
-						R.id.TextViewMonthRef, R.id.TextViewMonthRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, });
+						R.id.TextViewMonthRef, R.id.TextViewMonthRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget, }, 0);
 
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
@@ -100,20 +92,18 @@ public class ListPaymentMonth extends ListActivity implements DialogCallback {
 	}
 
 	@Override
-	protected void onResume() {
-		Context ctx = this;
+	public void onResume() {
+		Context ctx = getActivity();
 		if (TabbedMainActivity.instance != null) {
 			ctx = TabbedMainActivity.instance;
 		}
 		RebuildDaysTask.rebuildDaysIfNeeded(ctx);
 		super.onResume();
 	}
-
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.monthlist_option, menu);
-		return true;
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.monthlist_option, menu);
 	}
 
 	@Override
@@ -131,19 +121,17 @@ public class ListPaymentMonth extends ListActivity implements DialogCallback {
 	}
 
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
-
-		String action = getIntent().getAction();
-		if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-			setResult(RESULT_OK, new Intent().setData(uri));
-		} else {
-			startActivity(new Intent(Intent.ACTION_EDIT, uri));
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		if (id < 0) {
+			return;
 		}
+		Uri uri = ContentUris.withAppendedId(Months.CONTENT_URI, id);
+		startActivity(new Intent(Intent.ACTION_EDIT, uri));
+
 	}
 
 	private void rebuildDays() {
-		Context ctx = this;
+		Context ctx = getActivity();
 		if (TabbedMainActivity.instance != null) {
 			ctx = TabbedMainActivity.instance;
 		}
@@ -152,13 +140,31 @@ public class ListPaymentMonth extends ListActivity implements DialogCallback {
 
 	@Override
 	public void finished(boolean success) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public Context getContext() {
-		return this;
+		return getActivity();
 	}
 
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		return new CursorLoader(getActivity(), DB.Months.CONTENT_URI, DB.Months.DEFAULT_PROJECTION, null, null, Months.DEFAULT_SORTORDER);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+		adapter.swapCursor(c);
+		// The list should now be shown.
+		if (isResumed()) {
+			setListShown(true);
+		} else {
+			setListShownNoAnimation(true);
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		adapter.swapCursor(null);
+	}
 }

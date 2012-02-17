@@ -45,7 +45,7 @@ public interface DB {
 				+ Weeks.NAME_HOLIDAY_LEFT + " real, "
 				+ Weeks.NAME_OVERTIME + " real, " + Weeks.NAME_ERROR + " int, " + Weeks.NAME_LAST_UPDATED + " long);";
 
-		private static final String LOG_TAG = Logger.LOG_TAG;
+		private static final String LOG_TAG = Logger.TAG;
 
 		public OpenHelper(Context context) {
 			super(context, DB.DATABASE_NAME, null, DATABASE_VERSION);

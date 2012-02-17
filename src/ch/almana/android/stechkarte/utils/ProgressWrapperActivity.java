@@ -26,7 +26,7 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 			progressAct.setTitle(origTitle);
 			progressAct.setProgressBarVisibility(false);
 		} catch (Throwable e) {
-			Log.w(Logger.LOG_TAG, "Cannot dismiss progress", e);
+			Log.w(Logger.TAG, "Cannot dismiss progress", e);
 		}
 	}
 
@@ -49,7 +49,7 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 		try {
 			progressAct.setProgress(i * inc);
 		} catch (Throwable e) {
-			Log.w(Logger.LOG_TAG, "Cannot set progress to " + i, e);
+			Log.w(Logger.TAG, "Cannot set progress to " + i, e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 		try {
 			progressAct.setTitle(title);
 		} catch (Throwable e) {
-			Log.w(Logger.LOG_TAG, "Cannot set progress title to " + title, e);
+			Log.w(Logger.TAG, "Cannot set progress title to " + title, e);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 		try {
 			progressAct.setProgressBarVisibility(true);
 		} catch (Throwable e) {
-			Log.w(Logger.LOG_TAG, "Cannot show progress", e);
+			Log.w(Logger.TAG, "Cannot show progress", e);
 		}
 	}
 

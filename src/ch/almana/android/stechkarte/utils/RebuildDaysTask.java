@@ -38,7 +38,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 			try {
 				this.progressWrapper = new ProgressWrapperActivity(act);
 			} catch (Throwable e) {
-				Log.w(Logger.LOG_TAG, "Cannot create titlebar progess", e);
+				Log.w(Logger.TAG, "Cannot create titlebar progess", e);
 			}
 		}
 		if (progressWrapper == null) {
@@ -71,7 +71,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	public static void rebuildDays(Context ctx, Timestamp timestamp) {
 		if (rebuilding) {
-			Log.w(Logger.LOG_TAG, "Allready rebuilding, returning");
+			Log.w(Logger.TAG, "Allready rebuilding, returning");
 			Toast.makeText(ctx, "A rebuild task is allready running.  Not starting again...", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -79,7 +79,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 		try {
 			rebuildDaysTask.execute((Timestamp[]) null);
 		} catch (Exception e) {
-			Log.w(Logger.LOG_TAG, "Cannot rebuild", e);
+			Log.w(Logger.TAG, "Cannot rebuild", e);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 					long luDay = day.getLastUpdated();
 					String lastDaysRebuildStr = SimpleDateFormat.getInstance().format(new Date(lastDaysRebuild));
 					String luDayStr = SimpleDateFormat.getInstance().format(new Date(luDay));
-					Log.i(Logger.LOG_TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr + " last global rebuild " + lastDaysRebuildStr + ")");
+					Log.i(Logger.TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr + " last global rebuild " + lastDaysRebuildStr + ")");
 					RebuildDaysTask.rebuildDays(ctx, ts);
 				}
 			}

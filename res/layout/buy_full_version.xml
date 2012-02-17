@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content" android:orientation="vertical">
-<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/LabelBuyFullVersion" android:linksClickable="true" android:clickable="false"></TextView>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ButtonOK" android:text="@string/android:ok"></Button>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:linksClickable="true"
+        android:text="@string/LabelBuyFullVersion" >
+    </TextView>
+
+    <Button
+        android:id="@+id/ButtonOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/android:ok" >
+    </Button>
+
 </LinearLayout>

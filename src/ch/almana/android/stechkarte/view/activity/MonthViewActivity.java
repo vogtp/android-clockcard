@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import android.app.ListActivity;
 import android.content.ContentUris;
@@ -48,7 +48,7 @@ public class MonthViewActivity extends ListActivity {
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
-			Log.w(Logger.LOG_TAG, "Reading day information from savedInstanceState");
+			Log.w(Logger.TAG, "Reading day information from savedInstanceState");
 			if (month != null) {
 				month.readFromBundle(savedInstanceState);
 			} else {

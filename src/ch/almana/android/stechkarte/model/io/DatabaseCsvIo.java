@@ -21,7 +21,7 @@ import ch.almana.android.stechkarte.provider.db.DB;
 
 public abstract class DatabaseCsvIo {
 
-	protected static final String LOG_TAG = Logger.LOG_TAG;
+	protected static final String LOG_TAG = Logger.TAG;
 	private static final String SEPARATOR = "\t";
 	private static final String HEADER_LINEINDICATOR = "H";
 	private static final String DATA_LINEINDICATOR = "D";

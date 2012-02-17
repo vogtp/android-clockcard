@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -40,7 +40,7 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
-			Log.w(Logger.LOG_TAG, "Reading timestamp information from savedInstanceState");
+			Log.w(Logger.TAG, "Reading timestamp information from savedInstanceState");
 			if (timestamp != null) {
 				timestamp.readFromBundle(savedInstanceState);
 			} else {
@@ -148,7 +148,7 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 				access.update(timestamp);
 			}
 		} catch (Exception e) {
-			Log.w(Logger.LOG_TAG, "Cannot insert or update", e);
+			Log.w(Logger.TAG, "Cannot insert or update", e);
 			Toast.makeText(this, getString(R.string.cannotSaveTS), Toast.LENGTH_LONG);
 		}
 	}

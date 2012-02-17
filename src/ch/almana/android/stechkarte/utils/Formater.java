@@ -43,7 +43,7 @@ public class Formater {
 			try {
 				hours = Float.parseFloat(h);
 			} catch (Exception e) {
-				Log.e(Logger.LOG_TAG, "Cannot parse " + h + " als float", e);
+				Log.e(Logger.TAG, "Cannot parse " + h + " als float", e);
 			}
 			try {
 				// FIXME check for -0:50
@@ -61,7 +61,7 @@ public class Formater {
 					hours += min;
 				}
 			} catch (Exception e) {
-				Log.e(Logger.LOG_TAG, "Cannot parse " + m + " als float", e);
+				Log.e(Logger.TAG, "Cannot parse " + m + " als float", e);
 			}
 		}
 		return hours;

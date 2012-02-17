@@ -24,7 +24,7 @@ import ch.almana.android.stechkarte.utils.Settings;
 import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
 public class DayAccess implements IAccess {
-	private static final String LOG_TAG = Logger.LOG_TAG;
+	private static final String LOG_TAG = Logger.TAG;
 
 	private static SimpleDateFormat dayRefDateFormat = new SimpleDateFormat("yyyyMMdd");
 
@@ -176,9 +176,8 @@ public class DayAccess implements IAccess {
 
 			boolean useCalendarDays = Settings.getInstance().isUseCalendarDays();
 
-			Calendar cal;
+			Calendar cal = Calendar.getInstance();
 			if (useCalendarDays) {
-				Calendar cal = Calendar.getInstance();
 				cal.setTimeInMillis(timestamp.getTimestamp());
 				// TODO: handle progress
 			}
@@ -333,7 +332,7 @@ public class DayAccess implements IAccess {
 		}
 		day.setWeekRef(-1);
 		day.getWeekRef();
-		Log.w(Logger.LOG_TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti " + previousDay.getOvertime() + overtime);
+		Log.w(Logger.TAG, "Rebuild days: " + dayRef + " w:" + hoursWorked + " ovti " + overtime + " tot ovti " + previousDay.getOvertime() + overtime);
 		day.setLastUpdated(System.currentTimeMillis());
 		insertOrUpdate(day);
 	}

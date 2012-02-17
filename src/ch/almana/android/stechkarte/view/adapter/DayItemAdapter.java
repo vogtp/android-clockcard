@@ -7,10 +7,10 @@ import java.util.Date;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
@@ -31,7 +31,7 @@ public class DayItemAdapter extends SimpleCursorAdapter {
 				DB.Days.NAME_OVERTIME, DB.Days.NAME_HOURS_TARGET, DB.Days.NAME_HOLIDAY, DB.Days.NAME_HOLIDAY_LEFT, DB.Days.NAME_FIXED },
 				new int[] { R.id.TextViewDayRef, R.id.TextViewDayRef, R.id.TextViewHoursWorked, R.id.TextViewOvertime, R.id.TextViewHoursTarget,
 						R.id.TextViewHoliday,
-						R.id.TextViewHolidaysLeft, R.id.ImageViewLock });
+						R.id.TextViewHolidaysLeft, R.id.ImageViewLock }, 0);
 
 		this.context = ctx;
 
@@ -56,7 +56,7 @@ public class DayItemAdapter extends SimpleCursorAdapter {
 						tvDayRef.setText(weekday + "\n" + dayRef);
 						return true;
 					} catch (ParseException e) {
-						Log.w(Logger.LOG_TAG, "Cannot parse dayref", e);
+						Log.w(Logger.TAG, "Cannot parse dayref", e);
 					}
 
 					// since we do not set the dayref no: return true;

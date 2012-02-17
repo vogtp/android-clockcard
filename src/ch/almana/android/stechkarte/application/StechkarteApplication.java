@@ -26,7 +26,7 @@ public class StechkarteApplication extends Application {
 			oh.getWritableDatabase().getVersion();
 			oh.close();
 		} catch (Throwable e) {
-			Log.e(Logger.LOG_TAG, "Unable to open DB for initialisation", e);
+			Log.e(Logger.TAG, "Unable to open DB for initialisation", e);
 		}
 	}
 

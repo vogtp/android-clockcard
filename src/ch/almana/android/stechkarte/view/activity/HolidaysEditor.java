@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.view;
+package ch.almana.android.stechkarte.view.activity;
 
 import java.util.Calendar;
 
@@ -57,7 +57,7 @@ public class HolidaysEditor extends Activity {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			Log.e(Logger.LOG_TAG, "No holiday duration selected");
+			Log.e(Logger.TAG, "No holiday duration selected");
 		}
 	}
 
