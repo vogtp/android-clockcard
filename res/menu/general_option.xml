@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item
+        android:id="@+id/itemHolidayEditor"
+        android:orderInCategory="10"
+        android:title="@string/MenuHolidayEditor"
+        android:titleCondensed="@string/MenuHolidayEditor">
+    </item>
+    <item
+        android:id="@+id/itemPreferences"
+        android:orderInCategory="11"
+        android:title="@string/perferences">
+    </item>
+    <item
+        android:id="@+id/itemFAQ"
+        android:orderInCategory="12"
+        android:title="@string/MenuFAQ"
+        android:titleCondensed="@string/MenuFAQ">
+    </item>
+    <item
+        android:id="@+id/itemExportTimestamps"
+        android:title="@string/ExportTImestamps"
+        android:titleCondensed="@string/ExportTImestamps">
+    </item>
+    <item
+        android:id="@+id/itemReadInTimestmaps"
+        android:title="@string/ButtonReadTimestamps"
+        android:titleCondensed="@string/ButtonReadTimestamps">
+    </item>
 
-	<item android:title="@string/MenuHolidayEditor"
-		android:titleCondensed="@string/MenuHolidayEditor" android:id="@+id/itemHolidayEditor"
-		android:orderInCategory="10"></item>
-
-	<item android:id="@+id/itemPreferences" android:title="@string/perferences"
-		android:orderInCategory="11"></item>
-	<item android:title="@string/MenuFAQ" android:titleCondensed="@string/MenuFAQ"
-		android:id="@+id/itemFAQ" android:orderInCategory="12"></item>
-	<item android:title="@+string/optionMore" android:titleCondensed="@+string/optionMore"
-		android:id="@+id/optionMore" android:visible="true"
-		android:menuCategory="secondary" android:orderInCategory="12">
-		<menu>
-			<item android:id="@+id/itemExportTimestamps" android:title="@string/ExportTImestamps"
-				android:titleCondensed="@string/ExportTImestamps"></item>
-
-			<item android:id="@+id/itemReadInTimestmaps"
-				android:titleCondensed="@string/ButtonReadTimestamps" android:title="@string/ButtonReadTimestamps"></item>
-		</menu>
-	</item>
 </menu>

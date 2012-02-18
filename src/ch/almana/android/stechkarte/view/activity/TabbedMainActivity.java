@@ -198,13 +198,12 @@ public class TabbedMainActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		MenuItem moreItems = menu.findItem(R.id.optionMore);
 
 		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
 		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
 
-		moreItems.getSubMenu().findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
-		moreItems.getSubMenu().findItem(R.id.itemReadInTimestmaps).setEnabled(backupEnabled);
+		menu.findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
+		menu.findItem(R.id.itemReadInTimestmaps).setEnabled(backupEnabled);
 
 		menu.findItem(R.id.itemHolidayEditor).setVisible(Settings.getInstance().isBetaVersion());
 

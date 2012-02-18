@@ -27,12 +27,6 @@
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
 
-        <activity
-            android:name=".view.activity.CheckinActivity"
-            android:configChanges="orientation"
-            android:label="@string/app_name" >
-        </activity>
-
         <provider
             android:name=".provider.StechkarteProvider"
             android:authorities="ch.almana.android.stechkarte" >
@@ -83,51 +77,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" >
                 </category>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".view.activity.ListMonths"
-            android:configChanges="orientation" >
-            <intent-filter>
-                <data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.month" >
-                </data>
-
-                <action android:name="android.intent.action.VIEW" >
-                </action>
-                <action android:name="android.intent.action.PICK" >
-                </action>
-                <action android:name="android.intent.action.EDIT" >
-                </action>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".view.activity.ListWeeks"
-            android:configChanges="orientation" >
-            <intent-filter>
-                <data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.week" >
-                </data>
-
-                <action android:name="android.intent.action.VIEW" >
-                </action>
-                <action android:name="android.intent.action.PICK" >
-                </action>
-                <action android:name="android.intent.action.EDIT" >
-                </action>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".view.activity.ListDays"
-            android:configChanges="orientation" >
-            <intent-filter>
-                <data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte" >
-                </data>
-
-                <action android:name="android.intent.action.VIEW" >
-                </action>
-                <action android:name="android.intent.action.PICK" >
-                </action>
-                <action android:name="android.intent.action.EDIT" >
-                </action>
             </intent-filter>
         </activity>
         <activity
@@ -228,10 +177,6 @@
                 <category android:name="android.intent.category.DEFAULT" >
                 </category>
             </intent-filter>
-        </activity>
-        <activity android:name=".view.activity.ListPaymentMonth" >
-        </activity>
-        <activity android:name=".view.activity.ListPaymentWeek" >
         </activity>
     </application>
 
