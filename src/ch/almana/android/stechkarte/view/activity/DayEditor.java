@@ -36,11 +36,14 @@ import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
+import ch.almana.android.stechkarte.model.calc.IRebuildDays;
+import ch.almana.android.stechkarte.model.calc.RebuildDays;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.DeleteDayDialog;
 import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class DayEditor extends ListActivity implements DialogCallback {
 
@@ -66,7 +69,11 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.day_editor);
-		setTitle(R.string.dayEditorTitle);
+		if (Settings.getInstance().hasHoloTheme()) {
+			getActionBar().setSubtitle(R.string.dayEditorTitle);
+		}else {
+			setTitle(getString(R.string.app_name)+": "+getString(R.string.dayEditorTitle));
+		}
 
 		dayRefTextView = (TextView) findViewById(R.id.TextViewDayRef);
 		/*
@@ -255,7 +262,8 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		}
 		try {
 			DayAccess.getInstance().insertOrUpdate(day);
-			DayAccess.getInstance().recalculate(this, day);
+			IRebuildDays rebuild = RebuildDays.create(this);
+			rebuild.recalculate(day);
 			// Cursor cursor = day.getTimestamps();
 			// if (cursor.moveToFirst()) {
 			// RebuildDaysTask

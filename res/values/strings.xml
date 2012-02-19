@@ -110,7 +110,7 @@
     <string name="CheckBoxFillupDay">Fill up not worked hours</string>
     <string name="CheckBoxIsPayed">Is payed</string>
     <string name="EditTextCommentHint">Comment</string>
-    <string name="dayEditorTitle">clock card: Day Editor</string>
+    <string name="dayEditorTitle">Day Editor</string>
     <string name="monthViewTitle">clock card: Month</string>
     <string name="weekViewTitle">clock card: Week</string>
     <string name="daysListTitle">clock card: Days List</string>
