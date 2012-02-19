@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="prefFirstDayOfWeekLong">Configure with which day a week starts</string>
     <string name="prefFirstDayOfWeek">First day of the week</string>
     <string name="prefPaymentTabTypeLong">Show payment for weeks, month or hide it.</string>
@@ -17,8 +18,8 @@
     <string name="prefOvertimeResetPoint">Calculate overtime for ...</string>
     <string name="prefKeyOvertimeResetPoint">prefKeyOvertimeResetPoint</string>
     <string name="prefOvertimeResetIfBiggerTrue">Only restart overtime calculation if the overtime is bigger than reset value</string>
-     <string name="prefOvertimeResetIfBiggerFalse">Always restart overtime calculation.</string>
-   <string name="prefOvertimeResetIfBigger">Restart only if bigger</string>
+    <string name="prefOvertimeResetIfBiggerFalse">Always restart overtime calculation.</string>
+    <string name="prefOvertimeResetIfBigger">Restart only if bigger</string>
     <string name="prefOvertimeResetMinTimeLong">Number of hours to reset to</string>
     <string name="prefOvertimeResetMinTime">Reset Value</string>
     <string name="prefOvertimeResetSettings">Overtime Restart Settings</string>
@@ -29,146 +30,148 @@
     <string name="prefNightshiftLongOff">Add timestamp to current day</string>
     <string name="prefNightshiftLongOn">Add first OUT of day to last day if finished with IN</string>
     <string name="mailBody">See attachment for CSV export.</string>
-	<string name="menu_insert_day">Insert day</string>
-	<string name="app_name">clock card</string>
-	<string name="TimestampTypeIn">IN</string>
-	<string name="TimestampTypeOut">OUT</string>
-	<string name="ButtonTSList">Timestamp List</string>
-	<string name="menu_delete">Delete</string>
-	<string name="menu_insert">Insert</string>
-	<string name="menu_insert_timestamp">Insert timestamp</string>
-	<string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
-	<string name="menu_edit">Edit</string>
-	<string name="ButtonDayList">Days</string>
-	<string name="menu_rebuild">Rebuild</string>
-	<string name="TextViewWorkedShort">Worked </string>
-	<string name="TextViewOvertimeShort">Overtime </string>
-	<string name="ButtonReadTimestamps">Restore backup</string>
-	<string name="LabelHoursTarget">Target </string>
-	<string name="LabelHolyday">Holiday</string>
-	<string name="LabelOvertimeTotal">total</string>
-	<string name="LabelOvertimeTotalLong">Overtime total</string>
-	<string name="LabelHoliday">Holiday</string>
-	<string name="HintHoliday">Holidays taken on this day</string>
-	<string name="LabelHolidayLeft">Holidays left</string>
-	<string name="HintHolidaysLeft">Total holiday days left</string>
-	<string name="HintOvertime">Overtime hours</string>
-	<string name="LabelOvertime">Overtime</string>
-	<string name="CheckBoxFixed">Not automatically updated</string>
-	<string name="TextViewHolidaysLeft">left</string>
-	<string name="LabelTimestamps">Timestamps</string>
-	<string name="optionMore">more</string><string name="monthListTitle">clock card: Month List</string>
-	<string name="ExportTImestamps">E-mail export as CSV</string>
-	<string name="deleteDay">Delete day</string>
-	<string name="delteSubTimestamps">Delete timestamps as well?</string>
-	<string name="dayMo">Monday</string>
-	<string name="dayTue">Tuesday</string>
-	<string name="workdays">Workdays</string>
-	<string name="perferences">Preferences</string>
-	<string name="prefHoursPerDay">Workinghours per day</string>
-	<string name="prefHoursPerDayLong">Number of hours to work per day</string>
-	<string name="prefLicence">Beta Key</string>
-	<string name="prefLicenceLong">Key to unlock beta features</string>
-	<string name="prefBuy">Full version</string>
-	<string name="prefBuyLong">Buy license key for the full version.</string>
-	<string name="prefLicenceDefault"></string>
-	<string name="prefWorkday">Work</string>
-	<string name="prefWorkdayLong">Settings about a day of work</string>
-	<string name="prefExportSync">Export and sync</string>
-	<string name="prefExportSyncLong">Export and sync settings</string>
-	<string name="prefFeatures">Features</string>
-	<string name="prefFeaturesLong">Settings controlling the active features</string>
-	<string name="prefMinTimestampDiff">Minimal timestamp difference</string>
-	<string name="prefMinTimestampDiffLong">Minimal difference of two timestamps in seconds
-	</string>
-	<string name="prefEmailAddress">e-mail address</string>
-	<string name="prefEmailAddressLong">e-mail address to send exports to</string>
-	<string name="prefCsvFieldSeparator">CSV Field Separator</string>
-	<string name="prefCsvFieldSeparatorLong">Separator between the fields in the exported CSV</string>
-	<string name="prefDecimalFormat">Decimal Format</string>
-	<string name="prefDecimalFromLong">used in CSV export if empty use locale else see java reference.</string>
-	<string name="defaultHoursPerDay">8.24</string>
-	<string name="LabelHoursWorked">Hours worked</string>
-	<string name="TextViewLeave">Leave at </string>
-	<string name="TextViewLeaveNotIn">...start working!</string>
-	<string name="LabelBuyFullVersion">
-		This feature is not available in the free version, please buy the
-		<a href='market://search?q=pname:ch.almana.android.stechkarteLicense'>full version.</a>
-	</string>
-
-	<string name="delete">delete</string>
-	<string name="deleteDayOnly">Delete day only</string>
-	<string name="deleteDayAndTS">Delete day and its timestamps</string>
-	<string name="cannotSaveTS">Cannot save timestamp to database. Dublicate
+    <string name="menu_insert_day">Insert day</string>
+    <string name="app_name">clock card</string>
+    <string name="TimestampTypeIn">IN</string>
+    <string name="TimestampTypeOut">OUT</string>
+    <string name="ButtonTSList">Timestamp List</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_insert">Insert</string>
+    <string name="menu_insert_timestamp">Insert timestamp</string>
+    <string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
+    <string name="menu_edit">Edit</string>
+    <string name="ButtonDayList">Days</string>
+    <string name="menu_rebuild">Rebuild</string>
+    <string name="TextViewWorkedShort">Worked </string>
+    <string name="TextViewOvertimeShort">Overtime </string>
+    <string name="ButtonReadTimestamps">Restore backup</string>
+    <string name="LabelHoursTarget">Target </string>
+    <string name="LabelHolyday">Holiday</string>
+    <string name="LabelOvertimeTotal">total</string>
+    <string name="LabelOvertimeTotalLong">Overtime total</string>
+    <string name="LabelHoliday">Holiday</string>
+    <string name="HintHoliday">Holidays taken on this day</string>
+    <string name="LabelHolidayLeft">Holidays left</string>
+    <string name="HintHolidaysLeft">Total holiday days left</string>
+    <string name="HintOvertime">Overtime hours</string>
+    <string name="LabelOvertime">Overtime</string>
+    <string name="CheckBoxFixed">Not automatically updated</string>
+    <string name="TextViewHolidaysLeft">left</string>
+    <string name="LabelTimestamps">Timestamps</string>
+    <string name="optionMore">more</string>
+    <string name="monthListTitle">clock card: Month List</string>
+    <string name="ExportTImestamps">E-mail export as CSV</string>
+    <string name="deleteDay">Delete day</string>
+    <string name="delteSubTimestamps">Delete timestamps as well?</string>
+    <string name="dayMo">Monday</string>
+    <string name="dayTue">Tuesday</string>
+    <string name="workdays">Workdays</string>
+    <string name="perferences">Preferences</string>
+    <string name="prefHoursPerDay">Workinghours per day</string>
+    <string name="prefHoursPerDayLong">Number of hours to work per day</string>
+    <string name="prefLicence">Beta Key</string>
+    <string name="prefLicenceLong">Key to unlock beta features</string>
+    <string name="prefBuy">Full version</string>
+    <string name="prefBuyLong">Buy license key for the full version.</string>
+    <string name="prefLicenceDefault"></string>
+    <string name="prefWorkday">Work</string>
+    <string name="prefWorkdayLong">Settings about a day of work</string>
+    <string name="prefExportSync">Export and sync</string>
+    <string name="prefExportSyncLong">Export and sync settings</string>
+    <string name="prefFeatures">Features</string>
+    <string name="prefFeaturesLong">Settings controlling the active features</string>
+    <string name="prefMinTimestampDiff">Minimal timestamp difference</string>
+    <string name="prefMinTimestampDiffLong">inimal difference of two timestamps in seconds</string>
+    <string name="prefEmailAddress">e-mail address</string>
+    <string name="prefEmailAddressLong">e-mail address to send exports to</string>
+    <string name="prefCsvFieldSeparator">CSV Field Separator</string>
+    <string name="prefCsvFieldSeparatorLong">Separator between the fields in the exported CSV</string>
+    <string name="prefDecimalFormat">Decimal Format</string>
+    <string name="prefDecimalFromLong">used in CSV export if empty use locale else see java reference.</string>
+    <string name="defaultHoursPerDay">8.24</string>
+    <string name="LabelHoursWorked">Hours worked</string>
+    <string name="TextViewLeave">Leave at </string>
+    <string name="TextViewLeaveNotIn">...start working!</string>
+    <string name="LabelBuyFullVersion">		This feature is not available in the free version, please buy the<a href="market://search?q=pname:ch.almana.android.stechkarteLicense">full version.</a></string>
+    <string name="delete">delete</string>
+    <string name="deleteDayOnly">Delete day only</string>
+    <string name="deleteDayAndTS">Delete day and its timestamps</string>
+    <string name="cannotSaveTS">Cannot save timestamp to database. Dublicate
 		timestamp?</string>
-<string name="emailExportSubject">clock card timestamps</string>
-<string name="LabelHolidayStart">Start</string>
-<string name="LabelHolidayEnd">End</string>
-<string name="ButtonHolidayDateNone">no date given</string>
-<string name="MenuHolidayEditor">Holiday Editor</string>
-<string name="MenuFAQ">Open FAQ</string>
-<string name="labelHolidayDurationStart">Duration on stating day:</string>
-<string name="labelHolidayDurationEnd">Duration on ending day:</string>
-<string name="LabelDay">days</string>
-<string name="CheckBoxFillupDay">Fill up not worked hours</string>
-<string name="CheckBoxIsPayed">Is payed</string>
-<string name="EditTextCommentHint">Comment</string>
-<string name="dayEditorTitle">clock card: Day Editor</string>
-<string name="monthViewTitle">clock card: Month</string><string name="weekViewTitle">clock card: Week</string>
-<string name="daysListTitle">clock card: Days List</string>
-<string name="weekListTitle">clock card: Week List</string>
-<string name="timestampEditorTitle">clock card: Timestamp Editor</string>
-<string name="preferencesTitle">clock card: Preferences</string>
-<string name="holidayEditorTitle">clock card: Holiday Editor</string>
-<array name="holidayBorderType">
-<item name="allday" >all day</item>
-<item name="halfday" >half day</item>
-<item name="restofday" >rest of day</item>
-<item name="specify" >specify</item>
-</array>
-<string-array name="overtimeResetEntries">
-<item>none</item>
-<item>week</item>
-<item>month</item>
-<item>year</item>
-</string-array>
-<string-array name="prefPaymentTabEntries">
-<item>week</item>
-<item>month</item>
-<item>hide</item>
-</string-array>
-<string-array name="prefFirstDayOfWeekEntries">
-<item>Sunday</item>
-<item>Monday</item>
-<item>Tuesday</item>
-<item>Wednesday</item>
-<item>Thursday</item>
-<item>Friday</item>
-<item>Saturday</item>
-</string-array>
-	<string name="prefWorkHours">Workinghours setting</string>
-	<string name="prefWorkHoursLong">Default settings for hours to work per day</string>
-	<string name="prefWorkHoursCategory">Default</string>
-	<string name="prefWorkHoursWeekCategory">Weekday</string>
-	<string name="prefWorkHoursMon">Workinghours on Monday</string>
-	<string name="prefWorkHoursMonLong">Set to -1 to use default</string>
-	<string name="prefWorkHoursTue">Workinghours on Tuesday</string>
-	<string name="prefWorkHoursTueLong">Set to -1 to use default</string>
-	<string name="prefWorkHoursWed">Workinghours on Wednesday</string>
-	<string name="prefWorkHoursWedLong">Set to -1 to use default</string>
-	<string name="prefWorkHoursThu">Workinghours on Thursday</string>
-	<string name="prefWorkHoursThuLong">Set to -1 to use default</string>
-	<string name="prefWorkHoursFri">Workinghours on Friday</string>
-	<string name="prefWorkHoursFriLong">Set to -1 to use default</string>
-	<string name="prefWorkHoursSat">Workinghours on Saturday</string>
-	<string name="prefWorkHoursSatLong">Set to -1 to use default</string>
-	<string name="prefWorkHoursSun">Workinghours on Sunday</string>
-	<string name="prefWorkHoursSunLong">Set to -1 to use default</string>
-	<string name="LabelHours">hours</string>
-	<string name="label_tab_main">Main</string>
-	<string name="label_tab_days">Days</string>
-	<string name="label_tab_weeks">Weeks</string>
-	<string name="label_week">Week</string>
-	<string name="label_tab_payment">Payment</string>
-	<string name="tabel_tab_months">Months</string>
+    <string name="emailExportSubject">clock card timestamps</string>
+    <string name="LabelHolidayStart">Start</string>
+    <string name="LabelHolidayEnd">End</string>
+    <string name="ButtonHolidayDateNone">no date given</string>
+    <string name="MenuHolidayEditor">Holiday Editor</string>
+    <string name="MenuFAQ">Open FAQ</string>
+    <string name="labelHolidayDurationStart">Duration on stating day:</string>
+    <string name="labelHolidayDurationEnd">Duration on ending day:</string>
+    <string name="LabelDay">days</string>
+    <string name="CheckBoxFillupDay">Fill up not worked hours</string>
+    <string name="CheckBoxIsPayed">Is payed</string>
+    <string name="EditTextCommentHint">Comment</string>
+    <string name="dayEditorTitle">clock card: Day Editor</string>
+    <string name="monthViewTitle">clock card: Month</string>
+    <string name="weekViewTitle">clock card: Week</string>
+    <string name="daysListTitle">clock card: Days List</string>
+    <string name="weekListTitle">clock card: Week List</string>
+    <string name="timestampEditorTitle">clock card: Timestamp Editor</string>
+    <string name="preferencesTitle">clock card: Preferences</string>
+    <string name="holidayEditorTitle">clock card: Holiday Editor</string>
+
+    <array name="holidayBorderType">
+        <item name="allday">all day</item>
+        <item name="halfday">half day</item>
+        <item name="restofday">rest of day</item>
+        <item name="specify">specify</item>
+    </array>
+
+    <string-array name="overtimeResetEntries">
+        <item>none</item>
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+    </string-array>
+    <string-array name="prefPaymentTabEntries">
+        <item>week</item>
+        <item>month</item>
+        <item>hide</item>
+    </string-array>
+    <string-array name="prefFirstDayOfWeekEntries">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string name="prefWorkHours">Workinghours setting</string>
+    <string name="prefWorkHoursLong">Default settings for hours to work per day</string>
+    <string name="prefWorkHoursCategory">Default</string>
+    <string name="prefWorkHoursWeekCategory">Weekday</string>
+    <string name="prefWorkHoursMon">Workinghours on Monday</string>
+    <string name="prefWorkHoursMonLong">Set to -1 to use default</string>
+    <string name="prefWorkHoursTue">Workinghours on Tuesday</string>
+    <string name="prefWorkHoursTueLong">Set to -1 to use default</string>
+    <string name="prefWorkHoursWed">Workinghours on Wednesday</string>
+    <string name="prefWorkHoursWedLong">Set to -1 to use default</string>
+    <string name="prefWorkHoursThu">Workinghours on Thursday</string>
+    <string name="prefWorkHoursThuLong">Set to -1 to use default</string>
+    <string name="prefWorkHoursFri">Workinghours on Friday</string>
+    <string name="prefWorkHoursFriLong">Set to -1 to use default</string>
+    <string name="prefWorkHoursSat">Workinghours on Saturday</string>
+    <string name="prefWorkHoursSatLong">Set to -1 to use default</string>
+    <string name="prefWorkHoursSun">Workinghours on Sunday</string>
+    <string name="prefWorkHoursSunLong">Set to -1 to use default</string>
+    <string name="LabelHours">hours</string>
+    <string name="label_tab_main">Main</string>
+    <string name="label_tab_days">Days</string>
+    <string name="label_tab_weeks">Weeks</string>
+    <string name="label_week">Week</string>
+    <string name="label_tab_payment">Payment</string>
+    <string name="tabel_tab_months">Months</string>
+    <string name="appwidget_label_last_timestamp">Last timestamp:</string>
+
 </resources>
