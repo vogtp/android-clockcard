@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="prefFirstDayOfWeekDefault">1</string>
     <string name="prefKeyFirstDayOfWeek">prefKeyFirstDayOfWeek</string>
     <string name="prefKeyPaymentTabType">prefKeyPaymentTabType</string>
@@ -13,49 +14,50 @@
     <string name="prefKeyOvertimeResetIfBigger">prefKeyOvertimeResetIfBigger</string>
     <string name="prefOvertimeResetMinTimeDefault">0</string>
     <string name="prefKeyOvertimeResetMinTime">prefKeyOvertimeResetMinTime</string>
-    <string name="prefKeyNightshift">prefKeyNightshift</string>
-<string name="prefKeyLicence">prefKeyLicence</string>
-<string name="prefKeyBuy">prefKeyBuy</string>
-<string name="prefHoursPerDayDefault">8.4</string>
-<string name="prefKeyMinTimestampDiff">prefKeyMinTimestampDiff</string>
-<string name="prefKeyMinTimestampDiffInSecs">prefKeyMinTimestampDiffInSecs</string>
-<string name="prefMinTimestampDiffDefault">60</string>
-<string name="prefKeyEmailAddress">prefKeyEmailAddress</string>
-<string name="prefEmailAddressDefault"></string>
-<string name="prefKeyCsvFieldSeparator">prefKeyCsvFieldSeparator</string>
-<string name="prefCsvFieldSeparatorDefault">\\t</string>
-<string name="prefKeyDecimalFormat">prefKeyDecimalFormat</string>
-<string name="prefDecimalFormatDefault"></string>
-<string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
-<string name="prefKeyWorkHours">prefKeyWorkHours</string>
-<string name="prefKeyWorkHoursWeekBase">prefKeyWorkHours</string>
-<string name="prefKeyWorkHoursMon">prefKeyWorkHoursMon</string>
-<string name="prefKeyWorkHoursTue">prefKeyWorkHoursTue</string>
-<string name="prefKeyWorkHoursWed">prefKeyWorkHoursWed</string>
-<string name="prefKeyWorkHoursThu">prefKeyWorkHoursThu</string>
-<string name="prefKeyWorkHoursFri">prefKeyWorkHoursFri</string>
-<string name="prefKeyWorkHoursSat">prefKeyWorkHoursSat</string>
-<string name="prefKeyWorkHoursSun">prefKeyWorkHoursSun</string>
-<string name="prefHoursPerDayWeekDefault">-1</string>
-<string name="prefHoursPerDayWeekEndDefault">0</string>
-<string-array name="overtimeResetEntryValues">
-<item>0</item>
-<item>1</item>
-<item>2</item>
-<item>3</item>
-</string-array>
-<string-array name="prefPaymentTabValues">
-<item>1</item>
-<item>2</item>
-<item>0</item>
-</string-array>
-<string-array name="prefFirstDayOfWeekValues">
-<item>1</item>
-<item>2</item>
-<item>3</item>
-<item>4</item>
-<item>5</item>
-<item>6</item>
-<item>7</item>
-</string-array>
+    <string name="prefKeyLicence">prefKeyLicence</string>
+    <string name="prefKeyBuy">prefKeyBuy</string>
+    <string name="prefHoursPerDayDefault">8.4</string>
+    <string name="prefKeyMinTimestampDiff">prefKeyMinTimestampDiff</string>
+    <string name="prefKeyMinTimestampDiffInSecs">prefKeyMinTimestampDiffInSecs</string>
+    <string name="prefMinTimestampDiffDefault">60</string>
+    <string name="prefKeyEmailAddress">prefKeyEmailAddress</string>
+    <string name="prefEmailAddressDefault"></string>
+    <string name="prefKeyCsvFieldSeparator">prefKeyCsvFieldSeparator</string>
+    <string name="prefCsvFieldSeparatorDefault">\\t</string>
+    <string name="prefKeyDecimalFormat">prefKeyDecimalFormat</string>
+    <string name="prefDecimalFormatDefault"></string>
+    <string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
+    <string name="prefKeyWorkHours">prefKeyWorkHours</string>
+    <string name="prefKeyWorkHoursWeekBase">prefKeyWorkHours</string>
+    <string name="prefKeyWorkHoursMon">prefKeyWorkHoursMon</string>
+    <string name="prefKeyWorkHoursTue">prefKeyWorkHoursTue</string>
+    <string name="prefKeyWorkHoursWed">prefKeyWorkHoursWed</string>
+    <string name="prefKeyWorkHoursThu">prefKeyWorkHoursThu</string>
+    <string name="prefKeyWorkHoursFri">prefKeyWorkHoursFri</string>
+    <string name="prefKeyWorkHoursSat">prefKeyWorkHoursSat</string>
+    <string name="prefKeyWorkHoursSun">prefKeyWorkHoursSun</string>
+    <string name="prefHoursPerDayWeekDefault">-1</string>
+    <string name="prefHoursPerDayWeekEndDefault">0</string>
+
+    <string-array name="overtimeResetEntryValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="prefPaymentTabValues">
+        <item>1</item>
+        <item>2</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="prefFirstDayOfWeekValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
 </resources>

@@ -243,10 +243,6 @@ public class Settings extends SettingsBase {
 		return getPreferences().getLong(RebuildDaysTask.PREF_KEY_LAST_UPDATE, 0);
 	}
 
-	public boolean isNightshiftEnabled() {
-		return getPreferences().getBoolean(context.getString(R.string.prefKeyNightshift), false);
-	}
-
 	public float getOvertimeResetValue() {
 		try {
 			return getPrefAsFloat(R.string.prefKeyOvertimeResetMinTime, R.string.prefOvertimeResetMinTimeDefault);

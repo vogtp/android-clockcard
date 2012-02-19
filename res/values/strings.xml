@@ -6,7 +6,7 @@
     <string name="prefPaymentTabTypeLong">Show payment for weeks, month or hide it.</string>
     <string name="prefPaymentTabType">Payment Tab</string>
     <string name="prefPaymentShowLong">App needs to be restarted.</string>
-    <string name="prefPaymentLong">Only available in full version...</string>
+    <string name="prefPaymentLong">Only available in full version…</string>
     <string name="prefPaymentOvertimeLong">Pay Rate for overtime working hours</string>
     <string name="prefPaymentOvertime">Overtime Pay Rate</string>
     <string name="prefPaymentRegularLong">Pay Rate for normal working hours</string>
@@ -15,7 +15,7 @@
     <string name="prefIs24hours">24h timeformat</string>
     <string name="prefOvertimeHandlingLong">Defines timeframe for overtime calculation</string>
     <string name="prefKeyOvertimeResetPointLong">Calculate overtime per week, month or year</string>
-    <string name="prefOvertimeResetPoint">Calculate overtime for ...</string>
+    <string name="prefOvertimeResetPoint">Calculate overtime for …</string>
     <string name="prefKeyOvertimeResetPoint">prefKeyOvertimeResetPoint</string>
     <string name="prefOvertimeResetIfBiggerTrue">Only restart overtime calculation if the overtime is bigger than reset value</string>
     <string name="prefOvertimeResetIfBiggerFalse">Always restart overtime calculation.</string>
@@ -26,9 +26,6 @@
     <string name="prefOvertimeResetInterval">Overtime Restart Interval</string>
     <string name="prefOvertimeHandling">Overtime Handling</string>
     <string name="prefTimestampHandling">Timestamp Handling</string>
-    <string name="prefNightshift">Enable nightshifts</string>
-    <string name="prefNightshiftLongOff">Add timestamp to current day</string>
-    <string name="prefNightshiftLongOn">Add first OUT of day to last day if finished with IN</string>
     <string name="mailBody">See attachment for CSV export.</string>
     <string name="menu_insert_day">Insert day</string>
     <string name="app_name">clock card</string>
@@ -91,7 +88,7 @@
     <string name="defaultHoursPerDay">8.24</string>
     <string name="LabelHoursWorked">Hours worked</string>
     <string name="TextViewLeave">Leave at </string>
-    <string name="TextViewLeaveNotIn">...start working!</string>
+    <string name="TextViewLeaveNotIn">…start working!</string>
     <string name="LabelBuyFullVersion">		This feature is not available in the free version, please buy the<a href="market://search?q=pname:ch.almana.android.stechkarteLicense">full version.</a></string>
     <string name="delete">delete</string>
     <string name="deleteDayOnly">Delete day only</string>
