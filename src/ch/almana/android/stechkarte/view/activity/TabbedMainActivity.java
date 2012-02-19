@@ -79,7 +79,7 @@ public class TabbedMainActivity extends FragmentActivity {
 
 			final ActionBar bar = getActionBar();
 			bar.setTitle(R.string.app_name);
-			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 			mTabsAdapter = new TabsAdapter(this, viewPager);
 			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_main), CheckinFragment.class, null);
 			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_days), DaysListFragment.class, null);
