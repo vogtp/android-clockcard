@@ -1,6 +1,5 @@
 package ch.almana.android.stechkarte.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -203,12 +202,7 @@ public class WeekAccess implements IAccess {
 	}
 
 	public static long getWeekRefFromDayRef(long dayRef) {
-		try {
-			return getWeekRefFromTimestamp(DayAccess.timestampFromDayRef(dayRef));
-		} catch (ParseException e) {
-			Log.w(Logger.TAG, "Cannot parse " + dayRef + " as daref", e);
-			return -1;
-		}
+		return getWeekRefFromTimestamp(DayAccess.timestampFromDayRef(dayRef));
 	}
 
 	public static long getWeekRefFromTimestamp(long timestamp) {

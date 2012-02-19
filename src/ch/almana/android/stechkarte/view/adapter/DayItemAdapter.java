@@ -1,6 +1,5 @@
 package ch.almana.android.stechkarte.view.adapter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,12 +7,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
@@ -50,14 +47,10 @@ public class DayItemAdapter extends SimpleCursorAdapter {
 					TextView tvDayRef = (TextView) view.findViewById(R.id.TextViewDayRef);
 					tvDayRef.setTextColor(color);
 
-					try {
-						long dayRef = cursor.getLong(columnIndex);
-						String weekday = weekDayDateFormat.format(new Date(DayAccess.timestampFromDayRef(dayRef)));
-						tvDayRef.setText(weekday + "\n" + dayRef);
-						return true;
-					} catch (ParseException e) {
-						Log.w(Logger.TAG, "Cannot parse dayref", e);
-					}
+					long dayRef = cursor.getLong(columnIndex);
+					String weekday = weekDayDateFormat.format(new Date(DayAccess.timestampFromDayRef(dayRef)));
+					tvDayRef.setText(weekday + "\n" + dayRef);
+					return true;
 
 					// since we do not set the dayref no: return true;
 				} else if (columnIndex == DB.Days.INDEX_OVERTIME) {

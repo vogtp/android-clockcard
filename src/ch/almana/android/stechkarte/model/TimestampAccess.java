@@ -15,6 +15,7 @@ import android.widget.Toast;
 import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 import ch.almana.android.stechkarte.view.activity.BackupRestoreActivity;
 
@@ -213,14 +214,14 @@ public class TimestampAccess implements IAccess {
 		if (id > 0) {
 			timestamp.setId(id);
 		}
-		DayAccess.getInstance().recalculate(timestamp.getDayRef());
-		// RebuildDaysTask.rebuildDays(getContext(), timestamp);
+		// DayAccess.getInstance().recalculate(timestamp.getDayRef());
+		RebuildDaysTask.rebuildDays(getContext(), timestamp);
 	}
 
 	public void update(Timestamp timestamp) {
 		update(Timestamps.CONTENT_URI, timestamp.getValues(), DB.NAME_ID + "=" + timestamp.getId(), null);
-		DayAccess.getInstance().recalculate(timestamp.getDayRef());
-		// RebuildDaysTask.rebuildDays(getContext(), timestamp);
+		//DayAccess.getInstance().recalculate(timestamp.getDayRef());
+		RebuildDaysTask.rebuildDays(getContext(), timestamp);
 	}
 
 	@Override

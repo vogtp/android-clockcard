@@ -13,6 +13,8 @@ import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
+import ch.almana.android.stechkarte.model.calc.IRebuildDays;
+import ch.almana.android.stechkarte.model.calc.RebuildDays;
 
 public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
@@ -21,6 +23,8 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	private IProgressWrapper progressWrapper;
 
 	private Timestamp timestamp;
+
+	private Context ctx;
 
 	private static boolean rebuilding = false;
 
@@ -33,6 +37,8 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	}
 
 	public RebuildDaysTask(Context ctx, Timestamp timestamp) {
+		this.ctx = ctx;
+		this.timestamp = timestamp;
 		if (ctx instanceof Activity) {
 			Activity act = (Activity) ctx;
 			try {
@@ -44,12 +50,10 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 		if (progressWrapper == null) {
 			this.progressWrapper = new ProgressWrapperDialog(ctx);
 		}
-		this.timestamp = timestamp;
 	}
 
 	@Override
 	protected void onPreExecute() {
-		rebuilding = true;
 		progressWrapper.setTitle("Rebuilding...");
 		progressWrapper.show();
 		super.onPreExecute();
@@ -65,7 +69,8 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
-		DayAccess.getInstance().recalculateDayFromTimestamp(timestamp, progressWrapper);
+		IRebuildDays rebuildDays = RebuildDays.create(ctx);
+		rebuildDays.recalculateDayFromTimestamp(timestamp, progressWrapper);
 		return null;
 	}
 
@@ -75,6 +80,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 			Toast.makeText(ctx, "A rebuild task is allready running.  Not starting again...", Toast.LENGTH_SHORT).show();
 			return;
 		}
+		rebuilding = true;
 		RebuildDaysTask rebuildDaysTask = new RebuildDaysTask(ctx, timestamp);
 		try {
 			rebuildDaysTask.execute((Timestamp[]) null);
