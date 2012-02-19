@@ -26,6 +26,9 @@
     <string name="prefOvertimeResetInterval">Overtime Restart Interval</string>
     <string name="prefOvertimeHandling">Overtime Handling</string>
     <string name="prefTimestampHandling">Timestamp Handling</string>
+    <string name="prefNightshift">Enable nightshifts</string>
+    <string name="prefNightshiftLongOff">Add timestamp to current day</string>
+    <string name="prefNightshiftLongOn">Add first OUT of day to last day if finished with IN</string>
     <string name="mailBody">See attachment for CSV export.</string>
     <string name="menu_insert_day">Insert day</string>
     <string name="app_name">clock card</string>
