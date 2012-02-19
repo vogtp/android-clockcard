@@ -38,101 +38,105 @@
         android:id="@+id/TextViewStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
         android:text="@+id/TextView02"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="@+dimen/title_fontsize" >
     </TextView>
 
-    <LinearLayout
-        android:id="@+id/LinearLayout03"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5px"
-            android:text="@+string/TextViewWorkedShort"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
-
-        <TextView
-            android:id="@+id/TextViewHoursWorked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@+id/TextView03"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LinearLayout05"
+    <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:paddingTop="10dp" >
 
-        <TextView
-            android:id="@+id/LabelLeavetAt"
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5px"
-            android:text="@+string/TextViewLeave"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/TextViewLeave"
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@+string/TextViewWorkedShort"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextViewHoursWorked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+id/TextView03"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@+string/TextViewLeaveNotIn"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
-    </LinearLayout>
+            android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:id="@+id/LinearLayout02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/LabelLeavetAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@+string/TextViewLeave"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
 
-        <TextView
-            android:id="@+id/TextView01"
+            <TextView
+                android:id="@+id/TextViewLeave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+string/TextViewLeaveNotIn"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5px"
-            android:text="@+string/LabelOvertime"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/TextViewOvertime"
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@+string/LabelOvertime"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/TextViewOvertime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@+id/TextView02"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@+id/TextView02"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
-    </LinearLayout>
+            android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:id="@+id/LinearLayout04"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:text="@+string/LabelHolidayLeft"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
 
-        <TextView
-            android:id="@+id/TextView03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5px"
-            android:text="@+string/LabelHolidayLeft"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
-
-        <TextView
-            android:id="@+id/TextViewHolidaysLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@+id/TextViewHolidaysLeft"
-            android:textSize="@+dimen/title_fontsize" >
-        </TextView>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/TextViewHolidaysLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="@+id/TextViewHolidaysLeft"
+                android:textSize="@+dimen/title_fontsize" >
+            </TextView>
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>
