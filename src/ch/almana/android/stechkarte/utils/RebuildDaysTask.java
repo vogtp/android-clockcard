@@ -13,7 +13,6 @@ import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
-import ch.almana.android.stechkarte.model.calc.IRebuildDays;
 import ch.almana.android.stechkarte.model.calc.RebuildDays;
 
 public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
@@ -69,8 +68,8 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
-		IRebuildDays rebuildDays = RebuildDays.create(ctx);
-		rebuildDays.recalculateDayFromTimestamp(timestamp, progressWrapper);
+		RebuildDays rebuildDays = RebuildDays.create(ctx);
+		rebuildDays.recalculateDays(timestamp, progressWrapper);
 		return null;
 	}
 

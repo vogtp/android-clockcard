@@ -36,7 +36,6 @@ import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.model.calc.IRebuildDays;
 import ch.almana.android.stechkarte.model.calc.RebuildDays;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
@@ -262,8 +261,8 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		}
 		try {
 			DayAccess.getInstance().insertOrUpdate(day);
-			IRebuildDays rebuild = RebuildDays.create(this);
-			rebuild.recalculate(day);
+			RebuildDays rebuild = RebuildDays.create(this);
+			rebuild.recalculateDay(day);
 			// Cursor cursor = day.getTimestamps();
 			// if (cursor.moveToFirst()) {
 			// RebuildDaysTask
