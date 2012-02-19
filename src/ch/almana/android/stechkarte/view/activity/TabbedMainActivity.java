@@ -59,6 +59,7 @@ public class TabbedMainActivity extends FragmentActivity {
 		instance = this;
 
 		setContentView(R.layout.tabbed_main_view);
+		setTitle(R.string.app_name);
 
 		int payTabType = Settings.getInstance().getPayTabType();
 		Class<? extends ListFragment> payList = null; 
@@ -78,8 +79,7 @@ public class TabbedMainActivity extends FragmentActivity {
 
 			final ActionBar bar = getActionBar();
 			bar.setTitle(R.string.app_name);
-			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			mTabsAdapter = new TabsAdapter(this, viewPager);
 			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_main), CheckinFragment.class, null);
 			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_days), DaysListFragment.class, null);
