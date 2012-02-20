@@ -44,15 +44,15 @@ public class DayItemAdapter extends SimpleCursorAdapter {
 					if (d.isError()) {
 						color = Color.RED;
 					}
-					TextView tvDayRef = (TextView) view.findViewById(R.id.TextViewDayRef);
-					tvDayRef.setTextColor(color);
+					TextView tvWeekday = (TextView) ((View) view.getParent()).findViewById(R.id.tvWeekday);
+					((TextView) view).setTextColor(color);
+					tvWeekday.setTextColor(color);
 
 					long dayRef = cursor.getLong(columnIndex);
-					String weekday = weekDayDateFormat.format(new Date(DayAccess.timestampFromDayRef(dayRef)));
-					tvDayRef.setText(weekday + "\n" + dayRef);
+					((TextView) view).setText(Long.toString(dayRef));
+					tvWeekday.setText(weekDayDateFormat.format(new Date(DayAccess.timestampFromDayRef(dayRef))));
 					return true;
 
-					// since we do not set the dayref no: return true;
 				} else if (columnIndex == DB.Days.INDEX_OVERTIME) {
 					Day d = new Day(cursor);
 					CharSequence formatHourMinFromHours = Formater.formatHourMinFromHours(d.getOvertime());

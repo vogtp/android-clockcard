@@ -1,40 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content" android:orientation="horizontal"
-	android:layout_width="fill_parent" android:layout_gravity="center_vertical"
-	android:paddingBottom="2dp" android:paddingTop="2dp">
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:width="70dp"
-		android:text="Date" android:gravity="center" android:textSize="@dimen/listHeader"
-		android:layout_gravity="center_vertical"></TextView>
-	<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:orientation="vertical" android:id="@+id/LinearLayoutWorktime">
-		<TextView android:layout_height="wrap_content"
-			android:gravity="center" android:text="Work time" android:textSize="@dimen/listHeader"
-			android:layout_width="fill_parent"></TextView>
-		<LinearLayout android:id="@+id/LinearLayout02"
-			android:layout_width="wrap_content" android:layout_height="wrap_content">
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:width="40dp" android:gravity="center" android:text="Worked"
-				android:textSize="@dimen/listHeader"></TextView>
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:width="40dp" android:gravity="center" android:textSize="@dimen/listHeader"
-				android:text="Target"></TextView>
-		</LinearLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp" >
 
-</LinearLayout><LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/LinearLayoutOvertime"><TextView android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Overtime" android:width="45dp" android:layout_width="fill_parent"></TextView><LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:width="45dp" android:text="Today"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:width="45dp" android:text="Total"></TextView></LinearLayout>
-</LinearLayout>
-	
-	<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/LinearLayoutHolidays"><TextView android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:width="45dp" android:layout_width="fill_parent" android:text="Holidays"></TextView><LinearLayout android:id="@+id/LinearLayout04" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Today" android:width="30dp"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:gravity="center" android:textSize="@dimen/listHeader" android:text="Total" android:width="27dp"></TextView></LinearLayout>
-</LinearLayout>
-	
-	
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_gravity="right"
-		android:gravity="center" android:textSize="@dimen/listHeader" android:width="20dp"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:text="Date"
+        android:textSize="@dimen/listHeader"
+        android:width="100dp" >
+    </TextView>
 
-	
+    <LinearLayout
+        android:id="@+id/LinearLayoutWorktime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Work time"
+            android:textSize="@dimen/listHeader" >
+        </TextView>
 
+        <LinearLayout
+            android:id="@+id/LinearLayout02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Worked"
+                android:textSize="@dimen/listHeader"
+                android:width="40dp" >
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Target"
+                android:textSize="@dimen/listHeader"
+                android:width="40dp" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutOvertime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="Overtime"
+            android:textSize="@dimen/listHeader"
+            android:width="45dp" >
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="Today"
+                android:textSize="@dimen/listHeader"
+                android:width="45dp" >
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="Total"
+                android:textSize="@dimen/listHeader"
+                android:width="45dp" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutHolidays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="Holidays"
+            android:textSize="@dimen/listHeader"
+            android:width="45dp" >
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="Today"
+                android:textSize="@dimen/listHeader"
+                android:width="30dp" >
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="Total"
+                android:textSize="@dimen/listHeader"
+                android:width="27dp" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:textSize="@dimen/listHeader"
+        android:width="20dp" >
+    </TextView>
 
 </LinearLayout>

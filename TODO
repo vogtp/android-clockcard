@@ -1,7 +1,7 @@
 - move backup/restore to preferences
 
 - move autotimestamp to clockcard
-
+- show weekday in timestamp editor
 - colorise time in week and month
 - clear data
 - time rounding
