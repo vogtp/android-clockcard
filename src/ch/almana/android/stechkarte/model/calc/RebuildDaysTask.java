@@ -112,13 +112,11 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 			Cursor tsCursor = day.getTimestamps();
 			if (tsCursor.moveToFirst()) {
 				Timestamp ts = new Timestamp(tsCursor);
-				if (ts.getTimestamp() > lastDaysRebuild) {
-					long luDay = day.getLastUpdated();
-					String lastDaysRebuildStr = SimpleDateFormat.getInstance().format(new Date(lastDaysRebuild));
-					String luDayStr = SimpleDateFormat.getInstance().format(new Date(luDay));
-					Log.i(Logger.TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr + " last global rebuild " + lastDaysRebuildStr + ")");
-					RebuildDaysTask.rebuildDays(ctx, ts);
-				}
+				long luDay = day.getLastUpdated();
+				String lastDaysRebuildStr = SimpleDateFormat.getInstance().format(new Date(lastDaysRebuild));
+				String luDayStr = SimpleDateFormat.getInstance().format(new Date(luDay));
+				Log.i(Logger.TAG, "Rebuild days: starting from " + day.getDayString() + " ( last update " + luDayStr + " last global rebuild " + lastDaysRebuildStr + ")");
+				RebuildDaysTask.rebuildDays(ctx, ts);
 			}
 		}
 
