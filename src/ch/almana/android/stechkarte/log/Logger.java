@@ -81,7 +81,7 @@ public class Logger {
 				Log.d(TAG, msg, e);
 			}
 			try {
-				Writer w = new FileWriter("/mnt/sdcard/cputuner.log", true);
+				Writer w = new FileWriter("/mnt/sdcard/clockcard.log", true);
 				w.write("**************  Stacktrace ***********************\n");
 				w.write((new Date()).toString());
 				w.write("\n");
@@ -97,7 +97,7 @@ public class Logger {
 				Logger.w("Cannot write stacktrage log", e1);
 			}
 		}
-	}
+	} 
 
 	public static void logIntentExtras(Intent intent) {
 		if (DEBUG) {
