@@ -5,13 +5,16 @@ import java.util.Calendar;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -22,12 +25,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
@@ -35,7 +37,6 @@ import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
-import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.calc.RebuildDays;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
@@ -44,7 +45,7 @@ import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
 
-public class DayEditor extends ListActivity implements DialogCallback {
+public class DayEditor extends FragmentActivity implements DialogCallback {
 
 	private static final int DIA_DATE_SELECT = 0;
 	private Day day;
@@ -75,11 +76,6 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		}
 
 		dayRefTextView = (TextView) findViewById(R.id.TextViewDayRef);
-		/*
-		 * TODO > 2) Urlaubstage in der Tagesansicht mit einer Checkbox zu
-		 * versehen, die, wenn gesetzt einen Defaultwert von 1 hat, (Martin)
-		 * Oder beim Fokus eine 1 setzten wenn es auf 0 ist... (vogtp)
-		 */
 		holiday = (EditText) findViewById(R.id.EditTextHoliday);
 		holidayLeft = (EditText) findViewById(R.id.EditTextHolidaysLeft);
 		overtimeCur = (TextView) findViewById(R.id.tvOvertimeCur);
@@ -88,7 +84,9 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		hoursWorked = (TextView) findViewById(R.id.TextViewHoursWorkedDayEditor);
 		fixed = (CheckBox) findViewById(R.id.CheckBoxFixed);
 		comment = (EditText) findViewById(R.id.etComment);
+		timestamps = (ListView) findViewById(android.R.id.list);
 
+		
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
@@ -115,7 +113,8 @@ public class DayEditor extends ListActivity implements DialogCallback {
 				}
 			});
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			Cursor c = managedQuery(intent.getData(), DB.Days.DEFAULT_PROJECTION, null, null, null);
+			CursorLoader cursorLoader = new CursorLoader(this, intent.getData(), DB.Days.DEFAULT_PROJECTION, null, null, null);
+			Cursor c = cursorLoader.loadInBackground();
 			if (c.moveToFirst()) {
 				day = new Day(c);
 			}
@@ -128,7 +127,6 @@ public class DayEditor extends ListActivity implements DialogCallback {
 
 		origDay = new Day(day);
 
-		timestamps = getListView();
 		overtimeAction = true;
 		overtime.setOnKeyListener(new OnKeyListener() {
 			@Override
@@ -143,17 +141,25 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		});
 
 		timestamps.setOnCreateContextMenuListener(this);
+		timestamps.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+				Uri uri = ContentUris.withAppendedId(DB.Timestamps.CONTENT_URI, id);
+				startActivity(new Intent(Intent.ACTION_EDIT, uri));
+			}
+		});
+
 		long dayRef = day.getDayRef();
 		String selection = null;
 		if (dayRef > 0) {
 			selection = DB.Days.NAME_DAYREF + "=" + dayRef;
 		}
+		CursorLoader cursorLoader = new CursorLoader(this, Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, null, Timestamps.DEFAUL_SORTORDER);
+		Cursor cursor = cursorLoader.loadInBackground();
 
-		Cursor cursor = TimestampAccess.getInstance().query(selection);
-		// Used to map notes entries from the database to views
 		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor,
 				new String[] { Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
-						R.id.TextViewTimestamp, R.id.TextViewTimestampType });
+						R.id.TextViewTimestamp, R.id.TextViewTimestampType },0);
 		adapter.setViewBinder(new ViewBinder() {
 
 			@Override
@@ -260,14 +266,9 @@ public class DayEditor extends ListActivity implements DialogCallback {
 			return;
 		}
 		try {
-			DayAccess.getInstance().insertOrUpdate(day);
 			RebuildDays rebuild = RebuildDays.create(this);
 			rebuild.recalculateDay(day);
-			// Cursor cursor = day.getTimestamps();
-			// if (cursor.moveToFirst()) {
-			// RebuildDaysTask
-			// .rebuildDays(getContext(), new Timestamp(cursor));
-			// }
+			DayAccess.getInstance().insertOrUpdate(day);
 		} catch (Exception e) {
 			Log.e(Logger.TAG, "Cannot save day", e);
 			Toast.makeText(this, "Error saving day.", Toast.LENGTH_LONG).show();
@@ -356,12 +357,6 @@ public class DayEditor extends ListActivity implements DialogCallback {
 		cal.set(Calendar.DAY_OF_MONTH, day.getDay());
 		intent.putExtra(Timestamps.NAME_TIMESTAMP, cal.getTimeInMillis());
 		startActivity(intent);
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Uri uri = ContentUris.withAppendedId(DB.Timestamps.CONTENT_URI, id);
-		startActivity(new Intent(Intent.ACTION_EDIT, uri));
 	}
 
 	@Override

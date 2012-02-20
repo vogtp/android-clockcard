@@ -25,8 +25,7 @@ import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Months;
 import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.Formater;
-import ch.almana.android.stechkarte.utils.RebuildDaysTask;
-import ch.almana.android.stechkarte.view.activity.TabbedMainActivity;
+import ch.almana.android.stechkarte.utils.MenuHelper;
 
 public class MonthsListFragment extends ListFragment implements DialogCallback, LoaderCallbacks<Cursor> {
 
@@ -102,16 +101,6 @@ public class MonthsListFragment extends ListFragment implements DialogCallback, 
 	}
 
 	@Override
-	public void onResume() {
-		Context ctx = getActivity();
-		if (TabbedMainActivity.instance != null) {
-			ctx = TabbedMainActivity.instance;
-		}
-		RebuildDaysTask.rebuildDaysIfNeeded(ctx);
-		super.onResume();
-	}
-
-	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.monthlist_option, menu);
@@ -119,16 +108,7 @@ public class MonthsListFragment extends ListFragment implements DialogCallback, 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.itemDaylistRebuild:
-			rebuildDays();
-			break;
-
-		default:
-			return super.onOptionsItemSelected(item);
-
-		}
-		return true;
+		return MenuHelper.handleCommonOptions(getContext(), item);
 	}
 
 	@Override
@@ -138,14 +118,6 @@ public class MonthsListFragment extends ListFragment implements DialogCallback, 
 		}
 		Uri uri = ContentUris.withAppendedId(Months.CONTENT_URI, id);
 		startActivity(new Intent(Intent.ACTION_EDIT, uri));
-	}
-
-	private void rebuildDays() {
-		Context ctx = getActivity();
-		if (TabbedMainActivity.instance != null) {
-			ctx = TabbedMainActivity.instance;
-		}
-		RebuildDaysTask.rebuildDays(ctx, null);
 	}
 
 	@Override

@@ -23,11 +23,9 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
-import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.DeleteDayDialog;
 import ch.almana.android.stechkarte.utils.DialogCallback;
-import ch.almana.android.stechkarte.utils.RebuildDaysTask;
-import ch.almana.android.stechkarte.view.activity.TabbedMainActivity;
+import ch.almana.android.stechkarte.utils.MenuHelper;
 import ch.almana.android.stechkarte.view.adapter.DayItemAdapter;
 
 public class DaysListFragment extends ListFragment implements DialogCallback, LoaderCallbacks<Cursor> {
@@ -53,16 +51,6 @@ public class DaysListFragment extends ListFragment implements DialogCallback, Lo
 	}
 
 	@Override
-	public void onResume() {
-		Context ctx = getActivity();
-		if (TabbedMainActivity.instance != null) {
-			ctx = TabbedMainActivity.instance;
-		}
-		RebuildDaysTask.rebuildDaysIfNeeded(ctx);
-		super.onResume();
-	}
-
-	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.daylist_option, menu);
@@ -70,21 +58,7 @@ public class DaysListFragment extends ListFragment implements DialogCallback, Lo
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.itemDaylistRebuild:
-			rebuildDays();
-			break;
-		case R.id.itemDaylistInsertDay:
-			startActivity(new Intent(Intent.ACTION_INSERT, Days.CONTENT_URI));
-			break;
-		case R.id.itemDaylistInsertTImestamp:
-			startActivity(new Intent(Intent.ACTION_INSERT, Timestamps.CONTENT_URI));
-			break;
-		default:
-			return super.onOptionsItemSelected(item);
-
-		}
-		return true;
+		return MenuHelper.handleCommonOptions(getActivity(), item);
 	}
 
 	@Override
@@ -94,15 +68,6 @@ public class DaysListFragment extends ListFragment implements DialogCallback, Lo
 		}
 		Uri uri = ContentUris.withAppendedId(Days.CONTENT_URI, id);
 		startActivity(new Intent(Intent.ACTION_EDIT, uri));
-	}
-
-	private void rebuildDays() {
-		Context ctx = getActivity();
-		//FIXME is this needed?
-		if (TabbedMainActivity.instance != null) {
-			ctx = TabbedMainActivity.instance;
-		}
-		RebuildDaysTask.rebuildDays(ctx, null);
 	}
 
 	@Override

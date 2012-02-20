@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -13,9 +14,9 @@ import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
-import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Week;
 import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.view.adapter.DayItemAdapter;
 
 public class WeekViewActivity extends ListActivity {
@@ -55,9 +56,10 @@ public class WeekViewActivity extends ListActivity {
 				week = new Week(savedInstanceState);
 			}
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			Cursor c = managedQuery(intent.getData(), DB.Weeks.DEFAULT_PROJECTION, null, null, null);
+			CursorLoader cursorLoader = new CursorLoader(this, intent.getData(), DB.Weeks.DEFAULT_PROJECTION, null, null, null);
+			Cursor c = cursorLoader.loadInBackground();
 			if (c.moveToFirst()) {
-				week = new Week(c);
+				week = new Week(c); 
 			}
 			c.close();
 		}
@@ -70,8 +72,8 @@ public class WeekViewActivity extends ListActivity {
 		if (weekRef > 0) {
 			selection = DB.Days.NAME_WEEKREF + "=" + weekRef;
 		}
-
-		Cursor cursor = DayAccess.getInstance().query(selection);
+		CursorLoader cursorLoader = new CursorLoader(this, DB.Days.CONTENT_URI, DB.Days.DEFAULT_PROJECTION, selection, null, Days.DEFAULT_SORTORDER);
+		Cursor cursor = cursorLoader.loadInBackground();
 
 		getListView().setAdapter(new DayItemAdapter(this, cursor));
 	}
