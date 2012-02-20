@@ -45,12 +45,11 @@
     <string name="TextViewWorkedShort">Worked </string>
     <string name="TextViewOvertimeShort">Overtime </string>
     <string name="ButtonReadTimestamps">Restore backup</string>
-    <string name="LabelHoursTarget">Target </string>
+    <string name="LabelHoursTarget">target</string>
     <string name="LabelHolyday">Holiday</string>
     <string name="LabelOvertimeTotal">total</string>
     <string name="LabelOvertimeTotalLong">Overtime total</string>
-    <string name="LabelHoliday">Holiday</string>
-    <string name="HintHoliday">Holidays taken on this day</string>
+    <string name="LabelHoliday">Holidays</string>
     <string name="LabelHolidayLeft">Holidays left</string>
     <string name="HintHolidaysLeft">Total holiday days left</string>
     <string name="HintOvertime">Overtime hours</string>
@@ -89,8 +88,7 @@
     <string name="prefDecimalFormat">Decimal Format</string>
     <string name="prefDecimalFromLong">used in CSV export if empty use locale else see java reference.</string>
     <string name="defaultHoursPerDay">8.24</string>
-    <string name="LabelHoursWorked">Hours worked</string>
-    <string name="TextViewLeave">Leave at </string>
+    <string name="LabelHoursWorked">Worked</string>
     <string name="TextViewLeaveNotIn">…start working!</string>
     <string name="LabelBuyFullVersion">		This feature is not available in the free version, please buy the<a href="market://search?q=pname:ch.almana.android.stechkarteLicense">full version.</a></string>
     <string name="delete">delete</string>
@@ -173,5 +171,7 @@
     <string name="label_tab_payment">Payment</string>
     <string name="tabel_tab_months">Months</string>
     <string name="appwidget_label_last_timestamp">Last timestamp:</string>
+    <string name="label_overtime">Overtime</string>
+    <string name="label_leave_at">Leave at</string>
 
 </resources>

@@ -31,4 +31,16 @@
         <item name="android:paddingLeft">@dimen/app_widget_text_paddingLeft</item>
     </style>
 
+    <style name="style_main_info_value" parent="android:Widget.Holo.TextView">
+        <item name="android:gravity">right</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textSize">@+dimen/title_fontsize</item>
+    </style>
+
+    <style name="style_dayeditor_time" parent="android:Widget.Holo.TextView">
+        <item name="android:gravity">right</item>
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
 </resources>

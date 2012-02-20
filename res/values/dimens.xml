@@ -10,8 +10,6 @@
     <dimen name="monthListHolidaysCur">35dp</dimen>
     <dimen name="monthListHolidaysTotal">35dp</dimen>
     <dimen name="payListCol">60dp</dimen>
-    <dimen name="dayEditorFieldWidth">80dp</dimen>
-    <dimen name="dayEditorFieldHeight">12dp</dimen>
     <dimen name="widget_margin_vertical">0dp</dimen>
     <dimen name="widget_margin_horizontal">0dp</dimen>
     <dimen name="app_widget_text_paddingLeft">10dp</dimen>

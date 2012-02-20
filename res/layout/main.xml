@@ -64,10 +64,10 @@
 
             <TextView
                 android:id="@+id/TextViewHoursWorked"
+                style="@style/style_main_info_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@+id/TextView03"
-                android:textSize="@+dimen/title_fontsize" >
+                android:text="@+id/TextView03" >
             </TextView>
         </TableRow>
 
@@ -80,16 +80,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
-                android:text="@+string/TextViewLeave"
+                android:text="@string/label_leave_at"
                 android:textSize="@+dimen/title_fontsize" >
             </TextView>
 
             <TextView
                 android:id="@+id/TextViewLeave"
+                style="@style/style_main_info_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@+string/TextViewLeaveNotIn"
-                android:textSize="@+dimen/title_fontsize" >
+                android:text="@+string/TextViewLeaveNotIn" >
             </TextView>
         </TableRow>
 
@@ -108,10 +108,10 @@
 
             <TextView
                 android:id="@+id/TextViewOvertime"
+                style="@style/style_main_info_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@+id/TextView02"
-                android:textSize="@+dimen/title_fontsize" >
+                android:text="@+id/TextView02" >
             </TextView>
         </TableRow>
 
@@ -130,11 +130,10 @@
 
             <TextView
                 android:id="@+id/TextViewHolidaysLeft"
+                style="@style/style_main_info_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="@+id/TextViewHolidaysLeft"
-                android:textSize="@+dimen/title_fontsize" >
+                android:text="@+id/TextViewHolidaysLeft" >
             </TextView>
         </TableRow>
     </TableLayout>
