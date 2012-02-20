@@ -173,5 +173,8 @@
     <string name="appwidget_label_last_timestamp">Last timestamp:</string>
     <string name="label_overtime">Overtime</string>
     <string name="label_leave_at">Leave at</string>
+    <string name="hint_comment">Comment</string>
+    <string name="label_total">total</string>
+    <string name="label_left">left</string>
 
 </resources>

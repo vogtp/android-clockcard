@@ -49,26 +49,24 @@
 
             <TextView
                 android:id="@+id/TextViewHoursWorkedDayEditor"
-                style="@style/style_dayeditor_time"
-                android:layout_width="wrap_content"
+                style="@style/style_dayeditor_value"
                 android:layout_height="wrap_content"
-                android:text="@+id/TextView06" >
+                android:text="10:24" >
             </TextView>
 
             <TextView
                 android:id="@+id/TextView04"
+                style="@style/style_dayeditor_middlelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 android:text="@string/LabelHoursTarget" >
             </TextView>
 
             <EditText
                 android:id="@+id/EditTextHoursTarget"
-                android:layout_width="wrap_content"
+                style="@style/style_dayeditor_value"
                 android:layout_height="wrap_content"
-                android:text="@+id/EditText01" >
+                android:text="15:08" >
             </EditText>
         </TableRow>
 
@@ -81,30 +79,29 @@
                 android:id="@+id/TextView06"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Overtime" >
+                android:text="@string/label_overtime" >
             </TextView>
 
             <TextView
                 android:id="@+id/tvOvertimeCur"
-                android:layout_width="wrap_content"
+                style="@style/style_dayeditor_value"
                 android:layout_height="wrap_content"
-                android:textSize="24dp" >
+                android:text="13:32" >
             </TextView>
 
             <TextView
                 android:id="@+id/TextView03"
+                style="@style/style_dayeditor_middlelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="total" >
+                android:text="@string/label_total" >
             </TextView>
 
             <EditText
                 android:id="@+id/EditTextOvertime"
-                android:layout_width="wrap_content"
+                style="@style/style_dayeditor_value"
                 android:layout_height="wrap_content"
-                android:hint="@+string/HintOvertime" >
+                android:text="28:50" >
             </EditText>
         </TableRow>
 
@@ -118,31 +115,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="5dp"
-                android:text="@+string/LabelHoliday" >
+                android:text="@string/LabelHoliday" >
             </TextView>
 
             <EditText
                 android:id="@+id/EditTextHoliday"
-                android:layout_width="wrap_content"
+                style="@style/style_dayeditor_value"
                 android:layout_height="wrap_content"
-                android:lines="1" >
+                android:lines="1"
+                android:text="1" >
             </EditText>
 
             <TextView
                 android:id="@+id/TextView02"
+                style="@style/style_dayeditor_middlelabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="left" >
+                android:text="@string/label_left" >
             </TextView>
 
             <EditText
                 android:id="@+id/EditTextHolidaysLeft"
-                android:layout_width="wrap_content"
+                style="@style/style_dayeditor_value"
                 android:layout_height="wrap_content"
-                android:hint="@+string/HintHolidaysLeft"
-                android:lines="1" >
+                android:lines="1"
+                android:text="25.3" >
             </EditText>
         </TableRow>
     </TableLayout>
@@ -151,8 +148,7 @@
         android:id="@+id/etComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Comment"
-        android:text="EditText" >
+        android:hint="@string/hint_comment" >
     </EditText>
 
     <CheckBox
