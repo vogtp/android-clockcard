@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.MonthAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
@@ -63,15 +64,15 @@ class RebuildDaysTimestamps extends RebuildDays {
 
 				ts.setDayRef(dayref);
 				if (dayRefs.add(dayref)) {
-					Log.i(LOG_TAG, "Added day " + dayref + " for recalculation");
+					Logger.i("Added day " + dayref + " for recalculation");
 				}
 				long monthref = MonthAccess.getMonthRefFromDayRef(dayref);
 				if (monthRefs.add(monthref)) {
-					Log.i(LOG_TAG, "Added month " + monthref + " for recalculation");
+					Logger.i("Added month " + monthref + " for recalculation");
 				}
 				long wekkref = WeekAccess.getWeekRefFromDayRef(dayref);
 				if (weekRefs.add(wekkref)) {
-					Log.i(LOG_TAG, "Added week " + wekkref + " for recalculation");
+					Logger.i("Added week " + wekkref + " for recalculation");
 				}
 
 				timestampAccess.update(DB.Timestamps.CONTENT_URI, ts.getValues(), DB.NAME_ID + "=" + ts.getId(), null);

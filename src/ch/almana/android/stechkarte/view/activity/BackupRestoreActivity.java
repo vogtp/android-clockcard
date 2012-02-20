@@ -15,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.TimestampAccess;
+import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.model.io.StechkarteCsvIO;
 import ch.almana.android.stechkarte.utils.DialogHelper;
-import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class BackupRestoreActivity extends ListActivity {
@@ -70,12 +70,7 @@ public class BackupRestoreActivity extends ListActivity {
 			csvIO.restoreTimestamps(filename);
 			csvIO = new StechkarteCsvIO();
 			csvIO.restoreDays(filename);
-			if (TabbedMainActivity.instance != null) {
-				RebuildDaysTask.rebuildDays(TabbedMainActivity.instance, null);
-				finish();
-			} else {
-				RebuildDaysTask.rebuildDays(this, null);
-			}
+			RebuildDaysTask.rebuildDays(this, null);
 		} else {
 			DialogHelper.showFreeVersionDialog(this);
 		}

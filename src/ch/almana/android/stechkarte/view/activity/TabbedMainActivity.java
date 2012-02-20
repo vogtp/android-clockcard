@@ -1,9 +1,6 @@
 package ch.almana.android.stechkarte.view.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
@@ -13,11 +10,13 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TabHost;
 import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.utils.DialogHelper;
+import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
+import ch.almana.android.stechkarte.utils.MenuHelper;
 import ch.almana.android.stechkarte.utils.Settings;
-import ch.almana.android.stechkarte.utils.TabManager;
-import ch.almana.android.stechkarte.view.adapter.TabsAdapter;
+import ch.almana.android.stechkarte.view.adapter.TabManager;
+import ch.almana.android.stechkarte.view.adapter.ViewPagerManager;
 import ch.almana.android.stechkarte.view.fragment.CheckinFragment;
 import ch.almana.android.stechkarte.view.fragment.DaysListFragment;
 import ch.almana.android.stechkarte.view.fragment.MonthsListFragment;
@@ -29,11 +28,9 @@ public class TabbedMainActivity extends FragmentActivity {
 	public static final String ACTION_TIMESTAMP_TOGGLE = "ch.almana.android.stechkarte.actions.timestampToggle";
 	public static final String ACTION_TIMESTAMP_IN = "ch.almana.android.stechkarte.actions.timestampIn";
 	public static final String ACTION_TIMESTAMP_OUT = "ch.almana.android.stechkarte.actions.timestampOut";
-	public static Activity instance; // FIXME remove?
 	private TabHost tabHost;
 	private ViewPager viewPager;
-	private TabsAdapter mTabsAdapter;
-
+	private ViewPagerManager viewPagerManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,43 +53,46 @@ public class TabbedMainActivity extends FragmentActivity {
 		} finally {
 		}
 
-		instance = this;
-
 		setContentView(R.layout.tabbed_main_view);
 		setTitle(R.string.app_name);
 
-		int payTabType = Settings.getInstance().getPayTabType();
-		Class<? extends ListFragment> payList = null; 
-		
-		if (payTabType > StechkartePreferenceActivity.PAY_TAB_HIDE) {
+		Settings settings = Settings.getInstance();
+		int payTabType = settings.getPayTabType();
+		Class<? extends ListFragment> payList = null;
+
+		if (payTabType == StechkartePreferenceActivity.PAY_TAB_WEEK) {
+			payList = PaymentWeekListFragment.class;
+		} else if (payTabType == StechkartePreferenceActivity.PAY_TAB_MONTH) {
 			payList = PaymentMonthListFragment.class;
-			if (payTabType == StechkartePreferenceActivity.PAY_TAB_WEEK) {
-				payList = PaymentWeekListFragment.class;
-			}
 		}
 
-
-		if (Settings.getInstance().hasHoloTheme()) {
+		if (settings.hasHoloTheme()) {
 			viewPager = new ViewPager(this);
 			viewPager.setId(R.id.pager);
 			setContentView(viewPager);
 
 			final ActionBar bar = getActionBar();
 			bar.setTitle(R.string.app_name);
-			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			mTabsAdapter = new TabsAdapter(this, viewPager);
-			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_main), CheckinFragment.class, null);
-			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_days), DaysListFragment.class, null);
-			mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_weeks), WeeksListFragment.class, null);
-			mTabsAdapter.addTab(bar.newTab().setText(R.string.tabel_tab_months), MonthsListFragment.class, null);
-			if (payList != null) {
-				mTabsAdapter.addTab(bar.newTab().setText(R.string.label_tab_payment), payList, null);
+			if (Logger.DEBUG) {
+				bar.setSubtitle("DEBUG MODE" + " (" + settings.getVersionName() + ")");
 			}
-
+			bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			viewPagerManager = new ViewPagerManager(this, viewPager);
+			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_main), CheckinFragment.class, null);
+			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_days), DaysListFragment.class, null);
+			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_weeks), WeeksListFragment.class, null);
+			viewPagerManager.addTab(bar.newTab().setText(R.string.tabel_tab_months), MonthsListFragment.class, null);
+			if (payList != null) {
+				viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_payment), payList, null);
+			}
 
 		}
 		else {
-
+			if (Logger.DEBUG) {
+				String title = getString(R.string.app_name);
+				title = title + " - DEBUG MODE" + " (" + settings.getVersionName() + ")";
+				setTitle(title);
+			}
 			tabHost = (TabHost) findViewById(android.R.id.tabhost);
 			tabHost.setup();
 			TabManager mTabManager = new TabManager(this, tabHost, R.id.realtabcontent);
@@ -121,10 +121,7 @@ public class TabbedMainActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// if (payTabType != Settings.getInstance().getPayTabType()) {
-		// getTabHost().clearAllTabs();
-		// initTabs();
-		// }
+		RebuildDaysTask.rebuildDaysIfNeeded(this);
 	}
 
 	@Override
@@ -138,67 +135,25 @@ public class TabbedMainActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
-		instance = null;
-		super.onDestroy();
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
+		if (Settings.getInstance().hasHoloTheme()) {
+			getMenuInflater().inflate(R.menu.daylist_option, menu);
+			//			viewPager.getCurrentItem();
+			//			viewPager.get
+		}
 		getMenuInflater().inflate(R.menu.general_option, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent i;
-		switch (item.getItemId()) {
-		// case R.id.itemDaysList:
-		// i = new Intent(this, ListDays.class);
-		// startActivity(i);
-		// break;
-		case R.id.itemExportTimestamps:
-			if (Settings.getInstance().isEmailExportEnabled()) {
-				i = new Intent(this, ExportTimestamps.class);
-				startActivity(i);
-			} else {
-				DialogHelper.showFreeVersionDialog(this);
-			}
-			break;
-
-		case R.id.itemReadInTimestmaps:
-			if (Settings.getInstance().isBackupEnabled()) {
-				i = new Intent(this, BackupRestoreActivity.class);
-				startActivity(i);
-			} else {
-				DialogHelper.showFreeVersionDialog(this);
-			}
-			break;
-
-		case R.id.itemPreferences:
-			i = new Intent(getApplicationContext(), StechkartePreferenceActivity.class);
-			startActivity(i);
-			break;
-
-		case R.id.itemHolidayEditor:
-			i = new Intent(this, HolidaysEditor.class);
-			startActivity(i);
-			break;
-
-		case R.id.itemFAQ:
-			i = new Intent(Intent.ACTION_DEFAULT, Uri.parse("http://clockcard.sourceforge.net/faq.html"));
-			startActivity(i);
-			break;
-
-		}
-		return super.onOptionsItemSelected(item);
+		return MenuHelper.handleCommonOptions(this, item);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-
 		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
 		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
 

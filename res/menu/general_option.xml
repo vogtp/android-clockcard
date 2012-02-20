@@ -3,18 +3,15 @@
 
     <item
         android:id="@+id/itemHolidayEditor"
-        android:orderInCategory="10"
         android:title="@string/MenuHolidayEditor"
         android:titleCondensed="@string/MenuHolidayEditor">
     </item>
     <item
         android:id="@+id/itemPreferences"
-        android:orderInCategory="11"
         android:title="@string/perferences">
     </item>
     <item
         android:id="@+id/itemFAQ"
-        android:orderInCategory="12"
         android:title="@string/MenuFAQ"
         android:titleCondensed="@string/MenuFAQ">
     </item>

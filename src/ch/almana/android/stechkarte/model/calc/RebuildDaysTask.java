@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.utils;
+package ch.almana.android.stechkarte.model.calc;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,13 +7,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
-import ch.almana.android.stechkarte.model.calc.RebuildDays;
+import ch.almana.android.stechkarte.utils.IProgressWrapper;
+import ch.almana.android.stechkarte.utils.ProgressWrapperActivity;
+import ch.almana.android.stechkarte.utils.ProgressWrapperDialog;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
@@ -35,9 +39,17 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 		this(ctx, null);
 	}
 
-	public RebuildDaysTask(Context ctx, Timestamp timestamp) {
+	protected RebuildDaysTask(Context ctx, Timestamp timestamp) {
 		this.ctx = ctx;
 		this.timestamp = timestamp;
+		if (ctx instanceof FragmentActivity) {
+			FragmentActivity act = (FragmentActivity) ctx;
+			try {
+				this.progressWrapper = new ProgressWrapperActivity(act);
+			} catch (Throwable e) {
+				Log.w(Logger.TAG, "Cannot create titlebar progess", e);
+			}
+		}
 		if (ctx instanceof Activity) {
 			Activity act = (Activity) ctx;
 			try {
@@ -74,6 +86,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 	}
 
 	public static void rebuildDays(Context ctx, Timestamp timestamp) {
+		Logger.logStacktrace("RebuildDays is called");
 		if (rebuilding) {
 			Log.w(Logger.TAG, "Allready rebuilding, returning");
 			Toast.makeText(ctx, "A rebuild task is allready running.  Not starting again...", Toast.LENGTH_SHORT).show();
@@ -99,7 +112,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 			Cursor tsCursor = day.getTimestamps();
 			if (tsCursor.moveToFirst()) {
 				Timestamp ts = new Timestamp(tsCursor);
-				if (true) { // FIXME ts.getTimestamp() > lastDaysRebuild) {
+				if (ts.getTimestamp() > lastDaysRebuild) {
 					long luDay = day.getLastUpdated();
 					String lastDaysRebuildStr = SimpleDateFormat.getInstance().format(new Date(lastDaysRebuild));
 					String luDayStr = SimpleDateFormat.getInstance().format(new Date(luDay));

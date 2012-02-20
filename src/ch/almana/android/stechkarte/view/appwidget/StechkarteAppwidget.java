@@ -67,10 +67,10 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			if (curInfo.hasData()) {
 				if (Timestamp.TYPE_IN == curInfo.getTimestampType()) {
 					color = R.color.timestampTypeIn;
-					labelAddInfo = "Leave at";
+					labelAddInfo = context.getString(R.string.label_leave_at);
 					addInfo = curInfo.getLeaveAtString();
 				} else {
-					labelAddInfo = "Overtime";
+					labelAddInfo = context.getString(R.string.label_overtime);
 					addInfo = curInfo.getOvertimeString();
 				}
 			} else {

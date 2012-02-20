@@ -21,10 +21,10 @@ import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
+import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.model.io.StechkarteCsvIO;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
 import ch.almana.android.stechkarte.utils.CurInfo;
-import ch.almana.android.stechkarte.utils.RebuildDaysTask;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class ExportTimestamps extends Activity {
@@ -57,7 +57,7 @@ public class ExportTimestamps extends Activity {
 		}
 	}
 
-	private String[] header = { "day", "Hours worked", "Overtime of day", "Overtime", "holiday", "holiday left","comment", "IN", "OUT", "IN", "OUT", "IN", "OUT" };
+	private final String[] header = { "day", "Hours worked", "Overtime of day", "Overtime", "holiday", "holiday left","comment", "IN", "OUT", "IN", "OUT", "IN", "OUT" };
 
 	private void writeCSV(BufferedWriter writer) throws IOException {
 		DayAccess dayAccess = DayAccess.getInstance();

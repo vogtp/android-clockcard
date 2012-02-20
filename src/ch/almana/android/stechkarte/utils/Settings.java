@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.view.activity.BuyFullVersion;
 
 public class Settings extends SettingsBase {
@@ -329,6 +331,16 @@ public class Settings extends SettingsBase {
 	public boolean isUseCalendarDays() {
 		// FIXME make confable
 		return isBetaVersion();
+	}
+
+	public String getVersionName() {
+		try {
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return pInfo.versionName;
+		} catch (NameNotFoundException e) {
+			Logger.i("Cannot get clock card version", e);
+		}
+		return "";
 	}
 
 	public boolean hasHoloTheme() {

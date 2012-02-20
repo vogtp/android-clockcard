@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/itemDayInsertTimestamp" android:title="@string/menu_insert_timestamp"></item>
-	
-	
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<item android:id="@+id/itemDeleteDay" android:title="@string/deleteDay" android:titleCondensed="@string/deleteDay"></item>
+    <item
+        android:id="@+id/itemDayInsertTimestamp"
+        android:title="@string/menu_insert_timestamp">
+    </item>
+    <item
+        android:id="@+id/itemDeleteDay"
+        android:title="@string/deleteDay"
+        android:titleCondensed="@string/deleteDay">
+    </item>
+
 </menu>

@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.utils;
+package ch.almana.android.stechkarte.view.adapter;
 
 import java.util.HashMap;
 
