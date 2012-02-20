@@ -361,4 +361,8 @@ public class Day {
 		this.comment = comment;
 	}
 
+	public boolean isToday() {
+		return dayRef == DayAccess.dayRefFromTimestamp(System.currentTimeMillis());
+	}
+
 }
