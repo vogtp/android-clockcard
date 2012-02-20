@@ -80,12 +80,10 @@ public class DayAccess implements IAccess {
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		int count = getContext().getContentResolver().update(uri, values, selection, selectionArgs);
-		getContext().getContentResolver().notifyChange(uri, null);
-		return count;
+		return getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 	}
 
-	public void insert(Day day) {
+	public void insert(Day day) { 
 		Uri uri = insert(DB.Days.CONTENT_URI, day.getValues());
 		long id = ContentUris.parseId(uri);
 		if (id > 0) {
