@@ -27,8 +27,8 @@
     <string name="prefOvertimeHandling">Overtime Handling</string>
     <string name="prefTimestampHandling">Timestamp Handling</string>
     <string name="prefNightshift">Enable nightshifts</string>
-    <string name="prefNightshiftLongOff">Add timestamp to current day</string>
-    <string name="prefNightshiftLongOn">Add first OUT of day to last day if finished with IN</string>
+    <string name="prefNightshiftLongOff">If IN and OUT is not in the same day a error is displayed.</string>
+    <string name="prefNightshiftLongOn">IN and OUT can be in different days</string>
     <string name="mailBody">See attachment for CSV export.</string>
     <string name="menu_insert_day">Insert day</string>
     <string name="app_name">clock card</string>
@@ -38,7 +38,6 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_insert">Insert</string>
     <string name="menu_insert_timestamp">Insert timestamp</string>
-    <string name="AUTHORITY_TIMESTAMP">ch.almana.android.stechkarte.timestamp</string>
     <string name="menu_edit">Edit</string>
     <string name="ButtonDayList">Days</string>
     <string name="menu_rebuild">Rebuild</string>
@@ -90,7 +89,7 @@
     <string name="defaultHoursPerDay">8.24</string>
     <string name="LabelHoursWorked">Worked</string>
     <string name="TextViewLeaveNotIn">…start working!</string>
-    <string name="LabelBuyFullVersion">		This feature is not available in the free version, please buy the<a href="market://search?q=pname:ch.almana.android.stechkarteLicense">full version.</a></string>
+    <string name="LabelBuyFullVersion">	This feature is not available in the free version, please buy the<a href="market://search?q=pname:ch.almana.android.stechkarteLicense">full version.</a></string>
     <string name="delete">delete</string>
     <string name="deleteDayOnly">Delete day only</string>
     <string name="deleteDayAndTS">Delete day and its timestamps</string>
