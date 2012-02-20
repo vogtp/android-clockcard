@@ -93,14 +93,10 @@ public class CheckinFragment extends Fragment {
 			}
 			leaveAt.setVisibility(TextView.VISIBLE);
 			labelLeaveAt.setVisibility(TextView.VISIBLE);
-			leaveAt.setHeight(overtime.getHeight());
-			labelLeaveAt.setHeight(overtime.getHeight());
 		} else {
-			leaveAt.setText("");
-			leaveAt.setVisibility(TextView.INVISIBLE);
-			leaveAt.setHeight(0);
-			labelLeaveAt.setVisibility(TextView.INVISIBLE);
-			labelLeaveAt.setHeight(0);
+			leaveAt.setText(""); 
+			leaveAt.setVisibility(TextView.GONE);
+			labelLeaveAt.setVisibility(TextView.GONE);
 		}
 
 		status.setText("You are " + curInfo.getInOutString());
