@@ -7,36 +7,44 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.TimePicker.OnTimeChangedListener;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.utils.Settings;
 
-public class TimestampEditor extends Activity implements OnTimeChangedListener {
+public class TimestampEditor extends Activity {
 
 	private static final int DIA_DATE_SELECT = 0;
 	protected Timestamp timestamp;
 	protected Timestamp origTimestamp;
-	private Button dateField;
 	private TimePicker timeField;
 	private Button inOutField;
-	protected TextView timeDisplay;
+	private DatePicker dateField;
+	private Button buOk;
+	private Button buCancel;
+
+	//	protected TextView timeDisplay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timestamp_editor);
-		setTitle(R.string.timestampEditorTitle);
+
+		if (Settings.getInstance().hasHoloTheme()) {
+			getActionBar().setSubtitle(R.string.timestampEditorTitle);
+		}else {
+			setTitle(getString(R.string.app_name)+": "+getString(R.string.timestampEditorTitle));
+		}
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		if (savedInstanceState != null) {
@@ -55,17 +63,19 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 			timestamp = new Timestamp(millies, type);
 
 		} else if (Intent.ACTION_EDIT.equals(action)) {
-			Cursor c = managedQuery(intent.getData(), Timestamps.DEFAULT_PROJECTION, null, null, null);
+			CursorLoader cursorLoader = new CursorLoader(this, intent.getData(), Timestamps.DEFAULT_PROJECTION, null, null, null);
+			Cursor c = cursorLoader.loadInBackground();
 			if (c.moveToFirst()) {
 				timestamp = new Timestamp(c);
 			}
 			c.close();
 		}
 		origTimestamp = new Timestamp(timestamp);
-		dateField = (Button) findViewById(R.id.ButtonDate);
 		timeField = (TimePicker) findViewById(R.id.TimePicker01);
+		dateField = (DatePicker) findViewById(R.id.datePicker1);
 		inOutField = (Button) findViewById(R.id.ButtonInOut);
-		timeDisplay = (TextView) findViewById(R.id.TextViewTime);
+		buOk = (Button) findViewById(R.id.buOk);
+		buCancel = (Button) findViewById(R.id.buCancel);
 		inOutField.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -73,13 +83,24 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 				updateDisplayFields();
 			}
 		});
-		dateField.setOnClickListener(new OnClickListener() {
+
+		buOk.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				showDialog(DIA_DATE_SELECT);
-
+				finish();
 			}
 		});
+
+		buCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				timestamp = origTimestamp;
+				finish();
+			}
+		});
+
 	}
 
 	@Override
@@ -106,21 +127,13 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		timeField.setIs24HourView(true);
+		timeField.setIs24HourView(Settings.getInstance().is24hours());
 		timeField.setCurrentHour(timestamp.getHour());
 		timeField.setCurrentMinute(timestamp.getMinute());
+		dateField.updateDate(timestamp.getYear(), timestamp.getMonth(), timestamp.getDay());
 		updateDisplayFields();
-
-		timeField.setOnTimeChangedListener(this);
-
 	}
 
-	@Override
-	public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-		getTimestamp().setHour(hourOfDay);
-		getTimestamp().setMinute(minute);
-		updateDisplayFields();
-	};
 
 	protected Timestamp getTimestamp() {
 		return timestamp;
@@ -128,14 +141,13 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 
 	private void updateDisplayFields() {
 		inOutField.setText(Timestamp.getTimestampTypeAsString(this, timestamp.getTimestampType()));
-		timeDisplay.setText(timestamp.toString());
-		dateField.setText(timestamp.formatTimeDateOnly());
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		try {
+			updateModel();
 			String action = getIntent().getAction();
 			if (Intent.ACTION_INSERT.equals(action)) {
 				TimestampAccess access = TimestampAccess.getInstance();
@@ -153,8 +165,18 @@ public class TimestampEditor extends Activity implements OnTimeChangedListener {
 		}
 	}
 
+	private void updateModel() {
+		timestamp.setYear(dateField.getYear());
+		timestamp.setMonth(dateField.getMonth());
+		timestamp.setDay(dateField.getDayOfMonth());
+		timestamp.setHour(timeField.getCurrentHour());
+		timestamp.setMinute(timeField.getCurrentMinute());
+
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+		updateModel();
 		timestamp.saveToBundle(outState);
 		super.onSaveInstanceState(outState);
 	}

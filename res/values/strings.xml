@@ -113,7 +113,7 @@
     <string name="weekViewTitle">clock card: Week</string>
     <string name="daysListTitle">clock card: Days List</string>
     <string name="weekListTitle">clock card: Week List</string>
-    <string name="timestampEditorTitle">clock card: Timestamp Editor</string>
+    <string name="timestampEditorTitle">Timestamp Editor</string>
     <string name="preferencesTitle">clock card: Preferences</string>
     <string name="holidayEditorTitle">clock card: Holiday Editor</string>
 
