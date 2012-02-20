@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.utils.Settings;
 
 public class HolidaysEditor extends Activity {
 
@@ -93,7 +94,11 @@ public class HolidaysEditor extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.holidays_editor);
-		setTitle(R.string.holidayEditorTitle);
+		if (Settings.getInstance().hasHoloTheme()) {
+			getActionBar().setSubtitle(R.string.holidayEditorTitle);
+		} else {
+			setTitle(getString(R.string.app_name) + ": " + getString(R.string.holidayEditorTitle));
+		}
 
 		startSpecBorder = new SpecialBorderFields();
 		startSpecBorder.editText = (EditText) findViewById(R.id.EditTextHolidayDurationStart);

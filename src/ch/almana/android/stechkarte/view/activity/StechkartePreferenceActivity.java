@@ -18,7 +18,11 @@ public class StechkartePreferenceActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
-		setTitle(R.string.preferencesTitle);
+		if (Settings.getInstance().hasHoloTheme()) {
+			getActionBar().setSubtitle(R.string.preferencesTitle);
+		} else {
+			setTitle(getString(R.string.app_name) + ": " + getString(R.string.preferencesTitle));
+		}
 
 		Preference buyPreference = findPreference(getString(R.string.prefKeyBuy));
 		boolean payVersion = Settings.getInstance().isPayVersion();

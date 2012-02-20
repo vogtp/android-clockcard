@@ -17,6 +17,7 @@ import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.Month;
 import ch.almana.android.stechkarte.provider.db.DB;
 import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.utils.Settings;
 import ch.almana.android.stechkarte.view.adapter.DayItemAdapter;
 
 public class MonthViewActivity extends ListActivity {
@@ -36,7 +37,11 @@ public class MonthViewActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.month_view);
-		setTitle(R.string.monthViewTitle);
+		if (Settings.getInstance().hasHoloTheme()) {
+			getActionBar().setSubtitle(R.string.monthViewTitle);
+		} else {
+			setTitle(getString(R.string.app_name) + ": " + getString(R.string.monthViewTitle));
+		}
 
 		tvMonthRef = (TextView) findViewById(R.id.TextViewMonthRef);
 		tvHoursWorked = (TextView) findViewById(R.id.TextViewHoursWorked);

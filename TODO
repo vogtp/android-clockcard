@@ -1,12 +1,11 @@
-
+- move backup/restore to preferences
 
 - move autotimestamp to clockcard
-- move daylist optionmenu to main
 
 - colorise time in week and month
 - clear data
 - time rounding
+- custom date format für die Anzeige des Datums 
 
 - Also double time calculation after working certain amount of overtime hours for the week ?
-- Is it too complicated to set it up for 40 hours a week and have option for over time to start at so many hours after 40, so make a option to have overtime start 10 hours after 40 hours.
-- custom date format für die Anzeige des Datums 
+
