@@ -149,15 +149,9 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 			}
 		});
 
-		long dayRef = day.getDayRef();
-		String selection = null;
-		if (dayRef > 0) {
-			selection = DB.Days.NAME_DAYREF + "=" + dayRef;
-		}
-		CursorLoader cursorLoader = new CursorLoader(this, Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, null, Timestamps.DEFAUL_SORTORDER);
-		Cursor cursor = cursorLoader.loadInBackground();
 
-		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, cursor,
+
+		adapter = new SimpleCursorAdapter(this, R.layout.timestamplist_item, null,
 				new String[] { Timestamps.NAME_TIMESTAMP, Timestamps.NAME_TIMESTAMP_TYPE }, new int[] {
 						R.id.TextViewTimestamp, R.id.TextViewTimestampType },0);
 		adapter.setViewBinder(new ViewBinder() {
@@ -211,7 +205,14 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		long dayRef = day.getDayRef();
+		String selection = null;
+		if (dayRef > 0) {
+			selection = DB.Days.NAME_DAYREF + "=" + dayRef;
+		}
+		CursorLoader cursorLoader = new CursorLoader(this, Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, null, Timestamps.DEFAUL_SORTORDER);
+		Cursor cursor = cursorLoader.loadInBackground();
+		adapter.swapCursor(cursor);
 		updateFields();
 	}
 
