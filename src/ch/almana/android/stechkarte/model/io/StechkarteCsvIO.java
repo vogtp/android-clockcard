@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.provider.db.DB;
+import ch.almana.android.stechkarte.provider.DB;
 
 public class StechkarteCsvIO extends DatabaseCsvIo {
 

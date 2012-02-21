@@ -2,6 +2,8 @@ package ch.almana.android.stechkarte.view.activity;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import android.app.ListActivity;
 import android.database.Cursor;
@@ -22,7 +24,13 @@ import ch.almana.android.stechkarte.utils.Settings;
 
 public class BackupRestoreActivity extends ListActivity {
 
-	/** Called when the activity is first created. */
+	protected static final Comparator<File> FILE_SORT = new Comparator<File>() {
+		@Override
+		public int compare(File f1, File f2) {
+			return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
+		}
+	};
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,24 +50,21 @@ public class BackupRestoreActivity extends ListActivity {
 
 	private String[] getFilenames() {
 		File exportDir = new File(StechkarteCsvIO.getBasePath());
-		String[] list = exportDir.list(new FilenameFilter() {
+		File[] fileList = exportDir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
-				// if (filename == null) {
-				// return false;
-				// }
-				// return
-				// filename.startsWith(StechkarteCsvIO.filenameTimestampsStem());
-				return true;
+				File file = new File(dir, filename);
+				return file.isDirectory();
 			}
 		});
 		int length = 0;
-		if (list != null) {
-			length = list.length;
+		if (fileList != null) {
+			length = fileList.length;
 		}
+		Arrays.sort(fileList, FILE_SORT);
 		String[] files = new String[length];
-		for (String file : list) {
-			files[--length] = file;
+		for (int i = 0; i < length; i++) {
+			files[i] = fileList[i].getName();
 		}
 		return files;
 	}

@@ -155,10 +155,8 @@ public class TabbedMainActivity extends FragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		boolean emailExportEnabled = Settings.getInstance().isEmailExportEnabled();
-		boolean backupEnabled = Settings.getInstance().isBackupEnabled();
 
 		menu.findItem(R.id.itemExportTimestamps).setEnabled(emailExportEnabled);
-		menu.findItem(R.id.itemReadInTimestmaps).setEnabled(backupEnabled);
 
 		menu.findItem(R.id.itemHolidayEditor).setVisible(Settings.getInstance().isBetaVersion());
 

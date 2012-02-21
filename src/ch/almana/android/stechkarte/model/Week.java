@@ -3,9 +3,9 @@ package ch.almana.android.stechkarte.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import ch.almana.android.stechkarte.provider.db.DB;
-import ch.almana.android.stechkarte.provider.db.DB.Days;
-import ch.almana.android.stechkarte.provider.db.DB.Weeks;
+import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.Days;
+import ch.almana.android.stechkarte.provider.DB.Weeks;
 
 public class Week {
 

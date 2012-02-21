@@ -13,8 +13,8 @@ import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
-import ch.almana.android.stechkarte.provider.db.DB;
-import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.Days;
 import ch.almana.android.stechkarte.utils.Formater;
 
 public class DayItemAdapter extends SimpleCursorAdapter {

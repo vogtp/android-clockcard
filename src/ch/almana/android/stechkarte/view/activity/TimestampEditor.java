@@ -19,7 +19,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
-import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class TimestampEditor extends Activity {
@@ -80,7 +80,7 @@ public class TimestampEditor extends Activity {
 			@Override
 			public void onClick(View v) {
 				timestamp.setTimestampType(Timestamp.invertTimestampType(getTimestamp()));
-				updateDisplayFields();
+				updateView();
 			}
 		});
 
@@ -113,7 +113,7 @@ public class TimestampEditor extends Activity {
 					timestamp.setYear(year);
 					timestamp.setMonth(monthOfYear);
 					timestamp.setDay(dayOfMonth);
-					updateDisplayFields();
+					updateView();
 				}
 			};
 			return new DatePickerDialog(this, callBack, getTimestamp().getYear(), getTimestamp().getMonth(), getTimestamp().getDay());
@@ -127,11 +127,7 @@ public class TimestampEditor extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		timeField.setIs24HourView(Settings.getInstance().is24hours());
-		timeField.setCurrentHour(timestamp.getHour());
-		timeField.setCurrentMinute(timestamp.getMinute());
-		dateField.updateDate(timestamp.getYear(), timestamp.getMonth(), timestamp.getDay());
-		updateDisplayFields();
+		updateView();
 	}
 
 
@@ -139,8 +135,12 @@ public class TimestampEditor extends Activity {
 		return timestamp;
 	}
 
-	private void updateDisplayFields() {
+	private void updateView() {
 		inOutField.setText(Timestamp.getTimestampTypeAsString(this, timestamp.getTimestampType()));
+		timeField.setIs24HourView(Settings.getInstance().is24hours());
+		timeField.setCurrentHour(timestamp.getHour());
+		timeField.setCurrentMinute(timestamp.getMinute());
+		dateField.updateDate(timestamp.getYear(), timestamp.getMonth(), timestamp.getDay());
 	}
 
 	@Override

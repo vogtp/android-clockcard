@@ -23,7 +23,7 @@ import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.model.io.StechkarteCsvIO;
-import ch.almana.android.stechkarte.provider.db.DB.Days;
+import ch.almana.android.stechkarte.provider.DB.Days;
 import ch.almana.android.stechkarte.utils.CurInfo;
 import ch.almana.android.stechkarte.utils.Settings;
 

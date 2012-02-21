@@ -1,6 +1,5 @@
 package ch.almana.android.stechkarte.model.calc;
 
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -14,10 +13,9 @@ import ch.almana.android.stechkarte.model.MonthAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.WeekAccess;
-import ch.almana.android.stechkarte.provider.db.DB;
-import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.IProgressWrapper;
-import ch.almana.android.stechkarte.utils.Settings;
 import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
 class RebuildDaysTimestamps extends RebuildDays {
@@ -37,14 +35,6 @@ class RebuildDaysTimestamps extends RebuildDays {
 			String selection = null;
 			if (timestamp != null) {
 				selection = DB.Timestamps.NAME_TIMESTAMP + ">=" + timestamp.getTimestamp();
-			}
-
-			boolean useCalendarDays = Settings.getInstance().isUseCalendarDays();
-
-			Calendar cal = Calendar.getInstance();
-			if (useCalendarDays) {
-				cal.setTimeInMillis(timestamp.getTimestamp());
-				// TODO: handle progress
 			}
 
 			TimestampAccess timestampAccess = TimestampAccess.getInstance();

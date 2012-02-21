@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -29,7 +27,6 @@ public class Settings extends SettingsBase {
 	private static final long SECONDS_IN_MILLIES = 1000;
 	private static final int MIN_LICENSE_VERSION = 201011190;
 	private static final String MARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicense";
-	private static final String NONMARKETLICENSE_PACKENAME = "ch.almana.android.stechkarteLicenseNonMarket";
 	private static final int MIN_NON_MARKET_LICENSE_VERSION = 0;
 
 	private boolean featuresChanged = false;
@@ -43,28 +40,6 @@ public class Settings extends SettingsBase {
 
 	private Settings(Context ctx) {
 		super(ctx);
-		// FIXME remove since its only for update 1.0 -> 1.0.1
-		String key = context.getResources().getString(R.string.prefKeyMinTimestampDiff);
-		SharedPreferences preferences = getPreferences();
-		if (preferences.contains(key)) {
-			String keyNew = context.getResources().getString(R.string.prefKeyMinTimestampDiffInSecs);
-			Editor editor = preferences.edit();
-			int minutes = Integer.parseInt(preferences.getString(key, "1")) * 60;
-			editor.putString(keyNew, minutes + "");
-			editor.remove(key);
-			editor.commit();
-		}
-		// END remove since its only for update 1.0 -> 1.0.1
-		// FIXME remove since its only for update 1.2.2 -> 1.2.3
-		String value = getCsvSeparator();
-		if (value != null && value.contains("\t")) {
-			value = value.replace("\t", "\\t");
-			key = context.getResources().getString(R.string.prefKeyCsvFieldSeparator);
-			Editor editor = preferences.edit();
-			editor.putString(key, value);
-			editor.commit();
-		}
-		// END remove since its only for update 1.0 -> 1.0.1
 	}
 
 	public float getHoursTarget(long dayref) {
@@ -148,25 +123,7 @@ public class Settings extends SettingsBase {
 		return false;
 	}
 
-	private boolean checkNonMarketLicense(Signature[] mySignatures, PackageInfo packageInfo) {
-		Log.d(Logger.TAG, "Found package: " + packageInfo.packageName);
-		if (packageInfo.versionCode >= MIN_NON_MARKET_LICENSE_VERSION) {
-			Signature[] signatures = packageInfo.signatures;
-
-			if (Arrays.equals(signatures, mySignatures)) {
-				Log.i(Logger.TAG, "Found valid license");
-				// return true;
-			} else {
-				Toast.makeText(context, "Wrong license signature.", Toast.LENGTH_LONG).show();
-			}
-
-		} else {
-			Toast.makeText(context, "License version to low, please update.", Toast.LENGTH_LONG).show();
-			BuyFullVersion.startClockCardInstall(context);
-		}
-		return false;
-	}
-
+	// TODO make more finegrained
 	public boolean isPayVersion() {
 		if (checkLicense()) {
 			return true;
@@ -209,23 +166,7 @@ public class Settings extends SettingsBase {
 	}
 
 	public DecimalFormat getCsvDecimalFormat() {
-		DecimalFormat df = null;
-		try {
-			String format = getPrefAsString(R.string.prefKeyDecimalFormat, R.string.prefDecimalFormatDefault);
-			if (format != null && !format.trim().equals("")) {
-				df = new DecimalFormat(format);
-			}
-		} catch (Exception e) {
-			Log.e(Logger.TAG, "Error getting decimalformat from perf", e);
-			// df = new DecimalFormat();
-			// // context
-			// // .getString(R.string.prefDecimalFormatDefault));
-			// df.setMaximumFractionDigits(2);
-		}
-		if (df == null) {
-			df = (DecimalFormat) NumberFormat.getNumberInstance();
-		}
-		return df;
+		return (DecimalFormat) NumberFormat.getNumberInstance();
 	}
 
 	public boolean isEmailExportEnabled() {

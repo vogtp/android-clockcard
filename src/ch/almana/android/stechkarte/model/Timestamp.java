@@ -8,8 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import ch.almana.android.stechkarte.R;
-import ch.almana.android.stechkarte.provider.db.DB;
-import ch.almana.android.stechkarte.provider.db.DB.Timestamps;
+import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class Timestamp {
@@ -234,9 +234,7 @@ public class Timestamp {
 	}
 
 	public int getDay() {
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(timestamp);
-		return c.get(Calendar.DAY_OF_MONTH);
+		return getCalendar().get(Calendar.DAY_OF_MONTH);
 	}
 
 	public void setYear(int year) {

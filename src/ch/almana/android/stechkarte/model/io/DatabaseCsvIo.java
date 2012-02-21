@@ -16,8 +16,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.IAccess;
-import ch.almana.android.stechkarte.provider.db.DB;
 
 public abstract class DatabaseCsvIo {
 

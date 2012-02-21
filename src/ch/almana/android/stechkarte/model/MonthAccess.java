@@ -13,10 +13,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.IAccess;
-import ch.almana.android.stechkarte.provider.db.DB;
-import ch.almana.android.stechkarte.provider.db.DB.Days;
-import ch.almana.android.stechkarte.provider.db.DB.Months;
+import ch.almana.android.stechkarte.provider.DB.Days;
+import ch.almana.android.stechkarte.provider.DB.Months;
 import ch.almana.android.stechkarte.utils.IProgressWrapper;
 
 public class MonthAccess implements IAccess {

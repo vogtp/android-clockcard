@@ -1,4 +1,5 @@
 - move backup/restore to preferences
+- ask before restoring backup
 
 - move autotimestamp to clockcard
 - show weekday in timestamp editor

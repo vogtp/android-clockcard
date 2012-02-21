@@ -1,4 +1,4 @@
-package ch.almana.android.stechkarte.provider.db;
+package ch.almana.android.stechkarte.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
-import ch.almana.android.stechkarte.provider.StechkarteProvider;
 
 public interface DB {
 
@@ -137,6 +136,8 @@ public interface DB {
 
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
 
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
 		public static final String NAME_TIMESTAMP_TYPE = "type";
 		public static final String NAME_TIMESTAMP = "timestamp";
 		public static final String NAME_DAYREF = "dayRef";
@@ -164,6 +165,8 @@ public interface DB {
 		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
 
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
 		public static final String NAME_DAYREF = "dayRef";
 		public static final String NAME_HOURS_WORKED = "hoursWorked";
@@ -215,6 +218,8 @@ public interface DB {
 
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
 
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
 		public static final String NAME_MONTHREF = "monthRef";
 		public static final String NAME_HOURS_WORKED = "hoursWorked";
 		public static final String NAME_HOURS_TARGET = "hoursTarget";
@@ -255,6 +260,8 @@ public interface DB {
 		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
 
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
 		public static final String NAME_WEEKREF = "weekrefRef";
 		public static final String NAME_HOURS_WORKED = "hoursWorked";

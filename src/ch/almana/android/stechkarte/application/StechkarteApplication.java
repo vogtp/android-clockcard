@@ -7,8 +7,8 @@ import ch.almana.android.stechkarte.model.DayAccess;
 import ch.almana.android.stechkarte.model.MonthAccess;
 import ch.almana.android.stechkarte.model.TimestampAccess;
 import ch.almana.android.stechkarte.model.WeekAccess;
-import ch.almana.android.stechkarte.provider.db.DB;
-import ch.almana.android.stechkarte.provider.db.DB.OpenHelper;
+import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.OpenHelper;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class StechkarteApplication extends Application {
