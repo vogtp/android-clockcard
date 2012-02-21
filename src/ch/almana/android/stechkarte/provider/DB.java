@@ -1,21 +1,42 @@
 package ch.almana.android.stechkarte.provider;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.provider.DBProvider.UriTableMapping;
 
 public interface DB {
 
+	public static final String AUTHORITY = "ch.almana.android.stechkarte";
 	public static final String DATABASE_NAME = "stechkarte";
 
 	public static final String NAME_ID = "_id";
 	public static final int INDEX_ID = 0;
 
-	// FIXME insert lastupdated as long
-	// timestamp index in timestamps
+	public static class UriTableConfig {
+
+		public static Map<Integer, UriTableMapping> mao;
+
+		private static final int TIMESTAMP = 1;
+		private static final int DAY = 2;
+		private static final int MONTH = 3;
+		private static final int WEEK = 4;
+
+		static {
+			mao = new HashMap<Integer, UriTableMapping>();
+			mao.put(TIMESTAMP, Timestamps.URI_TABLE_MAPPING);
+			mao.put(DAY, Days.URI_TABLE_MAPPING);
+			mao.put(MONTH, Months.URI_TABLE_MAPPING);
+			mao.put(WEEK, Weeks.URI_TABLE_MAPPING);
+		}
+
+	}
 
 	public class OpenHelper extends SQLiteOpenHelper {
 
@@ -30,7 +51,7 @@ public interface DB {
 				+ " long, " + Days.NAME_HOURS_WORKED + " real, " + Days.NAME_HOURS_TARGET + " real," + Days.NAME_HOLIDAY + " real, " + Days.NAME_HOLIDAY_LEFT
 				+ " real, "
 				+ Days.NAME_OVERTIME + " real, " + Days.NAME_ERROR + " int, " + Days.NAME_FIXED + " int, " + Days.NAME_LAST_UPDATED + " long, "
-				+ Days.NAME_MONTHREF + " long, " + Days.NAME_WEEKREF + " long, "+ Days.NAME_COMMENT+" text);";
+				+ Days.NAME_MONTHREF + " long, " + Days.NAME_WEEKREF + " long, " + Days.NAME_COMMENT + " text);";
 
 		private static final String CREATE_MONTH_TABLE = "create table if not exists " + Months.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
 				+ Months.NAME_MONTHREF
@@ -104,13 +125,13 @@ public interface DB {
 				db.execSQL("create index days_weekref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_WEEKREF + "); ");
 				db.execSQL("create unique index weeks_weekref_idx on " + Weeks.TABLE_NAME + " (" + Weeks.NAME_WEEKREF + "); ");
 				// nobreak
-				
+
 			case 7:
 				Log.w(LOG_TAG, "Upgrading to DB Version 8...");
-				db.execSQL("delete from "+Weeks.TABLE_NAME+" where "+Weeks.NAME_WEEKREF+" < 100;");
-				db.execSQL("update  "+Days.TABLE_NAME+" set "+Days.NAME_WEEKREF+"=-1  where "+Days.NAME_WEEKREF+" < 100;");
+				db.execSQL("delete from " + Weeks.TABLE_NAME + " where " + Weeks.NAME_WEEKREF + " < 100;");
+				db.execSQL("update  " + Days.TABLE_NAME + " set " + Days.NAME_WEEKREF + "=-1  where " + Days.NAME_WEEKREF + " < 100;");
 				// nobreak
-				
+
 			case 8:
 				Log.w(LOG_TAG, "Upgrading to DB Version 9...");
 				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.NAME_COMMENT + " text;");
@@ -129,12 +150,12 @@ public interface DB {
 		static final String TABLE_NAME = "timestamps";
 
 		public static final String CONTENT_ITEM_NAME = "timestamp";
-		public static String CONTENT_URI_STRING = "content://" + StechkarteProvider.AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
 		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
 		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
@@ -159,12 +180,12 @@ public interface DB {
 		static final String TABLE_NAME = "days";
 
 		public static final String CONTENT_ITEM_NAME = "day";
-		public static String CONTENT_URI_STRING = "content://" + StechkarteProvider.AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
 		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
 		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
@@ -204,19 +225,18 @@ public interface DB {
 
 		static final String[] PROJECTTION_DAYREF = new String[] { NAME_DAYREF };
 
-
 	}
 
 	public interface Months {
 		static final String TABLE_NAME = "months";
 
 		public static final String CONTENT_ITEM_NAME = "month";
-		public static String CONTENT_URI_STRING = "content://" + StechkarteProvider.AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
 		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
 		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
@@ -254,12 +274,12 @@ public interface DB {
 		static final String TABLE_NAME = "weeks";
 
 		public static final String CONTENT_ITEM_NAME = "week";
-		public static String CONTENT_URI_STRING = "content://" + StechkarteProvider.AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
 		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + StechkarteProvider.AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 
 		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 

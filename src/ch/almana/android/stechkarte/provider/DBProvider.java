@@ -1,8 +1,5 @@
 package ch.almana.android.stechkarte.provider;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -13,21 +10,26 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import ch.almana.android.stechkarte.provider.DB.Days;
-import ch.almana.android.stechkarte.provider.DB.Months;
 import ch.almana.android.stechkarte.provider.DB.OpenHelper;
-import ch.almana.android.stechkarte.provider.DB.Timestamps;
-import ch.almana.android.stechkarte.provider.DB.Weeks;
 import ch.almana.android.stechkarte.view.appwidget.StechkarteAppwidget;
 
-public class StechkarteProvider extends ContentProvider {
+public class DBProvider extends ContentProvider {
 
-	public static final String AUTHORITY = "ch.almana.android.stechkarte";
+	public static class UriTableMapping {
+		public UriTableMapping(String tableName, String contentItemName, String contentType, String contentItemType) {
+			super();
+			this.tableName = tableName;
+			this.contentItemName = contentItemName;
+			this.contentType = contentType;
+			this.contentItemType = contentItemType;
+		}
 
-	private static final int TIMESTAMP = 1;
-	private static final int DAY = 2;
-	private static final int MONTH = 3;
-	private static final int WEEK = 4;
+		String tableName;
+		String contentItemName;
+		String contentType;
+		String contentItemType;
+	}
+
 
 	private static final int CONTENT = 1;
 	private static final int CONTENT_ITEM = 2;
@@ -35,7 +37,6 @@ public class StechkarteProvider extends ContentProvider {
 	private static final UriMatcher uriTableMatcher;
 
 	private static UriMatcher uriContentTypeMatcher;
-	private static Map<Integer, UriTableMapping> uriTableMap;
 
 	private OpenHelper openHelper;
 
@@ -82,13 +83,10 @@ public class StechkarteProvider extends ContentProvider {
 		} else {
 			values = new ContentValues();
 		}
-		//		if (values.getAsFloat(Days.NAME_HOURS_TARGET) < 0) {
-		//			values.put(Days.NAME_HOURS_TARGET, Settings.getInstance().getHoursTarget(values.getAsLong(Days.NAME_DAYREF)));
-		//		}
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		long rowId = db.insert(utm.tableName, DB.NAME_ID, values);
 		if (rowId > 0) {
-			 ret = ContentUris.withAppendedId(uri, rowId); // TODO was Days.CONTENT_URI chick if uri is correct
+			ret = ContentUris.withAppendedId(uri, rowId);
 		}else {
 			throw new SQLException("Failed to insert row into " + uri);
 		}
@@ -169,25 +167,19 @@ public class StechkarteProvider extends ContentProvider {
 	}
 
 	private UriTableMapping getUriTableMap(Uri uri) {
-		return uriTableMap.get(uriTableMatcher.match(uri));
+		return DB.UriTableConfig.mao.get(uriTableMatcher.match(uri));
 	}
 
 	static {
 
-		uriTableMap = new HashMap<Integer, UriTableMapping>();
-		uriTableMap.put(TIMESTAMP, Timestamps.URI_TABLE_MAPPING);
-		uriTableMap.put(DAY, Days.URI_TABLE_MAPPING);
-		uriTableMap.put(MONTH, Months.URI_TABLE_MAPPING);
-		uriTableMap.put(WEEK, Weeks.URI_TABLE_MAPPING);
-
 		uriTableMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriContentTypeMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		for (Integer type : uriTableMap.keySet()) {
-			String contentItemName = uriTableMap.get(type).contentItemName;
-			uriTableMatcher.addURI(AUTHORITY, contentItemName, type);
-			uriTableMatcher.addURI(AUTHORITY, contentItemName + "/#", type);
-			uriContentTypeMatcher.addURI(AUTHORITY, contentItemName, CONTENT);
-			uriContentTypeMatcher.addURI(AUTHORITY, contentItemName + "/#", CONTENT_ITEM);
+		for (Integer type : DB.UriTableConfig.mao.keySet()) {
+			String contentItemName = DB.UriTableConfig.mao.get(type).contentItemName;
+			uriTableMatcher.addURI(DB.AUTHORITY, contentItemName, type);
+			uriTableMatcher.addURI(DB.AUTHORITY, contentItemName + "/#", type);
+			uriContentTypeMatcher.addURI(DB.AUTHORITY, contentItemName, CONTENT);
+			uriContentTypeMatcher.addURI(DB.AUTHORITY, contentItemName + "/#", CONTENT_ITEM);
 		}
 
 	}

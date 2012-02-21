@@ -29,7 +29,7 @@
             android:value="AEdPqrEAAAAISGDgD0GTtsmLt9_0xEbN21noX0OqNQiJ3n9k5g" />
 
         <provider
-            android:name=".provider.StechkarteProvider"
+            android:name=".provider.DBProvider"
             android:authorities="ch.almana.android.stechkarte" >
         </provider>
 
