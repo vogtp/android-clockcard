@@ -12,10 +12,9 @@ import android.net.Uri;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.provider.DB;
-import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.DB.Days;
 
-public class DayAccess implements IAccess {
+public class DayAccess implements IModelAccess {
 	private static final String LOG_TAG = Logger.TAG;
 
 	private static SimpleDateFormat dayRefDateFormat = new SimpleDateFormat("yyyyMMdd");

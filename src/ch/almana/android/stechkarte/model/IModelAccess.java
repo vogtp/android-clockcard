@@ -1,10 +1,10 @@
-package ch.almana.android.stechkarte.provider;
+package ch.almana.android.stechkarte.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-public interface IAccess {
+public interface IModelAccess {
 
 	public abstract int delete(Uri uri, String selection, String[] selectionArgs);
 

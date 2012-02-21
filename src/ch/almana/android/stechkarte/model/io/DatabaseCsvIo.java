@@ -16,8 +16,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.model.IModelAccess;
 import ch.almana.android.stechkarte.provider.DB;
-import ch.almana.android.stechkarte.provider.IAccess;
 
 public abstract class DatabaseCsvIo {
 
@@ -88,7 +88,7 @@ public abstract class DatabaseCsvIo {
 		bWriter.flush();
 	}
 
-	public void readCursor(Reader reader, IAccess iAccess, Uri contentUri, String indexName) {
+	public void readCursor(Reader reader, IModelAccess iAccess, Uri contentUri, String indexName) {
 		readHeaderLine();
 		ContentValues values = new ContentValues();
 		while (readDataLine(values)) {
@@ -102,7 +102,7 @@ public abstract class DatabaseCsvIo {
 		}
 	}
 
-	public void readCursor(String filename, IAccess iAccess, Uri contentUri, String indexName) {
+	public void readCursor(String filename, IModelAccess iAccess, Uri contentUri, String indexName) {
 		try {
 			reader = new BufferedReader(new FileReader(filename));
 			readCursor(reader, iAccess, contentUri, indexName);

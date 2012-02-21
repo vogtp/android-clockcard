@@ -14,12 +14,11 @@ import android.net.Uri;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.provider.DB;
-import ch.almana.android.stechkarte.provider.IAccess;
 import ch.almana.android.stechkarte.provider.DB.Timestamps;
 import ch.almana.android.stechkarte.utils.Settings;
 import ch.almana.android.stechkarte.view.activity.BackupRestoreActivity;
 
-public class TimestampAccess implements IAccess {
+public class TimestampAccess implements IModelAccess {
 
 	private final Context context;
 
