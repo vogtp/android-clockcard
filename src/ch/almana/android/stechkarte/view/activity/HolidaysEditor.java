@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class HolidaysEditor extends Activity {
@@ -30,13 +32,17 @@ public class HolidaysEditor extends Activity {
 	private SpecialBorderFields startSpecBorder;
 	private Spinner spHolidayDurationStart;
 	private Spinner spHolidayDurationEnd;
+	private Calendar holidayStart = null;
+	private  Calendar holidayEnd = null;
+	private Spinner spHolidayType;
+	private CheckBox cbIsPayed;
 
 	private static class SpecialBorderFields {
 		EditText editText;
 		TextView label;
 	}
 
-	private class HolidayBorderAdaptor implements AdapterView.OnItemSelectedListener {
+	private class HolidayBorderAdapter implements AdapterView.OnItemSelectedListener {
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			SpecialBorderFields spf = null;
@@ -51,8 +57,8 @@ public class HolidaysEditor extends Activity {
 				spf.label.setVisibility(View.VISIBLE);
 				spf.editText.setVisibility(View.VISIBLE);
 			} else {
-				spf.label.setVisibility(View.INVISIBLE);
-				spf.editText.setVisibility(View.INVISIBLE);
+				spf.label.setVisibility(View.GONE);
+				spf.editText.setVisibility(View.GONE);
 			}
 		}
 
@@ -70,15 +76,28 @@ public class HolidaysEditor extends Activity {
 			callBack = new OnDateSetListener() {
 				@Override
 				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-					buHoldidayStart.setText(year + "" + monthOfYear + 1 + "" + dayOfMonth + "(TODO)");
+					if (holidayStart == null) {
+						holidayStart = getNewDateCalendar();
+					}
+					holidayStart.set(Calendar.YEAR, year);
+					holidayStart.set(Calendar.MONTH, monthOfYear);
+					holidayStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+					updateView();
 				}
+
 			};
 			break;
 		case DIA_END_DATE_SELECT:
 			callBack = new OnDateSetListener() {
 				@Override
 				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-					buHoldidayEnd.setText(year + "" + monthOfYear + 1 + "" + dayOfMonth + "(TODO)");
+					if (holidayEnd == null) {
+						holidayEnd = getNewDateCalendar();
+					}
+					holidayEnd.set(Calendar.YEAR, year);
+					holidayEnd.set(Calendar.MONTH, monthOfYear);
+					holidayEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+					updateView();
 				}
 			};
 			break;
@@ -123,10 +142,45 @@ public class HolidaysEditor extends Activity {
 			}
 		});
 
-		HolidayBorderAdaptor holidayBorderAdaptor = new HolidayBorderAdaptor();
+		HolidayBorderAdapter holidayBorderAdaptor = new HolidayBorderAdapter();
 		spHolidayDurationStart = (Spinner) findViewById(R.id.SpinnerHodidayDurationStart);
 		spHolidayDurationStart.setOnItemSelectedListener(holidayBorderAdaptor);
 		spHolidayDurationEnd = (Spinner) findViewById(R.id.SpinnerHodidayDurationEnd);
 		spHolidayDurationEnd.setOnItemSelectedListener(holidayBorderAdaptor);
+
+		spHolidayType = (Spinner) findViewById(R.id.SpinnerHolidayType);
+		//		SpinnerAdapter adapter = new ArrayAdapt;
+		//		spHolidayType.setAdapter(adapter );
+		//		cbIsPayed = (CheckBox) findViewById(R.id.CheckBoxIsPayed); 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		updateView();
+	}
+
+	private void updateView() {
+		updateCalendarButton(buHoldidayStart, holidayStart);
+		updateCalendarButton(buHoldidayEnd, holidayEnd);
+		// TODO Auto-generated method stub
+
+	}
+
+	private void updateCalendarButton(Button button, Calendar cal) {
+		if (cal != null) {
+			button.setText(Formater.formatDate(cal.getTime()));
+		}else {
+			button.setText(R.string.ButtonHolidayDateNone);
+		}
+	}
+
+	private Calendar getNewDateCalendar() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal;
 	}
 }
