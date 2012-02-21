@@ -191,7 +191,7 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 					day.setYear(year);
 					day.setMonth(monthOfYear);
 					day.setDay(dayOfMonth);
-					updateFields();
+					updateView();
 				}
 			};
 			return new DatePickerDialog(this, callBack, day.getYear(), day.getMonth(), day.getDay());
@@ -205,6 +205,10 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		updateView();
+	}
+
+	private void updateView() {
 		long dayRef = day.getDayRef();
 		String selection = null;
 		if (dayRef > 0) {
@@ -213,10 +217,6 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 		CursorLoader cursorLoader = new CursorLoader(this, Timestamps.CONTENT_URI, Timestamps.DEFAULT_PROJECTION, selection, null, Timestamps.DEFAUL_SORTORDER);
 		Cursor cursor = cursorLoader.loadInBackground();
 		adapter.swapCursor(cursor);
-		updateFields();
-	}
-
-	private void updateFields() {
 		dayRefTextView.setText(day.getDayString());
 		holiday.setText(day.getHolyday() + "");
 		holidayLeft.setText(day.getHolydayLeft() + "");
@@ -319,6 +319,7 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 		switch (item.getItemId()) {
 		case R.id.itemDayDeleteTimestamp:
 			getContentResolver().delete(tsUri, null, null);
+			updateView();
 			return true;
 		case R.id.itemDayEditTimestamp:
 			startActivity(new Intent(Intent.ACTION_EDIT, tsUri));
