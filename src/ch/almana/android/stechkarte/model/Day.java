@@ -208,6 +208,9 @@ public class Day {
 	}
 
 	public float getHoursTarget() {
+		if (hoursTarget < 0) {
+			hoursTarget = Settings.getInstance().getHoursTarget(dayRef);
+		}
 		return hoursTarget;
 	}
 
