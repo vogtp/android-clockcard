@@ -1,161 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory
-        android:key="prefKeyWorkday"
-        android:summary="@string/prefWorkdayLong"
-        android:title="@string/prefWorkday" >
-        <PreferenceScreen
-            android:key="@string/prefKeyWorkHours"
-            android:summary="@string/prefWorkHoursLong"
-            android:title="@string/prefWorkHours" >
-            <PreferenceCategory android:title="@string/prefWorkHoursCategory" >
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayDefault"
-                    android:key="@string/prefKeyHoursPerDay"
-                    android:summary="@string/prefHoursPerDayLong"
-                    android:title="@string/prefHoursPerDay" >
-                </EditTextPreference>
-            </PreferenceCategory>
-            <PreferenceCategory android:title="@string/prefWorkHoursWeekCategory" >
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekDefault"
-                    android:key="@string/prefKeyWorkHoursMon"
-                    android:summary="@string/prefWorkHoursMonLong"
-                    android:title="@string/prefWorkHoursMon" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekDefault"
-                    android:key="@string/prefKeyWorkHoursTue"
-                    android:summary="@string/prefWorkHoursTueLong"
-                    android:title="@string/prefWorkHoursTue" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekDefault"
-                    android:key="@string/prefKeyWorkHoursWed"
-                    android:summary="@string/prefWorkHoursWedLong"
-                    android:title="@string/prefWorkHoursWed" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekDefault"
-                    android:key="@string/prefKeyWorkHoursThu"
-                    android:summary="@string/prefWorkHoursThuLong"
-                    android:title="@string/prefWorkHoursThu" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekDefault"
-                    android:key="@string/prefKeyWorkHoursFri"
-                    android:summary="@string/prefWorkHoursFriLong"
-                    android:title="@string/prefWorkHoursFri" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekEndDefault"
-                    android:key="@string/prefKeyWorkHoursSat"
-                    android:summary="@string/prefWorkHoursSatLong"
-                    android:title="@string/prefWorkHoursSat" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefHoursPerDayWeekEndDefault"
-                    android:key="@string/prefKeyWorkHoursSun"
-                    android:summary="@string/prefWorkHoursSunLong"
-                    android:title="@string/prefWorkHoursSun" >
-                </EditTextPreference>
-            </PreferenceCategory>
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:key="prefKeyOvertimeHandling"
-            android:summary="@string/prefOvertimeHandlingLong"
-            android:title="@string/prefOvertimeHandling" >
-            <PreferenceCategory android:title="@string/prefOvertimeResetInterval" >
-                <ListPreference
-                    android:entries="@array/overtimeResetEntries"
-                    android:entryValues="@array/overtimeResetEntryValues"
-                    android:key="@string/prefKeyOvertimeResetPoint"
-                    android:summary="@string/prefKeyOvertimeResetPointLong"
-                    android:title="@string/prefOvertimeResetPoint" >
-                </ListPreference>
-            </PreferenceCategory>
-            <PreferenceCategory android:title="@string/prefOvertimeResetSettings" >
-                <EditTextPreference
-                    android:defaultValue="@string/prefOvertimeResetMinTimeDefault"
-                    android:key="@string/prefOvertimeResetMinTime"
-                    android:summary="@string/prefOvertimeResetMinTimeLong"
-                    android:title="@string/prefOvertimeResetMinTime" >
-                </EditTextPreference>
-
-                <CheckBoxPreference
-                    android:defaultValue="@string/prefOvertimeResetIfBiggerDefault"
-                    android:key="@string/prefKeyOvertimeResetIfBigger"
-                    android:summaryOff="@string/prefOvertimeResetIfBiggerFalse"
-                    android:summaryOn="@string/prefOvertimeResetIfBiggerTrue"
-                    android:title="@string/prefOvertimeResetIfBigger" >
-                </CheckBoxPreference>
-            </PreferenceCategory>
-        </PreferenceScreen>
-        <PreferenceScreen
-            android:key="prefKeyPayment"
-            android:summary="@string/prefPaymentLong"
-            android:title="@string/prefPayment" >
-            <PreferenceCategory android:title="@string/prefPayment" >
-                <EditTextPreference
-                    android:defaultValue="@string/prefKeyPaymentRegularDefault"
-                    android:key="@string/prefKeyPaymentRegular"
-                    android:summary="@string/prefPaymentRegularLong"
-                    android:title="@string/prefPaymentRegular" >
-                </EditTextPreference>
-                <EditTextPreference
-                    android:defaultValue="@string/prefKeyPaymentOvertimeDefault"
-                    android:key="@string/prefKeyPaymentOvertime"
-                    android:summary="@string/prefPaymentOvertimeLong"
-                    android:title="@string/prefPaymentOvertime" >
-                </EditTextPreference>
-
-                <ListPreference
-                    android:defaultValue="@string/prefPaymentTabTypeDefault"
-                    android:entries="@array/prefPaymentTabEntries"
-                    android:entryValues="@array/prefPaymentTabValues"
-                    android:key="@string/prefKeyPaymentTabType"
-                    android:summary="@string/prefPaymentTabTypeLong"
-                    android:title="@string/prefPaymentTabType" >
-                </ListPreference>
-            </PreferenceCategory>
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/app_name" >
-        <EditTextPreference
-            android:defaultValue="@string/prefMinTimestampDiffDefault"
-            android:key="@string/prefKeyMinTimestampDiffInSecs"
-            android:summary="@string/prefMinTimestampDiffLong"
-            android:title="@string/prefMinTimestampDiff" >
-        </EditTextPreference>
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/prefKeyNightshift"
-            android:summaryOff="@string/prefNightshiftLongOff"
-            android:summaryOn="@string/prefNightshiftLongOn"
-            android:title="@string/prefNightshift" >
-        </CheckBoxPreference>
+    <PreferenceScreen
+        android:key="prefKeyUI"
+        android:title="@string/prefUI" >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/prefKeyIs24hours"
             android:title="@string/prefIs24hours" >
         </CheckBoxPreference>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="prefKeyCalaculation"
+        android:title="@string/prefCalaculation" >
+        <PreferenceCategory
+            android:key="prefKeyWorkday"
+            android:summary="@string/prefWorkdayLong"
+            android:title="@string/prefWorkday" >
+            <PreferenceScreen
+                android:key="@string/prefKeyWorkHours"
+                android:summary="@string/prefWorkHoursLong"
+                android:title="@string/prefWorkHours" >
+                <PreferenceCategory android:title="@string/prefWorkHoursCategory" >
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayDefault"
+                        android:key="@string/prefKeyHoursPerDay"
+                        android:summary="@string/prefHoursPerDayLong"
+                        android:title="@string/prefHoursPerDay" >
+                    </EditTextPreference>
+                </PreferenceCategory>
+                <PreferenceCategory android:title="@string/prefWorkHoursWeekCategory" >
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekDefault"
+                        android:key="@string/prefKeyWorkHoursMon"
+                        android:summary="@string/prefWorkHoursMonLong"
+                        android:title="@string/prefWorkHoursMon" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekDefault"
+                        android:key="@string/prefKeyWorkHoursTue"
+                        android:summary="@string/prefWorkHoursTueLong"
+                        android:title="@string/prefWorkHoursTue" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekDefault"
+                        android:key="@string/prefKeyWorkHoursWed"
+                        android:summary="@string/prefWorkHoursWedLong"
+                        android:title="@string/prefWorkHoursWed" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekDefault"
+                        android:key="@string/prefKeyWorkHoursThu"
+                        android:summary="@string/prefWorkHoursThuLong"
+                        android:title="@string/prefWorkHoursThu" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekDefault"
+                        android:key="@string/prefKeyWorkHoursFri"
+                        android:summary="@string/prefWorkHoursFriLong"
+                        android:title="@string/prefWorkHoursFri" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekEndDefault"
+                        android:key="@string/prefKeyWorkHoursSat"
+                        android:summary="@string/prefWorkHoursSatLong"
+                        android:title="@string/prefWorkHoursSat" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefHoursPerDayWeekEndDefault"
+                        android:key="@string/prefKeyWorkHoursSun"
+                        android:summary="@string/prefWorkHoursSunLong"
+                        android:title="@string/prefWorkHoursSun" >
+                    </EditTextPreference>
+                </PreferenceCategory>
+            </PreferenceScreen>
+            <PreferenceScreen
+                android:key="prefKeyOvertimeHandling"
+                android:summary="@string/prefOvertimeHandlingLong"
+                android:title="@string/prefOvertimeHandling" >
+                <PreferenceCategory android:title="@string/prefOvertimeResetInterval" >
+                    <ListPreference
+                        android:entries="@array/overtimeResetEntries"
+                        android:entryValues="@array/overtimeResetEntryValues"
+                        android:key="@string/prefKeyOvertimeResetPoint"
+                        android:summary="@string/prefKeyOvertimeResetPointLong"
+                        android:title="@string/prefOvertimeResetPoint" >
+                    </ListPreference>
+                </PreferenceCategory>
+                <PreferenceCategory android:title="@string/prefOvertimeResetSettings" >
+                    <EditTextPreference
+                        android:defaultValue="@string/prefOvertimeResetMinTimeDefault"
+                        android:key="@string/prefOvertimeResetMinTime"
+                        android:summary="@string/prefOvertimeResetMinTimeLong"
+                        android:title="@string/prefOvertimeResetMinTime" >
+                    </EditTextPreference>
 
-        <ListPreference
-            android:defaultValue="@string/prefFirstDayOfWeekDefault"
-            android:entries="@array/prefFirstDayOfWeekEntries"
-            android:entryValues="@array/prefFirstDayOfWeekValues"
-            android:key="@string/prefKeyFirstDayOfWeek"
-            android:summary="@string/prefFirstDayOfWeekLong"
-            android:title="@string/prefFirstDayOfWeek" >
-        </ListPreference>
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="prefKeyExportSync"
-        android:summary="@string/prefExportSyncLong"
-        android:title="@string/prefExportSync" >
-        <PreferenceScreen
+                    <CheckBoxPreference
+                        android:defaultValue="@string/prefOvertimeResetIfBiggerDefault"
+                        android:key="@string/prefKeyOvertimeResetIfBigger"
+                        android:summaryOff="@string/prefOvertimeResetIfBiggerFalse"
+                        android:summaryOn="@string/prefOvertimeResetIfBiggerTrue"
+                        android:title="@string/prefOvertimeResetIfBigger" >
+                    </CheckBoxPreference>
+                </PreferenceCategory>
+            </PreferenceScreen>
+            <PreferenceScreen
+                android:key="prefKeyPayment"
+                android:summary="@string/prefPaymentLong"
+                android:title="@string/prefPayment" >
+                <PreferenceCategory android:title="@string/prefPayment" >
+                    <EditTextPreference
+                        android:defaultValue="@string/prefKeyPaymentRegularDefault"
+                        android:key="@string/prefKeyPaymentRegular"
+                        android:summary="@string/prefPaymentRegularLong"
+                        android:title="@string/prefPaymentRegular" >
+                    </EditTextPreference>
+                    <EditTextPreference
+                        android:defaultValue="@string/prefKeyPaymentOvertimeDefault"
+                        android:key="@string/prefKeyPaymentOvertime"
+                        android:summary="@string/prefPaymentOvertimeLong"
+                        android:title="@string/prefPaymentOvertime" >
+                    </EditTextPreference>
+
+                    <ListPreference
+                        android:defaultValue="@string/prefPaymentTabTypeDefault"
+                        android:entries="@array/prefPaymentTabEntries"
+                        android:entryValues="@array/prefPaymentTabValues"
+                        android:key="@string/prefKeyPaymentTabType"
+                        android:summary="@string/prefPaymentTabTypeLong"
+                        android:title="@string/prefPaymentTabType" >
+                    </ListPreference>
+                </PreferenceCategory>
+            </PreferenceScreen>
+        </PreferenceCategory>
+        <PreferenceCategory android:title="@string/app_name" >
+            <EditTextPreference
+                android:defaultValue="@string/prefMinTimestampDiffDefault"
+                android:key="@string/prefKeyMinTimestampDiffInSecs"
+                android:summary="@string/prefMinTimestampDiffLong"
+                android:title="@string/prefMinTimestampDiff" >
+            </EditTextPreference>
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="@string/prefKeyNightshift"
+                android:summaryOff="@string/prefNightshiftLongOff"
+                android:summaryOn="@string/prefNightshiftLongOn"
+                android:title="@string/prefNightshift" >
+            </CheckBoxPreference>
+
+            <ListPreference
+                android:defaultValue="@string/prefFirstDayOfWeekDefault"
+                android:entries="@array/prefFirstDayOfWeekEntries"
+                android:entryValues="@array/prefFirstDayOfWeekValues"
+                android:key="@string/prefKeyFirstDayOfWeek"
+                android:summary="@string/prefFirstDayOfWeekLong"
+                android:title="@string/prefFirstDayOfWeek" >
+            </ListPreference>
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="prefKeyDataManagement"
+        android:summary="@string/prefDataManagementLong"
+        android:title="@string/prefDataManagement" >
+        <PreferenceCategory
+            android:key="prefKeyExportSync"
             android:summary="@string/prefExportSyncLong"
             android:title="@string/prefExportSync" >
             <EditTextPreference
@@ -170,24 +179,23 @@
                 android:summary="@string/prefCsvFieldSeparatorLong"
                 android:title="@string/prefCsvFieldSeparator" >
             </EditTextPreference>
-            <EditTextPreference
-                android:defaultValue="@string/prefDecimalFormatDefault"
-                android:enabled="false"
-                android:key="@string/prefKeyDecimalFormat"
-                android:shouldDisableView="true"
-                android:summary="@string/prefDecimalFromLong"
-                android:title="@string/prefDecimalFormat" >
-            </EditTextPreference>
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="prefKeyFeatures"
-        android:summary="@string/prefFeaturesLong"
-        android:title="@string/prefFeatures" >
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:key="prefKeyBackupRestore"
+            android:title="@string/prefBackupRestore" >
+            <Preference
+                android:key="prefKeyRestore"
+                android:title="@string/prefRestore" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="prefKeyVarious"
+        android:title="@string/prefVarious" >
+        <Preference android:key="prefKeyVersion" >
+        </Preference>
         <Preference
-            android:key="@string/prefKeyBuy"
-            android:summary="@string/prefBuyLong"
-            android:title="@string/prefBuy" >
+            android:key="prefKeyChangelog"
+            android:title="@string/prefChangelog" >
         </Preference>
 
         <EditTextPreference
@@ -197,6 +205,6 @@
             android:summary="@string/prefLicenceLong"
             android:title="@string/prefLicence" >
         </EditTextPreference>
-    </PreferenceCategory>
+    </PreferenceScreen>
 
 </PreferenceScreen>

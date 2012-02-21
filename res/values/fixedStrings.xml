@@ -17,7 +17,6 @@
     <string name="prefKeyOvertimeResetMinTime">prefKeyOvertimeResetMinTime</string>
     <string name="prefKeyNightshift">prefKeyNightshift</string>
     <string name="prefKeyLicence">prefKeyLicence</string>
-    <string name="prefKeyBuy">prefKeyBuy</string>
     <string name="prefHoursPerDayDefault">8.4</string>
     <string name="prefKeyMinTimestampDiff">prefKeyMinTimestampDiff</string>
     <string name="prefKeyMinTimestampDiffInSecs">prefKeyMinTimestampDiffInSecs</string>
@@ -26,8 +25,6 @@
     <string name="prefEmailAddressDefault"></string>
     <string name="prefKeyCsvFieldSeparator">prefKeyCsvFieldSeparator</string>
     <string name="prefCsvFieldSeparatorDefault">\\t</string>
-    <string name="prefKeyDecimalFormat">prefKeyDecimalFormat</string>
-    <string name="prefDecimalFormatDefault"></string>
     <string name="prefKeyHoursPerDay">prefKeyHoursPerDay</string>
     <string name="prefKeyWorkHours">prefKeyWorkHours</string>
     <string name="prefKeyWorkHoursWeekBase">prefKeyWorkHours</string>

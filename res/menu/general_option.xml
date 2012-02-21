@@ -7,23 +7,13 @@
         android:titleCondensed="@string/MenuHolidayEditor">
     </item>
     <item
-        android:id="@+id/itemPreferences"
-        android:title="@string/perferences">
-    </item>
-    <item
-        android:id="@+id/itemFAQ"
-        android:title="@string/MenuFAQ"
-        android:titleCondensed="@string/MenuFAQ">
-    </item>
-    <item
         android:id="@+id/itemExportTimestamps"
         android:title="@string/ExportTImestamps"
         android:titleCondensed="@string/ExportTImestamps">
     </item>
     <item
-        android:id="@+id/itemReadInTimestmaps"
-        android:title="@string/ButtonReadTimestamps"
-        android:titleCondensed="@string/ButtonReadTimestamps">
+        android:id="@+id/itemPreferences"
+        android:title="@string/perferences">
     </item>
 
 </menu>
