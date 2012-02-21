@@ -4,6 +4,13 @@ V
 * bug fixes
 -
 
+V 3.3.0 
+* features
+- new overnight handling
+- rework for ICS
+* bug fixes
+-
+
 V 2.5.1
 * features
 -
@@ -112,18 +119,15 @@ V 1.5.1
 * bugfixes
 - Fix (nightshift) dayref
 
-
 V 1.5
 * features
 - worktime per weekday
 - overtime per week, month or year
 * bugfixes
--
 
 V 1.4.1 
 * features
 - enable overnight shifts  
-
 
 V 1.4 
 * features
