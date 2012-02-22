@@ -19,28 +19,30 @@ public interface DB {
 	public static final String NAME_ID = "_id";
 	public static final int INDEX_ID = 0;
 
-	public static class UriTableConfig {
+	public class UriTableConfig {
 
-		public static Map<Integer, UriTableMapping> mao;
+		public static Map<Integer, UriTableMapping> map;
 
 		private static final int TIMESTAMP = 1;
 		private static final int DAY = 2;
 		private static final int MONTH = 3;
 		private static final int WEEK = 4;
+		private static final int TIMEOFF_TYPES = 5;
 
 		static {
-			mao = new HashMap<Integer, UriTableMapping>();
-			mao.put(TIMESTAMP, Timestamps.URI_TABLE_MAPPING);
-			mao.put(DAY, Days.URI_TABLE_MAPPING);
-			mao.put(MONTH, Months.URI_TABLE_MAPPING);
-			mao.put(WEEK, Weeks.URI_TABLE_MAPPING);
+			map = new HashMap<Integer, UriTableMapping>();
+			map.put(TIMESTAMP, Timestamps.URI_TABLE_MAPPING);
+			map.put(DAY, Days.URI_TABLE_MAPPING);
+			map.put(MONTH, Months.URI_TABLE_MAPPING);
+			map.put(WEEK, Weeks.URI_TABLE_MAPPING);
+			map.put(TIMEOFF_TYPES, TimeoffTypes.URI_TABLE_MAPPING);
 		}
 
 	}
 
 	public class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 9;
+		private static final int DATABASE_VERSION = 10;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME + " (" + DB.NAME_ID
 				+ " integer primary key, "
@@ -65,6 +67,9 @@ public interface DB {
 				+ Weeks.NAME_HOLIDAY_LEFT + " real, "
 				+ Weeks.NAME_OVERTIME + " real, " + Weeks.NAME_ERROR + " int, " + Weeks.NAME_LAST_UPDATED + " long);";
 
+		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + TimeoffTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ TimeoffTypes.NAME_NAME + " text, " + TimeoffTypes.NAME_DESCRIPTION + " text, " + TimeoffTypes.NAME_IS_HOLIDAY + " int, " + TimeoffTypes.NAME_IS_PAID + " long);";
+
 		private static final String LOG_TAG = Logger.TAG;
 
 		public OpenHelper(Context context) {
@@ -77,6 +82,7 @@ public interface DB {
 			db.execSQL(CREATE_DAYS_TABLE);
 			db.execSQL(CREATE_MONTH_TABLE);
 			db.execSQL(CREATE_WEEK_TABLE);
+			db.execSQL(CREATE_TIMEOFF_TYPE_TABLE);
 			db.execSQL("create index ts_idx on " + Timestamps.TABLE_NAME + " (" + Timestamps.NAME_TIMESTAMP + "); ");
 			db.execSQL("create unique index dayref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_DAYREF + "); ");
 			db.execSQL("create index ts_dayref_idx on " + Timestamps.TABLE_NAME + " (" + Timestamps.NAME_DAYREF + "); ");
@@ -137,6 +143,11 @@ public interface DB {
 				db.execSQL("alter table " + Days.TABLE_NAME + " add column " + Days.NAME_COMMENT + " text;");
 				// nobreak
 
+			case 9:
+				Log.w(LOG_TAG, "Upgrading to DB Version 10...");
+				db.execSQL(CREATE_TIMEOFF_TYPE_TABLE);
+				// nobreak
+
 			default:
 				Log.w(LOG_TAG, "Finished DB upgrading!");
 				break;
@@ -148,16 +159,7 @@ public interface DB {
 	public interface Timestamps {
 
 		static final String TABLE_NAME = "timestamps";
-
 		public static final String CONTENT_ITEM_NAME = "timestamp";
-		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
-		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
-
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
 		public static final String NAME_TIMESTAMP_TYPE = "type";
 		public static final String NAME_TIMESTAMP = "timestamp";
@@ -174,20 +176,16 @@ public interface DB {
 
 		static final String REVERSE_SORTORDER = NAME_TIMESTAMP + " ASC";
 
+		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 	}
 
 	public interface Days {
 		static final String TABLE_NAME = "days";
-
 		public static final String CONTENT_ITEM_NAME = "day";
-		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
-		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
-
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
 		public static final String NAME_DAYREF = "dayRef";
 		public static final String NAME_HOURS_WORKED = "hoursWorked";
@@ -216,8 +214,7 @@ public interface DB {
 		public static final int INDEX_COMMENT = 12;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_DAYREF, NAME_HOURS_WORKED, NAME_HOURS_TARGET, NAME_HOLIDAY, NAME_HOLIDAY_LEFT,
-				NAME_OVERTIME,
-				NAME_ERROR, NAME_FIXED, NAME_LAST_UPDATED, NAME_MONTHREF, NAME_WEEKREF, NAME_COMMENT };
+				NAME_OVERTIME, NAME_ERROR, NAME_FIXED, NAME_LAST_UPDATED, NAME_MONTHREF, NAME_WEEKREF, NAME_COMMENT };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_DAYREF + " DESC";
@@ -225,20 +222,17 @@ public interface DB {
 
 		static final String[] PROJECTTION_DAYREF = new String[] { NAME_DAYREF };
 
+		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
 	}
 
 	public interface Months {
 		static final String TABLE_NAME = "months";
-
 		public static final String CONTENT_ITEM_NAME = "month";
-		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
-		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
-
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
 		public static final String NAME_MONTHREF = "monthRef";
 		public static final String NAME_HOURS_WORKED = "hoursWorked";
@@ -259,8 +253,7 @@ public interface DB {
 		public static final int INDEX_LAST_UPDATED = 8;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_MONTHREF, NAME_HOURS_WORKED, NAME_HOURS_TARGET, NAME_HOLIDAY, NAME_HOLIDAY_LEFT,
-				NAME_OVERTIME,
-				NAME_ERROR, NAME_LAST_UPDATED };
+				NAME_OVERTIME, NAME_ERROR, NAME_LAST_UPDATED };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_MONTHREF + " DESC";
@@ -268,20 +261,17 @@ public interface DB {
 
 		static final String[] PROJECTTION_MONTHREF = new String[] { NAME_MONTHREF };
 
+		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
 	}
 
 	public interface Weeks {
 		static final String TABLE_NAME = "weeks";
-
 		public static final String CONTENT_ITEM_NAME = "week";
-		public static String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
-		public static Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
-
-		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
-
-		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
 		public static final String NAME_WEEKREF = "weekrefRef";
 		public static final String NAME_HOURS_WORKED = "hoursWorked";
@@ -302,8 +292,7 @@ public interface DB {
 		public static final int INDEX_LAST_UPDATED = 8;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_WEEKREF, NAME_HOURS_WORKED, NAME_HOURS_TARGET, NAME_HOLIDAY, NAME_HOLIDAY_LEFT,
-				NAME_OVERTIME,
-				NAME_ERROR, NAME_LAST_UPDATED };
+				NAME_OVERTIME, NAME_ERROR, NAME_LAST_UPDATED };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_WEEKREF + " DESC";
@@ -311,6 +300,39 @@ public interface DB {
 
 		static final String[] PROJECTTION_MONTHREF = new String[] { NAME_WEEKREF };
 
-	}
+		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
+	} 
+
+	public interface TimeoffTypes {
+		static final String TABLE_NAME = "timeoffTypes";
+		public static final String CONTENT_ITEM_NAME = "timeoffType";
+
+		public static final String NAME_NAME = "name";
+		public static final String NAME_DESCRIPTION = "description";
+		public static final String NAME_IS_HOLIDAY = "isHoliday";
+		public static final String NAME_IS_PAID = "isPaid";
+
+		public static final int INDEX_NAME = 1;
+		public static final int INDEX_DESCRIPTION = 2;
+		public static final int INDEX_IS_HOLIDAY = 3;
+		public static final int INDEX_IS_PAID = 4;
+
+		public static final String[] colNames = new String[] { NAME_ID, NAME_NAME, NAME_DESCRIPTION, NAME_IS_HOLIDAY, NAME_IS_PAID };
+		public static final String[] DEFAULT_PROJECTION = colNames;
+
+		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
+		public static final String REVERSE_SORTORDER = NAME_ID + " ASC";
+
+		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
+	}
 }

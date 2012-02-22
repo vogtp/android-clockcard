@@ -167,15 +167,15 @@ public class DBProvider extends ContentProvider {
 	}
 
 	private UriTableMapping getUriTableMap(Uri uri) {
-		return DB.UriTableConfig.mao.get(uriTableMatcher.match(uri));
+		return DB.UriTableConfig.map.get(uriTableMatcher.match(uri));
 	}
 
 	static {
 
 		uriTableMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriContentTypeMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		for (Integer type : DB.UriTableConfig.mao.keySet()) {
-			String contentItemName = DB.UriTableConfig.mao.get(type).contentItemName;
+		for (Integer type : DB.UriTableConfig.map.keySet()) {
+			String contentItemName = DB.UriTableConfig.map.get(type).contentItemName;
 			uriTableMatcher.addURI(DB.AUTHORITY, contentItemName, type);
 			uriTableMatcher.addURI(DB.AUTHORITY, contentItemName + "/#", type);
 			uriContentTypeMatcher.addURI(DB.AUTHORITY, contentItemName, CONTENT);
