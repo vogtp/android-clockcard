@@ -30,7 +30,8 @@ public interface DB {
 		private static final int DAY = 2;
 		private static final int MONTH = 3;
 		private static final int WEEK = 4;
-		private static final int TIMEOFF_TYPES = 5;
+		private static final int TIMEOFF = 5;
+		private static final int TIMEOFF_TYPES = 6;
 
 		static {
 			map = new HashMap<Integer, UriTableMapping>();
@@ -38,14 +39,15 @@ public interface DB {
 			map.put(DAY, Days.URI_TABLE_MAPPING);
 			map.put(MONTH, Months.URI_TABLE_MAPPING);
 			map.put(WEEK, Weeks.URI_TABLE_MAPPING);
-			map.put(TIMEOFF_TYPES, TimeoffTypes.URI_TABLE_MAPPING);
+			map.put(TIMEOFF, TimeoffTypes.URI_TABLE_MAPPING);
+			map.put(TIMEOFF_TYPES, Timeoff.URI_TABLE_MAPPING);
 		}
 
 	}
 
 	public class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 10;
+		private static final int DATABASE_VERSION = 11;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME + " (" + DB.NAME_ID
 				+ " integer primary key, "
@@ -73,6 +75,11 @@ public interface DB {
 		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + TimeoffTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
 				+ TimeoffTypes.NAME_NAME + " text, " + TimeoffTypes.NAME_DESCRIPTION + " text, " + TimeoffTypes.NAME_IS_HOLIDAY + " int, " + TimeoffTypes.NAME_IS_PAID + " int);";
 
+		private static final String CREATE_TIMEOFF_TABLE = "create table if not exists " + Timeoff.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ Timeoff.NAME_START + " long, " + Timeoff.NAME_START_TYPE + " int, "
+				+ Timeoff.NAME_END + " long, " + Timeoff.NAME_END_TYPE + " int, "
+				+ Timeoff.NAME_DAYS + " int, " + Timeoff.NAME_IS_HOLIDAY + " int, " + Timeoff.NAME_IS_PAID + " int, " + Timeoff.NAME_IS_YEARLY + " int);";
+
 		private static final String LOG_TAG = Logger.TAG;
 
 		public OpenHelper(Context context) {
@@ -85,6 +92,7 @@ public interface DB {
 			db.execSQL(CREATE_DAYS_TABLE);
 			db.execSQL(CREATE_MONTH_TABLE);
 			db.execSQL(CREATE_WEEK_TABLE);
+			db.execSQL(CREATE_TIMEOFF_TABLE);
 			db.execSQL(CREATE_TIMEOFF_TYPE_TABLE);
 			db.execSQL("create index ts_idx on " + Timestamps.TABLE_NAME + " (" + Timestamps.NAME_TIMESTAMP + "); ");
 			db.execSQL("create unique index dayref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_DAYREF + "); ");
@@ -93,6 +101,8 @@ public interface DB {
 			db.execSQL("create index days_monthref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_MONTHREF + "); ");
 			db.execSQL("create index days_weekref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_WEEKREF + "); ");
 			db.execSQL("create unique index weeks_weekref_idx on " + Weeks.TABLE_NAME + " (" + Weeks.NAME_WEEKREF + "); ");
+			db.execSQL("create unique index timeoff_start_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_START + "); ");
+			db.execSQL("create unique index timeoff_end_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_END + "); ");
 			Log.i(LOG_TAG, "Created table " + DB.Timestamps.TABLE_NAME);
 		}
 
@@ -149,6 +159,13 @@ public interface DB {
 			case 9:
 				Log.w(LOG_TAG, "Upgrading to DB Version 10...");
 				db.execSQL(CREATE_TIMEOFF_TYPE_TABLE);
+				// nobreak
+
+			case 10:
+				Log.w(LOG_TAG, "Upgrading to DB Version 11...");
+				db.execSQL(CREATE_TIMEOFF_TABLE);
+				db.execSQL("create unique index timeoff_start_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_START + "); ");
+				db.execSQL("create unique index timeoff_end_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_END + "); ");
 				// nobreak
 
 			default:
@@ -309,11 +326,47 @@ public interface DB {
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
 
-	} 
+	}
+
+	public interface Timeoff {
+		static final String TABLE_NAME = "timeoff";
+
+		public static final String NAME_START = "start";
+		public static final String NAME_START_TYPE = "startType";
+		public static final String NAME_END = "end";
+		public static final String NAME_END_TYPE = "endType";
+		public static final String NAME_DAYS = "days";
+		public static final String NAME_IS_HOLIDAY = "isHoliday";
+		public static final String NAME_IS_PAID = "isPaid";
+		public static final String NAME_IS_YEARLY = "isYearly";
+
+		public static final int INDEX_START = 1;
+		public static final int INDEX_START_TYPE = 2;
+		public static final int INDEX_END = 3;
+		public static final int INDEX_END_TYPE = 4;
+		public static final int INDEX_DAYS = 5;
+		public static final int INDEX_IS_HOLIDAY = 6;
+		public static final int INDEX_IS_PAID = 7;
+		public static final int INDEX_IS_YEARLY = 8;
+
+		public static final String[] colNames = new String[] { NAME_ID, NAME_START, NAME_START_TYPE, NAME_END, NAME_END_TYPE, NAME_DAYS, NAME_IS_HOLIDAY, NAME_IS_PAID,
+				NAME_IS_YEARLY };
+		public static final String[] DEFAULT_PROJECTION = colNames;
+
+		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
+		public static final String REVERSE_SORTORDER = NAME_ID + " ASC";
+
+		public static final String CONTENT_ITEM_NAME = TABLE_NAME;
+		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
+		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
+		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
+	}
 
 	public interface TimeoffTypes {
 		static final String TABLE_NAME = "timeoffTypes";
-		public static final String CONTENT_ITEM_NAME = "timeoffType";
 
 		public static final String NAME_NAME = "name";
 		public static final String NAME_DESCRIPTION = "description";
@@ -331,6 +384,7 @@ public interface DB {
 		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
 		public static final String REVERSE_SORTORDER = NAME_ID + " ASC";
 
+		public static final String CONTENT_ITEM_NAME = TABLE_NAME;
 		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;
 		public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
