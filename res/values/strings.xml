@@ -167,7 +167,7 @@
     <string name="hint_comment">Comment</string>
     <string name="label_total">total</string>
     <string name="label_left">left</string>
-    <string name="prefUI">Userinterface</string>
+    <string name="prefUI">User interface</string>
     <string name="prefCalaculation">Time Calculation</string>
     <string name="prefChangelog">Show Changelog</string>
     <string name="label_version">Version:</string>
