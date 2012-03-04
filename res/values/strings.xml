@@ -188,5 +188,6 @@
     <string name="buEditTimeoffType">Edit</string>
     <string name="title_delete_last_timestamp">Delete last timestamp?</string>
     <string name="msg_delete_last_timestamp">Do you really want to delete the last timestamp?</string>
+    <string name="msg_rebuilding">Rebuilding...</string>
 
 </resources>

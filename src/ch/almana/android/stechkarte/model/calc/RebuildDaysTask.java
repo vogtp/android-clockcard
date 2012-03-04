@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
+import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
@@ -67,7 +68,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected void onPreExecute() {
-		progressWrapper.setTitle("Rebuilding...");
+		progressWrapper.setTitle(ctx.getString(R.string.msg_rebuilding));
 		progressWrapper.show();
 		super.onPreExecute();
 	}
