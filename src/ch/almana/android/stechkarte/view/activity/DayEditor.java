@@ -164,7 +164,7 @@ public class DayEditor extends FragmentActivity implements DialogCallback {
 				if (columnIndex == Timestamps.INDEX_TIMESTAMP) {
 					TextView ts = (TextView) view.findViewById(R.id.TextViewTimestamp);
 					long time = cursor.getLong(Timestamps.INDEX_TIMESTAMP);
-					ts.setText(Timestamp.timestampToString(time));
+					ts.setText(Timestamp.timestampToString(time, false));
 				} else if (columnIndex == Timestamps.INDEX_TIMESTAMP_TYPE) {
 					String txt = "unknown";
 					int type = cursor.getInt(Timestamps.INDEX_TIMESTAMP_TYPE);

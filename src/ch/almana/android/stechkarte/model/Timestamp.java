@@ -118,15 +118,18 @@ public class Timestamp {
 		this.timestampType = timestampType;
 	}
 
-	private static SimpleDateFormat toStingDatetimeFormat = new SimpleDateFormat("HH:mm:ss (dd.MM.yyyy)");
-	private static SimpleDateFormat toStingDatetimeFormatPM = new SimpleDateFormat("hh:mm:ss a (dd.MM.yyyy)");
-
-	public static String timestampToString(long time) {
-		if (Settings.getInstance().is24hours()) {
-			return formatTime(time, toStingDatetimeFormat);
+	public static String timestampToString(long time, boolean twoLines) {
+		StringBuilder sb = new StringBuilder();
+		Settings settings = Settings.getInstance();
+		sb.append(settings.getTimeFormat().format(time));
+		if (twoLines) {
+			sb.append("\n(");
 		} else {
-			return formatTime(time, toStingDatetimeFormatPM);
+			sb.append(" (");
 		}
+		sb.append(settings.getDateFormat().format(time));
+		sb.append(")");
+		return sb.toString();
 	}
 
 	private static String formatTime(long time, SimpleDateFormat datetimeFormat) {
@@ -137,7 +140,7 @@ public class Timestamp {
 
 	@Override
 	public String toString() {
-		return timestampToString(getTimestamp());
+		return timestampToString(getTimestamp(), false);
 	}
 
 	private static SimpleDateFormat hmsDatetimeFormat = new SimpleDateFormat("HH:mm:ss");

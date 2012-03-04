@@ -83,7 +83,7 @@ public class StechkarteAppwidget extends AppWidgetProvider {
 			views.setTextViewText(R.id.TextViewAppWidgetInOut, curInfo.getInOutString());
 			long unixTimestamp = curInfo.getUnixTimestamp();
 			if (unixTimestamp > 0) {
-				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, Timestamp.timestampToString(unixTimestamp));
+				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, Timestamp.timestampToString(unixTimestamp, false));
 			} else {
 				views.setTextViewText(R.id.TextViewAppWidgetLastTSTime, "none");
 			}

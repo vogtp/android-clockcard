@@ -51,7 +51,6 @@ public class CheckinFragment extends Fragment {
 		final FragmentActivity act = getActivity();
 		int width = act.getWindowManager().getDefaultDisplay().getWidth();
 		width = Math.round(width / 2f);
-		int size = Math.round(width / 5f);
 		buttonIn.setWidth(width);
 		buttonIn.setHeight(width);
 		buttonOut.setWidth(width);
@@ -61,7 +60,7 @@ public class CheckinFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				TimestampAccess.getInstance().addInNow(act);
-				updateFields();
+				updateView();
 			}
 		});
 
@@ -69,7 +68,7 @@ public class CheckinFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				TimestampAccess.getInstance().addOutNow(act);
-				updateFields();
+				updateView();
 			}
 		});
 
@@ -78,11 +77,11 @@ public class CheckinFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		updateFields();
+		updateView();
 		super.onResume();
 	}
 
-	private void updateFields() {
+	private void updateView() {
 		CurInfo curInfo = new CurInfo(getActivity());
 
 		if (curInfo.getTimestampType() == Timestamp.TYPE_IN) {
@@ -106,7 +105,7 @@ public class CheckinFragment extends Fragment {
 		hoursWorked.setText(curInfo.getHoursWorked());
 		long unixTimestamp = curInfo.getUnixTimestamp();
 		if (unixTimestamp > 0) {
-			tvLastTimestamp.setText(Timestamp.timestampToString(unixTimestamp));
+			tvLastTimestamp.setText(Timestamp.timestampToString(unixTimestamp, true));
 		} else {
 			tvLastTimestamp.setText("none");
 		}

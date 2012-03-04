@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Build;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 import ch.almana.android.stechkarte.R;
@@ -302,5 +303,13 @@ public class Settings extends SettingsBase {
 		Editor editor = getLocalPreferences().edit();
 		editor.putInt(PREF_DEFAULT_PROFILES_VERSION, version);
 		editor.commit();
+	}
+
+	public java.text.DateFormat getTimeFormat() {
+		return DateFormat.getTimeFormat(context);
+	}
+
+	public java.text.DateFormat getDateFormat() {
+		return DateFormat.getDateFormat(context);
 	}
 }

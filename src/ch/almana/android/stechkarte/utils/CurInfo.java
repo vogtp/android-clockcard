@@ -29,6 +29,11 @@ public class CurInfo {
 			day = new Day(c);
 		}
 		c.close();
+		findLastTimestamp(context);
+	}
+
+	public void findLastTimestamp(Context context) {
+		Cursor c;
 		if (day != null) {
 			c = day.getTimestamps();
 			timestamp = null;
@@ -98,5 +103,9 @@ public class CurInfo {
 	
 	public boolean hasData() {
 		return timestamp != null;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
 	}
 }
