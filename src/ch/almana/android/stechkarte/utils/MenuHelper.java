@@ -6,9 +6,9 @@ import android.view.MenuItem;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.provider.DB.Days;
+import ch.almana.android.stechkarte.provider.DB.Holidays;
 import ch.almana.android.stechkarte.provider.DB.Timestamps;
 import ch.almana.android.stechkarte.view.activity.ExportTimestamps;
-import ch.almana.android.stechkarte.view.activity.HolidaysEditor;
 import ch.almana.android.stechkarte.view.activity.StechkartePreferenceActivity;
 
 public class MenuHelper {
@@ -26,7 +26,7 @@ public class MenuHelper {
 			ctx.startActivity(new Intent(ctx.getApplicationContext(), StechkartePreferenceActivity.class));
 			break;
 		case R.id.itemHolidayEditor:
-			ctx.startActivity(new Intent(ctx, HolidaysEditor.class));
+			ctx.startActivity(new Intent(Intent.ACTION_INSERT, Holidays.CONTENT_URI));
 			break;
 		//		case R.id.itemFAQ:
 		//			ctx.startActivity(new Intent(Intent.ACTION_DEFAULT, Uri.parse("http://clockcard.sourceforge.net/faq.html")));
