@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import ch.almana.android.stechkarte.provider.DB;
-import ch.almana.android.stechkarte.provider.DB.Timeoffs;
+import ch.almana.android.stechkarte.provider.DB.Holidays;
 
-public class Timeoff {
+public class Holiday {
 
 	enum BorderType {
 		allDay, halfDay, restOfDay, specifyed
@@ -26,7 +26,7 @@ public class Timeoff {
 
 
 
-	public Timeoff(Timeoff timeoff) {
+	public Holiday(Holiday timeoff) {
 		super();
 		id = timeoff.id;
 		start = timeoff.start;
@@ -41,22 +41,22 @@ public class Timeoff {
 		comment = timeoff.comment;
 	}
 
-	public Timeoff(Cursor c) {
+	public Holiday(Cursor c) {
 		super();
 		id = c.getLong(DB.INDEX_ID);
-		start = c.getLong(Timeoffs.INDEX_START);
-		startType = BorderType.valueOf(c.getString(Timeoffs.INDEX_START_TYPE));
-		startHours = c.getInt(Timeoffs.INDEX_START_HOURS);
-		end = c.getLong(Timeoffs.INDEX_END);
-		endType = BorderType.valueOf(c.getString(Timeoffs.INDEX_END_TYPE));
-		endHours = c.getInt(Timeoffs.INDEX_END_HOURS);
-		isHoliday = c.getInt(Timeoffs.INDEX_IS_HOLIDAY) == 1 ? true : false;
-		isPaid = c.getInt(Timeoffs.INDEX_IS_PAID) == 1 ? true : false;
-		isYearly = c.getInt(Timeoffs.INDEX_IS_YEARLY) == 1 ? true : false;
-		comment = c.getString(Timeoffs.INDEX_COMMENT);
+		start = c.getLong(Holidays.INDEX_START);
+		startType = BorderType.valueOf(c.getString(Holidays.INDEX_START_TYPE));
+		startHours = c.getInt(Holidays.INDEX_START_HOURS);
+		end = c.getLong(Holidays.INDEX_END);
+		endType = BorderType.valueOf(c.getString(Holidays.INDEX_END_TYPE));
+		endHours = c.getInt(Holidays.INDEX_END_HOURS);
+		isHoliday = c.getInt(Holidays.INDEX_IS_HOLIDAY) == 1 ? true : false;
+		isPaid = c.getInt(Holidays.INDEX_IS_PAID) == 1 ? true : false;
+		isYearly = c.getInt(Holidays.INDEX_IS_YEARLY) == 1 ? true : false;
+		comment = c.getString(Holidays.INDEX_COMMENT);
 	}
 
-	public Timeoff(Bundle instanceState) {
+	public Holiday(Bundle instanceState) {
 		super();
 		readFromBundle(instanceState);
 	}
@@ -66,16 +66,16 @@ public class Timeoff {
 		if (id > -1) {
 			values.put(DB.NAME_ID, id);
 		}
-		values.put(Timeoffs.NAME_START, getStart());
-		values.put(Timeoffs.NAME_START_TYPE, getStartType().toString());
-		values.put(Timeoffs.NAME_START_HOURS, getStartHours());
-		values.put(Timeoffs.NAME_END, getEnd());
-		values.put(Timeoffs.NAME_END_TYPE, getEndType().toString());
-		values.put(Timeoffs.NAME_END_HOURS, getEndHours());
-		values.put(Timeoffs.NAME_IS_HOLIDAY, isHoliday ? 1 : 0);
-		values.put(Timeoffs.NAME_IS_PAID, isPaid ? 1 : 0);
-		values.put(Timeoffs.NAME_IS_YEARLY, isYearly ? 1 : 0);
-		values.put(Timeoffs.NAME_COMMENT, getComment());
+		values.put(Holidays.NAME_START, getStart());
+		values.put(Holidays.NAME_START_TYPE, getStartType().toString());
+		values.put(Holidays.NAME_START_HOURS, getStartHours());
+		values.put(Holidays.NAME_END, getEnd());
+		values.put(Holidays.NAME_END_TYPE, getEndType().toString());
+		values.put(Holidays.NAME_END_HOURS, getEndHours());
+		values.put(Holidays.NAME_IS_HOLIDAY, isHoliday ? 1 : 0);
+		values.put(Holidays.NAME_IS_PAID, isPaid ? 1 : 0);
+		values.put(Holidays.NAME_IS_YEARLY, isYearly ? 1 : 0);
+		values.put(Holidays.NAME_COMMENT, getComment());
 		return values;
 	}
 
@@ -85,30 +85,30 @@ public class Timeoff {
 		} else {
 			bundle.putLong(DB.NAME_ID, -1);
 		}
-		bundle.putLong(Timeoffs.NAME_START, getStart());
-		bundle.putString(Timeoffs.NAME_START_TYPE, getStartType().toString());
-		bundle.putInt(Timeoffs.NAME_START_HOURS, getStartHours());
-		bundle.putLong(Timeoffs.NAME_END, getEnd());
-		bundle.putString(Timeoffs.NAME_END_TYPE, getEndType().toString());
-		bundle.putInt(Timeoffs.NAME_END_HOURS, getEndHours());
-		bundle.putInt(Timeoffs.NAME_IS_HOLIDAY, isHoliday ? 1 : 0);
-		bundle.putInt(Timeoffs.NAME_IS_PAID, isPaid ? 1 : 0);
-		bundle.putInt(Timeoffs.NAME_IS_YEARLY, isYearly ? 1 : 0);
-		bundle.putString(Timeoffs.NAME_COMMENT, getComment());
+		bundle.putLong(Holidays.NAME_START, getStart());
+		bundle.putString(Holidays.NAME_START_TYPE, getStartType().toString());
+		bundle.putInt(Holidays.NAME_START_HOURS, getStartHours());
+		bundle.putLong(Holidays.NAME_END, getEnd());
+		bundle.putString(Holidays.NAME_END_TYPE, getEndType().toString());
+		bundle.putInt(Holidays.NAME_END_HOURS, getEndHours());
+		bundle.putInt(Holidays.NAME_IS_HOLIDAY, isHoliday ? 1 : 0);
+		bundle.putInt(Holidays.NAME_IS_PAID, isPaid ? 1 : 0);
+		bundle.putInt(Holidays.NAME_IS_YEARLY, isYearly ? 1 : 0);
+		bundle.putString(Holidays.NAME_COMMENT, getComment());
 	}
 
 	public void readFromBundle(Bundle bundle) {
 		id = bundle.getLong(DB.NAME_ID);
-		start = bundle.getLong(Timeoffs.NAME_START);
-		startType = BorderType.valueOf(bundle.getString(Timeoffs.NAME_START_TYPE));
-		startHours = bundle.getInt(Timeoffs.NAME_START_HOURS);
-		end = bundle.getLong(Timeoffs.NAME_END);
-		endType = BorderType.valueOf(bundle.getString(Timeoffs.NAME_END_TYPE));
-		endHours = bundle.getInt(Timeoffs.NAME_END_HOURS);
-		isHoliday = bundle.getInt(Timeoffs.NAME_IS_HOLIDAY) == 1 ? true : false;
-		isPaid = bundle.getInt(Timeoffs.NAME_IS_PAID) == 1 ? true : false;
-		isYearly = bundle.getInt(Timeoffs.NAME_IS_YEARLY) == 1 ? true : false;
-		comment = bundle.getString(Timeoffs.NAME_COMMENT);
+		start = bundle.getLong(Holidays.NAME_START);
+		startType = BorderType.valueOf(bundle.getString(Holidays.NAME_START_TYPE));
+		startHours = bundle.getInt(Holidays.NAME_START_HOURS);
+		end = bundle.getLong(Holidays.NAME_END);
+		endType = BorderType.valueOf(bundle.getString(Holidays.NAME_END_TYPE));
+		endHours = bundle.getInt(Holidays.NAME_END_HOURS);
+		isHoliday = bundle.getInt(Holidays.NAME_IS_HOLIDAY) == 1 ? true : false;
+		isPaid = bundle.getInt(Holidays.NAME_IS_PAID) == 1 ? true : false;
+		isYearly = bundle.getInt(Holidays.NAME_IS_YEARLY) == 1 ? true : false;
+		comment = bundle.getString(Holidays.NAME_COMMENT);
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class Timeoff {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Timeoff other = (Timeoff) obj;
+		Holiday other = (Holiday) obj;
 		if (comment == null) {
 			if (other.comment != null)
 				return false;

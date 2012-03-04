@@ -24,7 +24,7 @@ import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.provider.DB;
-import ch.almana.android.stechkarte.provider.DB.TimeoffTypes;
+import ch.almana.android.stechkarte.provider.DB.holidayTypes;
 import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
 
@@ -158,22 +158,22 @@ public class HolidaysEditor extends Activity {
 		spHolidayDurationEnd.setOnItemSelectedListener(holidayBorderAdaptor);
 
 		spHolidayType = (Spinner) findViewById(R.id.SpinnerHolidayType);
-		CursorLoader cursorLoader = new CursorLoader(this, TimeoffTypes.CONTENT_URI, TimeoffTypes.DEFAULT_PROJECTION, null, null, null);
+		CursorLoader cursorLoader = new CursorLoader(this, holidayTypes.CONTENT_URI, holidayTypes.DEFAULT_PROJECTION, null, null, null);
 		Cursor c = cursorLoader.loadInBackground();
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c,
-				new String[] { TimeoffTypes.NAME_NAME }, new int[] { android.R.id.text1 }, 0);
+				new String[] { holidayTypes.NAME_NAME }, new int[] { android.R.id.text1 }, 0);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spHolidayType.setAdapter(adapter);
 		spHolidayType.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long id) {
-				CursorLoader cursorLoader = new CursorLoader(HolidaysEditor.this, TimeoffTypes.CONTENT_URI, TimeoffTypes.DEFAULT_PROJECTION, DB.SELECTION_BY_ID,
+				CursorLoader cursorLoader = new CursorLoader(HolidaysEditor.this, holidayTypes.CONTENT_URI, holidayTypes.DEFAULT_PROJECTION, DB.SELECTION_BY_ID,
 						new String[] { Long.toString(id) }, null);
 				Cursor c = cursorLoader.loadInBackground();
 				if (c != null && c.moveToFirst()) {
-					cbIsHoliday.setChecked(c.getInt(TimeoffTypes.INDEX_IS_HOLIDAY) == 1);
-					cbIsPayed.setChecked(c.getInt(TimeoffTypes.INDEX_IS_PAID) == 1);
+					cbIsHoliday.setChecked(c.getInt(holidayTypes.INDEX_IS_HOLIDAY) == 1);
+					cbIsPayed.setChecked(c.getInt(holidayTypes.INDEX_IS_PAID) == 1);
 				}
 				if (c != null) {
 					c.close();

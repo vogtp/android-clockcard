@@ -39,8 +39,8 @@ public interface DB {
 			map.put(DAY, Days.URI_TABLE_MAPPING);
 			map.put(MONTH, Months.URI_TABLE_MAPPING);
 			map.put(WEEK, Weeks.URI_TABLE_MAPPING);
-			map.put(TIMEOFF, TimeoffTypes.URI_TABLE_MAPPING);
-			map.put(TIMEOFF_TYPES, Timeoffs.URI_TABLE_MAPPING);
+			map.put(TIMEOFF, holidayTypes.URI_TABLE_MAPPING);
+			map.put(TIMEOFF_TYPES, Holidays.URI_TABLE_MAPPING);
 		}
 
 	}
@@ -72,14 +72,14 @@ public interface DB {
 				+ Weeks.NAME_HOLIDAY_LEFT + " real, "
 				+ Weeks.NAME_OVERTIME + " real, " + Weeks.NAME_ERROR + " int, " + Weeks.NAME_LAST_UPDATED + " long);";
 
-		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + TimeoffTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
-				+ TimeoffTypes.NAME_NAME + " text, " + TimeoffTypes.NAME_DESCRIPTION + " text, " + TimeoffTypes.NAME_IS_HOLIDAY + " int, " + TimeoffTypes.NAME_IS_PAID + " int);";
+		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + holidayTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ holidayTypes.NAME_NAME + " text, " + holidayTypes.NAME_DESCRIPTION + " text, " + holidayTypes.NAME_IS_HOLIDAY + " int, " + holidayTypes.NAME_IS_PAID + " int);";
 
-		private static final String CREATE_TIMEOFF_TABLE = "create table if not exists " + Timeoffs.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
-				+ Timeoffs.NAME_START + " long, " + Timeoffs.NAME_START_TYPE + " text, " + Timeoffs.NAME_START_HOURS + " int default -1, "
-				+ Timeoffs.NAME_END + " long, " + Timeoffs.NAME_END_TYPE + " text, " + Timeoffs.NAME_END_HOURS + " int default -1, "
-				+ Timeoffs.NAME_DAYS + " int, " + Timeoffs.NAME_IS_HOLIDAY + " int, " + Timeoffs.NAME_IS_PAID + " int, " + Timeoffs.NAME_IS_YEARLY + " int, " + 
-				Timeoffs.NAME_COMMENT + " text);";
+		private static final String CREATE_TIMEOFF_TABLE = "create table if not exists " + Holidays.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ Holidays.NAME_START + " long, " + Holidays.NAME_START_TYPE + " text, " + Holidays.NAME_START_HOURS + " int default -1, "
+				+ Holidays.NAME_END + " long, " + Holidays.NAME_END_TYPE + " text, " + Holidays.NAME_END_HOURS + " int default -1, "
+				+ Holidays.NAME_DAYS + " int, " + Holidays.NAME_IS_HOLIDAY + " int, " + Holidays.NAME_IS_PAID + " int, " + Holidays.NAME_IS_YEARLY + " int, " + 
+				Holidays.NAME_COMMENT + " text);";
 
 		private static final String LOG_TAG = Logger.TAG;
 
@@ -102,8 +102,8 @@ public interface DB {
 			db.execSQL("create index days_monthref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_MONTHREF + "); ");
 			db.execSQL("create index days_weekref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_WEEKREF + "); ");
 			db.execSQL("create unique index weeks_weekref_idx on " + Weeks.TABLE_NAME + " (" + Weeks.NAME_WEEKREF + "); ");
-			db.execSQL("create unique index timeoff_start_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_START + "); ");
-			db.execSQL("create unique index timeoff_end_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_END + "); ");
+			db.execSQL("create unique index timeoff_start_idx on " + Holidays.TABLE_NAME + " (" + Holidays.NAME_START + "); ");
+			db.execSQL("create unique index timeoff_end_idx on " + Holidays.TABLE_NAME + " (" + Holidays.NAME_END + "); ");
 			Log.i(LOG_TAG, "Created table " + DB.Timestamps.TABLE_NAME);
 		}
 
@@ -165,8 +165,8 @@ public interface DB {
 			case 10:
 				Log.w(LOG_TAG, "Upgrading to DB Version 11...");
 				db.execSQL(CREATE_TIMEOFF_TABLE);
-				db.execSQL("create unique index timeoff_start_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_START + "); ");
-				db.execSQL("create unique index timeoff_end_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_END + "); ");
+				db.execSQL("create unique index timeoff_start_idx on " + Holidays.TABLE_NAME + " (" + Holidays.NAME_START + "); ");
+				db.execSQL("create unique index timeoff_end_idx on " + Holidays.TABLE_NAME + " (" + Holidays.NAME_END + "); ");
 				// nobreak
 
 			default:
@@ -329,8 +329,8 @@ public interface DB {
 
 	}
 
-	public interface Timeoffs {
-		static final String TABLE_NAME = "timeoffs";
+	public interface Holidays {
+		static final String TABLE_NAME = "holidays";
 
 		public static final String NAME_START = "start";
 		public static final String NAME_START_TYPE = "startType";
@@ -372,8 +372,8 @@ public interface DB {
 
 	}
 
-	public interface TimeoffTypes {
-		static final String TABLE_NAME = "timeoffTypes";
+	public interface holidayTypes {
+		static final String TABLE_NAME = "holidayTypes";
 
 		public static final String NAME_NAME = "name";
 		public static final String NAME_DESCRIPTION = "description";

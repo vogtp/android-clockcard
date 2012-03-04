@@ -132,6 +132,26 @@
         </service>
 
         <activity android:name=".view.activity.HolidaysEditor" >
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" >
+                </action>
+
+                <data android:mimeType="vnd.android.cursor.item/ch.almana.android.stechkarte.holidays" >
+                </data>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+            <intent-filter>
+                <data android:mimeType="vnd.android.cursor.dir/ch.almana.android.stechkarte.holidays" >
+                </data>
+
+                <action android:name="android.intent.action.INSERT" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
         </activity>
         <activity android:name=".view.activity.BackupRestoreActivity" >
         </activity>
