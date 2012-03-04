@@ -40,7 +40,7 @@ public interface DB {
 			map.put(MONTH, Months.URI_TABLE_MAPPING);
 			map.put(WEEK, Weeks.URI_TABLE_MAPPING);
 			map.put(TIMEOFF, TimeoffTypes.URI_TABLE_MAPPING);
-			map.put(TIMEOFF_TYPES, Timeoff.URI_TABLE_MAPPING);
+			map.put(TIMEOFF_TYPES, Timeoffs.URI_TABLE_MAPPING);
 		}
 
 	}
@@ -75,10 +75,11 @@ public interface DB {
 		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + TimeoffTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
 				+ TimeoffTypes.NAME_NAME + " text, " + TimeoffTypes.NAME_DESCRIPTION + " text, " + TimeoffTypes.NAME_IS_HOLIDAY + " int, " + TimeoffTypes.NAME_IS_PAID + " int);";
 
-		private static final String CREATE_TIMEOFF_TABLE = "create table if not exists " + Timeoff.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
-				+ Timeoff.NAME_START + " long, " + Timeoff.NAME_START_TYPE + " int, "
-				+ Timeoff.NAME_END + " long, " + Timeoff.NAME_END_TYPE + " int, "
-				+ Timeoff.NAME_DAYS + " int, " + Timeoff.NAME_IS_HOLIDAY + " int, " + Timeoff.NAME_IS_PAID + " int, " + Timeoff.NAME_IS_YEARLY + " int);";
+		private static final String CREATE_TIMEOFF_TABLE = "create table if not exists " + Timeoffs.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ Timeoffs.NAME_START + " long, " + Timeoffs.NAME_START_TYPE + " text, " + Timeoffs.NAME_START_HOURS + " int default -1, "
+				+ Timeoffs.NAME_END + " long, " + Timeoffs.NAME_END_TYPE + " text, " + Timeoffs.NAME_END_HOURS + " int default -1, "
+				+ Timeoffs.NAME_DAYS + " int, " + Timeoffs.NAME_IS_HOLIDAY + " int, " + Timeoffs.NAME_IS_PAID + " int, " + Timeoffs.NAME_IS_YEARLY + " int, " + 
+				Timeoffs.NAME_COMMENT + " text);";
 
 		private static final String LOG_TAG = Logger.TAG;
 
@@ -101,8 +102,8 @@ public interface DB {
 			db.execSQL("create index days_monthref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_MONTHREF + "); ");
 			db.execSQL("create index days_weekref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_WEEKREF + "); ");
 			db.execSQL("create unique index weeks_weekref_idx on " + Weeks.TABLE_NAME + " (" + Weeks.NAME_WEEKREF + "); ");
-			db.execSQL("create unique index timeoff_start_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_START + "); ");
-			db.execSQL("create unique index timeoff_end_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_END + "); ");
+			db.execSQL("create unique index timeoff_start_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_START + "); ");
+			db.execSQL("create unique index timeoff_end_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_END + "); ");
 			Log.i(LOG_TAG, "Created table " + DB.Timestamps.TABLE_NAME);
 		}
 
@@ -164,8 +165,8 @@ public interface DB {
 			case 10:
 				Log.w(LOG_TAG, "Upgrading to DB Version 11...");
 				db.execSQL(CREATE_TIMEOFF_TABLE);
-				db.execSQL("create unique index timeoff_start_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_START + "); ");
-				db.execSQL("create unique index timeoff_end_idx on " + Timeoff.TABLE_NAME + " (" + Timeoff.NAME_END + "); ");
+				db.execSQL("create unique index timeoff_start_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_START + "); ");
+				db.execSQL("create unique index timeoff_end_idx on " + Timeoffs.TABLE_NAME + " (" + Timeoffs.NAME_END + "); ");
 				// nobreak
 
 			default:
@@ -328,29 +329,35 @@ public interface DB {
 
 	}
 
-	public interface Timeoff {
-		static final String TABLE_NAME = "timeoff";
+	public interface Timeoffs {
+		static final String TABLE_NAME = "timeoffs";
 
 		public static final String NAME_START = "start";
 		public static final String NAME_START_TYPE = "startType";
+		public static final String NAME_START_HOURS = "startHours";
 		public static final String NAME_END = "end";
 		public static final String NAME_END_TYPE = "endType";
+		public static final String NAME_END_HOURS = "endHours";
 		public static final String NAME_DAYS = "days";
 		public static final String NAME_IS_HOLIDAY = "isHoliday";
 		public static final String NAME_IS_PAID = "isPaid";
 		public static final String NAME_IS_YEARLY = "isYearly";
+		public static final String NAME_COMMENT = "comment";
 
 		public static final int INDEX_START = 1;
 		public static final int INDEX_START_TYPE = 2;
-		public static final int INDEX_END = 3;
-		public static final int INDEX_END_TYPE = 4;
-		public static final int INDEX_DAYS = 5;
-		public static final int INDEX_IS_HOLIDAY = 6;
-		public static final int INDEX_IS_PAID = 7;
-		public static final int INDEX_IS_YEARLY = 8;
+		public static final int INDEX_START_HOURS = 3;
+		public static final int INDEX_END = 4;
+		public static final int INDEX_END_TYPE = 5;
+		public static final int INDEX_END_HOURS = 6;
+		public static final int INDEX_DAYS = 7;
+		public static final int INDEX_IS_HOLIDAY = 8;
+		public static final int INDEX_IS_PAID = 9;
+		public static final int INDEX_IS_YEARLY = 10;
+		public static final int INDEX_COMMENT = 11;
 
-		public static final String[] colNames = new String[] { NAME_ID, NAME_START, NAME_START_TYPE, NAME_END, NAME_END_TYPE, NAME_DAYS, NAME_IS_HOLIDAY, NAME_IS_PAID,
-				NAME_IS_YEARLY };
+		public static final String[] colNames = new String[] { NAME_ID, NAME_START, NAME_START_TYPE, NAME_START_HOURS, NAME_END, NAME_END_TYPE, NAME_END_HOURS, NAME_DAYS,
+				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_COMMENT };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
