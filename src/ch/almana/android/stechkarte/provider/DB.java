@@ -19,6 +19,9 @@ public interface DB {
 	public static final String NAME_ID = "_id";
 	public static final int INDEX_ID = 0;
 
+	public static final String[] PROJECTION_ID = new String[] { NAME_ID };
+	public static final String SELECTION_BY_ID = NAME_ID + "=?";
+
 	public class UriTableConfig {
 
 		public static Map<Integer, UriTableMapping> map;
@@ -68,7 +71,7 @@ public interface DB {
 				+ Weeks.NAME_OVERTIME + " real, " + Weeks.NAME_ERROR + " int, " + Weeks.NAME_LAST_UPDATED + " long);";
 
 		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + TimeoffTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
-				+ TimeoffTypes.NAME_NAME + " text, " + TimeoffTypes.NAME_DESCRIPTION + " text, " + TimeoffTypes.NAME_IS_HOLIDAY + " int, " + TimeoffTypes.NAME_IS_PAID + " long);";
+				+ TimeoffTypes.NAME_NAME + " text, " + TimeoffTypes.NAME_DESCRIPTION + " text, " + TimeoffTypes.NAME_IS_HOLIDAY + " int, " + TimeoffTypes.NAME_IS_PAID + " int);";
 
 		private static final String LOG_TAG = Logger.TAG;
 

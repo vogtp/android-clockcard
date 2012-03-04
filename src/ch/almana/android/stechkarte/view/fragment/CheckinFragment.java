@@ -25,6 +25,7 @@ public class CheckinFragment extends Fragment {
 	private TextView labelLeaveAt;
 	private Button buttonIn;
 	private Button buttonOut;
+	private TextView tvLastTimestamp;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class CheckinFragment extends Fragment {
 		holidaysLeft = (TextView) v.findViewById(R.id.TextViewHolidaysLeft);
 		leaveAt = (TextView) v.findViewById(R.id.TextViewLeave);
 		labelLeaveAt = (TextView) v.findViewById(R.id.LabelLeavetAt);
+		tvLastTimestamp = (TextView) v.findViewById(R.id.tvLastTimestamp);
 		buttonIn = (Button) v.findViewById(R.id.ButtonIn);
 		buttonOut = (Button) v.findViewById(R.id.ButtonOut);
 
@@ -52,10 +54,8 @@ public class CheckinFragment extends Fragment {
 		int size = Math.round(width / 5f);
 		buttonIn.setWidth(width);
 		buttonIn.setHeight(width);
-		buttonIn.setTextSize(size);
 		buttonOut.setWidth(width);
 		buttonOut.setHeight(width);
-		buttonOut.setTextSize(size);
 
 		buttonIn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -104,7 +104,12 @@ public class CheckinFragment extends Fragment {
 
 		overtime.setText(curInfo.getOvertimeString());
 		hoursWorked.setText(curInfo.getHoursWorked());
-
+		long unixTimestamp = curInfo.getUnixTimestamp();
+		if (unixTimestamp > 0) {
+			tvLastTimestamp.setText(Timestamp.timestampToString(unixTimestamp));
+		} else {
+			tvLastTimestamp.setText("none");
+		}
 	}
 
 }

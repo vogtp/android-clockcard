@@ -6,11 +6,15 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -19,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.TimeoffTypes;
 import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
 
@@ -33,9 +39,12 @@ public class HolidaysEditor extends Activity {
 	private Spinner spHolidayDurationStart;
 	private Spinner spHolidayDurationEnd;
 	private Calendar holidayStart = null;
-	private  Calendar holidayEnd = null;
+	private Calendar holidayEnd = null;
 	private Spinner spHolidayType;
 	private CheckBox cbIsPayed;
+	private CheckBox cbIsHoliday;
+	private CheckBox cbIsYearly;
+	private Button buEditTimeoffType;
 
 	private static class SpecialBorderFields {
 		EditText editText;
@@ -149,9 +158,42 @@ public class HolidaysEditor extends Activity {
 		spHolidayDurationEnd.setOnItemSelectedListener(holidayBorderAdaptor);
 
 		spHolidayType = (Spinner) findViewById(R.id.SpinnerHolidayType);
-		//		SpinnerAdapter adapter = new ArrayAdapt;
-		//		spHolidayType.setAdapter(adapter );
-		//		cbIsPayed = (CheckBox) findViewById(R.id.CheckBoxIsPayed); 
+		CursorLoader cursorLoader = new CursorLoader(this, TimeoffTypes.CONTENT_URI, TimeoffTypes.DEFAULT_PROJECTION, null, null, null);
+		Cursor c = cursorLoader.loadInBackground();
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c,
+				new String[] { TimeoffTypes.NAME_NAME }, new int[] { android.R.id.text1 }, 0);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spHolidayType.setAdapter(adapter);
+		spHolidayType.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long id) {
+				CursorLoader cursorLoader = new CursorLoader(HolidaysEditor.this, TimeoffTypes.CONTENT_URI, TimeoffTypes.DEFAULT_PROJECTION, DB.SELECTION_BY_ID,
+						new String[] { Long.toString(id) }, null);
+				Cursor c = cursorLoader.loadInBackground();
+				if (c != null && c.moveToFirst()) {
+					cbIsHoliday.setChecked(c.getInt(TimeoffTypes.INDEX_IS_HOLIDAY) == 1);
+					cbIsPayed.setChecked(c.getInt(TimeoffTypes.INDEX_IS_PAID) == 1);
+				}
+				if (c != null) {
+					c.close();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+
+			}
+		});
+
+		cbIsPayed = (CheckBox) findViewById(R.id.CheckBoxIsPayed);
+		cbIsHoliday = (CheckBox) findViewById(R.id.cbIsHoliday);
+		cbIsYearly = (CheckBox) findViewById(R.id.cbIsYearly);
+
+		buEditTimeoffType = (Button) findViewById(R.id.buEditTimeoffType);
+		//FIXME implement
+		buEditTimeoffType.setEnabled(false);
+
 	}
 
 	@Override
@@ -163,14 +205,13 @@ public class HolidaysEditor extends Activity {
 	private void updateView() {
 		updateCalendarButton(buHoldidayStart, holidayStart);
 		updateCalendarButton(buHoldidayEnd, holidayEnd);
-		// TODO Auto-generated method stub
 
 	}
 
 	private void updateCalendarButton(Button button, Calendar cal) {
 		if (cal != null) {
 			button.setText(Formater.formatDate(cal.getTime()));
-		}else {
+		} else {
 			button.setText(R.string.ButtonHolidayDateNone);
 		}
 	}

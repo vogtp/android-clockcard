@@ -99,7 +99,7 @@
     <string name="labelHolidayDurationEnd">Duration on ending day:</string>
     <string name="LabelDay">days</string>
     <string name="CheckBoxFillupDay">Fill up not worked hours</string>
-    <string name="CheckBoxIsPayed">Is payed</string>
+    <string name="CheckBoxIsPayed">Paid</string>
     <string name="EditTextCommentHint">Comment</string>
     <string name="dayEditorTitle">Day Editor</string>
     <string name="monthViewTitle">Month View</string>
@@ -161,7 +161,7 @@
     <string name="label_week">Week</string>
     <string name="label_tab_payment">Payment</string>
     <string name="tabel_tab_months">Months</string>
-    <string name="appwidget_label_last_timestamp">Last timestamp:</string>
+    <string name="appwidget_label_last_timestamp">Last timestamp</string>
     <string name="label_overtime">Overtime</string>
     <string name="label_leave_at">Leave at</string>
     <string name="hint_comment">Comment</string>
@@ -177,5 +177,14 @@
     <string name="prefDataManagementLong">Export, backup and restore</string>
     <string name="prefBackupRestore">Backup &amp; Restore</string>
     <string name="prefRestore">Restore backup</string>
+    <string name="cbIsHoliday">Holiday</string>
+    <string name="cbIsYearly">Yearly</string>
+    <string name="labelTimeoffType">Type</string>
+    <string name="labelNumHolidayDays">Days</string>
+    <string name="timeoff_type_name_holidays">Holidays</string>
+    <string name="timeoff_type_name_illness">Illness</string>
+    <string name="timeoff_type_name_public_holiday">Public holiday</string>
+    <string name="timeoff_type_name_unpaid_holidays">Unpaid holidays</string>
+    <string name="buEditTimeoffType">Edit</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 import android.widget.Toast;
+import ch.almana.android.stechkarte.model.calc.RebuildDays;
 import ch.almana.android.stechkarte.model.calc.RebuildDaysTask;
 import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.DB.Timestamps;
@@ -201,7 +202,8 @@ public class TimestampAccess implements IModelAccess {
 			timestamp.setId(id);
 		}
 		// DayAccess.getInstance().recalculate(timestamp.getDayRef());
-		RebuildDaysTask.rebuildDays(getContext(), timestamp);
+		//RebuildDaysTask.rebuildDays(getContext(), timestamp);
+		RebuildDays.create(getContext()).recalculateDay(timestamp.getDayRef());
 	}
 
 	public void update(Timestamp timestamp) {

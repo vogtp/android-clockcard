@@ -34,7 +34,7 @@
     <style name="style_main_info_value" parent="android:Widget.TextView">
         <item name="android:gravity">right</item>
         <item name="android:paddingLeft">10dp</item>
-        <item name="android:textSize">@+dimen/title_fontsize</item>
+        <item name="android:textSize">@dimen/title_fontsize</item>
     </style>
 
     <style name="style_dayeditor_value" parent="android:Widget.TextView">
@@ -49,6 +49,11 @@
     <style name="style_dayeditor_middlelabel" parent="android:Widget.TextView">
         <item name="android:paddingLeft">30dp</item>
         <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="style_holidayeditor_label" parent="android:Widget.Holo.TextView">
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

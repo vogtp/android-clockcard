@@ -7,20 +7,17 @@ import android.preference.PreferenceManager;
 
 public abstract class SettingsBase {
 
-	protected static Settings instance;
+	private static final String PREF_STORE_LOCAL = "local";
+
 	protected final Context context;
-
-	public static void initInstance(Context ctx) {
-
-	}
-
-	public static Settings getInstance() {
-		return instance;
-	}
 
 	public SettingsBase(Context ctx) {
 		super();
 		this.context = ctx;
+	}
+
+	protected SharedPreferences getLocalPreferences() {
+		return context.getSharedPreferences(PREF_STORE_LOCAL, 0);
 	}
 
 	protected SharedPreferences getPreferences() {

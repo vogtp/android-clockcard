@@ -7,46 +7,38 @@
     <TableLayout
         android:id="@+id/TableLayoutStartEnd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:stretchColumns="1" >
 
         <TableRow
             android:id="@+id/TableRowStart"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/LabelHolidayStart"
+                style="@style/style_holidayeditor_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="5dp"
-                android:text="@string/LabelHolidayStart"
-                android:textSize="@dimen/title_fontsize" >
-            </TextView>
+                android:text="@string/LabelHolidayStart" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="horizontal" >
 
                 <LinearLayout
                     android:id="@+id/LinearLayout04"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                    <LinearLayout
-                        android:id="@+id/LinearLayout05"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <Button
-                            android:id="@+id/ButtonHolidayDateStart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ButtonHolidayDateNone"
-                            android:width="150dp" >
-                        </Button>
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/ButtonHolidayDateStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ButtonHolidayDateNone"
+                        android:width="150dp" />
 
                     <LinearLayout
                         android:id="@+id/LinearLayout02"
@@ -58,8 +50,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:entries="@array/holidayBorderType"
-                            android:minWidth="150dp" >
-                        </Spinner>
+                            android:minWidth="150dp" />
 
                         <EditText
                             android:id="@+id/EditTextHolidayDurationStart"
@@ -67,8 +58,7 @@
                             android:layout_height="wrap_content"
                             android:paddingRight="5dp"
                             android:visibility="invisible"
-                            android:width="50dp" >
-                        </EditText>
+                            android:width="50dp" />
 
                         <TextView
                             android:id="@+id/LabelHolidayDurationStart"
@@ -76,8 +66,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="@string/LabelHours"
-                            android:visibility="invisible" >
-                        </TextView>
+                            android:visibility="invisible" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -85,17 +74,15 @@
 
         <TableRow
             android:id="@+id/TableRowEnd"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/LabelHolidayEnd"
+                style="@style/style_holidayeditor_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="5dp"
-                android:text="@string/LabelHolidayEnd"
-                android:textSize="@dimen/title_fontsize" >
-            </TextView>
+                android:text="@string/LabelHolidayEnd" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,27 +91,20 @@
 
                 <LinearLayout
                     android:id="@+id/LinearLayout04"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                    <LinearLayout
-                        android:id="@+id/LinearLayout05"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <Button
-                            android:id="@+id/ButtonHolidayDateEnd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ButtonHolidayDateNone"
-                            android:width="150dp" >
-                        </Button>
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/ButtonHolidayDateEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ButtonHolidayDateNone"
+                        android:width="150dp" />
 
                     <LinearLayout
                         android:id="@+id/LinearLayout02"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
                         <Spinner
@@ -132,8 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:entries="@array/holidayBorderType"
-                            android:minWidth="150dp" >
-                        </Spinner>
+                            android:minWidth="150dp" />
 
                         <EditText
                             android:id="@+id/EditTextHolidayDurationEnd"
@@ -141,8 +120,7 @@
                             android:layout_height="wrap_content"
                             android:paddingRight="5dp"
                             android:visibility="invisible"
-                            android:width="50dp" >
-                        </EditText>
+                            android:width="50dp" />
 
                         <TextView
                             android:id="@+id/LabelHolidayDurationEnd"
@@ -150,41 +128,114 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="@string/LabelHours"
-                            android:visibility="invisible" >
-                        </TextView>
+                            android:visibility="invisible" />
                     </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRowDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/style_holidayeditor_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/labelNumHolidayDays" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/etNumHolidayDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:inputType="number" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/TableRowTyoe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView1"
+                style="@style/style_holidayeditor_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="@string/labelTimeoffType" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Spinner
+                        android:id="@+id/SpinnerHolidayType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical" />
+
+                    <Button
+                        android:id="@+id/buEditTimeoffType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/buEditTimeoffType" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/LinearLayout03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:id="@+id/cbIsHoliday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cbIsHoliday" />
+
+                    <CheckBox
+                        android:id="@+id/CheckBoxIsPayed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/CheckBoxIsPayed" />
+
+                    <CheckBox
+                        android:id="@+id/cbIsYearly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cbIsYearly" />
                 </LinearLayout>
             </LinearLayout>
         </TableRow>
     </TableLayout>
 
-    <LinearLayout
-        android:id="@+id/LinearLayout03"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Spinner
-            android:id="@+id/SpinnerHolidayType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
-        </Spinner>
-
-        <CheckBox
-            android:id="@+id/CheckBoxIsPayed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/CheckBoxIsPayed" >
-        </CheckBox>
-    </LinearLayout>
-
     <EditText
         android:id="@+id/EditTextComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/EditTextCommentHint" >
+        android:hint="@string/EditTextCommentHint"
+        android:paddingTop="10dp" >
     </EditText>
 
 </LinearLayout>

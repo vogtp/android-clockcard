@@ -18,7 +18,7 @@
             android:lines="1"
             android:paddingLeft="@dimen/app_widget_text_paddingLeft"
             android:text="LOAD"
-            android:textSize="22sp"
+            android:textSize="22dp"
             android:textStyle="bold" >
         </TextView>
 

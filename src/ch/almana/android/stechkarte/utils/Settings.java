@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -27,17 +28,22 @@ public class Settings extends SettingsBase {
 	private static final long SECONDS_IN_MILLIES = 1000;
 	private static final int MIN_LICENSE_VERSION = 201011190;
 	private static final String MARKETLICENSE_PACKEBAME = "ch.almana.android.stechkarteLicense";
-	private static final int MIN_NON_MARKET_LICENSE_VERSION = 0;
+	private static final String PREF_DEFAULT_PROFILES_VERSION = "prefKeyDefaultProfileVersion";
 
 	private boolean featuresChanged = false;
 	static final SimpleDateFormat weekdayFormat = new SimpleDateFormat("EEE");
+	protected static Settings instance;
 
-	public static void initInstance(Context ctx) {
+	public static Settings getInstance(Context ctx) {
 		if (instance == null) {
 			instance = new Settings(ctx);
 		}
+		return instance;
 	}
 
+	public static Settings getInstance() {
+		return instance;
+	}
 	private Settings(Context ctx) {
 		super(ctx);
 	}
@@ -286,5 +292,15 @@ public class Settings extends SettingsBase {
 
 	public boolean hasHoloTheme() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+	}
+
+	public int getDefaultProfilesVersion() {
+		return getLocalPreferences().getInt(PREF_DEFAULT_PROFILES_VERSION, 0);
+	}
+
+	public void setDefaultProfilesVersion(int version) {
+		Editor editor = getLocalPreferences().edit();
+		editor.putInt(PREF_DEFAULT_PROFILES_VERSION, version);
+		editor.commit();
 	}
 }
