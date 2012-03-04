@@ -6,22 +6,29 @@ import ch.almana.android.stechkarte.log.Logger;
 
 public class ProgressWrapperActivity implements IProgressWrapper {
 
-	private final Activity progressAct;
-	// private int max;
+	private Activity progressAct;
 	private final CharSequence origTitle;
 	private int inc;
+	private int maxProgress = -1;
+	private int curProgress = -1;
 
 	public ProgressWrapperActivity(Activity act) throws Exception {
 		this.progressAct = act;
-		// progressAct.getWindow().re
 		this.origTitle = progressAct.getTitle();
-		//
-		// progressAct.setProgressBarVisibility(true);
-		// progressAct.setProgress(500);
+	}
+
+	public void setActivity(Activity act) {
+		progressAct = act;
+		show();
+		setMax(maxProgress);
+		setProgress(curProgress);
 	}
 
 	@Override
 	public void dismiss() {
+		if (progressAct == null) {
+			return;
+		}
 		try {
 			progressAct.setTitle(origTitle);
 			progressAct.setProgressBarVisibility(false);
@@ -37,6 +44,7 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void setMax(int i) {
+		maxProgress = i;
 		if (i > 0) {
 			this.inc = 10000 / i;
 		} else {
@@ -46,6 +54,10 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void setProgress(int i) {
+		if (progressAct == null || i < 0) {
+			return;
+		}
+		curProgress = i;
 		try {
 			progressAct.setProgress(i * inc);
 		} catch (Throwable e) {
@@ -55,6 +67,9 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void setTitle(String title) {
+		if (progressAct == null) {
+			return;
+		}
 		try {
 			progressAct.setTitle(title);
 		} catch (Throwable e) {
@@ -64,6 +79,9 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 
 	@Override
 	public void show() {
+		if (progressAct == null) {
+			return;
+		}
 		try {
 			progressAct.setProgressBarVisibility(true);
 		} catch (Throwable e) {

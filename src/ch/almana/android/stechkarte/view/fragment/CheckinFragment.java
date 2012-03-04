@@ -1,5 +1,8 @@
 package ch.almana.android.stechkarte.view.fragment;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -26,6 +29,7 @@ public class CheckinFragment extends Fragment {
 	private Button buttonIn;
 	private Button buttonOut;
 	private TextView tvLastTimestamp;
+	private Button buDeleteLastTs;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class CheckinFragment extends Fragment {
 		tvLastTimestamp = (TextView) v.findViewById(R.id.tvLastTimestamp);
 		buttonIn = (Button) v.findViewById(R.id.ButtonIn);
 		buttonOut = (Button) v.findViewById(R.id.ButtonOut);
+		buDeleteLastTs = (Button) v.findViewById(R.id.buDeleteLastTs);
 
 		return v;
 	}
@@ -69,6 +74,24 @@ public class CheckinFragment extends Fragment {
 			public void onClick(View v) {
 				TimestampAccess.getInstance().addOutNow(act);
 				updateView();
+			}
+		});
+		buDeleteLastTs.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Builder builder = new AlertDialog.Builder(getActivity());
+				builder.setTitle(R.string.title_delete_last_timestamp);
+				builder.setMessage(R.string.msg_delete_last_timestamp);
+				builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CurInfo curInfo = new CurInfo(getActivity());
+						TimestampAccess.getInstance().delete(curInfo.getTimestamp());
+						updateView();
+					}
+				});
+				builder.setNegativeButton(android.R.string.no, null);
+				builder.create().show();
 			}
 		});
 
@@ -109,6 +132,7 @@ public class CheckinFragment extends Fragment {
 		} else {
 			tvLastTimestamp.setText("none");
 		}
+		buDeleteLastTs.setHeight(hoursWorked.getHeight());
 	}
 
 }

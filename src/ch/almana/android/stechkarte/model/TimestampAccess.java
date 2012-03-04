@@ -95,6 +95,10 @@ public class TimestampAccess implements IModelAccess {
 
 	}
 
+	public int delete(Timestamp ts) {
+		return delete(Timestamps.CONTENT_URI, DB.NAME_ID + "=" + ts.getId(), null);
+	}
+
 	public int delete(Cursor c) {
 		return delete(Timestamps.CONTENT_URI, DB.NAME_ID + "=" + c.getInt(DB.INDEX_ID), null);
 	}

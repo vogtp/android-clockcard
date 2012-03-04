@@ -31,6 +31,8 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	private static boolean rebuilding = false;
 
+	private static RebuildDaysTask rebuildDaysTask;
+
 	protected RebuildDaysTask() {
 		super();
 	}
@@ -93,11 +95,21 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 			return;
 		}
 		rebuilding = true;
-		RebuildDaysTask rebuildDaysTask = new RebuildDaysTask(ctx, timestamp);
+		rebuildDaysTask = new RebuildDaysTask(ctx, timestamp);
 		try {
 			rebuildDaysTask.execute((Timestamp[]) null);
 		} catch (Exception e) {
 			Log.w(Logger.TAG, "Cannot rebuild", e);
+		}
+	}
+
+	public static void setActiviy(Activity act) {
+		if (rebuildDaysTask == null || rebuildDaysTask.progressWrapper == null) {
+			return;
+		}
+		if (rebuildDaysTask.progressWrapper instanceof ProgressWrapperActivity) {
+			ProgressWrapperActivity pw = (ProgressWrapperActivity) rebuildDaysTask.progressWrapper;
+			pw.setActivity(act);
 		}
 	}
 

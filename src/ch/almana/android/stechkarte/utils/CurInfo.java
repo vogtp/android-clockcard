@@ -32,7 +32,7 @@ public class CurInfo {
 		findLastTimestamp(context);
 	}
 
-	public void findLastTimestamp(Context context) {
+	private void findLastTimestamp(Context context) {
 		Cursor c;
 		if (day != null) {
 			c = day.getTimestamps();

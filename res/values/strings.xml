@@ -186,5 +186,7 @@
     <string name="timeoff_type_name_public_holiday">Public holiday</string>
     <string name="timeoff_type_name_unpaid_holidays">Unpaid holidays</string>
     <string name="buEditTimeoffType">Edit</string>
+    <string name="title_delete_last_timestamp">Delete last timestamp?</string>
+    <string name="msg_delete_last_timestamp">Do you really want to delete the last timestamp?</string>
 
 </resources>

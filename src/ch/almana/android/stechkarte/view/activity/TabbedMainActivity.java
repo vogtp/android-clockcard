@@ -121,7 +121,14 @@ public class TabbedMainActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		RebuildDaysTask.setActiviy(this);
 		RebuildDaysTask.rebuildDaysIfNeeded(this);
+	}
+
+	@Override
+	protected void onPause() {
+		RebuildDaysTask.setActiviy(null);
+		super.onPause();
 	}
 
 	@Override
