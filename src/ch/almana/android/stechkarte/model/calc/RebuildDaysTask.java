@@ -89,7 +89,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	public static void rebuildDays(Context ctx, Timestamp timestamp) {
 		Logger.logStacktrace("RebuildDays is called");
-		if (rebuilding) {
+		if (Logger.DEBUG && rebuilding) {
 			Log.w(Logger.TAG, "Allready rebuilding, returning");
 			Toast.makeText(ctx, "A rebuild task is allready running.  Not starting again...", Toast.LENGTH_SHORT).show();
 			return;
