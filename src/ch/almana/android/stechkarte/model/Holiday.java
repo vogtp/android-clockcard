@@ -331,7 +331,7 @@ public class Holiday {
 	}
 
 	private void updateStartEndFromDays() {
-		final int inMillies = Math.round(days * DAY_IN_MILLIES);
+		final int inMillies = Math.round(days * DAY_IN_MILLIES) - 1000;
 		if (start > 0) {
 			end = start + inMillies;
 		} else if (end > 0) {
@@ -340,7 +340,7 @@ public class Holiday {
 	}
 
 	private void updateNumHolidayDays() {
-		if (start > 0 && end > 0 && end > start) {
+		if (start > 0 && end > 0) {
 			days = (end - start) / DAY_IN_MILLIES;
 			if (startType == BorderType.allDay && endType == BorderType.allDay) {
 				days++;

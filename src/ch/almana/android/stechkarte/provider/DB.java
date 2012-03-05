@@ -357,6 +357,9 @@ public interface DB {
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_START, NAME_START_TYPE, NAME_START_HOURS, NAME_END, NAME_END_TYPE, NAME_END_HOURS, NAME_DAYS,
 				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_YIELDS_OVERTIME, NAME_COMMENT };
+
+		public static final String SELCTION_UPDATE_YEARLY_HOLIDAYS = NAME_IS_YEARLY + "=1 and " + NAME_START + "<=?";
+
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_START + " ASC";
@@ -368,6 +371,8 @@ public interface DB {
 		static final String CONTENT_TYPE = "vnd.android.cursor.dir/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 		static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/" + AUTHORITY + "." + CONTENT_ITEM_NAME;
 		public static final UriTableMapping URI_TABLE_MAPPING = new UriTableMapping(TABLE_NAME, CONTENT_ITEM_NAME, CONTENT_TYPE, CONTENT_ITEM_TYPE);
+
+
 
 	}
 

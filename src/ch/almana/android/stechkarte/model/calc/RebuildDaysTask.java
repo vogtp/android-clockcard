@@ -14,6 +14,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.model.Day;
 import ch.almana.android.stechkarte.model.DayAccess;
+import ch.almana.android.stechkarte.model.HolidayAccess;
 import ch.almana.android.stechkarte.model.Timestamp;
 import ch.almana.android.stechkarte.utils.IProgressWrapper;
 import ch.almana.android.stechkarte.utils.ProgressWrapperActivity;
@@ -83,6 +84,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
+		HolidayAccess.updateYearly(ctx, timestamp.getTimestamp());
 		RebuildDays rebuildDays = RebuildDays.create(ctx);
 		rebuildDays.recalculateDays(timestamp, progressWrapper);
 		return null;

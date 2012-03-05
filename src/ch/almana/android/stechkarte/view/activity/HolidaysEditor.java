@@ -250,6 +250,7 @@ public class HolidaysEditor extends Activity {
 
 	@Override
 	protected void onPause() {
+		super.onPause();
 		updateModel();
 		String action = getIntent().getAction();
 		if (origHoliday.equals(holiday) && !Intent.ACTION_INSERT.equals(action)) {
@@ -264,7 +265,6 @@ public class HolidaysEditor extends Activity {
 		} catch (Exception e) {
 			Logger.e("Cannot save holiday", e);
 		}
-		super.onPause();
 	}
 
 	private void updateView() {
