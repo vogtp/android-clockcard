@@ -18,10 +18,10 @@ public class Holiday {
 
 	private long id = -1;
 	private long start = -1;
-	private BorderType startType;
+	private BorderType startType = BorderType.allDay;
 	private float startHours;
 	private long end = -1;
-	private BorderType endType;
+	private BorderType endType = BorderType.allDay;
 	private float endHours;
 	private float days;
 	private boolean isHoliday;
@@ -207,6 +207,9 @@ public class Holiday {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		this.start = cal.getTimeInMillis();
+		if (end < 0) {
+			setEnd(start);
+		}
 		updateNumHolidayDays();
 	}
 
@@ -242,11 +245,14 @@ public class Holiday {
 	public void setEnd(long end) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(end);
-		cal.set(Calendar.HOUR_OF_DAY, 24);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
 		cal.set(Calendar.MILLISECOND, 999);
 		this.end = cal.getTimeInMillis();
+		if (start < 0) {
+			setStart(end);
+		}
 		updateNumHolidayDays();
 	}
 
@@ -336,6 +342,11 @@ public class Holiday {
 	private void updateNumHolidayDays() {
 		if (start > 0 && end > 0 && end > start) {
 			days = (end - start) / DAY_IN_MILLIES;
+			if (startType == BorderType.allDay && endType == BorderType.allDay) {
+				days++;
+			} else {
+				//FIXME calculate duration
+			}
 		} else {
 			updateStartEndFromDays();
 		}

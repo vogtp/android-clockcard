@@ -359,8 +359,8 @@ public interface DB {
 				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_YIELDS_OVERTIME, NAME_COMMENT };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
-		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
-		public static final String REVERSE_SORTORDER = NAME_ID + " ASC";
+		public static final String DEFAULT_SORTORDER = NAME_START + " ASC";
+		public static final String REVERSE_SORTORDER = NAME_START + " DESC";
 
 		public static final String CONTENT_ITEM_NAME = TABLE_NAME;
 		public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + CONTENT_ITEM_NAME;

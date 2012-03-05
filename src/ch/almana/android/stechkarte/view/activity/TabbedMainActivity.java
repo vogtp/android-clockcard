@@ -19,6 +19,7 @@ import ch.almana.android.stechkarte.view.adapter.TabManager;
 import ch.almana.android.stechkarte.view.adapter.ViewPagerManager;
 import ch.almana.android.stechkarte.view.fragment.CheckinFragment;
 import ch.almana.android.stechkarte.view.fragment.DaysListFragment;
+import ch.almana.android.stechkarte.view.fragment.HolidaysListFragment;
 import ch.almana.android.stechkarte.view.fragment.MonthsListFragment;
 import ch.almana.android.stechkarte.view.fragment.PaymentMonthListFragment;
 import ch.almana.android.stechkarte.view.fragment.PaymentWeekListFragment;
@@ -80,6 +81,7 @@ public class TabbedMainActivity extends FragmentActivity {
 			viewPagerManager = new ViewPagerManager(this, viewPager);
 			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_main), CheckinFragment.class, null);
 			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_days), DaysListFragment.class, null);
+			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_holidays), HolidaysListFragment.class, null);
 			viewPagerManager.addTab(bar.newTab().setText(R.string.label_tab_weeks), WeeksListFragment.class, null);
 			viewPagerManager.addTab(bar.newTab().setText(R.string.tabel_tab_months), MonthsListFragment.class, null);
 			if (payList != null) {
@@ -101,6 +103,8 @@ public class TabbedMainActivity extends FragmentActivity {
 					CheckinFragment.class, null);
 			mTabManager.addTab(tabHost.newTabSpec("tabDays").setIndicator(getString(R.string.label_tab_days), getResources().getDrawable(R.drawable.tab_day)),
 					DaysListFragment.class, null);
+			mTabManager.addTab(tabHost.newTabSpec("tabHolidays").setIndicator(getString(R.string.label_tab_holidays), getResources().getDrawable(R.drawable.tab_holidays)),
+					HolidaysListFragment.class, null);
 			mTabManager.addTab(tabHost.newTabSpec("tabWeek").setIndicator(getString(R.string.label_tab_weeks), getResources().getDrawable(R.drawable.tab_week)),
 					WeeksListFragment.class, null);
 
@@ -127,8 +131,8 @@ public class TabbedMainActivity extends FragmentActivity {
 
 	@Override
 	protected void onPause() {
-		RebuildDaysTask.setActiviy(null);
 		super.onPause();
+		RebuildDaysTask.setActiviy(null);
 	}
 
 	@Override

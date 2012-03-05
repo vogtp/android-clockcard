@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="title_fontsize">24sp</dimen>
+    <dimen name="title_fontsize">20sp</dimen>
     <dimen name="fontsizeTsEditor">25sp</dimen>
     <dimen name="tsEditorPadding">10dp</dimen>
 

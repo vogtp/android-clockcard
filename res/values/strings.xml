@@ -190,5 +190,6 @@
     <string name="msg_delete_last_timestamp">Do you really want to delete the last timestamp?</string>
     <string name="msg_rebuilding">Rebuilding...</string>
     <string name="cbYieldsOvertime">Yields overtime</string>
+    <string name="label_tab_holidays">Holidays</string>
 
 </resources>
