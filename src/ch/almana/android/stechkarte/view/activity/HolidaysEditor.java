@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
@@ -23,7 +24,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
+import ch.almana.android.stechkarte.model.Holiday;
+import ch.almana.android.stechkarte.model.Holiday.BorderType;
 import ch.almana.android.stechkarte.provider.DB;
+import ch.almana.android.stechkarte.provider.DB.Holidays;
 import ch.almana.android.stechkarte.provider.DB.holidayTypes;
 import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
@@ -38,13 +42,16 @@ public class HolidaysEditor extends Activity {
 	private SpecialBorderFields startSpecBorder;
 	private Spinner spHolidayDurationStart;
 	private Spinner spHolidayDurationEnd;
-	private Calendar holidayStart = null;
-	private Calendar holidayEnd = null;
 	private Spinner spHolidayType;
 	private CheckBox cbIsPayed;
 	private CheckBox cbIsHoliday;
 	private CheckBox cbIsYearly;
 	private Button buEditTimeoffType;
+	private CheckBox cbYieldOvertime;
+	private Holiday holiday;
+	private Holiday origHoliday;
+	private EditText etComment;
+	private EditText etNumHolidayDays;
 
 	private static class SpecialBorderFields {
 		EditText editText;
@@ -85,12 +92,11 @@ public class HolidaysEditor extends Activity {
 			callBack = new OnDateSetListener() {
 				@Override
 				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-					if (holidayStart == null) {
-						holidayStart = getNewDateCalendar();
-					}
+					Calendar holidayStart = Calendar.getInstance();
 					holidayStart.set(Calendar.YEAR, year);
 					holidayStart.set(Calendar.MONTH, monthOfYear);
 					holidayStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+					holiday.setStart(holidayStart.getTimeInMillis());
 					updateView();
 				}
 
@@ -100,12 +106,11 @@ public class HolidaysEditor extends Activity {
 			callBack = new OnDateSetListener() {
 				@Override
 				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-					if (holidayEnd == null) {
-						holidayEnd = getNewDateCalendar();
-					}
+					Calendar holidayEnd = Calendar.getInstance();
 					holidayEnd.set(Calendar.YEAR, year);
 					holidayEnd.set(Calendar.MONTH, monthOfYear);
 					holidayEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+					holiday.setEnd(holidayEnd.getTimeInMillis());
 					updateView();
 				}
 			};
@@ -129,15 +134,56 @@ public class HolidaysEditor extends Activity {
 		}
 
 		startSpecBorder = new SpecialBorderFields();
+		endSpecBorder = new SpecialBorderFields();
+
 		startSpecBorder.editText = (EditText) findViewById(R.id.EditTextHolidayDurationStart);
 		startSpecBorder.label = (TextView) findViewById(R.id.LabelHolidayDurationStart);
 
-		endSpecBorder = new SpecialBorderFields();
 		endSpecBorder.editText = (EditText) findViewById(R.id.EditTextHolidayDurationEnd);
 		endSpecBorder.label = (TextView) findViewById(R.id.LabelHolidayDurationEnd);
 
 		buHoldidayStart = (Button) findViewById(R.id.ButtonHolidayDateStart);
 		buHoldidayEnd = (Button) findViewById(R.id.ButtonHolidayDateEnd);
+		buEditTimeoffType = (Button) findViewById(R.id.buEditTimeoffType);
+
+		spHolidayDurationStart = (Spinner) findViewById(R.id.SpinnerHodidayDurationStart);
+		spHolidayDurationEnd = (Spinner) findViewById(R.id.SpinnerHodidayDurationEnd);
+
+		spHolidayType = (Spinner) findViewById(R.id.SpinnerHolidayType);
+		cbIsPayed = (CheckBox) findViewById(R.id.CheckBoxIsPayed);
+		cbIsHoliday = (CheckBox) findViewById(R.id.cbIsHoliday);
+		cbIsYearly = (CheckBox) findViewById(R.id.cbIsYearly);
+		cbYieldOvertime = (CheckBox) findViewById(R.id.cbYieldOvertime);
+		etNumHolidayDays = (EditText) findViewById(R.id.etNumHolidayDays);
+		etComment = (EditText) findViewById(R.id.etComment);
+
+		Intent intent = getIntent();
+		String action = intent.getAction();
+		if (savedInstanceState != null) {
+			Log.w(Logger.TAG, "Reading day information from savedInstanceState");
+			if (holiday != null) {
+				holiday.readFromBundle(savedInstanceState);
+			} else {
+				holiday = new Holiday(savedInstanceState);
+			}
+		} else if (Intent.ACTION_INSERT.equals(action)) {
+			holiday = new Holiday();
+		} else if (Intent.ACTION_EDIT.equals(action)) {
+			CursorLoader cursorLoader = new CursorLoader(this, intent.getData(), Holidays.DEFAULT_PROJECTION, null, null, null);
+			Cursor c = cursorLoader.loadInBackground();
+			if (c.moveToFirst()) {
+				holiday = new Holiday(c);
+			}
+			c.close();
+		}
+
+		if (holiday == null) {
+			holiday = new Holiday();
+		}
+
+		origHoliday = new Holiday(holiday);
+
+
 		buHoldidayStart.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -152,12 +198,9 @@ public class HolidaysEditor extends Activity {
 		});
 
 		HolidayBorderAdapter holidayBorderAdaptor = new HolidayBorderAdapter();
-		spHolidayDurationStart = (Spinner) findViewById(R.id.SpinnerHodidayDurationStart);
 		spHolidayDurationStart.setOnItemSelectedListener(holidayBorderAdaptor);
-		spHolidayDurationEnd = (Spinner) findViewById(R.id.SpinnerHodidayDurationEnd);
 		spHolidayDurationEnd.setOnItemSelectedListener(holidayBorderAdaptor);
 
-		spHolidayType = (Spinner) findViewById(R.id.SpinnerHolidayType);
 		CursorLoader cursorLoader = new CursorLoader(this, holidayTypes.CONTENT_URI, holidayTypes.DEFAULT_PROJECTION, null, null, null);
 		Cursor c = cursorLoader.loadInBackground();
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c,
@@ -174,6 +217,7 @@ public class HolidaysEditor extends Activity {
 				if (c != null && c.moveToFirst()) {
 					cbIsHoliday.setChecked(c.getInt(holidayTypes.INDEX_IS_HOLIDAY) == 1);
 					cbIsPayed.setChecked(c.getInt(holidayTypes.INDEX_IS_PAID) == 1);
+					cbYieldOvertime.setChecked(c.getInt(holidayTypes.INDEX_YIELDS_OVERTIME) == 1);
 				}
 				if (c != null) {
 					c.close();
@@ -186,13 +230,10 @@ public class HolidaysEditor extends Activity {
 			}
 		});
 
-		cbIsPayed = (CheckBox) findViewById(R.id.CheckBoxIsPayed);
-		cbIsHoliday = (CheckBox) findViewById(R.id.cbIsHoliday);
-		cbIsYearly = (CheckBox) findViewById(R.id.cbIsYearly);
 
-		buEditTimeoffType = (Button) findViewById(R.id.buEditTimeoffType);
 		//FIXME implement
 		buEditTimeoffType.setEnabled(false);
+		etNumHolidayDays.setFocusable(false);
 
 	}
 
@@ -202,10 +243,55 @@ public class HolidaysEditor extends Activity {
 		updateView();
 	}
 
-	private void updateView() {
-		updateCalendarButton(buHoldidayStart, holidayStart);
-		updateCalendarButton(buHoldidayEnd, holidayEnd);
+	@Override
+	protected void onPause() {
+		updateModel();
+		String action = getIntent().getAction();
+		if (origHoliday.equals(holiday) && !Intent.ACTION_INSERT.equals(action)) {
+			return;
+		}
+		try {
+			if (holiday.getId() < 0) {
+				getContentResolver().insert(Holidays.CONTENT_URI, holiday.getValues());
+			} else {
+				getContentResolver().update(Holidays.CONTENT_URI, holiday.getValues(), DB.SELECTION_BY_ID, new String[] { Long.toString(holiday.getId()) });
+			}
+		} catch (Exception e) {
+			Logger.e("Cannot save holiday", e);
+		}
+		super.onPause();
+	}
 
+	private void updateView() {
+		updateCalendarButton(buHoldidayStart, holiday.getStartAsCalendar());
+		updateCalendarButton(buHoldidayEnd, holiday.getEndAsCalendar());
+		setHolidayBorderType(spHolidayDurationStart, holiday.getStartType());
+		setHolidayBorderType(spHolidayDurationEnd, holiday.getEndType());
+		startSpecBorder.editText.setText(Float.toString(holiday.getStartHours()));
+		endSpecBorder.editText.setText(Float.toString(holiday.getEndHours()));
+		etNumHolidayDays.setText(Float.toString(holiday.getDays()));
+		cbIsPayed.setChecked(holiday.isPaid());
+		cbIsHoliday.setChecked(holiday.isHoliday());
+		cbIsYearly.setChecked(holiday.isYearly());
+		cbYieldOvertime.setChecked(holiday.isYieldOvertime());
+		etComment.setText(holiday.getComment());
+	}
+
+	private void updateModel() {
+		holiday.setStartType(getHolidayBorderType(spHolidayDurationStart));
+		holiday.setEndType(getHolidayBorderType(spHolidayDurationEnd));
+		holiday.setStartHours(Float.parseFloat(startSpecBorder.editText.getText().toString()));
+		holiday.setEndHours(Float.parseFloat(endSpecBorder.editText.getText().toString()));
+		holiday.setPaid(cbIsPayed.isChecked());
+		holiday.setHoliday(cbIsHoliday.isChecked());
+		holiday.setYearly(cbIsYearly.isChecked());
+		holiday.setYieldOvertime(cbYieldOvertime.isChecked());
+		holiday.setComment(etComment.getText().toString());
+	}
+
+	private BorderType getHolidayBorderType(Spinner spinner) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private void updateCalendarButton(Button button, Calendar cal) {
@@ -216,12 +302,9 @@ public class HolidaysEditor extends Activity {
 		}
 	}
 
-	private Calendar getNewDateCalendar() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		return cal;
+	private void setHolidayBorderType(Spinner spinner, BorderType borderType) {
+		// TODO Auto-generated method stub
+
 	}
+
 }
