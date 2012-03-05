@@ -110,7 +110,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 		}
 		if (rebuildDaysTask.progressWrapper instanceof ProgressWrapperActivity) {
 			ProgressWrapperActivity pw = (ProgressWrapperActivity) rebuildDaysTask.progressWrapper;
-			pw.setActivity(act);
+			pw.setActivity(act, rebuilding);
 		}
 	}
 

@@ -17,11 +17,13 @@ public class ProgressWrapperActivity implements IProgressWrapper {
 		this.origTitle = progressAct.getTitle();
 	}
 
-	public void setActivity(Activity act) {
+	public void setActivity(Activity act, boolean rebuilding) {
 		progressAct = act;
-		show();
-		setMax(maxProgress);
-		setProgress(curProgress);
+		if (rebuilding) {
+			show();
+			setMax(maxProgress);
+			setProgress(curProgress);
+		}
 	}
 
 	@Override
