@@ -56,6 +56,7 @@
                             android:id="@+id/EditTextHolidayDurationStart"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
                             android:paddingRight="5dp"
                             android:visibility="invisible"
                             android:width="50dp" />
@@ -118,6 +119,7 @@
                             android:id="@+id/EditTextHolidayDurationEnd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
                             android:paddingRight="5dp"
                             android:visibility="invisible"
                             android:width="50dp" />
@@ -202,36 +204,50 @@
                         android:text="@string/buEditTimeoffType" />
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/LinearLayout03"
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:layout_height="wrap_content" >
 
-                    <CheckBox
-                        android:id="@+id/cbIsHoliday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cbIsHoliday" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
 
-                    <CheckBox
-                        android:id="@+id/CheckBoxIsPayed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/CheckBoxIsPayed" />
+                        <CheckBox
+                            android:id="@+id/cbIsHoliday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cbIsHoliday" />
 
-                    <CheckBox
-                        android:id="@+id/cbIsYearly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cbIsYearly" />
-                </LinearLayout>
+                        <CheckBox
+                            android:id="@+id/cbIsYearly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cbIsYearly" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <CheckBox
+                            android:id="@+id/CheckBoxIsPayed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CheckBoxIsPayed" />
+
+                        <CheckBox
+                            android:id="@+id/cbYieldOvertime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cbYieldsOvertime" />
+                    </TableRow>
+                </TableLayout>
             </LinearLayout>
         </TableRow>
     </TableLayout>
 
     <EditText
-        android:id="@+id/EditTextComment"
+        android:id="@+id/etComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/EditTextCommentHint"

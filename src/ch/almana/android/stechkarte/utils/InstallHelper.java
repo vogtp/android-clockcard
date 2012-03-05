@@ -31,6 +31,7 @@ public class InstallHelper {
 		values.put(holidayTypes.NAME_DESCRIPTION, "");
 		values.put(holidayTypes.NAME_IS_HOLIDAY, 1);
 		values.put(holidayTypes.NAME_IS_PAID, 1);
+		values.put(holidayTypes.NAME_YIELDS_OVERTIME, 1);
 		resolver.insert(holidayTypes.CONTENT_URI, values);
 
 		values = new ContentValues();
@@ -38,6 +39,7 @@ public class InstallHelper {
 		values.put(holidayTypes.NAME_DESCRIPTION, "");
 		values.put(holidayTypes.NAME_IS_HOLIDAY, 0);
 		values.put(holidayTypes.NAME_IS_PAID, 1);
+		values.put(holidayTypes.NAME_YIELDS_OVERTIME, 0);
 		resolver.insert(holidayTypes.CONTENT_URI, values);
 
 		values = new ContentValues();
@@ -45,6 +47,7 @@ public class InstallHelper {
 		values.put(holidayTypes.NAME_DESCRIPTION, "");
 		values.put(holidayTypes.NAME_IS_HOLIDAY, 0);
 		values.put(holidayTypes.NAME_IS_PAID, 1);
+		values.put(holidayTypes.NAME_YIELDS_OVERTIME, 1);
 		resolver.insert(holidayTypes.CONTENT_URI, values);
 
 		values = new ContentValues();
@@ -52,6 +55,7 @@ public class InstallHelper {
 		values.put(holidayTypes.NAME_DESCRIPTION, "");
 		values.put(holidayTypes.NAME_IS_HOLIDAY, 0);
 		values.put(holidayTypes.NAME_IS_PAID, 0);
+		values.put(holidayTypes.NAME_YIELDS_OVERTIME, 1);
 		resolver.insert(holidayTypes.CONTENT_URI, values);
 	}
 
