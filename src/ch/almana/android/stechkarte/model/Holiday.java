@@ -1,5 +1,7 @@
 package ch.almana.android.stechkarte.model;
 
+import java.util.Calendar;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,63 +10,75 @@ import ch.almana.android.stechkarte.provider.DB.Holidays;
 
 public class Holiday {
 
-	enum BorderType {
+	public enum BorderType {
 		allDay, halfDay, restOfDay, specifyed
 	}
 
+	private static final long DAY_IN_MILLIES = 24 * 60 * 60 * 1000;
+
 	private long id = -1;
-	private long start;
+	private long start = -1;
 	private BorderType startType;
-	private int startHours;
-	private long end;
+	private float startHours;
+	private long end = -1;
 	private BorderType endType;
-	private int endHours;
+	private float endHours;
+	private float days;
 	private boolean isHoliday;
 	private boolean isPaid;
 	private boolean isYearly;
+	private boolean yieldOvertime;
 	private String comment;
 
 
+	public Holiday() {
+		super();
+	}
 
 	public Holiday(Holiday timeoff) {
-		super();
-		id = timeoff.id;
+		this();
+		setId(timeoff.getId());
 		start = timeoff.start;
 		startType = timeoff.startType;
 		startHours = timeoff.startHours;
 		end = timeoff.end;
 		endType = timeoff.endType;
 		endHours = timeoff.endHours;
+		days = timeoff.days;
 		isHoliday = timeoff.isHoliday;
 		isPaid = timeoff.isPaid;
 		isYearly = timeoff.isYearly;
+		yieldOvertime = timeoff.yieldOvertime;
 		comment = timeoff.comment;
 	}
 
 	public Holiday(Cursor c) {
-		super();
-		id = c.getLong(DB.INDEX_ID);
+		this();
+		setId(c.getLong(DB.INDEX_ID));
 		start = c.getLong(Holidays.INDEX_START);
 		startType = BorderType.valueOf(c.getString(Holidays.INDEX_START_TYPE));
-		startHours = c.getInt(Holidays.INDEX_START_HOURS);
+		startHours = c.getFloat(Holidays.INDEX_START_HOURS);
 		end = c.getLong(Holidays.INDEX_END);
 		endType = BorderType.valueOf(c.getString(Holidays.INDEX_END_TYPE));
-		endHours = c.getInt(Holidays.INDEX_END_HOURS);
+		endHours = c.getFloat(Holidays.INDEX_END_HOURS);
+		days = c.getFloat(Holidays.INDEX_DAYS);
 		isHoliday = c.getInt(Holidays.INDEX_IS_HOLIDAY) == 1 ? true : false;
 		isPaid = c.getInt(Holidays.INDEX_IS_PAID) == 1 ? true : false;
 		isYearly = c.getInt(Holidays.INDEX_IS_YEARLY) == 1 ? true : false;
+		yieldOvertime = c.getInt(Holidays.INDEX_YIELDS_OVERTIME) == 1 ? true : false;
 		comment = c.getString(Holidays.INDEX_COMMENT);
 	}
 
 	public Holiday(Bundle instanceState) {
-		super();
+		this();
 		readFromBundle(instanceState);
 	}
 
+
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
-		if (id > -1) {
-			values.put(DB.NAME_ID, id);
+		if (getId() > -1) {
+			values.put(DB.NAME_ID, getId());
 		}
 		values.put(Holidays.NAME_START, getStart());
 		values.put(Holidays.NAME_START_TYPE, getStartType().toString());
@@ -72,42 +86,48 @@ public class Holiday {
 		values.put(Holidays.NAME_END, getEnd());
 		values.put(Holidays.NAME_END_TYPE, getEndType().toString());
 		values.put(Holidays.NAME_END_HOURS, getEndHours());
+		values.put(Holidays.NAME_DAYS, getDays());
 		values.put(Holidays.NAME_IS_HOLIDAY, isHoliday ? 1 : 0);
 		values.put(Holidays.NAME_IS_PAID, isPaid ? 1 : 0);
 		values.put(Holidays.NAME_IS_YEARLY, isYearly ? 1 : 0);
+		values.put(Holidays.NAME_YIELDS_OVERTIME, yieldOvertime ? 1 : 0);
 		values.put(Holidays.NAME_COMMENT, getComment());
 		return values;
 	}
 
 	public void saveToBundle(Bundle bundle) {
-		if (id > -1) {
-			bundle.putLong(DB.NAME_ID, id);
+		if (getId() > -1) {
+			bundle.putLong(DB.NAME_ID, getId());
 		} else {
 			bundle.putLong(DB.NAME_ID, -1);
 		}
 		bundle.putLong(Holidays.NAME_START, getStart());
 		bundle.putString(Holidays.NAME_START_TYPE, getStartType().toString());
-		bundle.putInt(Holidays.NAME_START_HOURS, getStartHours());
+		bundle.putFloat(Holidays.NAME_START_HOURS, getStartHours());
 		bundle.putLong(Holidays.NAME_END, getEnd());
 		bundle.putString(Holidays.NAME_END_TYPE, getEndType().toString());
-		bundle.putInt(Holidays.NAME_END_HOURS, getEndHours());
+		bundle.putFloat(Holidays.NAME_END_HOURS, getEndHours());
+		bundle.putFloat(Holidays.NAME_DAYS, getDays());
 		bundle.putInt(Holidays.NAME_IS_HOLIDAY, isHoliday ? 1 : 0);
 		bundle.putInt(Holidays.NAME_IS_PAID, isPaid ? 1 : 0);
 		bundle.putInt(Holidays.NAME_IS_YEARLY, isYearly ? 1 : 0);
+		bundle.putInt(Holidays.NAME_YIELDS_OVERTIME, yieldOvertime ? 1 : 0);
 		bundle.putString(Holidays.NAME_COMMENT, getComment());
 	}
 
 	public void readFromBundle(Bundle bundle) {
-		id = bundle.getLong(DB.NAME_ID);
+		setId(bundle.getLong(DB.NAME_ID));
 		start = bundle.getLong(Holidays.NAME_START);
 		startType = BorderType.valueOf(bundle.getString(Holidays.NAME_START_TYPE));
-		startHours = bundle.getInt(Holidays.NAME_START_HOURS);
+		startHours = bundle.getFloat(Holidays.NAME_START_HOURS);
 		end = bundle.getLong(Holidays.NAME_END);
 		endType = BorderType.valueOf(bundle.getString(Holidays.NAME_END_TYPE));
-		endHours = bundle.getInt(Holidays.NAME_END_HOURS);
+		endHours = bundle.getFloat(Holidays.NAME_END_HOURS);
+		days = bundle.getFloat(Holidays.NAME_DAYS);
 		isHoliday = bundle.getInt(Holidays.NAME_IS_HOLIDAY) == 1 ? true : false;
 		isPaid = bundle.getInt(Holidays.NAME_IS_PAID) == 1 ? true : false;
 		isYearly = bundle.getInt(Holidays.NAME_IS_YEARLY) == 1 ? true : false;
+		yieldOvertime = bundle.getInt(Holidays.NAME_YIELDS_OVERTIME) == 1 ? true : false;
 		comment = bundle.getString(Holidays.NAME_COMMENT);
 	}
 
@@ -117,14 +137,15 @@ public class Holiday {
 		int result = 1;
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + (int) (end ^ (end >>> 32));
-		result = prime * result + endHours;
+		result = prime * result + Float.floatToIntBits(endHours);
 		result = prime * result + ((endType == null) ? 0 : endType.hashCode());
 		result = prime * result + (isHoliday ? 1231 : 1237);
 		result = prime * result + (isPaid ? 1231 : 1237);
 		result = prime * result + (isYearly ? 1231 : 1237);
 		result = prime * result + (int) (start ^ (start >>> 32));
-		result = prime * result + startHours;
+		result = prime * result + Float.floatToIntBits(startHours);
 		result = prime * result + ((startType == null) ? 0 : startType.hashCode());
+		result = prime * result + (yieldOvertime ? 1231 : 1237);
 		return result;
 	}
 
@@ -144,7 +165,7 @@ public class Holiday {
 			return false;
 		if (end != other.end)
 			return false;
-		if (endHours != other.endHours)
+		if (Float.floatToIntBits(endHours) != Float.floatToIntBits(other.endHours))
 			return false;
 		if (endType != other.endType)
 			return false;
@@ -156,9 +177,11 @@ public class Holiday {
 			return false;
 		if (start != other.start)
 			return false;
-		if (startHours != other.startHours)
+		if (Float.floatToIntBits(startHours) != Float.floatToIntBits(other.startHours))
 			return false;
 		if (startType != other.startType)
+			return false;
+		if (yieldOvertime != other.yieldOvertime)
 			return false;
 		return true;
 	}
@@ -167,8 +190,24 @@ public class Holiday {
 		return start;
 	}
 
+	public Calendar getStartAsCalendar() {
+		if (start < 0) {
+			return null;
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(start);
+		return cal;
+	}
+
 	public void setStart(long start) {
-		this.start = start;
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(start);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		this.start = cal.getTimeInMillis();
+		updateNumHolidayDays();
 	}
 
 	public BorderType getStartType() {
@@ -179,11 +218,11 @@ public class Holiday {
 		this.startType = startType;
 	}
 
-	public int getStartHours() {
+	public float getStartHours() {
 		return startHours;
 	}
 
-	public void setStartHours(int startHours) {
+	public void setStartHours(float startHours) {
 		this.startHours = startHours;
 	}
 
@@ -191,8 +230,24 @@ public class Holiday {
 		return end;
 	}
 
+	public Calendar getEndAsCalendar() {
+		if (end < 0) {
+			return null;
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(end);
+		return cal;
+	}
+
 	public void setEnd(long end) {
-		this.end = end;
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(end);
+		cal.set(Calendar.HOUR_OF_DAY, 24);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 999);
+		this.end = cal.getTimeInMillis();
+		updateNumHolidayDays();
 	}
 
 	public BorderType getEndType() {
@@ -203,11 +258,11 @@ public class Holiday {
 		this.endType = endType;
 	}
 
-	public int getEndHours() {
+	public float getEndHours() {
 		return endHours;
 	}
 
-	public void setEndHours(int endHours) {
+	public void setEndHours(float endHours) {
 		this.endHours = endHours;
 	}
 
@@ -241,6 +296,49 @@ public class Holiday {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public boolean isYieldOvertime() {
+		return yieldOvertime;
+	}
+
+	public void setYieldOvertime(boolean yieldOvertime) {
+		this.yieldOvertime = yieldOvertime;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public float getDays() {
+		return days;
+	}
+
+
+	public void setDays(float days) {
+		this.days = days;
+		updateStartEndFromDays();
+	}
+
+	private void updateStartEndFromDays() {
+		final int inMillies = Math.round(days * DAY_IN_MILLIES);
+		if (start > 0) {
+			end = start + inMillies;
+		} else if (end > 0) {
+			start = end - inMillies;
+		}
+	}
+
+	private void updateNumHolidayDays() {
+		if (start > 0 && end > 0 && end > start) {
+			days = (end - start) / DAY_IN_MILLIES;
+		} else {
+			updateStartEndFromDays();
+		}
 	}
 
 }

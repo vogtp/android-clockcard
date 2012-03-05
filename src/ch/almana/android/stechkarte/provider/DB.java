@@ -47,7 +47,7 @@ public interface DB {
 
 	public class OpenHelper extends SQLiteOpenHelper {
 
-		private static final int DATABASE_VERSION = 11;
+		private static final int DATABASE_VERSION = 10;
 
 		private static final String CREATE_TIMESTAMPS_TABLE = "create table if not exists " + DB.Timestamps.TABLE_NAME + " (" + DB.NAME_ID
 				+ " integer primary key, "
@@ -72,14 +72,15 @@ public interface DB {
 				+ Weeks.NAME_HOLIDAY_LEFT + " real, "
 				+ Weeks.NAME_OVERTIME + " real, " + Weeks.NAME_ERROR + " int, " + Weeks.NAME_LAST_UPDATED + " long);";
 
-		private static final String CREATE_TIMEOFF_TYPE_TABLE = "create table if not exists " + holidayTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
-				+ holidayTypes.NAME_NAME + " text, " + holidayTypes.NAME_DESCRIPTION + " text, " + holidayTypes.NAME_IS_HOLIDAY + " int, " + holidayTypes.NAME_IS_PAID + " int);";
+		private static final String CREATE_HOLIDAY_TYPE_TABLE = "create table if not exists " + holidayTypes.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ holidayTypes.NAME_NAME + " text, " + holidayTypes.NAME_DESCRIPTION + " text, " + holidayTypes.NAME_IS_HOLIDAY + " int, "
+				+ holidayTypes.NAME_IS_PAID + " int, " + holidayTypes.NAME_YIELDS_OVERTIME + " int);";
 
-		private static final String CREATE_TIMEOFF_TABLE = "create table if not exists " + Holidays.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
-				+ Holidays.NAME_START + " long, " + Holidays.NAME_START_TYPE + " text, " + Holidays.NAME_START_HOURS + " int default -1, "
-				+ Holidays.NAME_END + " long, " + Holidays.NAME_END_TYPE + " text, " + Holidays.NAME_END_HOURS + " int default -1, "
-				+ Holidays.NAME_DAYS + " int, " + Holidays.NAME_IS_HOLIDAY + " int, " + Holidays.NAME_IS_PAID + " int, " + Holidays.NAME_IS_YEARLY + " int, " + 
-				Holidays.NAME_COMMENT + " text);";
+		private static final String CREATE_HOLIDAY_TABLE = "create table if not exists " + Holidays.TABLE_NAME + " (" + DB.NAME_ID + " integer primary key, "
+				+ Holidays.NAME_START + " long, " + Holidays.NAME_START_TYPE + " text, " + Holidays.NAME_START_HOURS + " real default -1, "
+				+ Holidays.NAME_END + " long, " + Holidays.NAME_END_TYPE + " text, " + Holidays.NAME_END_HOURS + " real default -1, "
+				+ Holidays.NAME_DAYS + " real, " + Holidays.NAME_IS_HOLIDAY + " int, " + Holidays.NAME_IS_PAID + " int, " + Holidays.NAME_IS_YEARLY + " int, "
+				+ Holidays.NAME_YIELDS_OVERTIME + " int, " + Holidays.NAME_COMMENT + " text);";
 
 		private static final String LOG_TAG = Logger.TAG;
 
@@ -93,8 +94,8 @@ public interface DB {
 			db.execSQL(CREATE_DAYS_TABLE);
 			db.execSQL(CREATE_MONTH_TABLE);
 			db.execSQL(CREATE_WEEK_TABLE);
-			db.execSQL(CREATE_TIMEOFF_TABLE);
-			db.execSQL(CREATE_TIMEOFF_TYPE_TABLE);
+			db.execSQL(CREATE_HOLIDAY_TABLE);
+			db.execSQL(CREATE_HOLIDAY_TYPE_TABLE);
 			db.execSQL("create index ts_idx on " + Timestamps.TABLE_NAME + " (" + Timestamps.NAME_TIMESTAMP + "); ");
 			db.execSQL("create unique index dayref_idx on " + Days.TABLE_NAME + " (" + Days.NAME_DAYREF + "); ");
 			db.execSQL("create index ts_dayref_idx on " + Timestamps.TABLE_NAME + " (" + Timestamps.NAME_DAYREF + "); ");
@@ -159,12 +160,8 @@ public interface DB {
 
 			case 9:
 				Log.w(LOG_TAG, "Upgrading to DB Version 10...");
-				db.execSQL(CREATE_TIMEOFF_TYPE_TABLE);
-				// nobreak
-
-			case 10:
-				Log.w(LOG_TAG, "Upgrading to DB Version 11...");
-				db.execSQL(CREATE_TIMEOFF_TABLE);
+				db.execSQL(CREATE_HOLIDAY_TYPE_TABLE);
+				db.execSQL(CREATE_HOLIDAY_TABLE);
 				db.execSQL("create unique index timeoff_start_idx on " + Holidays.TABLE_NAME + " (" + Holidays.NAME_START + "); ");
 				db.execSQL("create unique index timeoff_end_idx on " + Holidays.TABLE_NAME + " (" + Holidays.NAME_END + "); ");
 				// nobreak
@@ -342,6 +339,7 @@ public interface DB {
 		public static final String NAME_IS_HOLIDAY = "isHoliday";
 		public static final String NAME_IS_PAID = "isPaid";
 		public static final String NAME_IS_YEARLY = "isYearly";
+		public static final String NAME_YIELDS_OVERTIME = "yieldsOvertime";
 		public static final String NAME_COMMENT = "comment";
 
 		public static final int INDEX_START = 1;
@@ -354,10 +352,11 @@ public interface DB {
 		public static final int INDEX_IS_HOLIDAY = 8;
 		public static final int INDEX_IS_PAID = 9;
 		public static final int INDEX_IS_YEARLY = 10;
-		public static final int INDEX_COMMENT = 11;
+		public static final int INDEX_YIELDS_OVERTIME = 11;
+		public static final int INDEX_COMMENT = 12;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_START, NAME_START_TYPE, NAME_START_HOURS, NAME_END, NAME_END_TYPE, NAME_END_HOURS, NAME_DAYS,
-				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_COMMENT };
+				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_YIELDS_OVERTIME, NAME_COMMENT };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
@@ -379,13 +378,15 @@ public interface DB {
 		public static final String NAME_DESCRIPTION = "description";
 		public static final String NAME_IS_HOLIDAY = "isHoliday";
 		public static final String NAME_IS_PAID = "isPaid";
+		public static final String NAME_YIELDS_OVERTIME = "yieldsOvertime";
 
 		public static final int INDEX_NAME = 1;
 		public static final int INDEX_DESCRIPTION = 2;
 		public static final int INDEX_IS_HOLIDAY = 3;
 		public static final int INDEX_IS_PAID = 4;
+		public static final int INDEX_YIELDS_OVERTIME = 5;
 
-		public static final String[] colNames = new String[] { NAME_ID, NAME_NAME, NAME_DESCRIPTION, NAME_IS_HOLIDAY, NAME_IS_PAID };
+		public static final String[] colNames = new String[] { NAME_ID, NAME_NAME, NAME_DESCRIPTION, NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_YIELDS_OVERTIME };
 		public static final String[] DEFAULT_PROJECTION = colNames;
 
 		public static final String DEFAULT_SORTORDER = NAME_ID + " DESC";
