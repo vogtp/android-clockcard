@@ -41,7 +41,6 @@ public class DayAccess implements IModelAccess {
 		return context;
 	}
 
-	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		int count = getContext().getContentResolver().delete(uri, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -72,12 +71,10 @@ public class DayAccess implements IModelAccess {
 		return ret;
 	}
 
-	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return getContext().getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
 	}
 
-	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		return getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 	}

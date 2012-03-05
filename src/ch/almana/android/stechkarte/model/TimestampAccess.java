@@ -103,7 +103,6 @@ public class TimestampAccess implements IModelAccess {
 		return delete(Timestamps.CONTENT_URI, DB.NAME_ID + "=" + c.getInt(DB.INDEX_ID), null);
 	}
 
-	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		return getContext().getContentResolver().delete(uri, selection, selectionArgs);
 	}
@@ -117,12 +116,10 @@ public class TimestampAccess implements IModelAccess {
 		return getContext().getContentResolver().insert(uri, values);
 	}
 
-	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return getContext().getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
 	}
 
-	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		return getContext().getContentResolver().update(uri, values, selection, selectionArgs);
 	}
