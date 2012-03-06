@@ -3,8 +3,11 @@ package ch.almana.android.stechkarte.view.fragment;
 import java.text.DateFormat;
 import java.util.Date;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,12 +18,18 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import ch.almana.android.stechkarte.R;
+import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.DB.Holidays;
 import ch.almana.android.stechkarte.utils.DialogCallback;
@@ -73,7 +82,7 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		// FIXME inflater.inflate(R.menu.monthlist_option, menu);
+		inflater.inflate(R.menu.monthlist_option, menu);
 	}
 
 	@Override
@@ -119,5 +128,42 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		adapter.swapCursor(null);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getActivity().getMenuInflater().inflate(R.menu.daylist_context, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		super.onContextItemSelected(item);
+
+		final AdapterView.AdapterContextMenuInfo info;
+		try {
+			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		} catch (ClassCastException e) {
+			Log.e(Logger.TAG, "bad menuInfo", e);
+			return false;
+		}
+
+		switch (item.getItemId()) {
+		case R.id.itemDelete:
+			Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle("Delete holidays");
+			builder.setMessage("Do you really want to delete this holiday?");
+			builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					getActivity().getContentResolver().delete(Holidays.CONTENT_URI, DB.SELECTION_BY_ID, new String[] { Long.toString(info.id) });
+				}
+			});
+			builder.setNegativeButton(android.R.string.no, null);
+			builder.create().show();
+			return true;
+		}
+		return false;
+
 	}
 }
