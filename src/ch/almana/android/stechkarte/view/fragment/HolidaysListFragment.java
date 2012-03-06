@@ -18,6 +18,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -49,8 +50,8 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
-		adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, null, new String[] { DB.Holidays.NAME_START },
-				new int[] { android.R.id.text1 }, 0);
+		adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_2, null, new String[] { DB.Holidays.NAME_START, DB.Holidays.NAME_COMMENT },
+				new int[] { android.R.id.text1, android.R.id.text2 }, 0);
 
 		adapter.setViewBinder(new ViewBinder() {
 			@Override
@@ -65,8 +66,47 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 					sb.append(dateFormat.format(new Date(start)));
 					sb.append(" - ");
 					sb.append(dateFormat.format(new Date(cursor.getLong(Holidays.INDEX_END))));
-					sb.append(" Days: ");
+					sb.append(" ");
 					sb.append(Float.toString(cursor.getFloat(Holidays.INDEX_DAYS)));
+					sb.append(" days");
+					((TextView) view).setText(sb.toString());
+					return true;
+				}
+				if (columnIndex == DB.Holidays.INDEX_COMMENT) {
+					StringBuilder sb = new StringBuilder();
+					String comment = cursor.getString(Holidays.INDEX_COMMENT);
+					boolean comma = false;
+					if (!TextUtils.isEmpty(comment)) {
+						comma = true;
+						sb.append(comment);
+					}
+					if (cursor.getInt(Holidays.INDEX_IS_HOLIDAY) == 1) {
+						if (comma) {
+							sb.append(", ");
+						}
+						comma = true;
+						sb.append(getString(R.string.cbIsHoliday));
+					}
+					if (cursor.getInt(Holidays.INDEX_IS_PAID) == 1) {
+						if (comma) {
+							sb.append(", ");
+						}
+						comma = true;
+						sb.append(getString(R.string.CheckBoxIsPayed));
+					}
+					if (cursor.getInt(Holidays.INDEX_YIELDS_OVERTIME) == 1) {
+						if (comma) {
+							sb.append(", ");
+						}
+						comma = true;
+						sb.append(getString(R.string.cbYieldsOvertime));
+					}
+					if (cursor.getInt(Holidays.INDEX_IS_YEARLY) == 1) {
+						if (comma) {
+							sb.append(", ");
+						}
+						sb.append(getString(R.string.cbIsYearly));
+					}
 					((TextView) view).setText(sb.toString());
 					return true;
 				}
