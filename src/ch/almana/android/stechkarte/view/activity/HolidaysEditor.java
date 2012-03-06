@@ -274,7 +274,7 @@ public class HolidaysEditor extends Activity {
 	protected void onPause() {
 		super.onPause();
 		updateModel();
-		if (origHoliday.equals(holiday)) {
+		if (origHoliday.equals(holiday) || holiday.getStart() < 0 || holiday.getEnd() < 0) {
 			return;
 		}
 		try {
