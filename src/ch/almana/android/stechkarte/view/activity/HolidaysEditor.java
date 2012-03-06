@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,10 +30,13 @@ import ch.almana.android.stechkarte.model.Holiday.BorderType;
 import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.DB.Holidays;
 import ch.almana.android.stechkarte.provider.DB.holidayTypes;
-import ch.almana.android.stechkarte.utils.Formater;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class HolidaysEditor extends Activity {
+	private static final long HOLIDAY_BORDER_TYPE_ALLDAY = 0;
+	private static final long HOLIDAY_BORDER_TYPE_HALFDAY = 1;
+	private static final long HOLIDAY_BORDER_TYPE_RESTDAY = 2;
+	private static final long HOLIDAY_BORDER_TYPE_SPECIFY = 3;
 
 	protected static final int DIA_START_DATE_SELECT = 1;
 	protected static final int DIA_END_DATE_SELECT = 2;
@@ -59,23 +63,38 @@ public class HolidaysEditor extends Activity {
 	}
 
 	private class HolidayBorderAdapter implements AdapterView.OnItemSelectedListener {
+
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			SpecialBorderFields spf = null;
+			BorderType bt = BorderType.allDay;
+			if (id == HOLIDAY_BORDER_TYPE_ALLDAY) {
+				bt = BorderType.allDay;
+			} else if (id == HOLIDAY_BORDER_TYPE_HALFDAY) {
+				bt = BorderType.halfDay;
+			} else if (id == HOLIDAY_BORDER_TYPE_RESTDAY) {
+				bt = BorderType.restOfDay;
+			} else if (id == HOLIDAY_BORDER_TYPE_SPECIFY) {
+				bt = BorderType.specifyed;
+			}
 			if (parent == spHolidayDurationStart) {
 				spf = startSpecBorder;
+				holiday.setStartType(bt);
 			} else if (parent == spHolidayDurationEnd) {
 				spf = endSpecBorder;
+				holiday.setEndType(bt);
 			} else {
 				return;
 			}
-			if (id == 3) {
+			
+			if (bt == BorderType.specifyed) {
 				spf.label.setVisibility(View.VISIBLE);
 				spf.editText.setVisibility(View.VISIBLE);
 			} else {
 				spf.label.setVisibility(View.GONE);
 				spf.editText.setVisibility(View.GONE);
 			}
+			updateView();
 		}
 
 		@Override
@@ -123,7 +142,10 @@ public class HolidaysEditor extends Activity {
 		if (cal == null) {
 			cal = Calendar.getInstance();
 		}
-		return new DatePickerDialog(this, callBack, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+		DatePickerDialog datePickerDialog = new DatePickerDialog(this, callBack, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+		datePickerDialog.getDatePicker().setCalendarViewShown(true);
+		datePickerDialog.getDatePicker().setSpinnersShown(false);
+		return datePickerDialog;
 
 	}
 
@@ -252,8 +274,7 @@ public class HolidaysEditor extends Activity {
 	protected void onPause() {
 		super.onPause();
 		updateModel();
-		String action = getIntent().getAction();
-		if (origHoliday.equals(holiday) && !Intent.ACTION_INSERT.equals(action)) {
+		if (origHoliday.equals(holiday)) {
 			return;
 		}
 		try {
@@ -283,8 +304,6 @@ public class HolidaysEditor extends Activity {
 	}
 
 	private void updateModel() {
-		holiday.setStartType(getHolidayBorderType(spHolidayDurationStart));
-		holiday.setEndType(getHolidayBorderType(spHolidayDurationEnd));
 		holiday.setStartHours(Float.parseFloat(startSpecBorder.editText.getText().toString()));
 		holiday.setEndHours(Float.parseFloat(endSpecBorder.editText.getText().toString()));
 		holiday.setPaid(cbIsPayed.isChecked());
@@ -294,22 +313,27 @@ public class HolidaysEditor extends Activity {
 		holiday.setComment(etComment.getText().toString());
 	}
 
-	private BorderType getHolidayBorderType(Spinner spinner) {
-		// TODO Auto-generated method stub
-		return BorderType.allDay;
-	}
 
 	private void updateCalendarButton(Button button, Calendar cal) {
 		if (cal != null) {
-			button.setText(Formater.formatDate(cal.getTime()));
+			button.setText(DateFormat.getDateFormat(this).format(cal.getTime()));
 		} else {
 			button.setText(R.string.ButtonHolidayDateNone);
 		}
 	}
 
 	private void setHolidayBorderType(Spinner spinner, BorderType borderType) {
-		// TODO Auto-generated method stub
-
+		long sel = HOLIDAY_BORDER_TYPE_ALLDAY;
+		if (borderType == BorderType.allDay) {
+			sel = HOLIDAY_BORDER_TYPE_ALLDAY;
+		} else if (borderType == BorderType.halfDay) {
+			sel = HOLIDAY_BORDER_TYPE_HALFDAY;
+		} else if (borderType == BorderType.restOfDay) {
+			sel = HOLIDAY_BORDER_TYPE_RESTDAY;
+		} else if (borderType == BorderType.specifyed) {
+			sel = HOLIDAY_BORDER_TYPE_SPECIFY;
+		}
+		spinner.setSelection((int) sel);
 	}
 
 }

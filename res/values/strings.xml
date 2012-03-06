@@ -111,8 +111,11 @@
     <array name="holidayBorderType">
         <item name="allday">all day</item>
         <item name="halfday">half day</item>
+        <!--
+        calculation needs to be implemented if activated
         <item name="restofday">rest of day</item>
         <item name="specify">specify</item>
+        -->
     </array>
 
     <string-array name="overtimeResetEntries">

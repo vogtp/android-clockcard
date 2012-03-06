@@ -1,15 +1,9 @@
 package ch.almana.android.stechkarte.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.util.Log;
 import ch.almana.android.stechkarte.log.Logger;
 
 public class Formater {
-
-	// private static final DecimalFormat df = new DecimalFormat("#.##");
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
 	public static CharSequence formatHourMinFromHours(float hours) {
 		// return df.format(hours);
@@ -73,10 +67,6 @@ public class Formater {
 
 	public static String formatPayment(float pay) {
 		return String.format("%.2f", pay);
-	}
-
-	public static CharSequence formatDate(Date date) {
-		return DATE_FORMAT.format(date);
 	}
 
 }

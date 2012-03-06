@@ -136,6 +136,7 @@ public class Holiday {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + Float.floatToIntBits(days);
 		result = prime * result + (int) (end ^ (end >>> 32));
 		result = prime * result + Float.floatToIntBits(endHours);
 		result = prime * result + ((endType == null) ? 0 : endType.hashCode());
@@ -162,6 +163,8 @@ public class Holiday {
 			if (other.comment != null)
 				return false;
 		} else if (!comment.equals(other.comment))
+			return false;
+		if (Float.floatToIntBits(days) != Float.floatToIntBits(other.days))
 			return false;
 		if (end != other.end)
 			return false;
@@ -219,6 +222,7 @@ public class Holiday {
 
 	public void setStartType(BorderType startType) {
 		this.startType = startType;
+		updateNumHolidayDays();
 	}
 
 	public float getStartHours() {
@@ -262,6 +266,7 @@ public class Holiday {
 
 	public void setEndType(BorderType endType) {
 		this.endType = endType;
+		updateNumHolidayDays();
 	}
 
 	public float getEndHours() {
@@ -331,21 +336,33 @@ public class Holiday {
 	}
 
 	private void updateStartEndFromDays() {
-		final int inMillies = Math.round(days * DAY_IN_MILLIES) - 1000;
-		if (start > 0) {
-			end = start + inMillies;
-		} else if (end > 0) {
-			start = end - inMillies;
-		}
+		//		final int inMillies = Math.round(days * DAY_IN_MILLIES) - 1000;
+		//		if (start > 0) {
+		//			end = start + inMillies;
+		//		} else if (end > 0) {
+		//			start = end - inMillies;
+		//		}
 	}
 
 	private void updateNumHolidayDays() {
 		if (start > 0 && end > 0) {
-			days = (end - start) / DAY_IN_MILLIES;
-			if (startType == BorderType.allDay && endType == BorderType.allDay) {
-				days++;
-			} else {
-				//FIXME calculate duration
+			Calendar startCal = getStartAsCalendar();
+			Calendar endCal = getEndAsCalendar();
+			days = 0;
+			while (startCal.getTimeInMillis() < endCal.getTimeInMillis()) {
+				if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+					days++;
+				}
+				startCal.add(Calendar.DAY_OF_YEAR, 1);
+			}
+			if (startType == BorderType.halfDay) {
+				days -= .5;
+			}
+			if (endType == BorderType.halfDay) {
+				days -= .5;
+			}
+			if (days == 0) {
+				days = .5f;
 			}
 		} else {
 			updateStartEndFromDays();
