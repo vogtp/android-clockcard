@@ -84,7 +84,7 @@ public class RebuildDaysTask extends AsyncTask<Timestamp, Object, Object> {
 
 	@Override
 	protected Object doInBackground(Timestamp... timestamps) {
-		HolidayAccess.updateYearly(ctx, timestamp.getTimestamp());
+		HolidayAccess.updateYearly(ctx, timestamp);
 		RebuildDays rebuildDays = RebuildDays.create(ctx);
 		rebuildDays.recalculateDays(timestamp, progressWrapper);
 		return null;

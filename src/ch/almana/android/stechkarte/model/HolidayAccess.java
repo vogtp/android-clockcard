@@ -10,7 +10,13 @@ import ch.almana.android.stechkarte.provider.DB.Holidays;
 
 public class HolidayAccess {
 
-	public static void updateYearly(Context ctx, long time) {
+	public static void updateYearly(Context ctx, Timestamp timestamp) {
+		long time;
+		if (timestamp == null) {
+			time = System.currentTimeMillis();
+		} else {
+			time = timestamp.getTimestamp();
+		}
 		Cursor c = null;
 		try {
 			ContentResolver resolver = ctx.getContentResolver();
