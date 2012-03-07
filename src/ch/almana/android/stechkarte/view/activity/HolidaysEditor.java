@@ -30,6 +30,7 @@ import ch.almana.android.stechkarte.model.Holiday.BorderType;
 import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.DB.Holidays;
 import ch.almana.android.stechkarte.provider.DB.holidayTypes;
+import ch.almana.android.stechkarte.utils.GuiUtils;
 import ch.almana.android.stechkarte.utils.Settings;
 
 public class HolidaysEditor extends Activity {
@@ -238,17 +239,8 @@ public class HolidaysEditor extends Activity {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long id) {
-				CursorLoader cursorLoader = new CursorLoader(HolidaysEditor.this, holidayTypes.CONTENT_URI, holidayTypes.DEFAULT_PROJECTION, DB.SELECTION_BY_ID,
-						new String[] { Long.toString(id) }, null);
-				Cursor c = cursorLoader.loadInBackground();
-				if (c != null && c.moveToFirst()) {
-					cbIsHoliday.setChecked(c.getInt(holidayTypes.INDEX_IS_HOLIDAY) == 1);
-					cbIsPayed.setChecked(c.getInt(holidayTypes.INDEX_IS_PAID) == 1);
-					cbYieldOvertime.setChecked(c.getInt(holidayTypes.INDEX_YIELDS_OVERTIME) == 1);
-				}
-				if (c != null) {
-					c.close();
-				}
+				holiday.setHolidayType(id);
+				updateView();
 			}
 
 			@Override
@@ -301,6 +293,19 @@ public class HolidaysEditor extends Activity {
 		cbIsYearly.setChecked(holiday.isYearly());
 		cbYieldOvertime.setChecked(holiday.isYieldOvertime());
 		etComment.setText(holiday.getComment());
+		long holidayType = holiday.getHolidayType();
+		GuiUtils.setSpinner(spHolidayType, holidayType);
+		CursorLoader cursorLoader = new CursorLoader(HolidaysEditor.this, holidayTypes.CONTENT_URI, holidayTypes.DEFAULT_PROJECTION, DB.SELECTION_BY_ID,
+				new String[] { Long.toString(holidayType) }, null);
+		Cursor c = cursorLoader.loadInBackground();
+		if (c != null && c.moveToFirst()) {
+			cbIsHoliday.setChecked(c.getInt(holidayTypes.INDEX_IS_HOLIDAY) == 1);
+			cbIsPayed.setChecked(c.getInt(holidayTypes.INDEX_IS_PAID) == 1);
+			cbYieldOvertime.setChecked(c.getInt(holidayTypes.INDEX_YIELDS_OVERTIME) == 1);
+		}
+		if (c != null) {
+			c.close();
+		}
 	}
 
 	private void updateModel() {
@@ -336,4 +341,17 @@ public class HolidaysEditor extends Activity {
 		spinner.setSelection((int) sel);
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		updateModel();
+		holiday.saveToBundle(outState);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		holiday.readFromBundle(savedInstanceState);
+		super.onRestoreInstanceState(savedInstanceState);
+		updateView();
+	}
 }

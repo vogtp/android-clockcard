@@ -29,27 +29,29 @@ public class Holiday {
 	private boolean isYearly;
 	private boolean yieldOvertime;
 	private String comment;
+	private long holidayType;
 
 
 	public Holiday() {
 		super();
 	}
 
-	public Holiday(Holiday timeoff) {
+	public Holiday(Holiday holiday) {
 		this();
-		setId(timeoff.getId());
-		start = timeoff.start;
-		startType = timeoff.startType;
-		startHours = timeoff.startHours;
-		end = timeoff.end;
-		endType = timeoff.endType;
-		endHours = timeoff.endHours;
-		days = timeoff.days;
-		isHoliday = timeoff.isHoliday;
-		isPaid = timeoff.isPaid;
-		isYearly = timeoff.isYearly;
-		yieldOvertime = timeoff.yieldOvertime;
-		comment = timeoff.comment;
+		setId(holiday.getId());
+		start = holiday.start;
+		startType = holiday.startType;
+		startHours = holiday.startHours;
+		end = holiday.end;
+		endType = holiday.endType;
+		endHours = holiday.endHours;
+		days = holiday.days;
+		isHoliday = holiday.isHoliday;
+		isPaid = holiday.isPaid;
+		isYearly = holiday.isYearly;
+		yieldOvertime = holiday.yieldOvertime;
+		comment = holiday.comment;
+		holidayType = holiday.holidayType;
 	}
 
 	public Holiday(Cursor c) {
@@ -67,6 +69,7 @@ public class Holiday {
 		isYearly = c.getInt(Holidays.INDEX_IS_YEARLY) == 1 ? true : false;
 		yieldOvertime = c.getInt(Holidays.INDEX_YIELDS_OVERTIME) == 1 ? true : false;
 		comment = c.getString(Holidays.INDEX_COMMENT);
+		holidayType = c.getLong(Holidays.INDEX_TYPE);
 	}
 
 	public Holiday(Bundle instanceState) {
@@ -92,6 +95,7 @@ public class Holiday {
 		values.put(Holidays.NAME_IS_YEARLY, isYearly ? 1 : 0);
 		values.put(Holidays.NAME_YIELDS_OVERTIME, yieldOvertime ? 1 : 0);
 		values.put(Holidays.NAME_COMMENT, getComment());
+		values.put(Holidays.NAME_TYPE, getHolidayType());
 		return values;
 	}
 
@@ -113,6 +117,7 @@ public class Holiday {
 		bundle.putInt(Holidays.NAME_IS_YEARLY, isYearly ? 1 : 0);
 		bundle.putInt(Holidays.NAME_YIELDS_OVERTIME, yieldOvertime ? 1 : 0);
 		bundle.putString(Holidays.NAME_COMMENT, getComment());
+		bundle.putLong(Holidays.NAME_TYPE, getHolidayType());
 	}
 
 	public void readFromBundle(Bundle bundle) {
@@ -129,6 +134,7 @@ public class Holiday {
 		isYearly = bundle.getInt(Holidays.NAME_IS_YEARLY) == 1 ? true : false;
 		yieldOvertime = bundle.getInt(Holidays.NAME_YIELDS_OVERTIME) == 1 ? true : false;
 		comment = bundle.getString(Holidays.NAME_COMMENT);
+		holidayType = bundle.getLong(Holidays.NAME_TYPE);
 	}
 
 	@Override
@@ -140,6 +146,7 @@ public class Holiday {
 		result = prime * result + (int) (end ^ (end >>> 32));
 		result = prime * result + Float.floatToIntBits(endHours);
 		result = prime * result + ((endType == null) ? 0 : endType.hashCode());
+		result = prime * result + (int) (holidayType ^ (holidayType >>> 32));
 		result = prime * result + (isHoliday ? 1231 : 1237);
 		result = prime * result + (isPaid ? 1231 : 1237);
 		result = prime * result + (isYearly ? 1231 : 1237);
@@ -171,6 +178,8 @@ public class Holiday {
 		if (Float.floatToIntBits(endHours) != Float.floatToIntBits(other.endHours))
 			return false;
 		if (endType != other.endType)
+			return false;
+		if (holidayType != other.holidayType)
 			return false;
 		if (isHoliday != other.isHoliday)
 			return false;
@@ -361,12 +370,20 @@ public class Holiday {
 			if (endType == BorderType.halfDay) {
 				days -= .5;
 			}
-			if (days == 0) {
-				days = .5f;
-			}
+			//			if (days == 0) {
+			//				days = .5f;
+			//			}
 		} else {
 			updateStartEndFromDays();
 		}
+	}
+
+	public long getHolidayType() {
+		return holidayType;
+	}
+
+	public void setHolidayType(long holidayType) {
+		this.holidayType = holidayType;
 	}
 
 }

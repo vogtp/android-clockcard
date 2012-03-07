@@ -33,6 +33,7 @@ import ch.almana.android.stechkarte.R;
 import ch.almana.android.stechkarte.log.Logger;
 import ch.almana.android.stechkarte.provider.DB;
 import ch.almana.android.stechkarte.provider.DB.Holidays;
+import ch.almana.android.stechkarte.provider.DB.holidayTypes;
 import ch.almana.android.stechkarte.utils.DialogCallback;
 import ch.almana.android.stechkarte.utils.MenuHelper;
 
@@ -75,36 +76,33 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 				if (columnIndex == DB.Holidays.INDEX_COMMENT) {
 					StringBuilder sb = new StringBuilder();
 					String comment = cursor.getString(Holidays.INDEX_COMMENT);
-					boolean comma = false;
+					CursorLoader cursorLoader = new CursorLoader(getActivity(), holidayTypes.CONTENT_URI, holidayTypes.DEFAULT_PROJECTION, DB.SELECTION_BY_ID,
+							new String[] { Long.toString(cursor.getLong(Holidays.INDEX_TYPE)) }, null);
+					Cursor c = cursorLoader.loadInBackground();
+					if (c != null && c.moveToFirst()) {
+						sb.append(c.getString(holidayTypes.INDEX_NAME));
+					}
+					if (c != null) {
+						c.close();
+					}
 					if (!TextUtils.isEmpty(comment)) {
-						comma = true;
+						sb.append(", ");
 						sb.append(comment);
 					}
 					if (cursor.getInt(Holidays.INDEX_IS_HOLIDAY) == 1) {
-						if (comma) {
-							sb.append(", ");
-						}
-						comma = true;
+						sb.append(", ");
 						sb.append(getString(R.string.cbIsHoliday));
 					}
 					if (cursor.getInt(Holidays.INDEX_IS_PAID) == 1) {
-						if (comma) {
-							sb.append(", ");
-						}
-						comma = true;
+						sb.append(", ");
 						sb.append(getString(R.string.CheckBoxIsPayed));
 					}
 					if (cursor.getInt(Holidays.INDEX_YIELDS_OVERTIME) == 1) {
-						if (comma) {
-							sb.append(", ");
-						}
-						comma = true;
+						sb.append(", ");
 						sb.append(getString(R.string.cbYieldsOvertime));
 					}
 					if (cursor.getInt(Holidays.INDEX_IS_YEARLY) == 1) {
-						if (comma) {
-							sb.append(", ");
-						}
+						sb.append(", ");
 						sb.append(getString(R.string.cbIsYearly));
 					}
 					((TextView) view).setText(sb.toString());
@@ -173,7 +171,7 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		getActivity().getMenuInflater().inflate(R.menu.daylist_context, menu);
+		getActivity().getMenuInflater().inflate(R.menu.holidaylist_context, menu);
 	}
 
 	@Override
@@ -189,7 +187,7 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 		}
 
 		switch (item.getItemId()) {
-		case R.id.itemDelete:
+		case R.id.itemDeleteHoliday:
 			Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Delete holidays");
 			builder.setMessage("Do you really want to delete this holiday?");

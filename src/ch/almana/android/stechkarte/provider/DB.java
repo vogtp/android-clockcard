@@ -80,7 +80,7 @@ public interface DB {
 				+ Holidays.NAME_START + " long, " + Holidays.NAME_START_TYPE + " text, " + Holidays.NAME_START_HOURS + " real default -1, "
 				+ Holidays.NAME_END + " long, " + Holidays.NAME_END_TYPE + " text, " + Holidays.NAME_END_HOURS + " real default -1, "
 				+ Holidays.NAME_DAYS + " real, " + Holidays.NAME_IS_HOLIDAY + " int, " + Holidays.NAME_IS_PAID + " int, " + Holidays.NAME_IS_YEARLY + " int, "
-				+ Holidays.NAME_YIELDS_OVERTIME + " int, " + Holidays.NAME_COMMENT + " text);";
+				+ Holidays.NAME_YIELDS_OVERTIME + " int, " + Holidays.NAME_COMMENT + " text, " + Holidays.NAME_TYPE + " long);";
 
 		private static final String LOG_TAG = Logger.TAG;
 
@@ -341,6 +341,7 @@ public interface DB {
 		public static final String NAME_IS_YEARLY = "isYearly";
 		public static final String NAME_YIELDS_OVERTIME = "yieldsOvertime";
 		public static final String NAME_COMMENT = "comment";
+		public static final String NAME_TYPE = "type";
 
 		public static final int INDEX_START = 1;
 		public static final int INDEX_START_TYPE = 2;
@@ -354,9 +355,10 @@ public interface DB {
 		public static final int INDEX_IS_YEARLY = 10;
 		public static final int INDEX_YIELDS_OVERTIME = 11;
 		public static final int INDEX_COMMENT = 12;
+		public static final int INDEX_TYPE = 13;
 
 		public static final String[] colNames = new String[] { NAME_ID, NAME_START, NAME_START_TYPE, NAME_START_HOURS, NAME_END, NAME_END_TYPE, NAME_END_HOURS, NAME_DAYS,
-				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_YIELDS_OVERTIME, NAME_COMMENT };
+				NAME_IS_HOLIDAY, NAME_IS_PAID, NAME_IS_YEARLY, NAME_YIELDS_OVERTIME, NAME_COMMENT, NAME_TYPE };
 
 		public static final String SELCTION_UPDATE_YEARLY_HOLIDAYS = NAME_IS_YEARLY + "=1 and " + NAME_START + "<=?";
 
