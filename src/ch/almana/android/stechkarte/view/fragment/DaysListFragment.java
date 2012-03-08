@@ -92,7 +92,7 @@ public class DaysListFragment extends ListFragment implements DialogCallback, Lo
 		case R.id.itemDeleteDay: {
 
 			DeleteDayDialog alert = new DeleteDayDialog(this, info.id);
-			alert.setTitle("Delete Day...");
+			alert.setTitle(getString(R.string.title_delete_day));
 			alert.show();
 			return true;
 		}

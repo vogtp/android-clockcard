@@ -189,8 +189,8 @@ public class HolidaysListFragment extends ListFragment implements DialogCallback
 		switch (item.getItemId()) {
 		case R.id.itemDeleteHoliday:
 			Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle("Delete holidays");
-			builder.setMessage("Do you really want to delete this holiday?");
+			builder.setTitle(R.string.title_delete_holidays);
+			builder.setMessage(R.string.msg_delete_holidays);
 			builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {

@@ -194,5 +194,8 @@
     <string name="msg_rebuilding">Rebuilding...</string>
     <string name="cbYieldsOvertime">Yields overtime</string>
     <string name="label_tab_holidays">Holidays</string>
+    <string name="title_delete_holidays">Delete holidays</string>
+    <string name="msg_delete_holidays">Do you really want to delete this holiday?</string>
+    <string name="title_delete_day">Delete Day...</string>
 
 </resources>
